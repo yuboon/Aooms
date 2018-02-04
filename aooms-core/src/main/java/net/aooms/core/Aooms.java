@@ -6,7 +6,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
- * Aooms 入口核心启动类.
+ * Aooms 入口核心启动类
  */
 @SpringBootApplication
 @EnableDiscoveryClient(autoRegister = false)
