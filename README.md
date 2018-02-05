@@ -1,3 +1,5 @@
+![输入图片说明](https://gitee.com/uploads/images/2018/0205/163124_fabb62a2_385692.png "屏幕截图.png")
+
 # Aooms —— 基于SpringCloud的微服务基础开发平台
 
 ## 一、TA是谁
