@@ -1,0 +1,24 @@
+
+# 默认日志配置
+logging:
+  file: Aooms.log
+  config:    # 日志配置文件,Spring Boot默认使用classpath路径下的日志配置文件,如:logback.xml
+  level:
+    root: info  # 全局默认级别
+    #net.aooms.core: info # 项目级别，覆盖root默认
+
+# 默认项目配置
+spring:
+  application:
+    name: Aooms
+  profiles:
+    active: dev
+
+  thymeleaf:
+    cache: false
+    mode: HTML5
+    prefix: /
+    suffix: .html
+  mvc:
+    static-path-pattern: /**  #可不配置，默认也是此路径
+

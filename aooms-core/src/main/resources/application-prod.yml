@@ -1,0 +1,8 @@
+# 生产环境
+
+server:
+  port: 9002
+
+datasource:
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost/test
