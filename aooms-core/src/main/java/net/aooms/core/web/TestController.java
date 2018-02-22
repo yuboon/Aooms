@@ -10,6 +10,7 @@ import org.springframework.boot.env.PropertySourceLoader;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +35,9 @@ public class TestController {
 
     @Autowired
     private Environment environment;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping(value="/get")
     public String get(String id) {
@@ -62,5 +66,11 @@ public class TestController {
         return mv;
     }
 
+    @GetMapping(value="/getRest")
+    public String getRest(){
+        String ret = restTemplate.getForObject("http://Aooms:9000/get2",String.class);
+        logger.error(" restTemplate Request Result is : {} " + ret);
+        return "get REST is success";
+    }
 
 }
