@@ -4,6 +4,7 @@ import net.aooms.core.properties.YamlPropertiesContextInitializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.*;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.*;
 @SpringBootApplication
 //@SpringBootApplication(scanBasePackages = {"your.project.packages"})
 //@EnableDiscoveryClient(autoRegister = false)
+@EnableEurekaClient
 public class AoomsBoot {
 
 

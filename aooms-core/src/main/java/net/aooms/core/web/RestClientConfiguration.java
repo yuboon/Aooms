@@ -3,10 +3,11 @@ package net.aooms.core.web;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * 服务客户端配置类
+ * 服务调用客户端配置类
  * Created by cccyb on 2018-02-22
  */
 @Configuration
@@ -21,8 +22,7 @@ public class RestClientConfiguration {
 
     @Bean(name="simpleRestTemplate")
     public RestTemplate simpleRestTemplate(){
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate;
+        RestTemplate simpleRestTemplate = new RestTemplate();
+        return simpleRestTemplate;
     }
-
 }

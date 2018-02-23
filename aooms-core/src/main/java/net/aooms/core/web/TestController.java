@@ -5,8 +5,10 @@ import net.aooms.core.properties.PropertiesTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.env.PropertySourceLoader;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 一个完整的控制器Demo,方便框架内部调试
@@ -38,6 +41,13 @@ public class TestController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    @Qualifier("simpleRestTemplate")
+    private RestTemplate simpleRestTemplate;
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     @GetMapping(value="/get")
     public String get(String id) {
@@ -68,8 +78,19 @@ public class TestController {
 
     @GetMapping(value="/getRest")
     public String getRest(){
-        String ret = restTemplate.getForObject("http://Aooms:9000/get2",String.class);
+        List<String> services = discoveryClient.getServices();
+
+        System.err.println("===>>>" + discoveryClient.description());
+        System.err.println("===>>>" + services.size());
+
+        String ret = restTemplate.getForObject("http://AOOMS/get",String.class);
         logger.error(" restTemplate Request Result is : {} " + ret);
+
+        String ret2 = simpleRestTemplate.getForObject("http://localhost:9000/get2",String.class);
+        logger.error(" simpleRestTemplate Request Url Result is : {} " + ret2);
+
+        logger.error(" restTemplate Object Name = {}" + restTemplate.toString());
+
         return "get REST is success";
     }
 
