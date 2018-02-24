@@ -13,12 +13,19 @@
 
     <p th:text="${name}" ></p>
 
+    <form method="post" action="upload">
+        <input type="file">
+    </form>
+    <a id="upload" href="#">上传</a>
+
     <script>
         $(function () {
             alert(1);
 
+            $("#upload").click(function(){
+                alert('upload');
 
-
+            });
 
         });
     </script>

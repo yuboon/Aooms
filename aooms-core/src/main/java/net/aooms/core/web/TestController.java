@@ -94,4 +94,10 @@ public class TestController {
         return "get REST is success";
     }
 
+    public String upload(){
+
+
+        return null;
+    }
+
 }

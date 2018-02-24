@@ -1,5 +1,6 @@
 package net.aooms.core.web;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,4 +26,5 @@ public class RestClientConfiguration {
         RestTemplate simpleRestTemplate = new RestTemplate();
         return simpleRestTemplate;
     }
+
 }
