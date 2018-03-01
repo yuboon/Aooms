@@ -1,4 +1,4 @@
-package net.aooms.core.web;
+package net.aooms.core.web.client;
 
 import java.io.File;
 import java.util.Map;

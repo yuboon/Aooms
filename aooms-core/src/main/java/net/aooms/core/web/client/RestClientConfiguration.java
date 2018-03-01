@@ -1,5 +1,6 @@
-package net.aooms.core.web;
+package net.aooms.core.web.client;
 
+import jdk.internal.org.xml.sax.helpers.DefaultHandler;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;

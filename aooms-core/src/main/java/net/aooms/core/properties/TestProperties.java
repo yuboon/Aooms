@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("test")
 @PropertySource("/aooms/my.yml")
-public class PropertiesTest {
+public class TestProperties {
 
     private String name;
 

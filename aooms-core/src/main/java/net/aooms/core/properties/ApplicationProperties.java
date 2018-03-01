@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConfigurationProperties(prefix="spring.application")
-public class PropertiesApplication {
+public class ApplicationProperties {
 
     private String name;
 

@@ -1,13 +1,12 @@
 package net.aooms.core.web;
 
-import net.aooms.core.properties.PropertiesApplication;
-import net.aooms.core.properties.PropertiesTest;
+import net.aooms.core.properties.ApplicationProperties;
+import net.aooms.core.properties.TestProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.env.PropertySourceLoader;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +27,10 @@ public class TestController {
     private static Logger logger = LoggerFactory.getLogger(TestController.class);
 
     @Autowired
-    private PropertiesApplication propertiesApplication;
+    private ApplicationProperties applicationProperties;
 
     @Autowired
-    private PropertiesTest propertiesTest;
+    private TestProperties testProperties;
 
     @Value("${spring.application.name}")
     private String name;
@@ -51,10 +50,10 @@ public class TestController {
 
     @GetMapping(value="/get")
     public String get(String id) {
-        logger.error(" value from propertiesApplication ： {} ",propertiesApplication.getName());
+        logger.error(" value from propertiesApplication ： {} ",applicationProperties.getName());
         logger.error(" value from property ： {} ", name);
         logger.error(" id value from param ： {} ", id);
-        logger.error(" id value from testApplication ： {} ", propertiesTest.getName());
+        logger.error(" id value from testApplication ： {} ", testProperties.getName());
 
         logger.error(" id value from environment my.yml： {} ", environment.getProperty("my","test.name"));
         logger.error(" id value from environment my2.yml： {} ", environment.getProperty("my2","test.name"));
