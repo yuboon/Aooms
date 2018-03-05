@@ -18,11 +18,21 @@ public class ApplicationProperties {
 
     private String name;
 
+    private boolean remoteMode;
+
     public String getName() {
-    return name;
-}
+        return name;
+    }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isRemoteMode() {
+        return remoteMode;
+    }
+
+    public void setRemoteMode(boolean remoteMode) {
+        this.remoteMode = remoteMode;
     }
 }

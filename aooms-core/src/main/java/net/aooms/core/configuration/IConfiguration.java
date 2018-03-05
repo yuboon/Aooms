@@ -1,0 +1,21 @@
+package net.aooms.core.configuration;
+
+import net.aooms.core.web.client.SimpleRestTemplate;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
+
+/**
+ * 框架配置Bean
+ * Created by cccyb on 2018-03-05
+ */
+public interface IConfiguration {
+
+
+    public RestTemplate restTemplate();
+
+    public SimpleRestTemplate simpleRestTemplate();
+
+
+
+}

@@ -11,6 +11,7 @@ logging:
 spring:
   application:
     name: Aooms
+    remote-mode: true
   profiles:
     active: dev
 
@@ -20,10 +21,14 @@ spring:
     prefix: /
     suffix: .html
   mvc:
-    static-path-pattern: /**  #可不配置，默认也是此路径
+    static-path-pattern: /**   #可不配置，默认也是此路径
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: true
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8080/eureka/v2/
-    fetch-registry: true
+    fetch-registry: false

@@ -1,5 +1,6 @@
 package net.aooms.core.web.client;
 
+import com.netflix.loadbalancer.RandomRule;
 import jdk.internal.org.xml.sax.helpers.DefaultHandler;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -15,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RestClientConfiguration {
 
-    @LoadBalanced
+    /*@LoadBalanced
     @Bean
     public RestTemplate restTemplate(){
         RestTemplate restTemplate = new RestTemplate();
@@ -26,6 +27,7 @@ public class RestClientConfiguration {
     public RestTemplate simpleRestTemplate(){
         RestTemplate simpleRestTemplate = new RestTemplate();
         return simpleRestTemplate;
-    }
+    }*/
+
 
 }
