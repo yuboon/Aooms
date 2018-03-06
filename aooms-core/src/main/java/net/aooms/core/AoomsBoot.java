@@ -1,11 +1,17 @@
 package net.aooms.core;
 
+import net.aooms.core.configuration.AoomsConfiguration;
 import net.aooms.core.properties.YamlPropertiesContextInitializer;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.*;
 
 /**
@@ -24,8 +30,12 @@ public class AoomsBoot {
         application.addInitializers(new YamlPropertiesContextInitializer());
         // 优先级高于appliaction.profiles.active
         //application.setAdditionalProfiles("dev");
-        application.run(args);
+        ApplicationContext applicationContext = application.run(args);
 
+        //AnnotationConfigApplicationContext annotationConfigApplicationContext = (AnnotationConfigApplicationContext) applicationContext.getParentBeanFactory();
+        //annotationConfigApplicationContext.register(AoomsConfiguration.class);
+
+        //ApplicationContext context = new AnnotationConfigApplicationContext(AoomsConfiguration.class);
         //SpringApplication.run(AoomsBoot.class,args);
     }
 

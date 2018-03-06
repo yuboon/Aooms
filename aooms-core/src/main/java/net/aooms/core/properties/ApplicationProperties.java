@@ -18,7 +18,7 @@ public class ApplicationProperties {
 
     private String name;
 
-    private boolean remoteMode;
+    private boolean extUseRegistry;
 
     public String getName() {
         return name;
@@ -28,11 +28,12 @@ public class ApplicationProperties {
         this.name = name;
     }
 
-    public boolean isRemoteMode() {
-        return remoteMode;
+    public boolean isExtUseRegistry() {
+        return extUseRegistry;
     }
 
-    public void setRemoteMode(boolean remoteMode) {
-        this.remoteMode = remoteMode;
+    public void setExtUseRegistry(boolean extUseRegistry) {
+        this.extUseRegistry = extUseRegistry;
     }
+
 }

@@ -11,7 +11,8 @@ logging:
 spring:
   application:
     name: Aooms
-    remote-mode: true
+    ext-use-registry: true
+
   profiles:
     active: dev
 
@@ -27,8 +28,17 @@ spring:
       auto-registration:
         enabled: true
 
+service:
+  aooms0: http://AOOMS0/
+  aooms1: http://AOOMS1/
+  aooms2: http://AOOMS2/
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8080/eureka/v2/
-    fetch-registry: false
+    fetch-registry: true
+  instance:
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 6
+

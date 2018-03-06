@@ -1,9 +1,11 @@
 package net.aooms.core.web;
 
 import net.aooms.core.properties.ApplicationProperties;
+import net.aooms.core.properties.ServerProperties;
 import net.aooms.core.properties.TestProperties;
 import net.aooms.core.web.client.AoomsRestClient;
 import net.aooms.core.web.client.SimpleRestTemplate;
+import org.hibernate.validator.constraints.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -30,6 +33,9 @@ public class TestController {
 
     @Autowired
     private ApplicationProperties applicationProperties;
+
+    @Autowired
+    private ServerProperties serverProperties;
 
     @Autowired
     private TestProperties testProperties;
@@ -55,7 +61,9 @@ public class TestController {
     @GetMapping(value="/get")
     public String get(String id) {
         logger.error(" value from propertiesApplication ： {} ",applicationProperties.getName());
-        logger.error(" removeMode value from propertiesApplication ： {} ", applicationProperties.isRemoteMode());
+        logger.error(" server.port ： {} ", serverProperties.getPort());
+        logger.error(" value from propertiesApplication ： {} ",applicationProperties.getName());
+
         logger.error(" value from property ： {} ", name);
         logger.error(" id value from param ： {} ", id);
         logger.error(" id value from testApplication ： {} ", testProperties.getName());
@@ -90,7 +98,7 @@ public class TestController {
         String ret = restTemplate.getForObject("http://AOOMS/aooms/get",String.class);
         logger.error(" restTemplate Request Result is : {} " + ret);
 
-        String ret2 = simpleRestTemplate.getForObject("http://localhost:9000/get2",String.class);
+        String ret2 = simpleRestTemplate.getForObject("http://localhost:9000/aooms/get2",String.class);
         logger.error(" simpleRestTemplate Request Url Result is : {} " + ret2);
 
         logger.error(" restTemplate Object Name = {}" + restTemplate.toString());
@@ -107,8 +115,12 @@ public class TestController {
 
     @GetMapping(value="/testClient")
     public String testClient(){
-        logger.error(" isRemoteMode : {} ", aoomsRestClient.isRemoteMode());
-        ResponseEntity<String> resp = aoomsRestClient.get("http://localhost:9000/aooms/get2");
+        logger.error(" isRemoteMode : {} ", aoomsRestClient.useRegistry());
+        ResponseEntity<String> resp = aoomsRestClient.get("http://AOOMS/aooms/get2");
+
+        // ResponseEntity<String> resp = aoomsRestClient.get("http://AOOMS/aooms/get2");
+
+
         logger.error(" resp status code : {} ", resp.getStatusCode());
         logger.error(" resp status value : {} ", resp.getStatusCodeValue());
         logger.error(" resp body : {} ", resp.getBody());
