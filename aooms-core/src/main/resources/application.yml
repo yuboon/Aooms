@@ -28,11 +28,6 @@ spring:
       auto-registration:
         enabled: true
 
-service:
-  aooms0: http://AOOMS0/
-  aooms1: http://AOOMS1/
-  aooms2: http://AOOMS2/
-
 eureka:
   client:
     serviceUrl:
