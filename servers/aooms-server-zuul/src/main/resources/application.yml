@@ -1,0 +1,18 @@
+server:
+  port: 9001
+
+zuul:
+  routes:
+    AOOMS:
+      path: /aooms/get/**
+      serviceId: myusers-service
+      #url: https://www.baidu.com
+      #stripPrefix: true
+
+ribbon:
+  eureka:
+    enabled: false
+
+myusers-service:
+  ribbon:
+    listOfServers: http://127.0.0.1:9000

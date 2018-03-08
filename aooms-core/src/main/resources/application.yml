@@ -36,4 +36,3 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 2
     lease-expiration-duration-in-seconds: 6
-
