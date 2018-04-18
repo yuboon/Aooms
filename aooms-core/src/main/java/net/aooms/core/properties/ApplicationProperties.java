@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesBindin
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 /**
  * application.yml 配置文件映射
@@ -18,22 +19,28 @@ public class ApplicationProperties {
 
     private String name;
 
-    private boolean extUseRegistry;
+    private boolean aoomsUseRegistry;
 
     public String getName() {
         return name;
+    }
+
+    public String getServiceName() {
+        if(StringUtils.isEmpty(name)){
+            return "";
+        }
+        return name.toUpperCase();
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public boolean isExtUseRegistry() {
-        return extUseRegistry;
+    public boolean isAoomsUseRegistry() {
+        return aoomsUseRegistry;
     }
 
-    public void setExtUseRegistry(boolean extUseRegistry) {
-        this.extUseRegistry = extUseRegistry;
+    public void setAoomsUseRegistry(boolean aoomsUseRegistry) {
+        this.aoomsUseRegistry = aoomsUseRegistry;
     }
-
 }

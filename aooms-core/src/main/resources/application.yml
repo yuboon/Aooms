@@ -11,7 +11,7 @@ logging:
 spring:
   application:
     name: Aooms
-    ext-use-registry: true
+    aooms-use-registry: true
 
   profiles:
     active: dev

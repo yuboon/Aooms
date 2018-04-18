@@ -116,7 +116,7 @@ public class TestController {
     @GetMapping(value="/testClient")
     public String testClient(){
         logger.error(" isRemoteMode : {} ", aoomsRestClient.useRegistry());
-        ResponseEntity<String> resp = aoomsRestClient.get("http://AOOMS/get2");
+        ResponseEntity<String> resp = aoomsRestClient.get("http://${serviceName}/get2");
 
         // ResponseEntity<String> resp = aoomsRestClient.get("http://AOOMS/aooms/get2");
 

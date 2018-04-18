@@ -119,7 +119,7 @@ public class AoomsRestClient implements IRestClient {
     // 是否使用注册中心
     public boolean useRegistry(){
         if(null == useRegistry)
-            return useRegistry = applicationProperties.isExtUseRegistry();
+            return useRegistry = applicationProperties.isAoomsUseRegistry();
         return useRegistry;
     }
 
