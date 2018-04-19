@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 抽象控制器类
  * Created by cccyb on 2018-02-06
@@ -36,6 +38,18 @@ public class DemoController extends AoomsAbstractController {
         return this.getRet().toJsonStr();
     };
 
+    /**
+     * 获取参数
+     * @return
+     */
+    @GetMapping("/hello2")
+    public String hello2(HttpServletRequest request){
+        logger.info("NAME = {}" ,testProperties.getName());
+
+        logger.info("ID = {}" ,request.getParameter("id"));
+
+        return this.getRet().toJsonStr();
+    };
 
 
 
