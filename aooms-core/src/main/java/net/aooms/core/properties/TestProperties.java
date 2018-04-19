@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
  * Created by cccyb on 2018-02-06
  */
 @Component
-@ConfigurationProperties("test")
-@PropertySource("/aooms/my.yml")
+@PropertySource("/aooms/my.properties")
+// prefix 必须包含点
+@ConfigurationProperties(prefix = "demo")
 public class TestProperties {
 
     private String name;

@@ -1,13 +1,6 @@
 package net.aooms.core.web.client;
 
-import com.netflix.loadbalancer.RandomRule;
-import jdk.internal.org.xml.sax.helpers.DefaultHandler;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * 服务调用客户端配置类

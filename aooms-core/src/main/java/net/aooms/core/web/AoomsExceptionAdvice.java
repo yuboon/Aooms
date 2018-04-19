@@ -1,6 +1,9 @@
 package net.aooms.core.web;
 
+import net.aooms.core.dto.DTO;
 import net.aooms.core.exception.AoomsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +19,8 @@ import java.util.Map;
 @ControllerAdvice
 public class AoomsExceptionAdvice {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     /**
      * 所有异常捕捉处理
      * @param ex
@@ -23,11 +28,12 @@ public class AoomsExceptionAdvice {
      */
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
-    public Map errorHandler(Exception ex) {
-        Map map = new HashMap();
-        map.put("code", 100);
-        map.put("msg", ex.getMessage());
-        return map;
+    public Map ErrorHandler(Exception ex) {
+        logger.error("AoomsError",ex);
+        if(ex != null){
+            DTO.me().getRet().failure();
+        }
+        return DTO.me().getRet().getData();
     }
 
     /**
@@ -37,11 +43,12 @@ public class AoomsExceptionAdvice {
      */
     @ResponseBody
     @ExceptionHandler(value = AoomsException.class)
-    public Map myErrorHandler(AoomsException ex) {
-        Map map = new HashMap();
-        map.put("code", ex.getCode());
-        map.put("msg", ex.getMessage());
-        return map;
+    public Map AoomsErrorHandler(AoomsException ex) {
+        logger.error("AoomsError",ex);
+        if(ex != null){
+            DTO.me().getRet().failure();
+        }
+        return DTO.me().getRet().getData();
     }
 
 }

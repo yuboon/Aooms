@@ -1,12 +1,17 @@
 package net.aooms.core.configuration;
 
 import net.aooms.core.web.client.SimpleRestTemplate;
+import net.aooms.core.web.interceptors.DtoInterceptor;
+import net.aooms.core.web.interceptors.ParamInterceptor;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 框架默认配置类
@@ -30,5 +35,27 @@ public class AoomsConfiguration implements IConfiguration {
         SimpleRestTemplate simpleRestTemplate = new SimpleRestTemplate();
         return simpleRestTemplate;
     }
+
+    /**
+     * web环境配置
+     * @return
+     */
+    @Bean
+    public WebMvcConfigurer aoomsWebConfigurer() {
+        return new WebMvcConfigurer() {
+
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**");
+            }
+
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new DtoInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
+                registry.addInterceptor(new ParamInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
+            }
+        };
+    }
+
 
 }

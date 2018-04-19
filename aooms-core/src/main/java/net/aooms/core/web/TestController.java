@@ -5,7 +5,6 @@ import net.aooms.core.properties.ServerProperties;
 import net.aooms.core.properties.TestProperties;
 import net.aooms.core.web.client.AoomsRestClient;
 import net.aooms.core.web.client.SimpleRestTemplate;
-import org.hibernate.validator.constraints.URL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
 import java.util.List;
 
 /**
