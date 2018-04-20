@@ -3,14 +3,21 @@ package net.aooms.core.web.interceptors;
 
 import cn.hutool.core.collection.CollectionUtil;
 import net.aooms.core.dto.DTO;
+import org.apache.tomcat.util.http.fileupload.RequestContext;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
+import javax.servlet.http.Part;
+import java.util.*;
 
 /**
  * Param参数处理
@@ -26,8 +33,36 @@ public class ParamInterceptor implements HandlerInterceptor {
             params.put(k.toLowerCase(),convert(v));
         });
 
+
+        // 文件上传
+        if(request instanceof AbstractMultipartHttpServletRequest){
+            //CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request.getServletContext());
+            StandardMultipartHttpServletRequest multipartHttpServletRequest = (StandardMultipartHttpServletRequest)request;
+            Map<String,MultipartFile> multipartFileMap = multipartHttpServletRequest.getFileMap();
+            System.err.println("name:" + multipartFileMap.get("my").getName());
+            System.err.println("original.name:" + multipartFileMap.get("my").getOriginalFilename());
+
+        }
+
         DTO.me().getPara().setData(params);
         return true;
+    }
+
+    /**
+     * 请求是否包含附件
+     * @param method
+     * @param contentType
+     * @return
+     */
+    private boolean isMultipartContent(String method,String contentType){
+        if(!"POST".equals(method.toUpperCase())){
+            return false;
+        }
+        if (contentType == null) {
+            return false;
+        } else {
+            return contentType.toLowerCase(Locale.ENGLISH).startsWith("multipart/");
+        }
     }
 
     /**

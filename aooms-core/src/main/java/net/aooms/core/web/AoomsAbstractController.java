@@ -1,27 +1,20 @@
 package net.aooms.core.web;
 
+import net.aooms.core.configuration.Vars;
 import net.aooms.core.dto.DTO;
 import net.aooms.core.dto.DTOPara;
 import net.aooms.core.dto.DTORet;
-import net.aooms.core.properties.ApplicationProperties;
-import net.aooms.core.properties.ServerProperties;
-import net.aooms.core.properties.TestProperties;
-import net.aooms.core.web.client.AoomsRestClient;
-import net.aooms.core.web.client.SimpleRestTemplate;
+import net.aooms.core.web.render.RenderException;
+import net.aooms.core.web.render.RenderFactory;
+import net.aooms.core.web.render.RenderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 抽象控制器类
@@ -47,5 +40,60 @@ public abstract class AoomsAbstractController {
     public DTORet getRet(){
         return DTO.me().getRet();
     };
+
+    /**
+     * 响应结果
+     * @return
+     */
+    public void renderJson(){
+        this.renderJson(getRet().getData());
+    };
+
+    /**
+     * 响应结果
+     * @return
+     */
+    public void renderJson(Object obj){
+        this.render(RenderType.JSON, obj);
+    };
+
+    /**
+     * 响应结果
+     * @return
+     */
+    public void renderPage(Object obj){
+
+    };
+
+    /**
+     * 响应结果
+     * @return
+     */
+    public void renderText(String text){
+    };
+
+    /**
+     * 响应结果
+     * @return
+     */
+    public void renderHtml(String html){
+
+    };
+
+    // 输出
+    private void render(RenderType renderType,Object value){
+        try {
+            RenderFactory.me().getRender(renderType).render(getResponse(),value);
+        } catch (IOException e) {
+            throw new RenderException("render error");
+        }
+    }
+
+    // 获取response
+    private HttpServletResponse getResponse(){
+        HttpServletResponse response = ServletContextHolder.getResponse();
+        response.setCharacterEncoding(Vars.ENCODE);
+        return response;
+    }
 
 }

@@ -3,6 +3,7 @@ package net.aooms.core.configuration;
 import net.aooms.core.web.client.SimpleRestTemplate;
 import net.aooms.core.web.interceptors.DtoInterceptor;
 import net.aooms.core.web.interceptors.ParamInterceptor;
+import net.aooms.core.web.interceptors.ServletContextInterceptor;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -52,6 +53,7 @@ public class AoomsConfiguration implements IConfiguration {
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(new DtoInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
+                registry.addInterceptor(new ServletContextInterceptor()).addPathPatterns("/**");
                 registry.addInterceptor(new ParamInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
             }
         };

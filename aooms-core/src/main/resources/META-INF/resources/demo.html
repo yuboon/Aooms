@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<head>
+<head xmlns:th="http://www.w3.org/1999/xhtml">
     <meta charset="UTF-8">
     <title>Aooms Test Page</title>
 
@@ -13,18 +13,18 @@
 
     <p th:text="${name}" ></p>
 
-    <form method="post" action="upload">
-        <input type="file">
+    <form id="fileForm" method="post" action="upload?id=111" enctype="multipart/form-data" >
+        <input name="my" type="file">
     </form>
-    <a id="upload" href="#">上传</a>
+    <a id="upload" href="#">上传212</a>
 
     <script>
         $(function () {
-            alert(1);
+            alert(1111);
 
             $("#upload").click(function(){
                 alert('upload');
-
+                $("#fileForm").submit();
             });
 
         });

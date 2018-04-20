@@ -1,6 +1,8 @@
 package net.aooms.core.dto;
 
 import net.aooms.core.exception.AoomsExceptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -10,6 +12,8 @@ import java.io.Serializable;
  * Created by cccyb on 2018-04-18
  */
 public class DTO implements Serializable {
+
+    private static Logger logger = LoggerFactory.getLogger(DTO.class);
 
     //
     private static final ThreadLocal<DTO> DTO = new ThreadLocal<>();
@@ -46,6 +50,9 @@ public class DTO implements Serializable {
      * @return
      */
     public static void destroy(){
+        if(logger.isInfoEnabled()){
+            logger.info("DTO from ThreadLocal remove");
+        }
         DTO.remove();
     }
 

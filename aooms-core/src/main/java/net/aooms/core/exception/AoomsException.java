@@ -8,9 +8,9 @@ package net.aooms.core.exception;
 public class AoomsException extends RuntimeException {
 
     // 异常代码
-    private int code;
+    protected int code;
     // 异常描述
-    private String message;
+    protected String message;
 
     public AoomsException(String message) {
         this(message,0);
