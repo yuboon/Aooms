@@ -15,10 +15,14 @@ import java.io.IOException;
  */
 public class JSONRender extends IRender {
 
+    public JSONRender() {
+        this.renderType = RenderType.JSON;
+    }
+
     @Override
     public void render(HttpServletResponse response,Object value) throws IOException {
-        response.setContentType("text/plain");
-        response.getWriter().write(JSON.toJSONString(DTO.me().getRet().getData()));
+        response.setContentType(renderType.getContentType());
+        response.getWriter().write(JSON.toJSONString(value));
         this.flushAndClose(response);
     }
 }

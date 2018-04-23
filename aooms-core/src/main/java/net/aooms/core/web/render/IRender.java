@@ -17,7 +17,9 @@ import java.io.Writer;
  */
 public abstract class IRender {
 
-    public abstract void render(HttpServletResponse response,Object value) throws IOException;
+    protected RenderType renderType;
+
+    public abstract void render(HttpServletResponse response, Object value) throws IOException;
 
     public void flushAndClose(HttpServletResponse response){
         try(Writer writer = response.getWriter();) {

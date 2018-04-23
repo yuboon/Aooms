@@ -1,6 +1,7 @@
 package net.aooms.core.configuration;
 
 import net.aooms.core.web.client.SimpleRestTemplate;
+import net.aooms.core.web.interceptors.DemoInterceptor;
 import net.aooms.core.web.interceptors.DtoInterceptor;
 import net.aooms.core.web.interceptors.ParamInterceptor;
 import net.aooms.core.web.interceptors.ServletContextInterceptor;
@@ -55,6 +56,8 @@ public class AoomsConfiguration implements IConfiguration {
                 registry.addInterceptor(new DtoInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
                 registry.addInterceptor(new ServletContextInterceptor()).addPathPatterns("/**");
                 registry.addInterceptor(new ParamInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
+                registry.addInterceptor(new DemoInterceptor()).addPathPatterns("/**");
+
             }
         };
     }

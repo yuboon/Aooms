@@ -3,6 +3,7 @@ package net.aooms.core.dto;
 import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Maps;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import sun.rmi.transport.ObjectTable;
 
 import java.beans.IntrospectionException;
@@ -17,6 +18,8 @@ import java.util.Map;
 public class DTOPara implements Serializable {
 
     private Map<String,Object> params = CollectionUtil.newHashMap();
+    private Map<String,MultipartFile> files = CollectionUtil.newHashMap();
+    private Map<String,Object> pathVars = CollectionUtil.newHashMap();
 
     /**
      * 获取参数集
@@ -27,12 +30,61 @@ public class DTOPara implements Serializable {
     }
 
     /**
+     * 获取文件
+     * @return
+     */
+    public Map<String,MultipartFile> getFiles(){
+        return files;
+    }
+
+    /**
+     * 获取文件
+     * @return
+     */
+    public MultipartFile getFile(String inputName){
+        return files.get(inputName);
+    }
+
+    /**
+     * 获取所有的路径参数
+     * @return
+     */
+    public Map<String, Object> getPathVars() {
+        return pathVars;
+    }
+
+    /**
+     * 获取路径参数
+     * @return
+     */
+    public <T> T getPathVar(String key) {
+        return (T)pathVars.get(key);
+    }
+
+    /**
      * 设置参数集
      * @return
      */
     public void setData(Map<String,Object> paramMap){
         this.params = paramMap;
     }
+
+    /**
+     * 设置文件
+     * @return
+     */
+    public void setFiles(Map<String,MultipartFile> files){
+        this.files = files;
+    }
+
+    /**
+     * 设置路径参数
+     */
+    public void setPathVars(Map<String, Object> pathVars){
+        this.pathVars = pathVars;
+    }
+
+
 
     /**
      * 获取值

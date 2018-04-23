@@ -1,18 +1,16 @@
 package net.aooms.core.web.render;
 
-import com.alibaba.fastjson.JSON;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 文本渲染
+ * js渲染
  * Created by cccyb on 2018-04-20
  */
-public class TextRender extends IRender {
+public class JavaScriptRender extends IRender {
 
-    public TextRender() {
-        this.renderType = RenderType.TEXT;
+    public JavaScriptRender() {
+        this.renderType = RenderType.JAVASCRIPT;
     }
 
     @Override
@@ -21,5 +19,4 @@ public class TextRender extends IRender {
         response.getWriter().write(String.valueOf(value));
         this.flushAndClose(response);
     }
-
 }

@@ -31,7 +31,7 @@ public class AoomsExceptionAdvice {
     public Map ErrorHandler(Exception ex) {
         logger.error("AoomsError",ex);
         if(ex != null){
-            DTO.me().getRet().failure();
+            DTO.me().getRet().failure(ex.getMessage());
         }
         return DTO.me().getRet().getData();
     }
@@ -46,7 +46,7 @@ public class AoomsExceptionAdvice {
     public Map AoomsErrorHandler(AoomsException ex) {
         logger.error("AoomsError",ex);
         if(ex != null){
-            DTO.me().getRet().failure();
+            DTO.me().getRet().failure(ex.getMessage());
         }
         return DTO.me().getRet().getData();
     }

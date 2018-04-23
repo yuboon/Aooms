@@ -6,11 +6,24 @@ package net.aooms.core.web.render;
  */
 public enum RenderType {
 
-    JSON, HTML, TEXT, PAGE;
+    JSON("text/plain"),
+    HTML("text/html"),
+    JAVASCRIPT("text/html"),
+    TEXT("text/plain"),
+    PAGE("text/html"),
+    FILE("text/html"),
+    IMAGE("image/jpeg")
+
+    ;
 
     // 响应类型
     private String contentType;
 
+    RenderType(String contentType) {
+        this.contentType = contentType;
+    }
 
-
+    public String getContentType() {
+        return contentType;
+    }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,12 +40,13 @@ public class ParamInterceptor implements HandlerInterceptor {
             //CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request.getServletContext());
             StandardMultipartHttpServletRequest multipartHttpServletRequest = (StandardMultipartHttpServletRequest)request;
             Map<String,MultipartFile> multipartFileMap = multipartHttpServletRequest.getFileMap();
-            System.err.println("name:" + multipartFileMap.get("my").getName());
-            System.err.println("original.name:" + multipartFileMap.get("my").getOriginalFilename());
-
+            DTO.me().getPara().setFiles(multipartFileMap);
         }
 
+        // 请求参数
         DTO.me().getPara().setData(params);
+        // 路径参数
+        DTO.me().getPara().setPathVars((Map)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
         return true;
     }
 

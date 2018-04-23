@@ -70,11 +70,26 @@ public class DTORet implements Serializable {
     }
 
     /**
+     * 设置成功
+     */
+    public void success(String msg){
+        results.put(STATUS_KEY ,new Status(msg,true));
+    }
+
+    /**
      * 设置失败
      */
     public void failure(){
         results.clear(); // 失败时清理数据
         results.put(STATUS_KEY ,new Status("Aooms service error",false));
+    }
+
+    /**
+     * 设置失败
+     */
+    public void failure(String msg){
+        results.clear(); // 失败时清理数据
+        results.put(STATUS_KEY ,new Status(msg,false));
     }
 
     /**
@@ -133,6 +148,14 @@ public class DTORet implements Serializable {
 
         public void setSuccess(boolean success) {
             isSuccess = success;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
         }
     }
 
