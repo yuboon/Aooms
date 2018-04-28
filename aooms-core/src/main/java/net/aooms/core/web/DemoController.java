@@ -1,31 +1,18 @@
 package net.aooms.core.web;
 
 import cn.hutool.core.date.DateUtil;
-import com.jfinal.aop.Clear;
 import net.aooms.core.annocation.ClearInterceptor;
-import net.aooms.core.dto.DTO;
-import net.aooms.core.dto.DTOPara;
-import net.aooms.core.dto.DTORet;
-import net.aooms.core.exception.AoomsExceptions;
 import net.aooms.core.properties.TestProperties;
-import net.aooms.core.web.interceptors.DemoInterceptor;
+import net.aooms.core.web.interceptor.DemoInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextListener;
-import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.HandlerExecutionChain;
-import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.annotation.ModelAndViewResolver;
-import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewMethodReturnValueHandler;
-import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewResolverMethodReturnValueHandler;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.Date;
 
@@ -46,7 +33,7 @@ public class DemoController extends AoomsAbstractController {
      * @return
      */
     @GetMapping("/hello/{code}")
-    @ClearInterceptor({DemoInterceptor.class})
+    @ClearInterceptor(DemoInterceptor.class)
     public void hello(){
         logger.info("NAME = {}" ,testProperties.getName());
 
@@ -67,6 +54,7 @@ public class DemoController extends AoomsAbstractController {
      * @return
      */
     @GetMapping("/hello2")
+    @ClearInterceptor({DemoInterceptor.class})
     public ModelAndView hello2(){
         logger.info("NAME = {}" ,testProperties.getName());
         this.getRet().set("name","byHello2");
@@ -82,6 +70,7 @@ public class DemoController extends AoomsAbstractController {
         logger.info("ID = {}" ,this.getPara().getStr("id"));
         logger.info("SIZE = {}" ,this.getPara().getFiles().size());
         logger.info("FILENAME FROM NAME= {}" ,this.getPara().getFile("my"));
+        System.err.println(this.getPara().getFileInputStream("my"));
         this.renderJson();
     };
 

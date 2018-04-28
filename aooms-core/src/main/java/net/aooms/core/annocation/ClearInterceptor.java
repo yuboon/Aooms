@@ -1,6 +1,6 @@
 package net.aooms.core.annocation;
 
-import org.springframework.web.servlet.HandlerInterceptor;
+import net.aooms.core.web.interceptor.AoomsAbstractInterceptor;
 
 import java.lang.annotation.*;
 
@@ -13,6 +13,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface ClearInterceptor {
 
-    Class<? extends HandlerInterceptor>[] value() default {};
+    Class<? extends AoomsAbstractInterceptor>[] value() default {};
 
 }
