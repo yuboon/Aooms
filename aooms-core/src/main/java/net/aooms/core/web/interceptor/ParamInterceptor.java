@@ -1,33 +1,30 @@
-package net.aooms.core.web.interceptors;
+package net.aooms.core.web.interceptor;
 
 
 import cn.hutool.core.collection.CollectionUtil;
 import net.aooms.core.dto.DTO;
-import org.apache.tomcat.util.http.fileupload.RequestContext;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.util.*;
 
 /**
  * Param参数处理
  * Created by cccyb on 2018-04-19
  */
-public class ParamInterceptor implements HandlerInterceptor {
+public class ParamInterceptor extends AoomsAbstractInterceptor {
+
+    public ParamInterceptor(String[] pathPatterns, String[] ignores) {
+        super(pathPatterns, ignores);
+    }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean invokeBefore(HttpServletRequest request, HttpServletResponse response, Object handler){
         Map<String,String[]> paramMaps = request.getParameterMap();
         Map<String,Object> params = CollectionUtil.newHashMap();
         paramMaps.forEach((k,v) -> {

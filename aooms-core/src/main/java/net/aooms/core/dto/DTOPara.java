@@ -2,11 +2,14 @@ package net.aooms.core.dto;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.Maps;
+import net.aooms.core.exception.AoomsException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import sun.rmi.transport.ObjectTable;
 
 import java.beans.IntrospectionException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
@@ -41,8 +44,25 @@ public class DTOPara implements Serializable {
      * 获取文件
      * @return
      */
-    public MultipartFile getFile(String inputName){
-        return files.get(inputName);
+    public MultipartFile getFile(String uploadName){
+        return files.get(uploadName);
+    }
+
+    /**
+     * 获取文件流
+     * @return
+     */
+    public InputStream getFileInputStream(String uploadName){
+        try {
+            MultipartFile file = getFile(uploadName);
+            if(file == null){
+                return null;
+            }
+
+            return file.getInputStream();
+        } catch (IOException e) {
+           throw new AoomsException("File InputStrem " + uploadName + " get error" , e);
+        }
     }
 
     /**

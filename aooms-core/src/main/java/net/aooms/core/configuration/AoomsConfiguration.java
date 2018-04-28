@@ -1,19 +1,16 @@
 package net.aooms.core.configuration;
 
 import net.aooms.core.web.client.SimpleRestTemplate;
-import net.aooms.core.web.interceptors.DemoInterceptor;
-import net.aooms.core.web.interceptors.DtoInterceptor;
-import net.aooms.core.web.interceptors.ParamInterceptor;
-import net.aooms.core.web.interceptors.ServletContextInterceptor;
+import net.aooms.core.web.interceptor.*;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 框架默认配置类
@@ -53,11 +50,24 @@ public class AoomsConfiguration implements IConfiguration {
 
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
-                registry.addInterceptor(new DtoInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
-                registry.addInterceptor(new ServletContextInterceptor()).addPathPatterns("/**");
-                registry.addInterceptor(new ParamInterceptor()).addPathPatterns("/**").excludePathPatterns("/error");
-                registry.addInterceptor(new DemoInterceptor()).addPathPatterns("/**");
+                // 拦截器注册代理类
+                InterceptorRegistryProxy registryProxy = new InterceptorRegistryProxy(registry);
+                String[] pathPatterns = registryProxy.getPathPatterns();
+                String[] ignores = registryProxy.getIgnores();
 
+                registryProxy.addInterceptor(new DemoInterceptor(pathPatterns,ignores));
+                registryProxy.addInterceptor(new DtoInterceptor(pathPatterns,ignores));
+                registryProxy.addInterceptor(new ServletContextInterceptor(pathPatterns,ignores));
+                registryProxy.addInterceptor(new ParamInterceptor(pathPatterns,ignores));
+
+            }
+
+            // 指定路径忽略大小写
+            @Override
+            public void configurePathMatch(PathMatchConfigurer configurer) {
+                AntPathMatcher matcher = new AntPathMatcher();
+                matcher.setCaseSensitive(false);
+                configurer.setPathMatcher(matcher);
             }
         };
     }
