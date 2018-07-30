@@ -1,13 +1,11 @@
 package net.aooms.core.web.client;
 
-import com.google.common.collect.Maps;
 import net.aooms.core.properties.ApplicationProperties;
 import net.aooms.core.properties.ServerProperties;
-import net.aooms.core.utils.AoomsLogUtils;
+import net.aooms.core.util.AoomsLogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;

@@ -1,4 +1,4 @@
-package net.aooms.core.plugins;
+package net.aooms.core.plugin;
 
 /**
  * 框架插件定义接口

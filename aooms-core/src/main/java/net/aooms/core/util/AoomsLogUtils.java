@@ -1,4 +1,4 @@
-package net.aooms.core.utils;
+package net.aooms.core.util;
 
 /**
  * 日志打印

@@ -1,4 +1,4 @@
-package net.aooms.core.utils;
+package net.aooms.core.util;
 
 import java.io.File;  
 
