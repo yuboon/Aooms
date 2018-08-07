@@ -1,5 +1,6 @@
 package net.aooms.core.web;
 
+import com.google.common.collect.Maps;
 import net.aooms.core.properties.ApplicationProperties;
 import net.aooms.core.properties.ServerProperties;
 import net.aooms.core.properties.TestProperties;
@@ -13,12 +14,15 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 一个完整的控制器Demo,方便框架内部调试
@@ -84,6 +88,14 @@ public class TestController {
         mv.addObject("name", "张三");
         mv.setViewName("/test.html");
         return mv;
+    }
+
+    @GetMapping(value="/json")
+    @ResponseBody
+    public Map json() {
+        Map<String,String> json = Maps.newHashMap();
+        json.put("name","234");
+        return json;
     }
 
     @GetMapping(value="/getRest")

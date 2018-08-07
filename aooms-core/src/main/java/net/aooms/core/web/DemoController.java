@@ -1,20 +1,27 @@
 package net.aooms.core.web;
 
 import cn.hutool.core.date.DateUtil;
+import com.google.common.collect.Maps;
 import net.aooms.core.annocation.ClearInterceptor;
 import net.aooms.core.properties.TestProperties;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.FileCopyUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.thymeleaf.spring5.view.ThymeleafView;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import java.io.File;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * 抽象控制器类
@@ -126,10 +133,42 @@ public class DemoController extends AoomsAbstractController {
      * @return
      */
     @GetMapping("/page")
-    public ModelAndView page(){
-        ServletContextHolder.getRequest().setAttribute("name","模版");
-        this.renderPage("/demo.html");
-        return null;
+    public void page(){
+        //ServletContextHolder.getRequest().setAttribute("name","模版");
+        //this.renderPage("/demo.html");
+        //return null;
+        Map<String,Object> model = Maps.newHashMap();
+        model.put("name","chee");
+        //ThymeleafView thymeleafView = new ThymeleafView();
+        //thymeleafView.setApplicationContext();
+
+
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/demo.html");
+        mv.addAllObjects(model);
+        Locale locale = ServletContextHolder.getRequest().getLocale();
+        ServletContextHolder.getResponse().setLocale(locale);
+        String viewName = mv.getViewName();
+
+        ApplicationContext ac1 = WebApplicationContextUtils.getRequiredWebApplicationContext(ServletContextHolder.getRequest().getServletContext());
+
+        ThymeleafViewResolver resolver = (ThymeleafViewResolver) ac1.getBean("thymeleafViewResolver");
+        View view = null;
+        try {
+            view = resolver.resolveViewName(viewName, locale);
+            view.render(mv.getModel(), ServletContextHolder.getRequest(), ServletContextHolder.getResponse());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+       /* SpringContextUtils.getApplicationContext()
+        thymeleafView.setServletContext(ServletContextHolder.getRequest().getServletContext());
+        try {
+            thymeleafView.render(model,ServletContextHolder.getRequest(),ServletContextHolder.getResponse());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
     };
 
 }
