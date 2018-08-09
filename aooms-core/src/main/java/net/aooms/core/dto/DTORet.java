@@ -81,15 +81,19 @@ public class DTORet implements Serializable {
      */
     public void failure(){
         results.clear(); // 失败时清理数据
-        results.put(STATUS_KEY ,new Status("Aooms service error",false));
+        Status status = new Status("",false);
+        status.setError("Aooms error");
+        results.put(STATUS_KEY ,status);
     }
 
     /**
      * 设置失败
      */
-    public void failure(String msg){
+    public void failure(String error){
         results.clear(); // 失败时清理数据
-        results.put(STATUS_KEY ,new Status(msg,false));
+        Status status = new Status("",false);
+        status.setError(error);
+        results.put(STATUS_KEY ,status);
     }
 
     /**
@@ -115,6 +119,8 @@ public class DTORet implements Serializable {
         private int code;
 
         private String msg;
+
+        private String error;
 
         private boolean isSuccess = true;
 
@@ -156,6 +162,14 @@ public class DTORet implements Serializable {
 
         public void setMsg(String msg) {
             this.msg = msg;
+        }
+
+        public String getError() {
+            return error;
+        }
+
+        public void setError(String error) {
+            this.error = error;
         }
     }
 

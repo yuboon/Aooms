@@ -201,7 +201,7 @@ public abstract class AoomsAbstractController {
         try {
             render.render(getResponse(),value);
         } catch (Exception e) {
-            throw new RenderException("render error" ,e);
+            throw new RenderException(e.getMessage(),e);
         }
     }
 
@@ -210,7 +210,7 @@ public abstract class AoomsAbstractController {
         try {
             getResponse().sendRedirect(url);
         } catch (IOException e) {
-            throw new RenderException("redirect error",e);
+            throw new RenderException(e.getMessage(),e);
         }
     }
 
@@ -236,7 +236,7 @@ public abstract class AoomsAbstractController {
                 fileName = URLEncoder.encode(fileName, "UTF-8");
             }
         } catch (UnsupportedEncodingException e){
-            throw new RenderException("encodeFileName "+ fileName +" error",e);
+            throw new RenderException(e.getMessage(),e);
         }
         return fileName;
     }

@@ -141,7 +141,7 @@ public class DemoController extends AoomsAbstractController {
      */
     @GetMapping("/image")
     public void image(){
-        this.renderImage("F:/rpt2.png","F:/df.jpg");
+        this.renderImage("F:/rpt.png","F:/df.jpg");
     };
 
     /**
@@ -150,9 +150,10 @@ public class DemoController extends AoomsAbstractController {
      */
     @GetMapping("/page")
     public void page(){
-       Map<String,Object> values = Maps.newHashMap();
+        Map<String,Object> values = Maps.newHashMap();
        values.put("name","admin");
        this.renderThymeleaf("/demo2.html",values);
+       //this.renderJson();
     };
 
 
