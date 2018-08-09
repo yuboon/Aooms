@@ -23,6 +23,10 @@ spring:
     suffix: .html
   mvc:
     static-path-pattern: /**   #可不配置，默认也是此路径
+  #  throw-exception-if-no-handler-found: true  #资源不存在时抛出异常
+  #resources:
+  #  add-mappings: false  #不开启默认的资源处理
+
   cloud:
     service-registry:
       auto-registration:

@@ -25,6 +25,11 @@ public class DtoInterceptor extends AoomsAbstractInterceptor {
     }
 
     @Override
+    public void invokeAfter(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView){
+
+    }
+
+    @Override
     public void invokeFinal(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex){
         DTO.destroy();
     }

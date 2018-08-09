@@ -114,13 +114,15 @@ public class DTORet implements Serializable {
     /**
      * 结果状态对象
      */
-    class Status implements Serializable {
+    public class Status implements Serializable {
 
         private int code;
 
         private String msg;
 
         private String error;
+
+        private String trace;
 
         private boolean isSuccess = true;
 
@@ -171,7 +173,14 @@ public class DTORet implements Serializable {
         public void setError(String error) {
             this.error = error;
         }
-    }
 
+        public String getTrace() {
+            return trace;
+        }
+
+        public void setTrace(String trace) {
+            this.trace = trace;
+        }
+    }
 
 }
