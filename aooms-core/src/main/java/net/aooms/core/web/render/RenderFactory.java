@@ -1,6 +1,6 @@
 package net.aooms.core.web.render;
 
-import java.io.InputStream;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 渲染工厂
@@ -18,7 +18,7 @@ public class RenderFactory {
      * 获取JSONRender
      * @return
      */
-    public IRender getJSONRender(){
+    public AbstractRender getJSONRender(){
        return new JSONRender();
     }
 
@@ -26,7 +26,7 @@ public class RenderFactory {
      * 获取HtmlRender
      * @return
      */
-    public IRender getHtmlRender() {
+    public AbstractRender getHtmlRender() {
         return new HtmlRender();
     }
 
@@ -34,7 +34,7 @@ public class RenderFactory {
      * 获取JavaScriptRender
      * @return
      */
-    public IRender getJavaScriptRender() {
+    public AbstractRender getJavaScriptRender() {
         return new JavaScriptRender();
     }
 
@@ -42,7 +42,7 @@ public class RenderFactory {
      * 获取TextRender
      * @return
      */
-    public IRender getTextRender() {
+    public AbstractRender getTextRender() {
         return new TextRender();
     }
 
@@ -50,7 +50,7 @@ public class RenderFactory {
      * 获取ImageRender
      * @return
      */
-    public IRender getImageRender(String suffix) {
+    public AbstractRender getImageRender(String suffix) {
         return new ImageRender(suffix);
     }
 
@@ -58,8 +58,16 @@ public class RenderFactory {
      * 获取FileRender
      * @return
      */
-    public IRender getFileRender(String fileName){
+    public AbstractRender getFileRender(String fileName){
         return new FileRender(fileName);
+    }
+
+    /**
+     * 获取ModelAndViewRender
+     * @return
+     */
+    public AbstractRender getThymeleafRender(ModelAndView mv){
+        return new ThymeleafRender(mv);
     }
 
 

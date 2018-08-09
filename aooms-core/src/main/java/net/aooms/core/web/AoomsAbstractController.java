@@ -5,16 +5,18 @@ import net.aooms.core.dto.DTO;
 import net.aooms.core.dto.DTOPara;
 import net.aooms.core.dto.DTORet;
 import net.aooms.core.util.FileUtils;
-import net.aooms.core.web.render.IRender;
+import net.aooms.core.web.render.AbstractRender;
 import net.aooms.core.web.render.RenderException;
 import net.aooms.core.web.render.RenderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.Map;
 
 /**
  * 抽象控制器类
@@ -130,17 +132,33 @@ public abstract class AoomsAbstractController {
         this.doRender(RenderFactory.me().getImageRender(suffix),imgStream);
     };
 
-
     /**
-     * 响应结果
+     * Thymeleaf 渲染
      * @return
      */
-    public void renderPage(String page){
-        try {
-            ServletContextHolder.getRequest().getRequestDispatcher(page).forward(ServletContextHolder.getRequest(),ServletContextHolder.getResponse());
-        } catch (Exception e) {
-            throw new RenderException("page render error",e);
+    public void renderThymeleaf(ModelAndView mv){
+        this.doRender(RenderFactory.me().getThymeleafRender(mv),null);
+    };
+
+    /**
+     * Thymeleaf 渲染
+     * @return
+     */
+    public void renderThymeleaf(String viewName){
+       this.renderThymeleaf(viewName,null);
+    };
+
+    /**
+     * Thymeleaf 渲染
+     * @return
+     */
+    public void renderThymeleaf(String viewName,Map<String,Object> model){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName(viewName);
+        if(model != null){
+            mv.addAllObjects(model);
         }
+        this.doRender(RenderFactory.me().getThymeleafRender(mv),null);
     };
 
     /**
@@ -179,25 +197,33 @@ public abstract class AoomsAbstractController {
     };
 
     // 输出
-    private void doRender(IRender render, Object value){
+    private void doRender(AbstractRender render, Object value){
         try {
-           // RenderFactory.me().getRender(renderType).render(getResponse(),value);
             render.render(getResponse(),value);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RenderException("render error" ,e);
+        }
+    }
+
+    // Redirect
+    public void redirect(String url){
+        try {
+            getResponse().sendRedirect(url);
+        } catch (IOException e) {
+            throw new RenderException("redirect error",e);
         }
     }
 
     // 获取response
     private HttpServletResponse getResponse(){
-        HttpServletResponse response = ServletContextHolder.getResponse();
+        HttpServletResponse response = AoomsContextHolder.getResponse();
         response.setCharacterEncoding(Vars.ENCODE);
         return response;
     }
 
     // 文件名称编码
     protected  String encodeFileName(String fileName){
-        String userAgent = ServletContextHolder.getRequest().getHeader("User-Agent");
+        String userAgent = AoomsContextHolder.getRequest().getHeader("User-Agent");
         try {
             /* IE 8 至 IE 10 */  /* IE 11 */
             if (userAgent.toUpperCase().contains("MSIE") || userAgent.contains("Trident/7.0")) {

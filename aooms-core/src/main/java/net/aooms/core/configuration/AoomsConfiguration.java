@@ -9,9 +9,6 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 框架默认配置类
  *
@@ -57,7 +54,7 @@ public class AoomsConfiguration implements IConfiguration {
 
                 registryProxy.addInterceptor(new DemoInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new DtoInterceptor(pathPatterns,ignores));
-                registryProxy.addInterceptor(new ServletContextInterceptor(pathPatterns,ignores));
+                registryProxy.addInterceptor(new AoomsContextInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new ParamInterceptor(pathPatterns,ignores));
 
             }

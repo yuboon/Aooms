@@ -1,7 +1,6 @@
 package net.aooms.core.web.render;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -9,7 +8,7 @@ import java.io.InputStream;
  * 图片渲染
  * Created by cccyb on 2018-04-20
  */
-public class ImageRender extends IRender {
+public class ImageRender extends AbstractRender {
 
     private String suffix;
 
@@ -19,7 +18,7 @@ public class ImageRender extends IRender {
     }
 
     @Override
-    public void render(HttpServletResponse response, Object value) throws IOException {
+    public void render(HttpServletResponse response, Object value) throws Exception {
         response.setContentType("image/" + suffix);
         // response.setHeader("Content-Encoding","gzip"); // 启用压缩
 

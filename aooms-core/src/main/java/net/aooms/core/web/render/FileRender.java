@@ -8,7 +8,7 @@ import java.io.InputStream;
  * 文件渲染
  * Created by cccyb on 2018-04-20
  */
-public class FileRender extends IRender {
+public class FileRender extends AbstractRender {
 
     private String fileName;
 
@@ -18,7 +18,7 @@ public class FileRender extends IRender {
     }
 
     @Override
-    public void render(HttpServletResponse response, Object value) throws IOException {
+    public void render(HttpServletResponse response, Object value) throws Exception {
         response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
         InputStream is = (InputStream) value;
         byte[] buffer = new byte[1024]; //1KB

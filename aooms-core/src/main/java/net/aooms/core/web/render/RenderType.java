@@ -6,11 +6,11 @@ package net.aooms.core.web.render;
  */
 public enum RenderType {
 
-    JSON("text/plain"),
+    JSON("application/json"),
     HTML("text/html"),
     JAVASCRIPT("text/html"),
     TEXT("text/plain"),
-    PAGE("text/html"),
+    VIEW("text/html"),
     FILE("text/html"),
     IMAGE("image/jpeg")
 
