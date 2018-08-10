@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<body>
+    <h1>Server Error Page</h1>
+
+    <!-- 配合TestController提供一个完整的web调试环境 -->
+
+    <div>
+        Server Error
+        <div>状态<span th:text="${status}"></span></div>
+        <div>错误信息<span th:text="${message}"></span></div>
+        <div>堆栈信息<span th:text="${trace}"></span></div>
+        <div>访问路径<span th:text="${path}"></span></div>
+
+    </div>
+
+</body>
+</html>
