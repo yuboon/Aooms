@@ -1,4 +1,4 @@
-package net.aooms.core.properties;
+package net.aooms.core.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConfigurationProperties("server")
-public class ServerProperties {
+public class ServerProperty {
 
     private int port;
 

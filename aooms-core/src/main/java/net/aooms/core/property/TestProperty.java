@@ -1,6 +1,7 @@
-package net.aooms.core.properties;
+package net.aooms.core.property;
 
 
+import net.aooms.core.property.loader.YamlPropertyLoaderFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -10,10 +11,10 @@ import org.springframework.stereotype.Component;
  * Created by cccyb on 2018-02-06
  */
 @Component
-@PropertySource("/aooms/my.properties")
+@PropertySource(value = "/aooms/my2.yml" ,factory = YamlPropertyLoaderFactory.class)
 // prefix 必须包含点
 @ConfigurationProperties(prefix = "demo")
-public class TestProperties {
+public class TestProperty {
 
     private String name;
 

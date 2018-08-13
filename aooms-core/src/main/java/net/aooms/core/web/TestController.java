@@ -1,9 +1,9 @@
 package net.aooms.core.web;
 
 import com.google.common.collect.Maps;
-import net.aooms.core.properties.ApplicationProperties;
-import net.aooms.core.properties.ServerProperties;
-import net.aooms.core.properties.TestProperties;
+import net.aooms.core.property.ApplicationProperty;
+import net.aooms.core.property.ServerProperty;
+import net.aooms.core.property.TestProperty;
 import net.aooms.core.web.client.AoomsRestClient;
 import net.aooms.core.web.client.SimpleRestTemplate;
 import org.slf4j.Logger;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
@@ -34,13 +33,13 @@ public class TestController {
     private static Logger logger = LoggerFactory.getLogger(TestController.class);
 
     @Autowired
-    private ApplicationProperties applicationProperties;
+    private ApplicationProperty applicationProperties;
 
     @Autowired
-    private ServerProperties serverProperties;
+    private ServerProperty serverProperties;
 
     @Autowired
-    private TestProperties testProperties;
+    private TestProperty testProperties;
 
     @Value("${spring.application.name}")
     private String name;

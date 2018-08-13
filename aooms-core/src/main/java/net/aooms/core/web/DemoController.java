@@ -4,10 +4,9 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import net.aooms.core.annocation.ClearInterceptor;
-import net.aooms.core.properties.TestProperties;
+import net.aooms.core.property.TestProperty;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.mybatis.service.IUserService;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
-import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +30,7 @@ public class DemoController extends AoomsAbstractController {
     private static Logger logger = LoggerFactory.getLogger(DemoController.class);
 
     @Autowired
-    private TestProperties testProperties;
+    private TestProperty testProperty;
 
     @Autowired
     private IUserService userService;
@@ -44,7 +42,7 @@ public class DemoController extends AoomsAbstractController {
     @GetMapping("/hello/{code}")
     @ClearInterceptor(DemoInterceptor.class)
     public void hello(){
-        logger.info("NAME = {}" ,testProperties.getName());
+        logger.info("NAME = {}" ,testProperty.getName());
 
         logger.info("ID = {}" ,this.getPara().getStr("id"));
         String s = this.getPara().getPathVar("code");
@@ -65,7 +63,7 @@ public class DemoController extends AoomsAbstractController {
     @GetMapping("/hello2")
     @ClearInterceptor({DemoInterceptor.class})
     public ModelAndView hello2(){
-        logger.info("NAME = {}" ,testProperties.getName());
+        logger.info("NAME = {}" ,testProperty.getName());
         this.getRet().set("name","byHello2");
         return new ModelAndView("/demo.html",this.getRet().getData());
     };
@@ -89,7 +87,7 @@ public class DemoController extends AoomsAbstractController {
      */
     @GetMapping("/down")
     public void down(){
-        logger.info("NAME = {}" ,testProperties.getName());
+        logger.info("NAME = {}" ,testProperty.getName());
         this.getRet().set("name","byHello2");
         this.renderFile("中文.txt",new File("F:/1.txt"));
     };
@@ -136,6 +134,9 @@ public class DemoController extends AoomsAbstractController {
      */
     @GetMapping("/page")
     public void page(){
+
+        System.err.println("email:" + testProperty.getName());
+
         List<Map<String,Object>> map = userService.selectMap();
 
         System.err.println(JSON.toJSONString(map));

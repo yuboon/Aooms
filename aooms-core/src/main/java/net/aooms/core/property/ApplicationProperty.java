@@ -1,11 +1,7 @@
-package net.aooms.core.properties;
+package net.aooms.core.property;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -15,7 +11,7 @@ import org.springframework.util.StringUtils;
  */
 @Component
 @ConfigurationProperties(prefix="spring.application")
-public class ApplicationProperties {
+public class ApplicationProperty {
 
     private String name;
 

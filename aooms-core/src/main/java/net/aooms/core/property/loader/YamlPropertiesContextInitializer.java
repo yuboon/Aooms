@@ -1,4 +1,4 @@
-package net.aooms.core.properties;
+package net.aooms.core.property.loader;
 
 
 import org.springframework.boot.env.YamlPropertySourceLoader;
