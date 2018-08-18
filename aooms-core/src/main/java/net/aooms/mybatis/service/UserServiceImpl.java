@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Service
 public class UserServiceImpl {
@@ -39,10 +42,13 @@ public class UserServiceImpl {
 	public List<Map<String,Object>> selectMap() {
 		User u = new User();
 
+		Consumer c = System.err::println;
+		Consumer supplier = genericDaoSupport::getConnection;
+
 
 		//genericDaoSupport.
 
-		List<Map<String,Object>> datas = (List<Map<String, Object>>) recordDaoSupport.findForList("Demo.selectListBySQL",null);
+		List<Map<String,Object>> datas = (List<Map<String, Object>>) genericDaoSupport.findForList("Demo.selectListBySQL",null);
 		System.err.println("datas = " + datas.size());
 
 		//baseMapper.selectMapsPage(new Page(1,1),new EntityWrapper(new User()));
