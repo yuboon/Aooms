@@ -1,18 +1,22 @@
 package net.aooms.mybatis.entity;
 
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableLogic;
+import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.FieldFill;
-import net.SuperEntity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 用户表
  */
-@SuppressWarnings("serial")
-public class User extends SuperEntity<User> {
+@TableName("user")
+public class User implements Serializable{
 
+    @TableId
+    private long id;
 
     /**
      * 名称
@@ -22,14 +26,14 @@ public class User extends SuperEntity<User> {
     /**
      * 这里故意演示注解可无
      */
-    @TableField("test_type")
+    @TableField("testType")
     @TableLogic
     private Integer testType;
 
     /**
      * 测试插入填充
      */
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT,value="testDate")
     private Date testDate;
 
     private Long role;
@@ -37,17 +41,13 @@ public class User extends SuperEntity<User> {
     public User() {
     }
 
-    public User(Long id, String name, Integer testType) {
-        this.setId(id);
-        this.name = name;
-        this.testType = testType;
+    public long getId() {
+        return id;
     }
 
-    public User(String name,Integer testType) {
-        this.name = name;
-        this.testType = testType;
+    public void setId(long id) {
+        this.id = id;
     }
-
 
     public String getName() {
         return this.name;

@@ -1,6 +1,6 @@
 package net.aooms.core.web.interceptor;
 
-import net.aooms.core.annocation.ClearInterceptor;
+import net.aooms.core.annotation.ClearInterceptor;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 

@@ -3,15 +3,16 @@ package net.aooms.core.web;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
-import net.aooms.core.annocation.ClearInterceptor;
+import net.aooms.core.annotation.ClearInterceptor;
 import net.aooms.core.property.TestProperty;
 import net.aooms.core.web.interceptor.DemoInterceptor;
-import net.aooms.mybatis.service.IUserService;
+import net.aooms.mybatis.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,14 +33,15 @@ public class DemoController extends AoomsAbstractController {
     @Autowired
     private TestProperty testProperty;
 
+
     @Autowired
-    private IUserService userService;
+    private UserServiceImpl userService;
 
     /**
      * 获取参数
      * @return
      */
-    @GetMapping("/hello/{code}")
+    @RequestMapping("/hello/{code}")
     @ClearInterceptor(DemoInterceptor.class)
     public void hello(){
         logger.info("NAME = {}" ,testProperty.getName());
@@ -134,8 +136,9 @@ public class DemoController extends AoomsAbstractController {
      */
     @GetMapping("/page")
     public void page(){
-
         System.err.println("email:" + testProperty.getName());
+
+       // System.err.println(JSON.toJSONString(recordMapper.insert(new Record())));
 
         List<Map<String,Object>> map = userService.selectMap();
 

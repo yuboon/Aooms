@@ -1,4 +1,4 @@
-package net.aooms.core.annocation;
+package net.aooms.core.annotation;
 
 import net.aooms.core.web.interceptor.AoomsAbstractInterceptor;
 

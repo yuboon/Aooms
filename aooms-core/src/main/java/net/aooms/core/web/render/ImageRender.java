@@ -24,7 +24,7 @@ public class ImageRender extends AbstractRender {
 
 
        /* age:66700
-        cache-control:max-age=315360000
+        j2cache-control:max-age=315360000
         content-length:3902
         content-type:image/png
         date:Mon, 23 Apr 2018 08:34:56 GMT
