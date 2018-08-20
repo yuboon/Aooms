@@ -31,9 +31,9 @@ public class GenericDaoSupport implements GenericDao {
      * 保存对象
      * @return 
      * @ 
-     */  
+     */
     public int insert(String str, Object obj) {
-        return sqlSessionTemplate.insert(str, obj);
+        return sqlSessionTemplate.insert(MyBatisConst.MS_RECORD_INSERT, obj);
     }  
       
     /** 

@@ -2,8 +2,12 @@ package net.aooms.mybatis.service;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.google.common.collect.Maps;
 import net.aooms.mybatis.entity.User;
 import net.aooms.mybatis.mapper.GenericDaoSupport;
+import net.aooms.mybatis.mapper.MyBatisConst;
+import net.aooms.mybatis.mapper.Record;
 import net.aooms.mybatis.mapper.UserMapper;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +24,6 @@ public class UserServiceImpl {
 
 	@Autowired
 	private UserMapper userMapper;
-
-	@Autowired
-	private BaseMapper baseMapper;
 
 	@Autowired
 	private SqlSessionTemplate sessionTemplate;
@@ -42,14 +43,22 @@ public class UserServiceImpl {
 	public List<Map<String,Object>> selectMap() {
 		User u = new User();
 
-		Consumer c = System.err::println;
-		Consumer supplier = genericDaoSupport::getConnection;
 
+		Record record = Record.NEW();
+		record.put("id","123");
+		record.put("name","lisi");
+
+
+		Map<String,Object> maps = Maps.newHashMap();
+		maps.put("name","zhangsan");
+
+
+		genericDaoSupport.insert(MyBatisConst.MS_RECORD_INSERT,record);
 
 		//genericDaoSupport.
 
-		List<Map<String,Object>> datas = (List<Map<String, Object>>) genericDaoSupport.findForList("Demo.selectListBySQL",null);
-		System.err.println("datas = " + datas.size());
+		//List<Map<String,Object>> datas = (List<Map<String, Object>>) genericDaoSupport.findForList("Demo.selectListBySQL",null);
+		//System.err.println("datas = " + datas.size());
 
 		//baseMapper.selectMapsPage(new Page(1,1),new EntityWrapper(new User()));
 		//sqlSession.selectOne("23123");
@@ -58,7 +67,7 @@ public class UserServiceImpl {
 		//baseMapper.insert(u);
 		//baseMapper.deleteById(1L);
 
-		return userMapper.selectMap();
+		return userMapper.selectMap(maps);
 	}
 
 	public List<User> selectListByWrapper(Wrapper wrapper) {

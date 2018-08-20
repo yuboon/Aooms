@@ -16,7 +16,7 @@ import java.util.Map;
  * User 表数据库控制层接口
  */
 @Component
-public interface UserMapper extends SuperMapper<User> {
+public interface UserMapper {
 
     /**
      * 自定义注入方法
@@ -26,7 +26,7 @@ public interface UserMapper extends SuperMapper<User> {
     //@Select("select test_id as id, name, age, test_type from user")
     List<User> selectListBySQL();
 
-    List<Map<String,Object>> selectMap();
+    List<Map<String,Object>> selectMap(Map<String,Object> maps);
 
     List<User> selectListByWrapper(@Param("ew") Wrapper wrapper);
 
