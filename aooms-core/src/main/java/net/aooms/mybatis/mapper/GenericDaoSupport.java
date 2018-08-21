@@ -1,5 +1,7 @@
 package net.aooms.mybatis.mapper;
 
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ObjectUtil;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -32,8 +34,10 @@ public class GenericDaoSupport implements GenericDao {
      * @return 
      * @ 
      */
-    public int insert(String str, Object obj) {
-        return sqlSessionTemplate.insert(MyBatisConst.MS_RECORD_INSERT, obj);
+    public int insert(String tableName, Record record) {
+        Assert.notNull(record,"record must not be null");
+        record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+        return sqlSessionTemplate.insert(MyBatisConst.MS_RECORD_INSERT, record);
     }  
       
     /** 

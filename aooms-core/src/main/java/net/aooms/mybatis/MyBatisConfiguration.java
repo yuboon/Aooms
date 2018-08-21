@@ -1,29 +1,25 @@
-package net.aooms.core.module.mybatis;
+package net.aooms.mybatis;
 
-import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import net.aooms.mybatis.interceptor.RecordInterceptor;
 import net.aooms.mybatis.mapper.MyBatisConst;
-import org.apache.ibatis.builder.MapperBuilderAssistant;
-import org.apache.ibatis.mapping.*;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.SqlCommandType;
+import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Invocation;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.lang.reflect.Field;
 import java.util.HashSet;
-import java.util.Properties;
 
-import static net.aooms.core.module.mybatis.SimpleMapperHelper.XML_LANGUAGE_DRIVER;
-
-//@Configuration
+@Configuration
 public class MyBatisConfiguration {
 
-    @Bean
+    /*@Bean
     public Interceptor interceptor(){
         return new MyInterceptor();
-    }
+    }*/
 
 
     @Bean
@@ -81,11 +77,11 @@ public class MyBatisConfiguration {
                 SqlSource sqlSource = new SqlSource() {
                     @Override
                     public BoundSql getBoundSql(Object parameterObject) {
-                        return new BoundSql(configuration,"",null,null);
+                        return new BoundSql(configuration,"nosqlscript",null,null);
                     }
                 };
 
-                MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, MyBatisConst.MS_RECORD_INSERT, sqlSource, SqlCommandType.UPDATE);
+                MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, MyBatisConst.MS_RECORD_INSERT, sqlSource, SqlCommandType.INSERT);
                 configuration.addMappedStatement(statementBuilder.build());
 
 

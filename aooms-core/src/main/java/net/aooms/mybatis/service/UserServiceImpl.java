@@ -12,6 +12,7 @@ import net.aooms.mybatis.mapper.UserMapper;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import java.util.List;
 import java.util.Map;
@@ -45,15 +46,16 @@ public class UserServiceImpl {
 
 
 		Record record = Record.NEW();
-		record.put("id","123");
+
+		record.put("id",System.currentTimeMillis());
 		record.put("name","lisi");
 
 
 		Map<String,Object> maps = Maps.newHashMap();
+		maps.put("id",System.currentTimeMillis());
 		maps.put("name","zhangsan");
 
-
-		genericDaoSupport.insert(MyBatisConst.MS_RECORD_INSERT,record);
+		genericDaoSupport.insert("user",record);
 
 		//genericDaoSupport.
 

@@ -24,7 +24,7 @@ public interface GenericDao {
      * @return 
      * @ 
      */  
-    public int insert(String str, Object obj);
+    public int insert(String tableName, Record record);
 
     /**
      * 批量保存对象
