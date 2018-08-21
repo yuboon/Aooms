@@ -1,14 +1,12 @@
 package net.aooms.mybatis.entity;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableLogic;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.FieldFill;
-import net.aooms.mybatis.mapper.Record;
+import net.aooms.mybatis.record.Record;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**

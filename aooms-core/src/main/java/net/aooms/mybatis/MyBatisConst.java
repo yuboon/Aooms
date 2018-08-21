@@ -1,4 +1,4 @@
-package net.aooms.mybatis.mapper;
+package net.aooms.mybatis;
 
 import com.jfinal.core.Const;
 

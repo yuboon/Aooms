@@ -1,4 +1,4 @@
-package net.aooms.mybatis.mapper;
+package net.aooms.mybatis.record;
 
 import org.springframework.util.LinkedCaseInsensitiveMap;
 

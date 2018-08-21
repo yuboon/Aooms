@@ -1,24 +1,17 @@
 package net.aooms.mybatis.service;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
 import net.aooms.mybatis.entity.User;
-import net.aooms.mybatis.mapper.GenericDaoSupport;
-import net.aooms.mybatis.mapper.MyBatisConst;
-import net.aooms.mybatis.mapper.Record;
+import net.aooms.mybatis.dao.GenericDaoSupport;
+import net.aooms.mybatis.record.Record;
 import net.aooms.mybatis.mapper.UserMapper;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 @Service
 public class UserServiceImpl {

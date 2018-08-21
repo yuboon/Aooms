@@ -1,5 +1,6 @@
-package net.aooms.mybatis.mapper;
+package net.aooms.mybatis.dao;
 
+import net.aooms.mybatis.record.Record;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.sql.Connection;
