@@ -9,14 +9,22 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 
 import java.sql.Connection;
+import java.sql.Statement;
 import java.util.Properties;
 
 
-@Intercepts({@Signature(
+@Intercepts({
+    @Signature(
         type = StatementHandler.class,
         method = "prepare",
         args = {Connection.class, Integer.class}
-)})
+    ),
+    @Signature(
+        type = StatementHandler.class,
+        method = "batch",
+        args = {Statement.class}
+    )
+})
 public class RecordInterceptor implements Interceptor {
 
     private RecordOperRouting recordOperRouting = new RecordOperRouting();

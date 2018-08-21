@@ -1,7 +1,9 @@
 package net.aooms.mybatis.service;
 
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.aooms.core.configuration.Vars;
 import net.aooms.mybatis.entity.User;
 import net.aooms.mybatis.dao.GenericDaoSupport;
 import net.aooms.mybatis.record.Record;
@@ -10,11 +12,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
-public class UserServiceImpl {
+public class UserService {
 
 	@Autowired
 	private UserMapper userMapper;
@@ -37,18 +42,22 @@ public class UserServiceImpl {
 	public List<Map<String,Object>> selectMap() {
 		User u = new User();
 
+		List<Record> records = Lists.newArrayList();
 
-		Record record = Record.NEW();
+		IntStream.range(0,2).forEach(index->{
+			String id = System.currentTimeMillis() + "-" + index;
+			Record record1 = Record.NEW();
+			record1.set(Vars.ID,id);
+			record1.set("name","lisi" + index);
+			records.add(record1);
+		});
 
-		record.put("id",System.currentTimeMillis());
-		record.put("name","lisi");
+		//genericDaoSupport.insert("user",record);
+		genericDaoSupport.batchInsert("user",records);
 
 
-		Map<String,Object> maps = Maps.newHashMap();
-		maps.put("id",System.currentTimeMillis());
-		maps.put("name","zhangsan");
-
-		genericDaoSupport.insert("user",record);
+		//genericDaoSupport.update("user",record1);
+		//int size = genericDaoSupport.delete("user",record1);
 
 		//genericDaoSupport.
 
@@ -62,7 +71,11 @@ public class UserServiceImpl {
 		//baseMapper.insert(u);
 		//baseMapper.deleteById(1L);
 
-		return userMapper.selectMap(maps);
+		Map<String,Object> maps = Maps.newHashMap();
+		maps.put("id",System.currentTimeMillis());
+		maps.put("name","zhangsan");
+
+		return Lists.newArrayList();//userMapper.selectMap(maps);
 	}
 
 	public List<User> selectListByWrapper(Wrapper wrapper) {

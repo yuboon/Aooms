@@ -10,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
 
@@ -46,17 +47,36 @@ public class GenericDaoSupport implements GenericDao {
      * @return 
      * @ 
      */  
-    public int batchInsert(String str, List objs){
-        return sqlSessionTemplate.insert(str, objs);  
-    }  
+    public int batchInsert(String tableName, List<Record> records){
+        SqlSessionFactory sqlSessionFactory = sqlSessionTemplate.getSqlSessionFactory();
+        // 批量执行器
+        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,false);
+        try{
+            if(records != null){
+                for(int i = 0,size = records.size();i < size;i++){
+                    records.get(i).put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+                    sqlSession.insert(MyBatisConst.MS_RECORD_INSERT, records.get(i));
+                    //sqlSessionTemplate.insert(MyBatisConst.MS_RECORD_INSERT, records.get(i));
+                }
+                sqlSession.flushStatements();
+                sqlSession.commit();
+                sqlSession.clearCache();
+            }
+        }finally{
+            sqlSession.close();
+        }
+        return records.size();
+    }
       
     /** 
      * 修改对象
      * @return 
      * @ 
      */  
-    public int update(String str, Object obj){
-        return sqlSessionTemplate.update(str, obj);  
+    public int update(String tableName, Record record){
+        Assert.notNull(record,"record must not be null");
+        record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+        return sqlSessionTemplate.update(MyBatisConst.MS_RECORD_UPDATE, record);
     }  
   
     /** 
@@ -97,8 +117,10 @@ public class GenericDaoSupport implements GenericDao {
      * @return 
      * @ 
      */  
-    public int delete(String str, Object obj)  {
-        return sqlSessionTemplate.delete(str, obj);
+    public int delete(String tableName, Record record)  {
+        Assert.notNull(record,"record must not be null");
+        record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+        return sqlSessionTemplate.delete(MyBatisConst.MS_RECORD_DELETE, record);
     }  
        
     /** 

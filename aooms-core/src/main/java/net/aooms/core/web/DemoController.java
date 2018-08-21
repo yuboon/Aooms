@@ -6,7 +6,7 @@ import com.google.common.collect.Maps;
 import net.aooms.core.annotation.ClearInterceptor;
 import net.aooms.core.property.TestProperty;
 import net.aooms.core.web.interceptor.DemoInterceptor;
-import net.aooms.mybatis.service.UserServiceImpl;
+import net.aooms.mybatis.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class DemoController extends AoomsAbstractController {
 
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     /**
      * 获取参数

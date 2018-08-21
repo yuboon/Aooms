@@ -26,6 +26,14 @@ public class RecordOperRouting {
             return new RecordInsert(metaobject);
         }
 
+        if(SqlCommandType.UPDATE == sqlCommandType){
+            return new RecordUpdate(metaobject);
+        }
+
+        if(SqlCommandType.DELETE == sqlCommandType){
+            return new RecordDelete(metaobject);
+        }
+
         return null;
     }
 

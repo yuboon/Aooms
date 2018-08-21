@@ -55,6 +55,8 @@ public class MyBatisConfiguration {
 
                 RecordMappedStatmentFactory recordMappedStatmentFactory = new RecordMappedStatmentFactory(configuration);
                 configuration.addMappedStatement(recordMappedStatmentFactory.getRecordInsertMappedStatment());
+                configuration.addMappedStatement(recordMappedStatmentFactory.getRecordUpdateMappedStatment());
+                configuration.addMappedStatement(recordMappedStatmentFactory.getRecordDeleteMappedStatment());
 
 
             }

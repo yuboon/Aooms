@@ -1,6 +1,8 @@
 package net.aooms.mybatis.record;
 
 import cn.hutool.core.util.StrUtil;
+import com.netflix.ribbon.proxy.annotation.Var;
+import net.aooms.core.configuration.Vars;
 import net.aooms.mybatis.MyBatisConst;
 import net.aooms.mybatis.interceptor.MetaObjectAssistant;
 import org.apache.ibatis.mapping.BoundSql;
@@ -12,11 +14,11 @@ import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 import java.util.Iterator;
 import java.util.Map;
 
-public class RecordInsert implements IRecordOper {
+public class RecordUpdate implements IRecordOper {
 
     private MetaObject metaObject;
 
-    public RecordInsert(MetaObject metaObject) {
+    public RecordUpdate(MetaObject metaObject) {
         this.metaObject = metaObject;
     }
 
@@ -25,37 +27,33 @@ public class RecordInsert implements IRecordOper {
         MappedStatement mappedStatement = MetaObjectAssistant.getMappedStatement(metaObject);
         Object parameterObject = MetaObjectAssistant.getParameterObject(metaObject);
         Record record = (Record) parameterObject;
+
+        String tableName = record.getString(MyBatisConst.TABLE_NAME_PLACEHOLDER);
+        String pkName = String.valueOf(record.getOrDefault(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,Vars.ID));
+        Object pkValue = record.get(pkName);
+
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(" insert into ");
+        stringBuilder.append(" update ");
         stringBuilder.append(record.get(MyBatisConst.TABLE_NAME_PLACEHOLDER)); // tableName
-        stringBuilder.append(" ({}) ");
-        stringBuilder.append(" values ");
-        stringBuilder.append(" ({}) ");
+        stringBuilder.append(" set {} ");
+        stringBuilder.append(" where "+ pkName +" = #{"+ pkName +"} ");
 
         StringBuilder columns = new StringBuilder();
-        StringBuilder values = new StringBuilder();
-
         int index = 0;
-
-        // 移除内部属性
         record.removeInternalKey();
         Iterator<String> keyIterator = record.keySet().iterator();
         while (keyIterator.hasNext()) {
             String key = keyIterator.next();
             if (index > 0) {
                 columns.append(",");
-                values.append(",");
             }
-            columns.append(key);
-            values.append("#{").append(key).append("}");
+            columns.append(key).append(" = ").append("#{").append(key).append("}");
             index++;
         }
 
-        String sql = StrUtil.format(stringBuilder, columns, values);
+        String sql = StrUtil.format(stringBuilder, columns);
         SqlSource sqlSource = new XMLLanguageDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
         BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
-        //metaObject.setValue("delegate.boundSql", boundSql);
-        //metaObject.setValue("delegate.parameterHandler.boundSql", boundSql);
 
         MetaObjectAssistant.setDelegateBoundSql(metaObject,boundSql);
         MetaObjectAssistant.setDelegateParameterHandlerBoundSql(metaObject,boundSql);

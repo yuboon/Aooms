@@ -8,4 +8,7 @@ public interface Vars {
 
     public static final String ENCODE = "UTF-8";
 
+    public static final String ID = "id";
+
+
 }

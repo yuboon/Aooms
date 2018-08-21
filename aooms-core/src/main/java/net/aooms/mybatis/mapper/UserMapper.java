@@ -1,13 +1,9 @@
 package net.aooms.mybatis.mapper;
 
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import net.SuperMapper;
 import net.aooms.mybatis.entity.User;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
-import sun.misc.Contended;
 
 import java.util.List;
 import java.util.Map;

@@ -3,6 +3,7 @@ package net.aooms.mybatis.dao;
 import net.aooms.mybatis.record.Record;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
 
@@ -32,14 +33,14 @@ public interface GenericDao {
      * @return
      * @
      */
-    public int batchInsert(String str, List objs);
+    public int batchInsert(String tableName, List<Record> records);
       
     /** 
      * 修改对象
      * @return 
      * @ 
      */  
-    public int update(String str, Object obj) ;
+    public int update(String tableName, Record record) ;
 
     /**
      * 批量修改对象
@@ -51,7 +52,7 @@ public interface GenericDao {
      * @return
      * @
      */
-    public int delete(String str, Object obj) ;
+    public int delete(String tableName, Record record) ;
 
     /**
      * 批量删除对象

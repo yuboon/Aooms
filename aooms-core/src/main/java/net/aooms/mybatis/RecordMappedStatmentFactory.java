@@ -20,6 +20,18 @@ public class RecordMappedStatmentFactory {
         return statementBuilder.build();
     }
 
+    public MappedStatement getRecordUpdateMappedStatment() {
+        SqlSource sqlSource = getSqlSource("Record Update MappedStatment");
+        MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, MyBatisConst.MS_RECORD_UPDATE, sqlSource, SqlCommandType.UPDATE);
+        return statementBuilder.build();
+    }
+
+    public MappedStatement getRecordDeleteMappedStatment() {
+        SqlSource sqlSource = getSqlSource("Record Delete MappedStatment");
+        MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, MyBatisConst.MS_RECORD_DELETE, sqlSource, SqlCommandType.DELETE);
+        return statementBuilder.build();
+    }
+
     private SqlSource getSqlSource(String script){
         SqlSource sqlSource = new SqlSource() {
             @Override
