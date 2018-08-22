@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.aooms.core.configuration.Vars;
+import net.aooms.core.dto.DTO;
+import net.aooms.mybatis.SqlPara;
 import net.aooms.mybatis.entity.User;
 import net.aooms.mybatis.dao.GenericDaoSupport;
 import net.aooms.mybatis.record.Record;
@@ -44,7 +46,7 @@ public class UserService {
 
 		List<Record> records = Lists.newArrayList();
 
-		IntStream.range(0,2).forEach(index->{
+		IntStream.range(0,5).forEach(index->{
 			String id = System.currentTimeMillis() + "-" + index;
 			Record record1 = Record.NEW();
 			record1.set(Vars.ID,id);
@@ -52,9 +54,14 @@ public class UserService {
 			records.add(record1);
 		});
 
-		//genericDaoSupport.insert("user",record);
-		genericDaoSupport.batchInsert("user",records);
+		Record record1 = Record.NEW();
+		record1.set(Vars.ID,System.currentTimeMillis());
+		record1.set("name","lisi");
+		//genericDaoSupport.delete("user",record1);
+		//genericDaoSupport.batchDelete("user",records,2);
 
+
+		genericDaoSupport.update("Demo.updateById", SqlPara.NEW().set("id","1534904693057-0"));
 
 		//genericDaoSupport.update("user",record1);
 		//int size = genericDaoSupport.delete("user",record1);

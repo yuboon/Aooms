@@ -1,16 +1,10 @@
 package net.aooms.mybatis;
 
 import net.aooms.mybatis.interceptor.RecordInterceptor;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.SqlCommandType;
-import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.HashSet;
 
 @Configuration
 public class MyBatisConfiguration {
@@ -25,6 +19,15 @@ public class MyBatisConfiguration {
     public Interceptor recordInterceptor(){
         return new RecordInterceptor();
     }
+
+
+    // 分页 https://www.cnblogs.com/hubing/p/5564692.html
+
+    /*@Bean
+    public Interceptor recordInsertBatchInterceptor(){
+        return new RecordInsertBatchInterceptor();
+    }
+*/
 
 
 

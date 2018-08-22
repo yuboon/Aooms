@@ -2,7 +2,9 @@ package net.aooms.mybatis.dao;
 
 import cn.hutool.core.lang.Assert;
 import net.aooms.mybatis.MyBatisConst;
+import net.aooms.mybatis.SqlPara;
 import net.aooms.mybatis.record.Record;
+import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -13,13 +15,13 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Component
 public class GenericDaoSupport implements GenericDao {
   
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
-
 
     @Override
     public Connection getConnection() {
@@ -40,109 +42,138 @@ public class GenericDaoSupport implements GenericDao {
         Assert.notNull(record,"record must not be null");
         record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return sqlSessionTemplate.insert(MyBatisConst.MS_RECORD_INSERT, record);
-    }  
-      
+    }
+
+    /**
+     * 更新对象
+     * @return
+     * @
+     */
+    public int update(String tableName, Record record){
+        Assert.notNull(record,"record must not be null");
+        record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+        return sqlSessionTemplate.update(MyBatisConst.MS_RECORD_UPDATE, record);
+    }
+
+    /**
+     * 删除对象
+     * @return
+     * @
+     */
+    public int delete(String tableName, Record record)  {
+        Assert.notNull(record,"record must not be null");
+        record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+        return sqlSessionTemplate.delete(MyBatisConst.MS_RECORD_DELETE, record);
+    }
+
     /** 
-     * 批量更新
-     * @return 
-     * @ 
-     */  
+     * 批量保存
+     */
     public int batchInsert(String tableName, List<Record> records){
+       return batchExecute(tableName,MyBatisConst.MS_RECORD_INSERT,records,-1);
+    }
+
+    /**
+     * 批量保存
+     */
+    public int batchInsert(String tableName, List<Record> records,int batchSize){
+        return batchExecute(tableName,MyBatisConst.MS_RECORD_INSERT,records,batchSize);
+    }
+
+    /**
+     * 批量更新
+     */
+    @Override
+    public int batchUpdate(String tableName, List<Record> records) {
+        return batchExecute(tableName,MyBatisConst.MS_RECORD_UPDATE,records,-1);
+    }
+
+    /**
+     * 批量更新
+     */
+    @Override
+    public int batchUpdate(String tableName, List<Record> records,int batchSize) {
+        return batchExecute(tableName,MyBatisConst.MS_RECORD_UPDATE,records,batchSize);
+    }
+
+    /**
+     * 批量删除
+     * @return
+     * @
+     */
+    public int batchDelete(String tableName, List<Record> records){
+        return batchExecute(tableName,MyBatisConst.MS_RECORD_DELETE,records,-1);
+    }
+
+    /**
+     * 批量删除
+     * @return
+     * @
+     */
+    public int batchDelete(String tableName, List<Record> records,int batchSize){
+        return batchExecute(tableName,MyBatisConst.MS_RECORD_DELETE,records,batchSize);
+    }
+
+
+    /**
+     * 保存对象
+     * @return
+     * @
+     */
+    public int update(String mappedStatementId, SqlPara sqlpara) {
+        return sqlSessionTemplate.update(mappedStatementId, sqlpara.getParams());
+    }
+
+    @Override
+    public <T> T findObject(String str, Object obj) {
+        return null;
+    }
+
+    @Override
+    public <T> List<T> findList(String str, Object obj) {
+        return null;
+    }
+
+    @Override
+    public <T> List<T> findListPage(String str, Object obj) {
+        return null;
+    }
+
+    /**
+     * 批量执行
+     * @return
+     * @
+     */
+    private int batchExecute(String tableName,String msId,List<Record> records,int batchSize){
         SqlSessionFactory sqlSessionFactory = sqlSessionTemplate.getSqlSessionFactory();
         // 批量执行器
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,false);
         try{
             if(records != null){
-                for(int i = 0,size = records.size();i < size;i++){
-                    records.get(i).put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
-                    sqlSession.insert(MyBatisConst.MS_RECORD_INSERT, records.get(i));
-                    //sqlSessionTemplate.insert(MyBatisConst.MS_RECORD_INSERT, records.get(i));
-                }
-                sqlSession.flushStatements();
-                sqlSession.commit();
-                sqlSession.clearCache();
+                int total = records.size();
+                if(batchSize < 0) batchSize = total;
+
+                int forSize = total / batchSize + 1;
+                for(int index = 0; index < forSize; index++){
+                    int size = (index + 1) * batchSize;
+                    if(size > total){
+                        size = total;
+                    }
+
+                    for(int i = index * batchSize; i < size; i++){
+                        records.get(i).put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+                        sqlSession.update(msId, records.get(i));
+                    }
+                    sqlSession.flushStatements();
+                    sqlSession.commit();
+                    sqlSession.clearCache();
+                };
             }
         }finally{
             sqlSession.close();
         }
-        return records.size();
+        return records != null ? records.size() : 0;
     }
-      
-    /** 
-     * 修改对象
-     * @return 
-     * @ 
-     */  
-    public int update(String tableName, Record record){
-        Assert.notNull(record,"record must not be null");
-        record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
-        return sqlSessionTemplate.update(MyBatisConst.MS_RECORD_UPDATE, record);
-    }  
-  
-    /** 
-     * 批量更新
-     * @return
-     * @ 
-     */  
-    public int batchUpdate(String str, List objs){
-        SqlSessionFactory sqlSessionFactory = sqlSessionTemplate.getSqlSessionFactory();
-        //批量执行器  
-        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,false);
-        try{  
-            if(objs != null){
-                for(int i = 0,size = objs.size();i < size;i++){
-                    sqlSession.update(str, objs.get(i));  
-                }  
-                sqlSession.flushStatements();  
-                sqlSession.commit();  
-                sqlSession.clearCache();  
-            }  
-        }finally{  
-            sqlSession.close();  
-        }
-        return objs.size();
-    }  
-      
-    /** 
-     * 批量更新
-     * @return 
-     * @ 
-     */  
-    public int batchDelete(String str, List objs ){
-        return sqlSessionTemplate.delete(str, objs);
-    }  
-      
-    /** 
-     * 删除对象
-     * @return 
-     * @ 
-     */  
-    public int delete(String tableName, Record record)  {
-        Assert.notNull(record,"record must not be null");
-        record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
-        return sqlSessionTemplate.delete(MyBatisConst.MS_RECORD_DELETE, record);
-    }  
-       
-    /** 
-     * 查找对象
-     * @return 
-     * @ 
-     */  
-    public <T> T findForObject(String str, Object obj)  {
-        return sqlSessionTemplate.selectOne(str, obj);
-    }  
-  
-    /** 
-     * 查找对象
-     * @return 
-     * @ 
-     */  
-    public <T> List<T> findForList(String str, Object obj)  {
-        return sqlSessionTemplate.selectList(str, obj);  
-    }  
 
-  /*  public Object findForMap(String str, Object obj, String key, String value)  {
-        return sqlSessionTemplate.selectMap(str, obj, key);
-    } */
       
 } 

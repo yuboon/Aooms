@@ -24,7 +24,7 @@
     </select>
 
     <select id="selectMap" resultType="java.util.Map">
-        SELECT * FROM USER WHERE  name = #{name}
+        SELECT * FROM USER WHERE  name li
     </select>
 
 </mapper>

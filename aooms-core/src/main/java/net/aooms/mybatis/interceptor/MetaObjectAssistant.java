@@ -22,14 +22,14 @@ public abstract class MetaObjectAssistant {
         }
     }
 
-    public static MetaObject getMetaObject(Invocation invocation) {
-        MetaObject metaObject = SystemMetaObject.forObject(getStatementHandler(invocation));
+    public static MetaObject getMetaObject(Object target) {
+        MetaObject metaObject = SystemMetaObject.forObject(target);
         return metaObject;
     }
 
-    public static StatementHandler getStatementHandler(Invocation invocation) {
-        StatementHandler statementHandler = (StatementHandler) realTarget(invocation.getTarget());
-        return statementHandler;
+    public static <T> T getTarget(Invocation invocation,Class<T> targetClass) {
+        T target = (T) realTarget(invocation.getTarget());
+        return target;
     }
 
     public static MappedStatement getMappedStatement(MetaObject metaObject) {

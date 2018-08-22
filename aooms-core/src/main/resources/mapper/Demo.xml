@@ -7,5 +7,8 @@
         SELECT * FROM USER
     </select>
 
+    <select id="updateById" resultType="int">
+        update user set name = '123' where id = #{id}
+    </select>
 
 </mapper>

@@ -1,15 +1,23 @@
 package net.aooms.mybatis.interceptor;
 
+import cn.hutool.core.util.StrUtil;
 import net.aooms.mybatis.record.IRecordOper;
 import net.aooms.mybatis.record.Record;
 import net.aooms.mybatis.record.RecordOperRouting;
+import org.apache.ibatis.executor.CachingExecutor;
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.StatementHandler;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
+import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -21,7 +29,7 @@ import java.util.Properties;
     ),
     @Signature(
         type = StatementHandler.class,
-        method = "batch",
+        method = "parameterize",
         args = {Statement.class}
     )
 })
@@ -42,7 +50,8 @@ public class RecordInterceptor implements Interceptor {
         //Object parameterObject = metaObject.getValue("delegate.boundSql.parameterObject");
         //MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
 
-        MetaObject metaObject = MetaObjectAssistant.getMetaObject(invocation);
+        StatementHandler target = MetaObjectAssistant.getTarget(invocation, StatementHandler.class);
+        MetaObject metaObject = MetaObjectAssistant.getMetaObject(target);
         Object parameterObject = MetaObjectAssistant.getParameterObject(metaObject);
 
         // parameterObject is not a record , skip RecordInterceptor
@@ -50,7 +59,7 @@ public class RecordInterceptor implements Interceptor {
             return invocation.proceed();
         }
 
-        // record opre process
+        // record oper process
         IRecordOper recordOper = recordOperRouting.route(metaObject);
         recordOper.process();
 

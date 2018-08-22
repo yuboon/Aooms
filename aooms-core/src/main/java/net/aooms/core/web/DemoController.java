@@ -142,7 +142,7 @@ public class DemoController extends AoomsAbstractController {
 
         List<Map<String,Object>> map = userService.selectMap();
 
-        System.err.println(JSON.toJSONString(map));
+        //System.err.println(JSON.toJSONString(map));
         Map<String,Object> values = Maps.newHashMap();
         values.put("name","admin");
         this.renderThymeleaf("/demo.html",values);
