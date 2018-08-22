@@ -1,10 +1,11 @@
 package net.aooms.mybatis.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.aooms.core.configuration.Vars;
-import net.aooms.core.dto.DTO;
 import net.aooms.mybatis.SqlPara;
 import net.aooms.mybatis.entity.User;
 import net.aooms.mybatis.dao.GenericDaoSupport;
@@ -14,14 +15,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Service
-public class UserService {
+public class UserService extends GenericService {
 
 	@Autowired
 	private UserMapper userMapper;
@@ -61,7 +60,14 @@ public class UserService {
 		//genericDaoSupport.batchDelete("user",records,2);
 
 
-		genericDaoSupport.update("Demo.updateById", SqlPara.NEW().set("id","1534904693057-0"));
+		//genericDaoSupport.update("Demo.updateById", fromDataBoss());
+
+		Record record = genericDaoSupport.findObjectOrCreate("Demo.selectListBySQL",fromDataBoss());
+		System.err.println("Record = " + JSON.toJSONString(record,SerializerFeature.WriteMapNullValue));
+
+		//List<Record> records2 = genericDaoSupport.findList("Demo.selectListBySQL",fromDataBoss());
+		//System.err.println("RecordList = " + JSON.toJSONString(records2));
+
 
 		//genericDaoSupport.update("user",record1);
 		//int size = genericDaoSupport.delete("user",record1);

@@ -1,25 +1,23 @@
-package net.aooms.core.dto;
+package net.aooms.core.data;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
-import org.hibernate.validator.cfg.context.ReturnValueTarget;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Map;
 
 /**
- * DTO-结果对象
+ * DataBoss-结果对象
  * Created by cccyb on 2018-04-18
  */
-public class DTORet implements Serializable {
+public class DataResult implements Serializable {
 
     // result status key
     private static final String STATUS_KEY = "_RS";
 
     private Map<String,Object> results = CollectionUtil.newHashMap();
 
-    public DTORet() {
+    public DataResult() {
 
         // 默认设置成功状态
         this.success();
@@ -32,7 +30,7 @@ public class DTORet implements Serializable {
      * @param value
      * @return
      */
-    public DTORet set(String key,Object value){
+    public DataResult set(String key, Object value){
         results.put(key,value);
         return this;
     }
@@ -109,7 +107,6 @@ public class DTORet implements Serializable {
     public boolean isSuccess(){
         return getStatus().code == 0;
     }
-
 
     /**
      * 结果状态对象

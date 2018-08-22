@@ -56,6 +56,9 @@ public class MyBatisConfiguration {
                 configuration.addMappedStatement(statementBuilder.build());
                 */
 
+                // 设置map属性空值时仍返回数据
+                configuration.setCallSettersOnNulls(true);
+
                 RecordMappedStatmentFactory recordMappedStatmentFactory = new RecordMappedStatmentFactory(configuration);
                 configuration.addMappedStatement(recordMappedStatmentFactory.getRecordInsertMappedStatment());
                 configuration.addMappedStatement(recordMappedStatmentFactory.getRecordUpdateMappedStatment());

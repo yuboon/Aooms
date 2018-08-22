@@ -3,7 +3,7 @@
 <mapper namespace="Demo">
 
 
-    <select id="selectListBySQL" resultType="map">
+    <select id="selectListBySQL" resultType="net.aooms.mybatis.record.Record">
         SELECT * FROM USER
     </select>
 

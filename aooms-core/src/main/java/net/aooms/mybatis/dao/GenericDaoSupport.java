@@ -125,19 +125,32 @@ public class GenericDaoSupport implements GenericDao {
     }
 
     @Override
-    public <T> T findObject(String str, Object obj) {
+    public Record findObject(String mappedStatementId, SqlPara sqlPara) {
+        List<Record> records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams());
+        if(records.size() > 0){
+            return records.get(0);
+        }
         return null;
     }
 
     @Override
-    public <T> List<T> findList(String str, Object obj) {
-        return null;
+    public Record findObjectOrCreate(String mappedStatementId, SqlPara sqlPara) {
+        Record record = findObject(mappedStatementId,sqlPara);
+        if(record == null) return Record.NEW();
+        return record;
+    }
+
+    @Override
+    public List<Record> findList(String mappedStatementId, SqlPara sqlPara) {
+        List<Record> records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams());
+        return records;
     }
 
     @Override
     public <T> List<T> findListPage(String str, Object obj) {
         return null;
     }
+
 
     /**
      * 批量执行

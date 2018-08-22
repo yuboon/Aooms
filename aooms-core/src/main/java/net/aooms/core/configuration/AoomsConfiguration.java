@@ -2,22 +2,12 @@ package net.aooms.core.configuration;
 
 import net.aooms.core.web.client.SimpleRestTemplate;
 import net.aooms.core.web.interceptor.*;
-import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
-import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.*;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 
 /**
  * 框架默认配置类
@@ -63,7 +53,7 @@ public class AoomsConfiguration implements IConfiguration {
                 String[] ignores = registryProxy.getIgnores();
 
                 registryProxy.addInterceptor(new DemoInterceptor(pathPatterns,ignores));
-                registryProxy.addInterceptor(new DtoInterceptor(pathPatterns,ignores));
+                registryProxy.addInterceptor(new DataBossInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new AoomsContextInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new ParamInterceptor(pathPatterns,ignores));
 

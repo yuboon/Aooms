@@ -1,28 +1,18 @@
 package net.aooms.core.web;
 
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
-import net.aooms.core.dto.DTORet;
+import net.aooms.core.data.DataResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
-import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
-import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -44,8 +34,8 @@ public class MainErrorController extends BasicErrorController {
         Map<String, Object> model = getErrorAttributes(request, true);
         HttpStatus status = getStatus(request);
 
-        DTORet ret = new DTORet();
-        DTORet.Status rsStatus = ret.getStatus();
+        DataResult ret = new DataResult();
+        DataResult.Status rsStatus = ret.getStatus();
         rsStatus.setSuccess(false);
         rsStatus.setMsg("");
         rsStatus.setError(String.valueOf(model.get("message")));

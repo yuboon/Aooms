@@ -1,24 +1,20 @@
-package net.aooms.core.dto;
+package net.aooms.core.data;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.google.common.collect.Maps;
 import net.aooms.core.exception.AoomsException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import sun.rmi.transport.ObjectTable;
 
-import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Map;
 
 /**
- * DTO-参数对象
+ * DataBoss-参数对象
  * Created by cccyb on 2018-04-18
  */
-public class DTOPara implements Serializable {
+public class DataPara implements Serializable {
 
     private Map<String,Object> params = CollectionUtil.newHashMap();
     private Map<String,MultipartFile> files = CollectionUtil.newHashMap();

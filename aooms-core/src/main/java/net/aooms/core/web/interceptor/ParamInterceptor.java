@@ -2,11 +2,10 @@ package net.aooms.core.web.interceptor;
 
 
 import cn.hutool.core.collection.CollectionUtil;
-import net.aooms.core.dto.DTO;
+import net.aooms.core.data.DataBoss;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,13 +36,13 @@ public class ParamInterceptor extends AoomsAbstractInterceptor {
             //CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request.getServletContext());
             StandardMultipartHttpServletRequest multipartHttpServletRequest = (StandardMultipartHttpServletRequest)request;
             Map<String,MultipartFile> multipartFileMap = multipartHttpServletRequest.getFileMap();
-            DTO.me().getPara().setFiles(multipartFileMap);
+            DataBoss.get().getPara().setFiles(multipartFileMap);
         }
 
         // 请求参数
-        DTO.me().getPara().setData(params);
+        DataBoss.get().getPara().setData(params);
         // 路径参数
-        DTO.me().getPara().setPathVars((Map)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
+        DataBoss.get().getPara().setPathVars((Map)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
         return true;
     }
 

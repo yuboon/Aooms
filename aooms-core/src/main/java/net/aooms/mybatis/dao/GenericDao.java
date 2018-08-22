@@ -91,14 +91,21 @@ public interface GenericDao {
      * @return
      * @
      */
-    public <T> T findObject(String str, Object obj) ;
+    public <T> T findObject(String mappedStatementId, SqlPara sqlPara);
+
+    /**
+     * 查找单个对象
+     * @return
+     * @
+     */
+    public <T> T findObjectOrCreate(String mappedStatementId, SqlPara sqlPara) ;
   
     /** 
      * 查找对象集合
      * @return 
      * @
      */
-    public <T> List<T> findList(String str, Object obj);
+    public <T> List<T> findList(String mappedStatementId, SqlPara sqlPara);
 
     /**
      * 查找对象集合

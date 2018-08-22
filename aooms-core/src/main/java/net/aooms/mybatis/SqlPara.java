@@ -2,6 +2,7 @@ package net.aooms.mybatis;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import net.aooms.core.data.DataBoss;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import java.util.Date;
@@ -16,6 +17,12 @@ public class SqlPara {
 
     public static SqlPara NEW(){
         SqlPara sqlPara = new SqlPara();
+        return sqlPara;
+    }
+
+    public static SqlPara fromDataBoss(){
+        SqlPara sqlPara = new SqlPara();
+        sqlPara.setParams(DataBoss.get().getPara().getData());
         return sqlPara;
     }
 

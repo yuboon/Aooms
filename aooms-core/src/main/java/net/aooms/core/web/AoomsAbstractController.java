@@ -1,9 +1,9 @@
 package net.aooms.core.web;
 
 import net.aooms.core.configuration.Vars;
-import net.aooms.core.dto.DTO;
-import net.aooms.core.dto.DTOPara;
-import net.aooms.core.dto.DTORet;
+import net.aooms.core.data.DataBoss;
+import net.aooms.core.data.DataPara;
+import net.aooms.core.data.DataResult;
 import net.aooms.core.util.FileUtils;
 import net.aooms.core.web.render.AbstractRender;
 import net.aooms.core.web.render.RenderException;
@@ -31,16 +31,16 @@ public abstract class AoomsAbstractController {
      * 获取参数
      * @return
      */
-    public DTOPara getPara(){
-        return DTO.me().getPara();
+    public DataPara getPara(){
+        return DataBoss.get().getPara();
     };
 
     /**
      * 获取结果
      * @return
      */
-    public DTORet getRet(){
-        return DTO.me().getRet();
+    public DataResult getRet(){
+        return DataBoss.get().getResult();
     };
 
     /**
