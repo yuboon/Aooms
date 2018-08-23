@@ -76,6 +76,10 @@ public class Record extends LinkedCaseInsensitiveMap {
         return DateUtil.parseDateTime(getString(key));
     }
 
+    public Boolean getBoolean(String key){
+        return Boolean.parseBoolean(getString(key));
+    }
+
     public Record pkIs(String key){
         this.put(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,key);
         return this;

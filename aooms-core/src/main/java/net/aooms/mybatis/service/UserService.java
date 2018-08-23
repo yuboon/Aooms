@@ -2,15 +2,13 @@ package net.aooms.mybatis.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.aooms.core.configuration.Vars;
-import net.aooms.mybatis.SqlPara;
-import net.aooms.mybatis.entity.User;
 import net.aooms.mybatis.dao.GenericDaoSupport;
+import net.aooms.mybatis.entity.User;
 import net.aooms.mybatis.record.Record;
-import net.aooms.mybatis.mapper.UserMapper;
+import net.aooms.mybatis.record.RecordPaging;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,24 +21,12 @@ import java.util.stream.IntStream;
 public class UserService extends GenericService {
 
 	@Autowired
-	private UserMapper userMapper;
-
-	@Autowired
 	private SqlSessionTemplate sessionTemplate;
 
 	@Autowired
 	private GenericDaoSupport genericDaoSupport;
 
-	public boolean deleteAll() {
-		userMapper.deleteAll();
-		return true;
-	}
-
-	public List<User> selectListBySQL() {
-		return userMapper.selectListBySQL();
-	}
-
-	public List<Map<String,Object>> selectMap() {
+	public void selectMap() {
 		User u = new User();
 
 		List<Record> records = Lists.newArrayList();
@@ -58,15 +44,21 @@ public class UserService extends GenericService {
 		record1.set("name","lisi");
 		//genericDaoSupport.delete("user",record1);
 		//genericDaoSupport.batchDelete("user",records,2);
-
+		System.err.println("pathCode = " + getPathString("code"));
 
 		//genericDaoSupport.update("Demo.updateById", fromDataBoss());
+		RecordPaging recordPaging = genericDaoSupport.findList("Demo.selectListBySQL",sqlParaFromDataBoss());
 
-		Record record = genericDaoSupport.findObjectOrCreate("Demo.selectListBySQL",fromDataBoss());
-		System.err.println("Record = " + JSON.toJSONString(record,SerializerFeature.WriteMapNullValue));
+
+		System.err.println("Record = " + JSON.toJSONString(recordPaging,SerializerFeature.WriteMapNullValue));
+
+		//getResult().set(Vars.Result.DATA,recordPaging);
+
+		this.setResultValue("idsd","");
+		super.setResultValue("name","23");
 
 		//List<Record> records2 = genericDaoSupport.findList("Demo.selectListBySQL",fromDataBoss());
-		//System.err.println("RecordList = " + JSON.toJSONString(records2));
+		//System.err.println("RecordPaging = " + JSON.toJSONString(records2));
 
 
 		//genericDaoSupport.update("user",record1);
@@ -88,10 +80,9 @@ public class UserService extends GenericService {
 		maps.put("id",System.currentTimeMillis());
 		maps.put("name","zhangsan");
 
-		return Lists.newArrayList();//userMapper.selectMap(maps);
+
+
+		//return Lists.newArrayList();//userMapper.selectMap(maps);
 	}
 
-	public List<User> selectListByWrapper(Wrapper wrapper) {
-		return userMapper.selectListByWrapper(wrapper);
-	}
 }

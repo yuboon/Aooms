@@ -117,7 +117,7 @@ public class DataPara implements Serializable {
      * @param key
      * @return
      */
-    public String getStr(String key){
+    public String getString(String key){
         Object value = get(key);
         if(value == null){
             return "";
@@ -134,8 +134,8 @@ public class DataPara implements Serializable {
      * @param key
      * @return
      */
-    public String getStrLike(String key){
-        String value = getStr(key);
+    public String getStringLike(String key){
+        String value = getString(key);
         if(StringUtils.isEmpty(value)){
             return "%";
         }
@@ -151,8 +151,8 @@ public class DataPara implements Serializable {
      * @param key
      * @return
      */
-    public String getStrLikeAfter(String key){
-        String value = getStr(key);
+    public String getStringLikeAfter(String key){
+        String value = getString(key);
         if(StringUtils.isEmpty(value)){
             return "%";
         }
@@ -164,8 +164,8 @@ public class DataPara implements Serializable {
      * @param key
      * @return
      */
-    public int getInt(String key){
-        return Integer.valueOf(getStr(key));
+    public int getInteger(String key){
+        return Integer.valueOf(getString(key));
     };
 
     /**
@@ -174,7 +174,7 @@ public class DataPara implements Serializable {
      * @return
      */
     public int getLong(String key){
-        return Integer.valueOf(getStr(key));
+        return Integer.valueOf(getString(key));
     };
 
 

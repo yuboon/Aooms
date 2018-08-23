@@ -1,30 +1,107 @@
 package net.aooms.mybatis.service;
 
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import net.aooms.core.configuration.Vars;
+import net.aooms.core.data.DataBoss;
+import net.aooms.core.data.DataPara;
+import net.aooms.core.data.DataResult;
 import net.aooms.mybatis.SqlPara;
-import net.aooms.mybatis.dao.GenericDaoSupport;
-import net.aooms.mybatis.entity.User;
-import net.aooms.mybatis.mapper.UserMapper;
-import net.aooms.mybatis.record.Record;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
-@Service
 public class GenericService {
+
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * 以DataBoss.DataPara为参数创建SqlPara对象
 	 * @return
 	 */
-	public SqlPara fromDataBoss() {
+	public SqlPara sqlParaFromDataBoss() {
 		return SqlPara.fromDataBoss();
+	}
+
+	/**
+	 * 获取参数
+	 * @return
+	 */
+	public DataPara getPara() {
+		return DataBoss.get().getPara();
+	}
+
+	/**
+	 * 获取响应
+	 * @return
+	 */
+	public DataResult getResult(){
+		return DataBoss.get().getResult();
+	}
+
+
+	/**
+	 * 获取参数
+	 * @return
+	 */
+	public String getParaString(String key) {
+		return getPara().getString(key);
+	}
+
+	/**
+	 * 获取参数
+	 * @return
+	 */
+	public Integer getParaInteger(String key) {
+		return getPara().getInteger(key);
+	}
+
+	/**
+	 * 获取参数
+	 * @return
+	 */
+	public String getPathString(String key) {
+		return getPara().getPathVar(key);
+	}
+
+	/**
+	 * 获取参数
+	 * @return
+	 */
+	public Integer getPathInteger(String key) {
+		return getPara().getPathVar(key);
+	}
+
+	/**
+	 * 获取参数
+	 * @return
+	 */
+	public MultipartFile getParaFile(String uploadName) {
+		return getPara().getFile(uploadName);
+	}
+
+	/**
+	 * 获取参数
+	 * @return
+	 */
+	public InputStream getParaInputStream(String uploadName) {
+		return getPara().getFileInputStream(uploadName);
+	}
+
+	/**
+	 * 获取参数
+	 * @ret*/
+	public Map<String,MultipartFile> getParaFiles() {
+		return getPara().getFiles();
+	}
+
+	/**
+	 * 设置响应值
+	 * @return
+	 */
+	public DataResult setResultValue(String key,Object value){
+		return getResult().set(key,value);
 	}
 }

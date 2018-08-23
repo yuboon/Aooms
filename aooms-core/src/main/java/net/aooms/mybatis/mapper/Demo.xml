@@ -2,9 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Demo">
 
+    <sql id="columns">
+         id,name, ${code} code
+    </sql>
 
     <select id="selectListBySQL" resultType="net.aooms.mybatis.record.Record">
-        SELECT * FROM USER
+        SELECT <include refid="columns" /> FROM USER
     </select>
 
     <select id="updateById" resultType="int">

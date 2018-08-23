@@ -3,6 +3,7 @@ package net.aooms.mybatis.dao;
 import net.aooms.mybatis.SqlPara;
 import net.aooms.mybatis.record.Record;
 import net.aooms.mybatis.record.RecordDelete;
+import net.aooms.mybatis.record.RecordPaging;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.io.Serializable;
@@ -105,13 +106,7 @@ public interface GenericDao {
      * @return 
      * @
      */
-    public <T> List<T> findList(String mappedStatementId, SqlPara sqlPara);
+    public RecordPaging findList(String mappedStatementId, SqlPara sqlPara);
 
-    /**
-     * 查找对象集合
-     * @return
-     * @
-     */
-    public <T> List<T> findListPage(String str, Object obj);
       
 }

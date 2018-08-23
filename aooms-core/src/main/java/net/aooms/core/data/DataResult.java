@@ -2,8 +2,14 @@ package net.aooms.core.data;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
+import net.aooms.core.configuration.Vars;
+import net.aooms.core.util.AoomsLogUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,10 +18,10 @@ import java.util.Map;
  */
 public class DataResult implements Serializable {
 
-    // result status key
-    private static final String STATUS_KEY = "_RS";
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Map<String,Object> results = CollectionUtil.newHashMap();
+    private List<String> caller = Lists.newArrayList();
 
     public DataResult() {
 
@@ -31,9 +37,27 @@ public class DataResult implements Serializable {
      * @return
      */
     public DataResult set(String key, Object value){
+        if(logger.isInfoEnabled()){
+            StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+            String className = elements[3].getClassName();
+            String methodName = elements[3].getMethodName();
+            long lineNumber = elements[3].getLineNumber();
+
+            caller.add(className + "." + methodName + " (line:" + lineNumber + ")");
+        }
         results.put(key,value);
         return this;
     }
+
+    public void printCaller(){
+        System.out.println(AoomsLogUtils.logFormat("DataResult.set Total Called " + caller.size() + " Times"));
+        int index = 0;
+        for(String call : caller){
+            System.out.println(AoomsLogUtils.logFormat((++index) + " : " + call));
+        }
+    }
+
+
 
     /**
      * 转换JSON字符串
@@ -57,21 +81,21 @@ public class DataResult implements Serializable {
      * @param msg
      */
     public void logicFailure(int code, String msg){
-        results.put(STATUS_KEY ,new Status(code, msg));
+        results.put(Vars.Result.META ,new Status(code, msg));
     }
 
     /**
      * 设置成功
      */
     public void success(){
-        results.put(STATUS_KEY ,new Status("success",true));
+        results.put(Vars.Result.META ,new Status("success",true));
     }
 
     /**
      * 设置成功
      */
     public void success(String msg){
-        results.put(STATUS_KEY ,new Status(msg,true));
+        results.put(Vars.Result.META ,new Status(msg,true));
     }
 
     /**
@@ -81,7 +105,7 @@ public class DataResult implements Serializable {
         results.clear(); // 失败时清理数据
         Status status = new Status("",false);
         status.setError("Aooms error");
-        results.put(STATUS_KEY ,status);
+        results.put(Vars.Result.META ,status);
     }
 
     /**
@@ -91,14 +115,14 @@ public class DataResult implements Serializable {
         results.clear(); // 失败时清理数据
         Status status = new Status("",false);
         status.setError(error);
-        results.put(STATUS_KEY ,status);
+        results.put(Vars.Result.META ,status);
     }
 
     /**
      * 获取结果状态
      */
     public Status getStatus(){
-       return (Status) results.get(STATUS_KEY);
+       return (Status) results.get(Vars.Result.META);
     }
 
     /**

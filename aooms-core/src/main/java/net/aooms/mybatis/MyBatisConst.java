@@ -1,7 +1,5 @@
 package net.aooms.mybatis;
 
-import com.jfinal.core.Const;
-
 /**
  *
  */
@@ -15,6 +13,9 @@ public interface MyBatisConst {
 
     String TABLE_NAME_PLACEHOLDER = "_table_name_";
     String TABLE_PK_NAME_PLACEHOLDER = "_table_pk_name_";
+    String CRUD_QUERY_COUNT_PLACEHOLDER = "_crud_query_count_";
+    String CRUD_QUERY_PAGING_PLACEHOLDER = "_crud_query_paging_";
+
 
 
 }

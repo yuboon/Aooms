@@ -1,11 +1,15 @@
 package net.aooms.mybatis.dao;
 
 import cn.hutool.core.lang.Assert;
+import com.google.common.collect.Lists;
 import net.aooms.mybatis.MyBatisConst;
 import net.aooms.mybatis.SqlPara;
 import net.aooms.mybatis.record.Record;
+import net.aooms.mybatis.record.RecordPaging;
+import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -114,7 +118,6 @@ public class GenericDaoSupport implements GenericDao {
         return batchExecute(tableName,MyBatisConst.MS_RECORD_DELETE,records,batchSize);
     }
 
-
     /**
      * 保存对象
      * @return
@@ -141,16 +144,26 @@ public class GenericDaoSupport implements GenericDao {
     }
 
     @Override
-    public List<Record> findList(String mappedStatementId, SqlPara sqlPara) {
-        List<Record> records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams());
-        return records;
+    public RecordPaging findList(String mappedStatementId, SqlPara sqlPara) {
+        RecordPaging recordPaging = null;
+        List<Record> records = Lists.newArrayList();
+        if(sqlPara.isPaging()){
+            sqlPara.set(MyBatisConst.CRUD_QUERY_COUNT_PLACEHOLDER,true);
+            Record totalRecord = sqlSessionTemplate.selectOne(mappedStatementId,sqlPara.getParams());
+            int total = totalRecord.getInteger("count");
+            if(total > 0){
+                sqlPara.removeInternalKey();
+                sqlPara.set(MyBatisConst.CRUD_QUERY_PAGING_PLACEHOLDER,true);
+                records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams(),new RowBounds(sqlPara.getPage(),sqlPara.getLimit()));
+                sqlPara.removeInternalKey();
+            }
+            recordPaging = new RecordPaging(sqlPara.getPage(),sqlPara.getLimit(),records,total,sqlPara.isPaging());
+        }else{
+            records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams());
+            recordPaging = new RecordPaging(sqlPara.getPage(),sqlPara.getLimit(),records,records.size(),sqlPara.isPaging());
+        }
+        return recordPaging;
     }
-
-    @Override
-    public <T> List<T> findListPage(String str, Object obj) {
-        return null;
-    }
-
 
     /**
      * 批量执行

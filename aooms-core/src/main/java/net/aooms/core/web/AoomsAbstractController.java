@@ -11,6 +11,7 @@ import net.aooms.core.web.render.RenderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -39,16 +40,79 @@ public abstract class AoomsAbstractController {
      * 获取结果
      * @return
      */
-    public DataResult getRet(){
+    public DataResult getResult(){
         return DataBoss.get().getResult();
     };
+
+    /**
+     * 获取参数
+     * @return
+     */
+    public String getParaString(String key) {
+        return getPara().getString(key);
+    }
+
+    /**
+     * 获取参数
+     * @return
+     */
+    public Integer getParaInteger(String key) {
+        return getPara().getInteger(key);
+    }
+
+    /**
+     * 获取参数
+     * @return
+     */
+    public String getPathString(String key) {
+        return getPara().getPathVar(key);
+    }
+
+    /**
+     * 获取参数
+     * @return
+     */
+    public Integer getPathInteger(String key) {
+        return getPara().getPathVar(key);
+    }
+
+    /**
+     * 获取参数
+     * @return
+     */
+    public MultipartFile getParaFile(String uploadName) {
+        return getPara().getFile(uploadName);
+    }
+
+    /**
+     * 获取参数
+     * @return
+     */
+    public InputStream getParaInputStream(String uploadName) {
+        return getPara().getFileInputStream(uploadName);
+    }
+
+    /**
+     * 获取参数
+     * @ret*/
+    public Map<String,MultipartFile> getParaFiles() {
+        return getPara().getFiles();
+    }
+
+    /**
+     * 设置响应值
+     * @return
+     */
+    public DataResult setResultValue(String key,Object value){
+        return getResult().set(key,value);
+    }
 
     /**
      * 响应结果
      * @return
      */
     public void renderJson(){
-        this.renderJson(getRet().getData());
+        this.renderJson(getResult().getData());
     };
 
     /**

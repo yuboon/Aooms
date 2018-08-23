@@ -2,10 +2,16 @@ package net.aooms.mybatis;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.NumberUtil;
 import net.aooms.core.data.DataBoss;
+import net.aooms.core.util.AoomsLogUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,7 +19,24 @@ import java.util.Map;
  */
 public class SqlPara {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+    // 内置key
+    private static List<String> InternalKey = Arrays.asList(
+            MyBatisConst.CRUD_QUERY_COUNT_PLACEHOLDER,
+            MyBatisConst.CRUD_QUERY_PAGING_PLACEHOLDER
+    );
+
     private LinkedCaseInsensitiveMap paramMaps = new LinkedCaseInsensitiveMap();
+
+    private boolean isPaging;
+
+    private int page,limit;
+
+    // 数据量统计标记
+    public static class Count{
+
+    }
 
     public static SqlPara NEW(){
         SqlPara sqlPara = new SqlPara();
@@ -22,13 +45,14 @@ public class SqlPara {
 
     public static SqlPara fromDataBoss(){
         SqlPara sqlPara = new SqlPara();
-        sqlPara.setParams(DataBoss.get().getPara().getData());
+        sqlPara.addParams(DataBoss.get().getPara().getData());
+        sqlPara.addParams(DataBoss.get().getPara().getPathVars());
         return sqlPara;
     }
 
     public static SqlPara NEW(Map<String,Object> params){
         SqlPara sqlPara = new SqlPara();
-        sqlPara.setParams(params);
+        sqlPara.addParams(params);
         return sqlPara;
     }
 
@@ -37,9 +61,53 @@ public class SqlPara {
         return this;
     }
 
-    public SqlPara setParams(Map<String,Object> params){
+    /**
+     * 分页
+     * @param page
+     * @param limit
+     * @return
+     */
+    public SqlPara paging(int page,int limit){
+        if(page > 0 && limit > 0){
+            isPaging = true;
+            this.page = page;
+            this.limit = limit;
+        }
+        return this;
+    }
+
+    public boolean isPaging(){
+        return isPaging;
+    }
+
+    public SqlPara addParams(Map<String,Object> params){
         paramMaps.putAll(params);
         return this;
+    }
+
+    /**
+     * 移除所有内置属性
+     */
+    public void removeInternalKey(){
+        InternalKey.forEach(key -> {
+            paramMaps.remove(key);
+        });
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
     public Object get(String key){
@@ -76,6 +144,10 @@ public class SqlPara {
 
     public DateTime getDateTime(String key){
         return DateUtil.parseDateTime(getString(key));
+    }
+
+    public Boolean getBoolean(String key){
+        return Boolean.parseBoolean(getString(key));
     }
 
 }

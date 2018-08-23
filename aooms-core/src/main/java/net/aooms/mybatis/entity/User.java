@@ -1,10 +1,5 @@
 package net.aooms.mybatis.entity;
 
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableLogic;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.FieldFill;
 import net.aooms.mybatis.record.Record;
 
 import java.util.Date;
@@ -12,10 +7,8 @@ import java.util.Date;
 /**
  * 用户表
  */
-@TableName("user")
 public class User extends Record{
 
-    @TableId
     private long id;
 
     /**
@@ -26,14 +19,12 @@ public class User extends Record{
     /**
      * 这里故意演示注解可无
      */
-    @TableField("testType")
-    @TableLogic
+
     private Integer testType;
 
     /**
      * 测试插入填充
      */
-    @TableField(fill = FieldFill.INSERT,value="testDate")
     private Date testDate;
 
     private Long role;

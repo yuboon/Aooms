@@ -1,5 +1,7 @@
 package net.aooms.mybatis;
 
+import cn.hutool.db.dialect.Dialect;
+import net.aooms.mybatis.interceptor.PagingInterceptor;
 import net.aooms.mybatis.interceptor.RecordInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
@@ -18,6 +20,11 @@ public class MyBatisConfiguration {
     @Bean
     public Interceptor recordInterceptor(){
         return new RecordInterceptor();
+    }
+
+    @Bean
+    public Interceptor pagingInterceptor(){
+        return new PagingInterceptor();
     }
 
 
@@ -55,7 +62,6 @@ public class MyBatisConfiguration {
                 MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, MyBatisConst.MS_RECORD_INSERT, sqlSource, SqlCommandType.INSERT);
                 configuration.addMappedStatement(statementBuilder.build());
                 */
-
                 // 设置map属性空值时仍返回数据
                 configuration.setCallSettersOnNulls(true);
 
@@ -63,7 +69,6 @@ public class MyBatisConfiguration {
                 configuration.addMappedStatement(recordMappedStatmentFactory.getRecordInsertMappedStatment());
                 configuration.addMappedStatement(recordMappedStatmentFactory.getRecordUpdateMappedStatment());
                 configuration.addMappedStatement(recordMappedStatmentFactory.getRecordDeleteMappedStatment());
-
 
             }
         };

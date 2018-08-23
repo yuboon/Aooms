@@ -46,14 +46,19 @@ public class DemoController extends AoomsAbstractController {
     public void hello(){
         logger.info("NAME = {}" ,testProperty.getName());
 
-        logger.info("ID = {}" ,this.getPara().getStr("id"));
+        logger.info("ID = {}" ,this.getParaString("id"));
         String s = this.getPara().getPathVar("code");
         logger.info("CODE2 = {}" , s);
-        this.getRet()
+       /* this.setResultValue("ids","23123")
                 .set("name","张三")
                 .set("id","1235")
                 .set("datetime", DateUtil.now())
-                .set("datet", DateUtil.formatDate(new Date()));
+                .set("datet", DateUtil.formatDate(new Date()));*/
+
+        userService.selectMap();
+        this.setResultValue("idsd2","");
+
+        getResult().printCaller();
 
         this.renderJson();
     };
@@ -66,8 +71,8 @@ public class DemoController extends AoomsAbstractController {
     @ClearInterceptor({DemoInterceptor.class})
     public ModelAndView hello2(){
         logger.info("NAME = {}" ,testProperty.getName());
-        this.getRet().set("name","byHello2");
-        return new ModelAndView("/demo.html",this.getRet().getData());
+        this.getResult().set("name","byHello2");
+        return new ModelAndView("/demo.html",this.getResult().getData());
     };
 
     /**
@@ -76,7 +81,7 @@ public class DemoController extends AoomsAbstractController {
      */
     @PostMapping("/upload")
     public void upload(){
-        logger.info("ID = {}" ,this.getPara().getStr("id"));
+        logger.info("ID = {}" ,this.getPara().getString("id"));
         logger.info("SIZE = {}" ,this.getPara().getFiles().size());
         logger.info("FILENAME FROM NAME= {}" ,this.getPara().getFile("my"));
         System.err.println(this.getPara().getFileInputStream("my"));
@@ -90,7 +95,7 @@ public class DemoController extends AoomsAbstractController {
     @GetMapping("/down")
     public void down(){
         logger.info("NAME = {}" ,testProperty.getName());
-        this.getRet().set("name","byHello2");
+        this.getResult().set("name","byHello2");
         this.renderFile("中文.txt",new File("F:/1.txt"));
     };
 
@@ -139,8 +144,6 @@ public class DemoController extends AoomsAbstractController {
         System.err.println("email:" + testProperty.getName());
 
        // System.err.println(JSON.toJSONString(recordMapper.insert(new Record())));
-
-        List<Map<String,Object>> map = userService.selectMap();
 
         //System.err.println(JSON.toJSONString(map));
         Map<String,Object> values = Maps.newHashMap();
