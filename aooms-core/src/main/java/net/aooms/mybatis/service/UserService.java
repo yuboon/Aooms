@@ -47,7 +47,7 @@ public class UserService extends GenericService {
 		System.err.println("pathCode = " + getPathString("code"));
 
 		//genericDaoSupport.update("Demo.updateById", fromDataBoss());
-		RecordPaging recordPaging = genericDaoSupport.findList("Demo.selectListBySQL",sqlParaFromDataBoss());
+		RecordPaging recordPaging = genericDaoSupport.findList("Demo.selectListBySQL",sqlParaPagingFromDataBoss());
 
 
 		System.err.println("Record = " + JSON.toJSONString(recordPaging,SerializerFeature.WriteMapNullValue));

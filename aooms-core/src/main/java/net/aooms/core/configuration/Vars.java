@@ -10,6 +10,13 @@ public interface Vars {
     public static final String ID = "id";
 
 
+    public static interface Para{
+
+        public static final String PAGE = "page";
+        public static final String LIMIT = "limit";
+
+    }
+
     public static interface Result{
 
         public static final String META = "$";

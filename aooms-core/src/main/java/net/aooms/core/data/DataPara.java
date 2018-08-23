@@ -1,6 +1,7 @@
 package net.aooms.core.data;
 
 import cn.hutool.core.collection.CollectionUtil;
+import net.aooms.core.configuration.Vars;
 import net.aooms.core.exception.AoomsException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -177,7 +178,24 @@ public class DataPara implements Serializable {
         return Integer.valueOf(getString(key));
     };
 
+    /**
+     * 获取当前页数
+     * @return
+     */
+    public int getPage(){
+        String page = getString(Vars.Para.PAGE);
+        if(StringUtils.isEmpty(page)) return 0;
+        return Integer.valueOf(page);
+    };
 
-
+    /**
+     * 获取每页数据量
+     * @return
+     */
+    public int getLimit(){
+        String limit = getString(Vars.Para.LIMIT);
+        if(StringUtils.isEmpty(limit)) return 0;
+        return Integer.valueOf(limit);
+    };
 
 }

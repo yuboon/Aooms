@@ -26,6 +26,14 @@ public class GenericService {
 	}
 
 	/**
+	 * 以DataBoss.DataPara为参数创建SqlPara分页对象
+	 * @return
+	 */
+	public SqlPara sqlParaPagingFromDataBoss() {
+		return SqlPara.fromDataBoss().paging(getPara().getPage(),getPara().getLimit());
+	}
+
+	/**
 	 * 获取参数
 	 * @return
 	 */
