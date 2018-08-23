@@ -58,8 +58,6 @@ public class DemoController extends AoomsAbstractController {
         userService.selectMap();
         this.setResultValue("idsd2","");
 
-        getResult().printCaller();
-
         this.renderJson();
     };
 
