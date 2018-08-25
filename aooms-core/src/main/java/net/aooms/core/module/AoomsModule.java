@@ -1,5 +1,6 @@
 package net.aooms.core.module;
 
+import net.aooms.core.module.mybatis.dao.GenericDao;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 

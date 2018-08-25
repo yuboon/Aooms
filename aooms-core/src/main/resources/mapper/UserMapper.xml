@@ -11,7 +11,7 @@
         DELETE FROM USER
     </delete>
 
-    <select id="selectListByWrapper" resultType="net.aooms.mybatis.entity.User">
+    <select id="selectListByWrapper" resultType="net.aooms.core.module.mybatis.entity.User">
         SELECT * FROM USER
         <!-- 判断 wrapper 是否为空 emptyOfWhere -->
         <where>

@@ -55,7 +55,7 @@ eureka:
 
 mybatis:
   mapper-locations: classpath:**/mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
-  type-aliases-package: net.aooms.mybatis.entity
+  type-aliases-package: net.aooms.core.module.mybatis.entity
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
