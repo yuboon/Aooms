@@ -64,6 +64,7 @@ public class DemoController extends AoomsAbstractController {
             Object cacheValue = cacheObject.getValue();
             System.err.println("cacheValue:" + cacheValue);
             setResultValue("cacheValue",cacheValue);
+            cacheChannel.set("testRegion2","name","23");
             setResultValue("isNew",false);
         }else{
             cacheChannel.set("testRegion2","name","23");
