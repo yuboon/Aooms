@@ -28,8 +28,6 @@ import java.util.Map;
 @RestController
 public class DemoController extends AoomsAbstractController {
 
-    private static Logger logger = LoggerFactory.getLogger(DemoController.class);
-
     @Autowired
     private TestProperty testProperty;
 

@@ -26,7 +26,7 @@ import java.util.Map;
 @RestController
 public abstract class AoomsAbstractController {
 
-    private static Logger logger = LoggerFactory.getLogger(AoomsAbstractController.class);
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 获取参数

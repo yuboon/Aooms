@@ -181,6 +181,18 @@
             <version>5.1.44</version>
         </dependency>
 
+        <!-- 权限校验 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>kisso</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
+        </dependency>
 
         <!--spring相关包
         <dependency>
