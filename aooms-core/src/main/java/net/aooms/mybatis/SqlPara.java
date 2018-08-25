@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public class SqlPara {
 
+    public static SqlPara SINGLETON = new SqlPara();
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 内置key

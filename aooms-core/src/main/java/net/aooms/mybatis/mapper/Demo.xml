@@ -3,7 +3,7 @@
 <mapper namespace="Demo">
 
     <sql id="columns">
-         id,name, ${code} code
+         id,name, 1 code
     </sql>
 
     <select id="selectListBySQL" resultType="net.aooms.mybatis.record.Record">

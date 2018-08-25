@@ -1,6 +1,7 @@
 package net.aooms.core;
 
 import com.baomidou.kisso.SSOConfig;
+import net.aooms.core.module.AoomsModule;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.client.SimpleRestTemplate;
 import net.aooms.core.web.interceptor.*;
@@ -39,6 +40,13 @@ public class AoomsConfiguration implements IConfiguration {
         PropertyObject propertyObject = new PropertyObject();
         propertyObject.instance(propertyObject);
         return propertyObject;
+    }
+
+    @Bean
+    public AoomsModule aoomsModule(){
+        AoomsModule aoomsModule = new AoomsModule();
+        aoomsModule.instance(aoomsModule);
+        return aoomsModule;
     }
 
     /**

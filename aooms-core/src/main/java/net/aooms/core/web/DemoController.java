@@ -4,16 +4,16 @@ import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.common.IpHelper;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.google.common.collect.Maps;
+import net.aooms.core.module.AoomsModule;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.property.TestProperty;
 import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
+import net.aooms.mybatis.SqlPara;
+import net.aooms.mybatis.dao.GenericDao;
 import net.aooms.mybatis.service.UserService;
-import net.oschina.j2cache.CacheChannel;
-import net.oschina.j2cache.CacheObject;
-import net.oschina.j2cache.J2CacheBuilder;
-import net.oschina.j2cache.J2CacheConfig;
+import net.oschina.j2cache.*;
 import net.oschina.j2cache.caffeine.CaffeineCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +59,10 @@ public class DemoController extends AoomsAbstractController {
         SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.create().setIp(getRequest()).setId("放用户ID").setIssuer("kisso"), false);
         //SSOHelper.clearLogin(getRequest(), getResponse());
 
+        GenericDao genericDao = AoomsModule.getInstance().getGenericDao();
+        genericDao.findObject("Demo.selectListBySQL",SqlPara.SINGLETON);
+
+        CacheChannel cacheChannel = AoomsModule.getInstance().getJ2Cache();
         CacheObject cacheObject = cacheChannel.get("testRegion2","name");
         if(cacheObject.getValue() != null){
             Object cacheValue = cacheObject.getValue();
