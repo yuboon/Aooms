@@ -1,7 +1,7 @@
 package net.aooms.core.web.render;
 
 import net.aooms.core.exception.AoomsExceptions;
-import net.aooms.core.web.AoomsContextHolder;
+import net.aooms.core.web.AoomsContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -44,10 +44,10 @@ public abstract class AbstractRender {
         try{
             // modelAndViewContainer init
             ModelAndViewContainer modelAndViewContainer = new ModelAndViewContainer();
-            ServletWebRequest webRequest = new ServletWebRequest(AoomsContextHolder.getRequest(), AoomsContextHolder.getResponse());
+            ServletWebRequest webRequest = new ServletWebRequest(AoomsContext.getRequest(), AoomsContext.getResponse());
 
             // get ApplicationContext
-            ApplicationContext ac1 = WebApplicationContextUtils.getRequiredWebApplicationContext(AoomsContextHolder.getServletContext());
+            ApplicationContext ac1 = WebApplicationContextUtils.getRequiredWebApplicationContext(AoomsContext.getServletContext());
 
             // get RequestMappingHandlerAdapter Bean
             RequestMappingHandlerAdapter requestMappingHandlerAdapter = (RequestMappingHandlerAdapter)ac1.getBean("requestMappingHandlerAdapter");
@@ -57,7 +57,7 @@ public abstract class AbstractRender {
             handlerMethodReturnValueHandlerComposite.addHandlers(requestMappingHandlerAdapter.getReturnValueHandlers());
 
             // render
-            HandlerMethod method = AoomsContextHolder.getMethodHandler();
+            HandlerMethod method = AoomsContext.getMethodHandler();
             handlerMethodReturnValueHandlerComposite.handleReturnValue(returnValue, method.getReturnType(), modelAndViewContainer, webRequest);
 
         } catch (Exception ex){

@@ -2,10 +2,14 @@ package net.aooms.core.web;
 
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.kisso.SSOHelper;
+import com.baomidou.kisso.security.token.SSOToken;
+import com.baomidou.kisso.service.ConfigurableAbstractKissoService;
 import com.google.common.collect.Maps;
 import net.aooms.core.annotation.ClearInterceptor;
 import net.aooms.core.property.TestProperty;
 import net.aooms.core.web.interceptor.DemoInterceptor;
+import net.aooms.core.web.interceptor.KissoLoginInterceptor;
 import net.aooms.mybatis.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +38,50 @@ public class DemoController extends AoomsAbstractController {
 
     @Autowired
     private UserService userService;
+
+    /**
+     * 登陆
+     * @return
+     */
+    @RequestMapping("/login")
+    @ClearInterceptor({KissoLoginInterceptor.class})
+    public void login(){
+
+        // 设置登录 COOKIE
+        SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.create().setIp(getRequest()).setId(1000).setIssuer("kisso"), false);
+        //SSOHelper.clearLogin(getRequest(), getResponse());
+
+
+        this.renderJson();
+    };
+
+    /**
+     * 登陆
+     * @return
+     */
+    @RequestMapping("/logout")
+    public void logout(){
+        SSOHelper.clearLogin(getRequest(), getResponse());
+        this.renderJson();
+    }
+
+    /**
+     * 首页
+     * @return
+     */
+    @RequestMapping("/index")
+    public void index(){
+
+        String msg = "暂未登录";
+        SSOToken ssoToken = SSOHelper.attrToken(getRequest());
+        if (null != ssoToken) {
+            msg = "登录信息 ip=" + ssoToken.getIp();
+            msg += "， id=" + ssoToken.getId();
+            msg += "， issuer=" + ssoToken.getIssuer();
+        }
+
+        this.renderText(msg);
+    };
 
     /**
      * 获取参数
@@ -136,6 +184,7 @@ public class DemoController extends AoomsAbstractController {
      * @return
      */
     @GetMapping("/page")
+    @ClearInterceptor(KissoLoginInterceptor.class)
     public void page(){
         System.err.println("email:" + testProperty.getName());
 

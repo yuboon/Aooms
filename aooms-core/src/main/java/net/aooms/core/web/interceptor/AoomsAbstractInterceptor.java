@@ -1,5 +1,8 @@
 package net.aooms.core.web.interceptor;
 
+import cn.hutool.core.util.ArrayUtil;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import net.aooms.core.annotation.ClearInterceptor;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -7,6 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 抽象拦截器
@@ -47,7 +53,13 @@ public abstract class AoomsAbstractInterceptor {
         if(handler instanceof HandlerMethod){
             return ((HandlerMethod)handler).getMethod();
         }
+        return null;
+    }
 
+    public Class<?> getClass(Object handler){
+        if(handler instanceof HandlerMethod){
+            return ((HandlerMethod)handler).getBeanType();
+        }
         return null;
     }
 
@@ -57,18 +69,29 @@ public abstract class AoomsAbstractInterceptor {
      * @return
      */
     public boolean isDisabled(Object handler){
+        Class<?> clazz = getClass(handler);
+        if(clazz == null) return false;
+
         Method method = getMethod(handler);
         if(method == null) return  false;
 
+        ClearInterceptor classClearInterceptor = clazz.getAnnotation(ClearInterceptor.class);
         ClearInterceptor clearInterceptor = method.getAnnotation(ClearInterceptor.class);
-        if(clearInterceptor == null){
+        if(clearInterceptor == null && classClearInterceptor == null){
             return false;
         }
 
-        Class<? extends AoomsAbstractInterceptor>[] interceptors = clearInterceptor.value();
-        int len = interceptors.length;
-        for (int i = 0 ; i < len; i++){
-            if(this.getClass() == interceptors[i]){
+        Set<Class<? extends AoomsAbstractInterceptor>> interceptors = Sets.newHashSet();
+        if(classClearInterceptor != null && classClearInterceptor.value() != null){
+            interceptors.addAll(Arrays.asList(classClearInterceptor.value()));
+        }
+
+        if(clearInterceptor != null && clearInterceptor.value() != null){
+            interceptors.addAll(Arrays.asList(clearInterceptor.value()));
+        }
+
+        for (Class<? extends  AoomsAbstractInterceptor> interceptor : interceptors){
+            if(this.getClass() == interceptor){
                 return true;
             }
         }
@@ -89,9 +112,9 @@ public abstract class AoomsAbstractInterceptor {
      * 执行
      * @return
      */
-    public boolean invokeBefore(HttpServletRequest request, HttpServletResponse response, Object handler){return true;};
-    public void invokeAfter(HttpServletRequest request, HttpServletResponse response, Object handler ,ModelAndView modelAndView){};
-    public void invokeFinal(HttpServletRequest request, HttpServletResponse response, Object handler ,Exception ex){};
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){return true;};
+    public void handle(HttpServletRequest request, HttpServletResponse response, Object handler ,ModelAndView modelAndView){};
+    public void finalHandle(HttpServletRequest request, HttpServletResponse response, Object handler ,Exception ex){};
 
 
 }

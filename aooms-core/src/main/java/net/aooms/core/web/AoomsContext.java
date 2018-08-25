@@ -11,16 +11,16 @@ import java.util.Objects;
  * Servlet上下文持有对象
  * Created by cccyb on 2018-04-20
  */
-public class AoomsContextHolder {
+public class AoomsContext {
 
-    private static ThreadLocal<AoomsContext> servletContextThreadLocal = new ThreadLocal<>();
+    private static ThreadLocal<Context> contextThreadLocal = new ThreadLocal<>();
 
     public static HttpServletRequest getRequest(){
-        return servletContextThreadLocal.get().getRequest();
+        return contextThreadLocal.get().getRequest();
     }
 
     public static HttpServletResponse getResponse(){
-        return servletContextThreadLocal.get().getResponse();
+        return contextThreadLocal.get().getResponse();
     }
 
     public static ServletContext getServletContext(){
@@ -28,30 +28,30 @@ public class AoomsContextHolder {
     }
 
     public static HandlerMethod getMethodHandler(){
-        return servletContextThreadLocal.get().getHandlerMethod();
+        return contextThreadLocal.get().getHandlerMethod();
     }
 
-    public static void init(AoomsContext servletContext){
-        servletContextThreadLocal.set(servletContext);
+    public static void init(Context context){
+        contextThreadLocal.set(context);
     }
 
     public static void remove(){
-        servletContextThreadLocal.remove();
+        contextThreadLocal.remove();
     }
 
-    public static AoomsContext get(){
-        AoomsContext servletContext = servletContextThreadLocal.get();
-        Objects.requireNonNull(servletContext,"The AoomsContextHolder object is not initialized.");
-        return servletContext;
+    public static Context get(){
+        Context context = contextThreadLocal.get();
+        Objects.requireNonNull(context,"The AoomsContext object is not initialized.");
+        return context;
     }
 
-    public static class AoomsContext{
+    public static class Context{
 
         HttpServletRequest request;
         HttpServletResponse response;
         HandlerMethod handlerMethod;
 
-        public AoomsContext(HttpServletRequest request, HttpServletResponse response,Object method) {
+        public Context(HttpServletRequest request, HttpServletResponse response,Object method) {
             this.request = request;
             this.response = response;
             if(method instanceof  HandlerMethod){

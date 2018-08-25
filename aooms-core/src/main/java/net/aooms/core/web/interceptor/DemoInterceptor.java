@@ -15,7 +15,7 @@ public class DemoInterceptor extends AoomsAbstractInterceptor {
     }
 
     @Override
-    public boolean invokeBefore(HttpServletRequest request, HttpServletResponse response, Object handler){
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
         System.err.println("DemoInterceptor.getRequestURL:" + request.getRequestURL());
 
         return true;

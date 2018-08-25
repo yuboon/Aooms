@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
@@ -269,6 +272,15 @@ public abstract class AoomsAbstractController {
         }
     }
 
+    // Forward
+    public void forward(String url){
+        try {
+            getRequest().getRequestDispatcher(url).forward(this.getRequest(),this.getResponse());
+        } catch (ServletException | IOException e) {
+            throw new RenderException(e.getMessage(),e);
+        }
+    }
+
     // Redirect
     public void redirect(String url){
         try {
@@ -279,15 +291,24 @@ public abstract class AoomsAbstractController {
     }
 
     // 获取response
-    private HttpServletResponse getResponse(){
-        HttpServletResponse response = AoomsContextHolder.getResponse();
+    public HttpServletResponse getResponse(){
+        HttpServletResponse response = AoomsContext.getResponse();
         response.setCharacterEncoding(Vars.ENCODE);
         return response;
     }
 
+    /**
+     * 获取request
+     * @return
+     */
+    public HttpServletRequest getRequest(){
+        return AoomsContext.getRequest();
+    };
+
+
     // 文件名称编码
     protected  String encodeFileName(String fileName){
-        String userAgent = AoomsContextHolder.getRequest().getHeader("User-Agent");
+        String userAgent = AoomsContext.getRequest().getHeader("User-Agent");
         try {
             /* IE 8 至 IE 10 */  /* IE 11 */
             if (userAgent.toUpperCase().contains("MSIE") || userAgent.contains("Trident/7.0")) {

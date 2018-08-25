@@ -23,7 +23,7 @@ public class ParamInterceptor extends AoomsAbstractInterceptor {
     }
 
     @Override
-    public boolean invokeBefore(HttpServletRequest request, HttpServletResponse response, Object handler){
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
         Map<String,String[]> paramMaps = request.getParameterMap();
         Map<String,Object> params = CollectionUtil.newHashMap();
         paramMaps.forEach((k,v) -> {

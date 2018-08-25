@@ -1,5 +1,6 @@
 package net.aooms.core.configuration;
 
+import cn.hutool.core.util.ArrayUtil;
 import net.aooms.core.web.client.SimpleRestTemplate;
 import net.aooms.core.web.interceptor.*;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -48,15 +49,15 @@ public class AoomsConfiguration implements IConfiguration {
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
                 // 拦截器注册代理类
-                InterceptorRegistryProxy registryProxy = new InterceptorRegistryProxy(registry);
+                AoomsInterceptorRegistryProxy registryProxy = new AoomsInterceptorRegistryProxy(registry);
                 String[] pathPatterns = registryProxy.getPathPatterns();
                 String[] ignores = registryProxy.getIgnores();
 
-                registryProxy.addInterceptor(new DemoInterceptor(pathPatterns,ignores));
+                registryProxy.addInterceptor(new KissoLoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
                 registryProxy.addInterceptor(new DataBossInterceptor(pathPatterns,ignores));
-                registryProxy.addInterceptor(new AoomsContextInterceptor(pathPatterns,ignores));
+                registryProxy.addInterceptor(new ContextInterceptor(pathPatterns,ignores));
+                registryProxy.addInterceptor(new DemoInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new ParamInterceptor(pathPatterns,ignores));
-
             }
 
             // 指定路径忽略大小写

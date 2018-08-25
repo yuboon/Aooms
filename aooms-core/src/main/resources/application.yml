@@ -58,3 +58,11 @@ mybatis:
   type-aliases-package: net.aooms.mybatis.entity
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+# 单点信息配置，全部可无
+kisso:
+  config:
+    signkey: cheerebo.signkey.random.123456   # 对称签名密钥
+    cookieName: $aooms            # COOKIE 名称
+    loginUrl: '/page'

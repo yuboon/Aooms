@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
  * 拦截器注册代理类
  * Created by cccyb on 2018-04-28
  */
-public class InterceptorRegistryProxy {
+public class AoomsInterceptorRegistryProxy {
 
     private InterceptorRegistry interceptorRegistry;
 
@@ -44,7 +44,7 @@ public class InterceptorRegistryProxy {
         }
     }
 
-    public InterceptorRegistryProxy(InterceptorRegistry interceptorRegistry) {
+    public AoomsInterceptorRegistryProxy(InterceptorRegistry interceptorRegistry) {
         this.interceptorRegistry = interceptorRegistry;
     }
 
