@@ -15,4 +15,14 @@
     <build>
         <finalName>aooms-example-quickstart</finalName>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.aooms</groupId>
+            <artifactId>aooms-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+
 </project>
