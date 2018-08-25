@@ -1,6 +1,6 @@
-package net.aooms.core.configuration;
+package net.aooms.core;
 
-import cn.hutool.core.util.ArrayUtil;
+import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.client.SimpleRestTemplate;
 import net.aooms.core.web.interceptor.*;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -33,6 +33,13 @@ public class AoomsConfiguration implements IConfiguration {
         return simpleRestTemplate;
     }
 
+    @Bean
+    public PropertyObject propertyObject(){
+        PropertyObject propertyObject = new PropertyObject();
+        propertyObject.instance(propertyObject);
+        return propertyObject;
+    }
+
     /**
      * web环境配置
      * @return
@@ -54,6 +61,7 @@ public class AoomsConfiguration implements IConfiguration {
                 String[] ignores = registryProxy.getIgnores();
 
                 registryProxy.addInterceptor(new KissoLoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
+                registryProxy.addInterceptor(new KissoPermissionInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new DataBossInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new ContextInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new DemoInterceptor(pathPatterns,ignores));

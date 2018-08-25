@@ -1,4 +1,4 @@
-package net.aooms.core.configuration;
+package net.aooms.core;
 
 import net.aooms.core.web.client.SimpleRestTemplate;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;

@@ -1,8 +1,7 @@
 package net.aooms.mybatis.record;
 
 import cn.hutool.core.util.StrUtil;
-import com.netflix.ribbon.proxy.annotation.Var;
-import net.aooms.core.configuration.Vars;
+import net.aooms.core.Vars;
 import net.aooms.mybatis.MyBatisConst;
 import net.aooms.mybatis.interceptor.MetaObjectAssistant;
 import org.apache.ibatis.mapping.BoundSql;

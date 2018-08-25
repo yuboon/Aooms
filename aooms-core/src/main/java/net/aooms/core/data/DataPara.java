@@ -1,7 +1,7 @@
 package net.aooms.core.data;
 
 import cn.hutool.core.collection.CollectionUtil;
-import net.aooms.core.configuration.Vars;
+import net.aooms.core.Vars;
 import net.aooms.core.exception.AoomsException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;

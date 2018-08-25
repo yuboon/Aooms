@@ -1,4 +1,4 @@
-package net.aooms.core.configuration;
+package net.aooms.core;
 
 /**
  * 常量声明
@@ -32,6 +32,9 @@ public interface Vars {
 
         public static final int YES_FOR_CHAR = 'Y';
         public static final int NO_FOR_CHAR = 'N';
+
+        public static final int AUTH_NO_LOGIN = -110;
+        public static final int AUTH_NOT_ACCESS = -120;
     }
 
 }

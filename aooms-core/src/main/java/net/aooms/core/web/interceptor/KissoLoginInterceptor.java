@@ -20,7 +20,7 @@ import com.baomidou.kisso.common.SSOConstants;
 import com.baomidou.kisso.common.util.HttpUtil;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.baomidou.kisso.web.handler.SSOHandlerInterceptor;
-import net.aooms.core.configuration.Vars;
+import net.aooms.core.Vars;
 import net.aooms.core.data.DataResult;
 import net.aooms.core.exception.AoomsExceptions;
 import org.slf4j.Logger;
@@ -34,12 +34,6 @@ import java.lang.reflect.Method;
 
 /**
  * 登录权限验证
- * <p>
- * kisso spring 拦截器，Controller 方法调用前处理。
- * </p>
- *
- * @author hubin
- * @since 2015-11-10
  */
 public class KissoLoginInterceptor extends AoomsAbstractInterceptor {
 
@@ -72,13 +66,13 @@ public class KissoLoginInterceptor extends AoomsAbstractInterceptor {
              */
             SSOToken ssoToken = SSOHelper.getSSOToken(request);
             if (ssoToken == null) {
-                System.err.println("HttpUtil.isAjax(request)：" + HttpUtil.isAjax(request));
                 if (HttpUtil.isAjax(request)) {
                     /*
                      * Handler 处理 AJAX 请求
 					 */
+                    response.setCharacterEncoding(Vars.ENCODE);
                     DataResult dataResult = new DataResult();
-                    dataResult.logicFailure(Vars.Status.NO_FOR_INT,"用户未登陆");
+                    dataResult.logicFailure(Vars.Status.AUTH_NO_LOGIN,"用户未登陆");
 
                     try{
                         response.getWriter().write(dataResult.toJsonStr());

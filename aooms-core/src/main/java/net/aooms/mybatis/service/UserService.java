@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.aooms.core.configuration.Vars;
+import net.aooms.core.Vars;
 import net.aooms.mybatis.dao.GenericDaoSupport;
 import net.aooms.mybatis.entity.User;
 import net.aooms.mybatis.record.Record;

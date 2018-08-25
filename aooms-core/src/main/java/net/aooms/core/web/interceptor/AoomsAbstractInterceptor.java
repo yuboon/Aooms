@@ -1,9 +1,7 @@
 package net.aooms.core.web.interceptor;
 
-import cn.hutool.core.util.ArrayUtil;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import net.aooms.core.annotation.ClearInterceptor;
+import net.aooms.core.web.annotation.ClearInterceptor;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 /**

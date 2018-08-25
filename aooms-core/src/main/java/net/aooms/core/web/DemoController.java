@@ -1,18 +1,17 @@
 package net.aooms.core.web;
 
-import cn.hutool.core.date.DateUtil;
-import com.alibaba.fastjson.JSON;
 import com.baomidou.kisso.SSOHelper;
+import com.baomidou.kisso.common.IpHelper;
+import com.baomidou.kisso.common.util.HttpUtil;
 import com.baomidou.kisso.security.token.SSOToken;
-import com.baomidou.kisso.service.ConfigurableAbstractKissoService;
 import com.google.common.collect.Maps;
-import net.aooms.core.annotation.ClearInterceptor;
+import io.jsonwebtoken.Jwts;
+import net.aooms.core.property.PropertyObject;
+import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.property.TestProperty;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
 import net.aooms.mybatis.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,11 +43,15 @@ public class DemoController extends AoomsAbstractController {
     @RequestMapping("/login")
     @ClearInterceptor({KissoLoginInterceptor.class})
     public void login(){
+        String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
+        System.err.println("cookieName:" + cookieName);
+
+        String ip = IpHelper.getIpAddr(getRequest());
+        System.err.println("ip:" + ip);
 
         // 设置登录 COOKIE
-        SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.create().setIp(getRequest()).setId(1000).setIssuer("kisso"), false);
+        SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.create().setIp(getRequest()).setId("放用户ID").setIssuer("kisso"), false);
         //SSOHelper.clearLogin(getRequest(), getResponse());
-
 
         this.renderJson();
     };
@@ -74,10 +75,14 @@ public class DemoController extends AoomsAbstractController {
 
         String msg = "暂未登录";
         SSOToken ssoToken = SSOHelper.attrToken(getRequest());
+        System.err.println("$name:" + getParaString("$name"));
         if (null != ssoToken) {
             msg = "登录信息 ip=" + ssoToken.getIp();
             msg += "， id=" + ssoToken.getId();
             msg += "， issuer=" + ssoToken.getIssuer();
+            msg += "， token=" + ssoToken.getToken();
+
+
         }
 
         this.renderText(msg);

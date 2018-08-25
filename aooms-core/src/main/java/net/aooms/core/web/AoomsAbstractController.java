@@ -1,6 +1,6 @@
 package net.aooms.core.web;
 
-import net.aooms.core.configuration.Vars;
+import net.aooms.core.Vars;
 import net.aooms.core.data.DataBoss;
 import net.aooms.core.data.DataPara;
 import net.aooms.core.data.DataResult;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,7 +1,6 @@
-package net.aooms.core.annotation;
+package net.aooms.core.web.annotation;
 
 import net.aooms.core.web.interceptor.AoomsAbstractInterceptor;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.annotation.*;
 

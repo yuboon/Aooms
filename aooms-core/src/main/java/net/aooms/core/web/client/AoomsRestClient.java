@@ -2,7 +2,7 @@ package net.aooms.core.web.client;
 
 import net.aooms.core.property.ApplicationProperty;
 import net.aooms.core.property.ServerProperty;
-import net.aooms.core.util.AoomsLogUtils;
+import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +57,7 @@ public class AoomsRestClient implements IRestClient {
         }else{
             String serverUrl = getLocalServerUrl(url);
             if(logger.isInfoEnabled()){
-                logger.info(AoomsLogUtils.logFormat("convert " + url + " -> " + serverUrl));
+                logger.info(LogUtils.logFormat("convert " + url + " -> " + serverUrl));
             }
             resp = getOriginal(serverUrl,params);
         }
@@ -88,7 +88,7 @@ public class AoomsRestClient implements IRestClient {
         }else{
             String serverUrl = getLocalServerUrl(url);
             if(logger.isInfoEnabled()){
-                logger.info(AoomsLogUtils.logFormat("convert " + url + " -> " + serverUrl));
+                logger.info(LogUtils.logFormat("convert " + url + " -> " + serverUrl));
             }
             resp = postOriginal(serverUrl,params);
         }
@@ -137,7 +137,7 @@ public class AoomsRestClient implements IRestClient {
 
             return builder.toString();
         } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(AoomsLogUtils.errorLogFormat("server url : "+ url +" is invalid"),e);
+            throw new IllegalArgumentException(LogUtils.errorLogFormat("server url : "+ url +" is invalid"),e);
         }
     }
 

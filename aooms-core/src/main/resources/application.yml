@@ -65,4 +65,6 @@ kisso:
   config:
     signkey: cheerebo.signkey.random.123456   # 对称签名密钥
     cookieName: $aooms            # COOKIE 名称
-    loginUrl: '/page'
+    cookieCheckip: true           # ip检测
+    permissionUri: true
+    loginUrl: 'page'

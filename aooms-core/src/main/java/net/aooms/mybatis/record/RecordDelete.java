@@ -1,7 +1,6 @@
 package net.aooms.mybatis.record;
 
-import cn.hutool.core.util.StrUtil;
-import net.aooms.core.configuration.Vars;
+import net.aooms.core.Vars;
 import net.aooms.mybatis.MyBatisConst;
 import net.aooms.mybatis.interceptor.MetaObjectAssistant;
 import org.apache.ibatis.mapping.BoundSql;
@@ -10,7 +9,6 @@ import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 
-import java.util.Iterator;
 import java.util.Map;
 
 public class RecordDelete implements IRecordOper {

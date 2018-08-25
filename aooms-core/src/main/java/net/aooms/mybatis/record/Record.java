@@ -3,7 +3,7 @@ package net.aooms.mybatis.record;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
-import net.aooms.core.configuration.Vars;
+import net.aooms.core.Vars;
 import net.aooms.mybatis.MyBatisConst;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 

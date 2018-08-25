@@ -3,8 +3,8 @@ package net.aooms.core.data;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import net.aooms.core.configuration.Vars;
-import net.aooms.core.util.AoomsLogUtils;
+import net.aooms.core.Vars;
+import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,10 +50,10 @@ public class DataResult implements Serializable {
     }
 
     public void printCaller(){
-        System.out.println(AoomsLogUtils.logFormat("DataResult.set Total Called " + caller.size() + " Times"));
+        System.out.println(LogUtils.logFormat("DataResult.set Total Called " + caller.size() + " Times"));
         int index = 0;
         for(String call : caller){
-            System.out.println(AoomsLogUtils.logFormat((++index) + " : " + call));
+            System.out.println(LogUtils.logFormat((++index) + " : " + call));
         }
     }
 
