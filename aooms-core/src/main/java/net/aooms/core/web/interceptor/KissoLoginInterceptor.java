@@ -48,12 +48,12 @@ public class KissoLoginInterceptor extends AoomsAbstractInterceptor {
     /**
      * 登录权限验证
      * <p>
-     * 方法拦截 Controller 处理之前进行调用。
+     * 方法拦截 controller 处理之前进行调用。
      * </p>
      */
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
         /**
-         * 处理 Controller 方法
+         * 处理 controller 方法
          * <p>
          * 判断 handler 是否为 HandlerMethod 实例
          * </p>

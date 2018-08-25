@@ -39,7 +39,7 @@ public class GenericDaoSupport implements GenericDao {
      * @ 
      */
     public int insert(String tableName, Record record) {
-        Assert.notNull(record,"record must not be null");
+        Assert.notNull(record,"pojo must not be null");
         record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return sqlSessionTemplate.insert(MyBatisConst.MS_RECORD_INSERT, record);
     }
@@ -50,7 +50,7 @@ public class GenericDaoSupport implements GenericDao {
      * @
      */
     public int update(String tableName, Record record){
-        Assert.notNull(record,"record must not be null");
+        Assert.notNull(record,"pojo must not be null");
         record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return sqlSessionTemplate.update(MyBatisConst.MS_RECORD_UPDATE, record);
     }
@@ -61,7 +61,7 @@ public class GenericDaoSupport implements GenericDao {
      * @
      */
     public int delete(String tableName, Record record)  {
-        Assert.notNull(record,"record must not be null");
+        Assert.notNull(record,"pojo must not be null");
         record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return sqlSessionTemplate.delete(MyBatisConst.MS_RECORD_DELETE, record);
     }

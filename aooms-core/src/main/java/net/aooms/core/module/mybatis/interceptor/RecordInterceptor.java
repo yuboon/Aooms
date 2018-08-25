@@ -54,12 +54,12 @@ public class RecordInterceptor implements Interceptor {
         MetaObject metaObject = MetaObjectAssistant.getMetaObject(target);
         Object parameterObject = MetaObjectAssistant.getParameterObject(metaObject);
 
-        // parameterObject is not a record , skip RecordInterceptor
+        // parameterObject is not a pojo , skip RecordInterceptor
         if(parameterObject.getClass() != Record.class){
             return invocation.proceed();
         }
 
-        // record oper process
+        // pojo oper process
         IRecordOper recordOper = recordOperRouting.route(metaObject);
         recordOper.process();
 

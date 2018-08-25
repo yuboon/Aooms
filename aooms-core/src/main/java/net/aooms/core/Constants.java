@@ -22,7 +22,7 @@ public interface Constants {
         public static final String META = "$";
         public static final String DATA = "$data";
         public static final String TOTAL = "$total";
-        public static final String RECORD = "$record";
+        public static final String RECORD = "$pojo";
 
     }
 
