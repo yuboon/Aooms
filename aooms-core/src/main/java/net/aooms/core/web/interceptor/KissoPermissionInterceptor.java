@@ -119,6 +119,7 @@ public class KissoPermissionInterceptor extends AoomsAbstractInterceptor {
                 return true;
             }
         }
+
 		/*
 		 * 注解权限认证
 		 */

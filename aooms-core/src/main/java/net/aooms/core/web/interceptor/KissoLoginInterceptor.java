@@ -23,6 +23,7 @@ import com.baomidou.kisso.web.handler.SSOHandlerInterceptor;
 import net.aooms.core.Vars;
 import net.aooms.core.data.DataResult;
 import net.aooms.core.exception.AoomsExceptions;
+import net.aooms.core.property.PropertyObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
@@ -64,7 +65,16 @@ public class KissoLoginInterceptor extends AoomsAbstractInterceptor {
             /**
              * 正常执行
              */
+            String accessTokenName = PropertyObject.getInstance().getKissoProperty().getConfig().getAccessTokenName();
             SSOToken ssoToken = SSOHelper.getSSOToken(request);
+            // 再次从参数列表获取token
+            if(ssoToken == null){
+                String tokenStr = request.getParameter(accessTokenName);
+                if(tokenStr != null){
+                    ssoToken = SSOToken.parser(tokenStr, false);
+                }
+            }
+
             if (ssoToken == null) {
                 if (HttpUtil.isAjax(request)) {
                     /*

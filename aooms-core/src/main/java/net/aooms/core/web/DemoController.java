@@ -2,10 +2,8 @@ package net.aooms.core.web;
 
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.common.IpHelper;
-import com.baomidou.kisso.common.util.HttpUtil;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.google.common.collect.Maps;
-import io.jsonwebtoken.Jwts;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.property.TestProperty;

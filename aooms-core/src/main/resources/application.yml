@@ -64,7 +64,8 @@ mybatis:
 kisso:
   config:
     signkey: cheerebo.signkey.random.123456   # 对称签名密钥
-    cookieName: $aooms            # COOKIE 名称
+    cookieName: $aooms_cookie            # COOKIE 名称
+    accessTokenName: $aooms_access_token
     cookieCheckip: true           # ip检测
     permissionUri: true
     loginUrl: 'page'
