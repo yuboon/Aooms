@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.aooms.core.Vars;
+import net.aooms.core.Constants;
 import net.aooms.mybatis.dao.GenericDaoSupport;
 import net.aooms.mybatis.entity.User;
 import net.aooms.mybatis.record.Record;
@@ -34,13 +34,13 @@ public class UserService extends GenericService {
 		IntStream.range(0,5).forEach(index->{
 			String id = System.currentTimeMillis() + "-" + index;
 			Record record1 = Record.NEW();
-			record1.set(Vars.ID,id);
+			record1.set(Constants.ID,id);
 			record1.set("name","lisi" + index);
 			records.add(record1);
 		});
 
 		Record record1 = Record.NEW();
-		record1.set(Vars.ID,System.currentTimeMillis());
+		record1.set(Constants.ID,System.currentTimeMillis());
 		record1.set("name","lisi");
 		//genericDaoSupport.delete("user",record1);
 		//genericDaoSupport.batchDelete("user",records,2);
@@ -52,7 +52,7 @@ public class UserService extends GenericService {
 
 		System.err.println("Record = " + JSON.toJSONString(recordPaging,SerializerFeature.WriteMapNullValue));
 
-		//getResult().set(Vars.Result.DATA,recordPaging);
+		//getResult().set(Constants.Result.DATA,recordPaging);
 
 		this.setResultValue("idsd","");
 		super.setResultValue("name","23");

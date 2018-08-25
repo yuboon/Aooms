@@ -68,4 +68,5 @@ kisso:
     accessTokenName: $aooms_access_token
     cookieCheckip: true           # ip检测
     permissionUri: true
-    loginUrl: 'page'
+    cacheExpires: -1              # 缓存失效时间
+    loginUrl: 'page'  # 未登陆时重定向失败跳转页面

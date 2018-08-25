@@ -5,11 +5,16 @@ import com.baomidou.kisso.common.IpHelper;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.google.common.collect.Maps;
 import net.aooms.core.property.PropertyObject;
-import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.property.TestProperty;
+import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
 import net.aooms.mybatis.service.UserService;
+import net.oschina.j2cache.CacheChannel;
+import net.oschina.j2cache.CacheObject;
+import net.oschina.j2cache.J2CacheBuilder;
+import net.oschina.j2cache.J2CacheConfig;
+import net.oschina.j2cache.caffeine.CaffeineCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +39,9 @@ public class DemoController extends AoomsAbstractController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CacheChannel cacheChannel;
+
     /**
      * 登陆
      * @return
@@ -50,6 +58,18 @@ public class DemoController extends AoomsAbstractController {
         // 设置登录 COOKIE
         SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.create().setIp(getRequest()).setId("放用户ID").setIssuer("kisso"), false);
         //SSOHelper.clearLogin(getRequest(), getResponse());
+
+        CacheObject cacheObject = cacheChannel.get("testRegion2","name");
+        if(cacheObject.getValue() != null){
+            Object cacheValue = cacheObject.getValue();
+            System.err.println("cacheValue:" + cacheValue);
+            setResultValue("cacheValue",cacheValue);
+            setResultValue("isNew",false);
+        }else{
+            cacheChannel.set("testRegion2","name","23");
+            setResultValue("cacheValue","");
+            setResultValue("isNew",true);
+        }
 
         this.renderJson();
     };

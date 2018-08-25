@@ -20,7 +20,7 @@ import com.baomidou.kisso.common.SSOConstants;
 import com.baomidou.kisso.common.util.HttpUtil;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.baomidou.kisso.web.handler.SSOHandlerInterceptor;
-import net.aooms.core.Vars;
+import net.aooms.core.Constants;
 import net.aooms.core.data.DataResult;
 import net.aooms.core.exception.AoomsExceptions;
 import net.aooms.core.property.PropertyObject;
@@ -80,9 +80,9 @@ public class KissoLoginInterceptor extends AoomsAbstractInterceptor {
                     /*
                      * Handler 处理 AJAX 请求
 					 */
-                    response.setCharacterEncoding(Vars.ENCODE);
+                    response.setCharacterEncoding(Constants.ENCODE);
                     DataResult dataResult = new DataResult();
-                    dataResult.logicFailure(Vars.Status.AUTH_NO_LOGIN,"用户未登陆");
+                    dataResult.logicFailure(Constants.Status.AUTH_NO_LOGIN,"用户未登陆");
 
                     try{
                         response.getWriter().write(dataResult.toJsonStr());

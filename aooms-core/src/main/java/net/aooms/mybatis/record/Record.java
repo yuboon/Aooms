@@ -3,7 +3,7 @@ package net.aooms.mybatis.record;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
-import net.aooms.core.Vars;
+import net.aooms.core.Constants;
 import net.aooms.mybatis.MyBatisConst;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
@@ -111,7 +111,7 @@ public class Record extends LinkedCaseInsensitiveMap {
     public static void main(String[] args) {
         Record record = Record.NEW();
         record
-        .set(Vars.ID,System.currentTimeMillis())
+        .set(Constants.ID,System.currentTimeMillis())
         .set("name","lisi")
         .setGeneral("text","12312");
 

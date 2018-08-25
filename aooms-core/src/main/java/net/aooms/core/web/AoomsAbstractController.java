@@ -1,6 +1,6 @@
 package net.aooms.core.web;
 
-import net.aooms.core.Vars;
+import net.aooms.core.Constants;
 import net.aooms.core.data.DataBoss;
 import net.aooms.core.data.DataPara;
 import net.aooms.core.data.DataResult;
@@ -292,7 +292,7 @@ public abstract class AoomsAbstractController {
     // 获取response
     public HttpServletResponse getResponse(){
         HttpServletResponse response = AoomsContext.getResponse();
-        response.setCharacterEncoding(Vars.ENCODE);
+        response.setCharacterEncoding(Constants.ENCODE);
         return response;
     }
 

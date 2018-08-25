@@ -1,5 +1,6 @@
 package net.aooms.core;
 
+import com.baomidou.kisso.SSOConfig;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.client.SimpleRestTemplate;
 import net.aooms.core.web.interceptor.*;
