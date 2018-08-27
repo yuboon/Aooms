@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationContext;
  * Created by cccyb on 2018-02-06
  */
 //@SpringBootApplication
-@SpringBootApplication(scanBasePackages = {"net.aooms.core","net.aooms.demo"})
+//@SpringBootApplication(scanBasePackages = {"net.aooms.core","net.aooms.demo"})
 //@EnableDiscoveryClient(autoRegister = true)
 @MapperScan("net.aooms.core.module.mybatis.mapper")//将项目中对应的mapper类的路径加进来就可以了
 public class DemoApplication {

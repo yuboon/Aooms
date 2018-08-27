@@ -79,8 +79,4 @@ public class User extends Record{
                 + testDate + ", role=" + role + "]";
     }
 
-    public static void main(String[] args) {
-
-    }
-
 }

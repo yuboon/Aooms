@@ -108,15 +108,4 @@ public class Record extends LinkedCaseInsensitiveMap {
         });
     }
 
-    public static void main(String[] args) {
-        Record record = Record.NEW();
-        record
-        .set(Constants.ID,System.currentTimeMillis())
-        .set("name","lisi")
-        .setGeneral("text","12312");
-
-
-        System.err.println(JSON.toJSONString(record));
-    }
-
 }

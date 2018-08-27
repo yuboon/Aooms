@@ -1,7 +1,6 @@
 package net.aooms.core.data;
 
 import net.aooms.core.exception.AoomsExceptions;
-import net.aooms.mybatis.SqlPara;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
