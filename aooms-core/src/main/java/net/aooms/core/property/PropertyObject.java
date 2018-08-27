@@ -2,8 +2,6 @@ package net.aooms.core.property;
 
 import com.baomidou.kisso.starter.KissoProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * 所有属性持有者
@@ -14,10 +12,10 @@ public class PropertyObject {
     private static PropertyObject INSTANCE;
 
     @Autowired
-    private ApplicationProperty applicationProperty;
+    private PropertyApplication applicationProperty;
 
     @Autowired
-    private ServerProperty serverProperty;
+    private PropertyServer serverProperty;
 
     @Autowired
     private KissoProperties kissoProperty;
@@ -30,11 +28,11 @@ public class PropertyObject {
         INSTANCE = propertyObject;
     }
 
-    public ApplicationProperty getApplicationProperty() {
+    public PropertyApplication getApplicationProperty() {
         return applicationProperty;
     }
 
-    public ServerProperty getServerProperty() {
+    public PropertyServer getServerProperty() {
         return serverProperty;
     }
 

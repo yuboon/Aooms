@@ -4,13 +4,12 @@ import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.common.IpHelper;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.google.common.collect.Maps;
-import net.aooms.core.Constants;
 import net.aooms.core.module.AoomsModule;
 import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.module.mybatis.dao.GenericDao;
 import net.aooms.core.module.mybatis.service.UserService;
 import net.aooms.core.property.PropertyObject;
-import net.aooms.core.property.TestProperty;
+import net.aooms.core.property.PropertyTest;
 import net.aooms.core.web.AoomsAbstractController;
 import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.interceptor.DemoInterceptor;
@@ -35,8 +34,7 @@ import java.util.Map;
 public class DemoController extends AoomsAbstractController {
 
     @Autowired
-    private TestProperty testProperty;
-
+    private PropertyTest testProperty;
 
     @Autowired
     private UserService userService;

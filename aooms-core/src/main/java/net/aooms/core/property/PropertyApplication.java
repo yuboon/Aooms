@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
  */
 @Component
 @ConfigurationProperties(prefix="spring.application")
-public class ApplicationProperty {
+public class PropertyApplication {
 
     private String name;
 

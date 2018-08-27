@@ -1,7 +1,7 @@
 package net.aooms.core.web.client;
 
-import net.aooms.core.property.ApplicationProperty;
-import net.aooms.core.property.ServerProperty;
+import net.aooms.core.property.PropertyApplication;
+import net.aooms.core.property.PropertyServer;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +32,10 @@ public class AoomsRestClient implements IRestClient {
     private SimpleRestTemplate simpleRestTemplate;
 
     @Autowired
-    private ApplicationProperty applicationProperties;
+    private PropertyApplication applicationProperties;
 
     @Autowired
-    private ServerProperty serverProperties;
+    private PropertyServer serverProperties;
 
     private Boolean useRegistry;
 

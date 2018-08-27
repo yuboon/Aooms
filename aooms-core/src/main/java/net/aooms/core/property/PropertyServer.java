@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConfigurationProperties("server")
-public class ServerProperty {
+public class PropertyServer {
 
     private int port;
 

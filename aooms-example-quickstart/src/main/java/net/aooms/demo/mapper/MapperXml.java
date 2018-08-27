@@ -1,4 +1,4 @@
-package net.aooms.core.module.mybatis.mapper;
+package net.aooms.demo.mapper;
 
 public class MapperXml {
 

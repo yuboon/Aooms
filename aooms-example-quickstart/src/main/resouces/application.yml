@@ -1,0 +1,72 @@
+
+# 默认日志配置
+logging:
+  file: Aooms.log
+  config:    # 日志配置文件,Spring Boot默认使用classpath路径下的日志配置文件,如:logback.xml
+  level:
+    root: info  # 全局默认级别
+    #net.aooms.core: info # 项目级别，覆盖root默认
+
+# 默认项目配置
+spring:
+  application:
+    name: Aooms
+    aooms-use-registry: true
+
+  profiles:
+    active: dev
+
+  thymeleaf:
+    cache: false
+    mode: HTML5
+    prefix: /
+    suffix: .html
+  mvc:
+    static-path-pattern: /**   #可不配置，默认也是此路径
+  #  throw-exception-if-no-handler-found: true  #资源不存在时抛出异常
+  #resources:
+  #  add-mappings: false  #不开启默认的资源处理
+
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: true
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    #url: jdbc:mysql://127.0.0.1:3306/test
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka/v2/
+    fetch-registry: true
+    enabled: false
+  instance:
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 6
+
+
+mybatis:
+  mapper-locations: classpath:**/mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: net.aooms.core.module.mybatis.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+# 单点信息配置，全部可无
+kisso:
+  config:
+    signkey: cheerebo.signkey.random.123456   # 对称签名密钥
+    cookieName: $aooms_cookie            # COOKIE 名称
+    accessTokenName: $aooms_access_token
+    cookieCheckip: true           # ip检测
+    permissionUri: true
+    cacheExpires: -1              # 缓存失效时间
+    loginUrl: 'page'  # 未登陆时重定向失败跳转页面
