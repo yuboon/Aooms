@@ -22,10 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.yaml.snakeyaml.reader.UnicodeReader;
 
 import java.io.File;
-import java.io.Reader;
 import java.util.Map;
 
 /**
@@ -52,7 +50,7 @@ public class DemoController extends AoomsAbstractController {
     @ClearInterceptor({KissoLoginInterceptor.class})
     public void login(){
 
-        System.err.println("testProperty:" + testProperty.getName());
+        System.err.println("testProperty > " + testProperty.getName());
 
         String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
         System.err.println("cookieName:" + cookieName);

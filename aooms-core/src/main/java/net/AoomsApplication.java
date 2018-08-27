@@ -1,11 +1,7 @@
 package net;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Aooms 启动
@@ -15,11 +11,11 @@ import org.springframework.context.annotation.ComponentScan;
 //@SpringBootApplication(scanBasePackages = {"your.project.packages"})
 //@EnableDiscoveryClient(autoRegister = true)
 //@MapperScan("net.aooms.core.module.mybatis.mapper")//将项目中对应的mapper类的路径加进来就可以了
-public class AoomsStartup {
+public class AoomsApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(AoomsStartup.class);
+        SpringApplication application = new SpringApplication(AoomsApplication.class);
         // application.addInitializers(new YamlPropertiesContextInitializer());
 
         // 优先级高于appliaction.profiles.active
