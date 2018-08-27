@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * DTO拦截器
+ * 数据拦截器
  * Created by cccyb on 2018-04-19
  */
 public class DataBossInterceptor extends AoomsAbstractInterceptor {

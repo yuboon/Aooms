@@ -1,6 +1,8 @@
 package net.aooms.core.web;
 
 import net.aooms.core.data.DataResult;
+import net.aooms.core.web.annotation.ClearInterceptor;
+import net.aooms.core.web.interceptor.KissoLoginInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
+@ClearInterceptor(KissoLoginInterceptor.class)
 public class MainErrorController extends BasicErrorController {
 
     private static final String ERROR_PATH = "/error";

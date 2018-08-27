@@ -19,8 +19,7 @@ public class AoomsInterceptorRegistryProxy {
             "/**/*.png",
             "/**/*.gif",
             "/**/*.css",
-            "/**/*.js",
-            "/error"
+            "/**/*.js"
     };
 
     // 拦截路径,默认值拦截一切

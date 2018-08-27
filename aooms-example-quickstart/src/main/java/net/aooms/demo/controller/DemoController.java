@@ -4,6 +4,8 @@ import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.common.IpHelper;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.google.common.collect.Maps;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 import net.aooms.core.module.AoomsModule;
 import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.module.mybatis.dao.GenericDao;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
@@ -42,13 +45,31 @@ public class DemoController extends AoomsAbstractController {
     @Autowired
     private CacheChannel cacheChannel;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
+    //熔断后执行的方法
+    public void hiError() {
+        System.err.println("error......");
+        //System.err.println("name:" + this.getParaString("name"));
+        //System.err.println("hiError.ThreadName = " + Thread.currentThread().getName());
+        //this.redirect("/error");
+    }
+
     /**
      * 登陆
      * @return
      */
     @RequestMapping("/login")
     @ClearInterceptor({KissoLoginInterceptor.class})
+    //@HystrixCommand
     public void login(){
+        System.err.println("login.ThreadName = " + Thread.currentThread().getName());
+        //String s = null;
+       /* if(s == null){
+            throw new RuntimeException("123");
+        }*/
+        //restTemplate.getForEntity("http://121.23.2.2:8080/test",String.class);
 
         System.err.println("testProperty > " + testProperty.getName());
 
