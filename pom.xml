@@ -223,13 +223,6 @@
             <version>0.7.0</version>
         </dependency>
 
-        <!-- yaml -->
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>1.19</version>
-        </dependency>
-
         <!--spring相关包
         <dependency>
             <groupId>org.springframework</groupId>
