@@ -279,6 +279,9 @@
                 <version>2.5</version>
             </plugin>
 
+
+            <!-- 直接打包可运行jar -->
+            <!--
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -286,6 +289,7 @@
                     <fork>true</fork>
                 </configuration>
             </plugin>
+            -->
         </plugins>
 
 
