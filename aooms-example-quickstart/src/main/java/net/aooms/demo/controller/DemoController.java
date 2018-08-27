@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.yaml.snakeyaml.reader.UnicodeReader;
 
 import java.io.File;
+import java.io.Reader;
 import java.util.Map;
 
 /**
@@ -49,6 +51,9 @@ public class DemoController extends AoomsAbstractController {
     @RequestMapping("/login")
     @ClearInterceptor({KissoLoginInterceptor.class})
     public void login(){
+
+        System.err.println("testProperty:" + testProperty.getName());
+
         String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
         System.err.println("cookieName:" + cookieName);
 
@@ -118,7 +123,6 @@ public class DemoController extends AoomsAbstractController {
     @RequestMapping("/hello/{code}")
     @ClearInterceptor(DemoInterceptor.class)
     public void hello(){
-        logger.info("NAME = {}" ,testProperty.getName());
 
         logger.info("ID = {}" ,this.getParaString("id"));
         String s = this.getPara().getPathVar("code");
@@ -142,7 +146,6 @@ public class DemoController extends AoomsAbstractController {
     @GetMapping("/hello2")
     @ClearInterceptor({DemoInterceptor.class})
     public ModelAndView hello2(){
-        logger.info("NAME = {}" ,testProperty.getName());
         this.getResult().set("name","byHello2");
         return new ModelAndView("/demo.html",this.getResult().getData());
     };
@@ -166,7 +169,6 @@ public class DemoController extends AoomsAbstractController {
      */
     @GetMapping("/down")
     public void down(){
-        logger.info("NAME = {}" ,testProperty.getName());
         this.getResult().set("name","byHello2");
         this.renderFile("中文.txt",new File("F:/1.txt"));
     };
@@ -214,7 +216,6 @@ public class DemoController extends AoomsAbstractController {
     @GetMapping("/page")
     @ClearInterceptor(KissoLoginInterceptor.class)
     public void page(){
-        System.err.println("email:" + testProperty.getName());
 
        // System.err.println(JSON.toJSONString(recordMapper.insert(new Record())));
 

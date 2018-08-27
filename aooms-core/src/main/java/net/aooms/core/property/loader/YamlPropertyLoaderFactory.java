@@ -14,9 +14,11 @@ import java.io.IOException;
 public class YamlPropertyLoaderFactory extends DefaultPropertySourceFactory {
 
     public PropertySource<?> createPropertySource(@Nullable String name, EncodedResource resource) throws IOException {
-        if (resource == null) {
+        /*if (resource == null) {
             super.createPropertySource(name, resource);
-        }
+        }*/
         return new YamlPropertySourceLoader().load(resource.getResource().getFilename(),resource.getResource(), null);
     }
+
+
 }

@@ -1,7 +1,7 @@
-# 开发环境
+# 开发环境  使用外部tomcat部署时，server相关配置需要注掉否则会启动报错
 
-server:
-  port: 9000
-  servlet:
+#server:
+#  port: 9000
+#  servlet:
     #context-path: /aooms
 

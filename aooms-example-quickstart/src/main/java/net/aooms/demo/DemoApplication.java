@@ -1,23 +1,22 @@
 package net.aooms.demo;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-/**
- * Aooms 启动
- * Created by cccyb on 2018-02-06
- */
+
 //@SpringBootApplication
 //@SpringBootApplication(scanBasePackages = {"net.aooms.core","net.aooms.demo"})
 //@EnableDiscoveryClient(autoRegister = true)
-@MapperScan("net.aooms.core.module.mybatis.mapper")//将项目中对应的mapper类的路径加进来就可以了
-public class DemoApplication {
+/*@MapperScan("net.aooms.core.module.mybatis.mapper")//将项目中对应的mapper类的路径加进来就可以了 */
 
+@SpringBootApplication(scanBasePackages = {"net.aooms.core","net.aooms.demo"})
+public class DemoApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(DemoApplication.class);
+
+       /* SpringApplication application = new SpringApplication(DemoApplication.class);
         // application.addInitializers(new YamlPropertiesContextInitializer());
 
         // 优先级高于appliaction.profiles.active
@@ -28,8 +27,13 @@ public class DemoApplication {
         //annotationConfigApplicationContext.register(AoomsConfiguration.class);
 
         //ApplicationContext context = new AnnotationConfigApplicationContext(AoomsConfiguration.class);
-        //SpringApplication.run(AoomsBoot.class,args);
+        //SpringApplication.run(AoomsBoot.class,args);*/
+
+        SpringApplication.run(DemoApplication.class, args);
     }
 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(DemoApplication.class);
+    }
 }
-
