@@ -14,7 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 /*@MapperScan("net.aooms.core.module.mybatis.mapper")//将项目中对应的mapper类的路径加进来就可以了 */
 
 @SpringBootApplication(scanBasePackages = {"net.aooms.core","net.aooms.demo"})
-@EnableHystrix
+//@EnableHystrix
 public class DemoApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

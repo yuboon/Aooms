@@ -18,6 +18,7 @@ import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
 import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
+import org.springframework.aop.interceptor.ExposeInvocationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,7 +71,6 @@ public class DemoController extends AoomsAbstractController {
             throw new RuntimeException("123");
         }*/
         //restTemplate.getForEntity("http://121.23.2.2:8080/test",String.class);
-
         System.err.println("testProperty > " + testProperty.getName());
 
         String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();

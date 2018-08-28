@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class AoomsContext {
 
-    private static ThreadLocal<Context> contextThreadLocal = new ThreadLocal<>();
+    private static ThreadLocal<Context> contextThreadLocal = new InheritableThreadLocal<>();
 
     public static HttpServletRequest getRequest(){
         return contextThreadLocal.get().getRequest();

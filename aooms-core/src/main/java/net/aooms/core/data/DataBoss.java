@@ -15,7 +15,7 @@ public class DataBoss implements Serializable {
     private static Logger logger = LoggerFactory.getLogger(DataBoss.class);
 
     //
-    private static final ThreadLocal<DataBoss> DATA_BOSS_THREAD_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<DataBoss> DATA_BOSS_THREAD_LOCAL = new InheritableThreadLocal<>();
 
     private DataPara dataPara;
 
