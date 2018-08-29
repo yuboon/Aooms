@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class AoomsContext {
 
-    private static ThreadLocal<Context> contextThreadLocal = new InheritableThreadLocal<>();
+    private static ThreadLocal<Context> contextThreadLocal = new ThreadLocal<>();
 
     public static HttpServletRequest getRequest(){
         return contextThreadLocal.get().getRequest();
@@ -41,7 +41,7 @@ public class AoomsContext {
 
     public static Context get(){
         Context context = contextThreadLocal.get();
-        Objects.requireNonNull(context,"The AoomsContext object is not initialized.");
+        //Objects.requireNonNull(context,"The AoomsContext object is not initialized.");
         return context;
     }
 

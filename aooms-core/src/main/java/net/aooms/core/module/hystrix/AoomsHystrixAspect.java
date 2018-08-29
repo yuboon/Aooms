@@ -1,5 +1,6 @@
 package net.aooms.core.module.hystrix;
 
+import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.HystrixInvokable;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -38,23 +39,20 @@ public class AoomsHystrixAspect {
     @Around("requestMapping()")
     public Object profile(ProceedingJoinPoint pjp) throws Throwable {
         String groupName = pjp.getTarget().getClass().getName();
-        System.err.println("className:" + groupName);
+        log.info("around method {}", pjp.getSignature().getName());
 
         Signature sig = pjp.getSignature();
         MethodSignature msig = null;
+
         if (sig instanceof MethodSignature) {
             msig = (MethodSignature) sig;
             Object target = pjp.getTarget();
             Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
-            System.err.println("currentMethod = " + currentMethod);
-            System.err.println("name = " + Thread.currentThread().getName());
 
             AoomsHystrixCommand command = new AoomsHystrixCommand(groupName){
                 @Override
                 protected Object run(){
                     try {
-                        System.err.println("name2 = " + Thread.currentThread().getName());
-
                         //return currentMethod.invoke(target,pjp.getArgs());
                         return pjp.proceed();
                     } catch (Throwable e) {
@@ -64,21 +62,25 @@ public class AoomsHystrixAspect {
 
                 @Override
                 protected Object getFallback() {
+                    //System.err.println("getFallback");
+                    //return  "1231321";
                     return super.getFallback();
                 }
             };
             return command.execute();
         }
 
-        return pjp.proceed();
+        Object result = pjp.proceed();
+        System.err.println("pjp.proceed():" + result);
+        return result;
     }
 
-    @Before("requestMapping()")
+    /*@Before("requestMapping()")
     public void before(JoinPoint jp) throws Throwable {
         log.info("before method {}", jp.getSignature().getName());
-    }
+    }*/
 
-    @AfterReturning("requestMapping()")
+    /*@AfterReturning("requestMapping()")
     public void afterReturning(JoinPoint jp) throws Throwable {
         log.info("afterReturning method {}", jp.getSignature().getName());
     }
@@ -91,5 +93,5 @@ public class AoomsHystrixAspect {
     @After("requestMapping()")
     public void after(JoinPoint joinPoint) {
 
-     }
+    }*/
 }

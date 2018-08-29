@@ -1,14 +1,9 @@
 package net.aooms.demo.controller;
 
 import com.baomidou.kisso.SSOHelper;
-import com.baomidou.kisso.common.IpHelper;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.google.common.collect.Maps;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
-import net.aooms.core.module.AoomsModule;
-import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.module.mybatis.dao.GenericDao;
 import net.aooms.core.module.mybatis.service.UserService;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.property.PropertyTest;
@@ -17,8 +12,6 @@ import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
 import net.oschina.j2cache.CacheChannel;
-import net.oschina.j2cache.CacheObject;
-import org.springframework.aop.interceptor.ExposeInvocationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,11 +43,12 @@ public class DemoController extends AoomsAbstractController {
     private RestTemplate restTemplate;
 
     //熔断后执行的方法
-    public void hiError() {
-        System.err.println("error......");
+    public void hiError(Throwable e) {
+        System.err.println("error......" + e.toString());
         //System.err.println("name:" + this.getParaString("name"));
         //System.err.println("hiError.ThreadName = " + Thread.currentThread().getName());
-        //this.redirect("/error");
+        this.redirect("/error");
+        //this.getResult().failure();
     }
 
     /**
@@ -63,23 +57,39 @@ public class DemoController extends AoomsAbstractController {
      */
     @RequestMapping("/login")
     @ClearInterceptor({KissoLoginInterceptor.class})
-    //@HystrixCommand
+    //@HystrixCommand()
     public void login(){
-        System.err.println("login.ThreadName = " + Thread.currentThread().getName());
-        //String s = null;
-       /* if(s == null){
+
+        String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
+        System.err.println(Thread.currentThread().getName() + " cookieName:" + cookieName);
+
+        System.err.println("testProperty:" +testProperty.getName());
+        setResultValue("names","正常的");
+        // 耗时加密算法
+        //System.out.println(PasswordUtil.createHash("admin"));
+
+        //restTemplate.getForEntity("http://127.0.0.1:8080/test888",String.class);
+
+       /* try {
+
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }*/
+
+/*
+        String s = null;
+        if(s == null){
             throw new RuntimeException("123");
         }*/
         //restTemplate.getForEntity("http://121.23.2.2:8080/test",String.class);
-        System.err.println("testProperty > " + testProperty.getName());
+//        System.err.println("testProperty > " + testProperty.getName());
 
-        String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
-        System.err.println("cookieName:" + cookieName);
+        //String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
+        //System.err.println(Thread.currentThread().getName() + " cookieName:" + cookieName);
 
-        String ip = IpHelper.getIpAddr(getRequest());
-        System.err.println("ip:" + ip);
 
-        // 设置登录 COOKIE
+        /*// 设置登录 COOKIE
         SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.create().setIp(getRequest()).setId("放用户ID").setIssuer("kisso"), false);
         //SSOHelper.clearLogin(getRequest(), getResponse());
 
@@ -98,7 +108,7 @@ public class DemoController extends AoomsAbstractController {
             cacheChannel.set("testRegion2","name","23");
             setResultValue("cacheValue","");
             setResultValue("isNew",true);
-        }
+        }*/
 
         this.renderJson();
     };

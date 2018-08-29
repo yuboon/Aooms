@@ -7,6 +7,7 @@ import org.springframework.core.io.support.EncodedResource;
 import org.springframework.lang.Nullable;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * yaml资源加载类
@@ -17,8 +18,9 @@ public class YamlPropertyLoaderFactory extends DefaultPropertySourceFactory {
         /*if (resource == null) {
             super.createPropertySource(name, resource);
         }*/
-        return new YamlPropertySourceLoader().load(resource.getResource().getFilename(),resource.getResource(), null);
-    }
 
+        List<PropertySource<?>> propertySourceList = new YamlPropertySourceLoader().load(resource.getResource().getFilename(),resource.getResource());
+        return propertySourceList.get(0);
+    }
 
 }

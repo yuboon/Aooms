@@ -1,7 +1,7 @@
 package net.aooms.core;
 
-import com.baomidou.kisso.SSOConfig;
 import net.aooms.core.module.AoomsModule;
+import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.client.SimpleRestTemplate;
 import net.aooms.core.web.interceptor.*;
@@ -10,7 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 框架默认配置类
@@ -47,6 +50,11 @@ public class AoomsConfiguration implements IConfiguration {
         AoomsModule aoomsModule = new AoomsModule();
         aoomsModule.instance(aoomsModule);
         return aoomsModule;
+    }
+
+    @Bean
+    public ThreadLocalProcessHystrixConcurrencyStrategy threadLocalProcessHystrixConcurrencyStrategy(){
+        return new ThreadLocalProcessHystrixConcurrencyStrategy();
     }
 
     /**

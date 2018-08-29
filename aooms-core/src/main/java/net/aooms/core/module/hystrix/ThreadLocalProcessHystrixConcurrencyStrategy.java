@@ -11,45 +11,44 @@ import com.netflix.hystrix.strategy.executionhook.HystrixCommandExecutionHook;
 import com.netflix.hystrix.strategy.metrics.HystrixMetricsPublisher;
 import com.netflix.hystrix.strategy.properties.HystrixPropertiesStrategy;
 import com.netflix.hystrix.strategy.properties.HystrixProperty;
+import net.aooms.core.data.DataBoss;
+import net.aooms.core.web.AoomsContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import javax.xml.crypto.Data;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-@Component
-public class RequestAttributeHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
+//@Component
+public class ThreadLocalProcessHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
 
-	private static final Logger log = LoggerFactory.getLogger(RequestAttributeHystrixConcurrencyStrategy.class);
+	private static final Logger log = LoggerFactory.getLogger(ThreadLocalProcessHystrixConcurrencyStrategy.class);
 
 	private HystrixConcurrencyStrategy delegate;
-	public RequestAttributeHystrixConcurrencyStrategy() {
+	public ThreadLocalProcessHystrixConcurrencyStrategy() {
 		try {
 
 			this.delegate = HystrixPlugins.getInstance().getConcurrencyStrategy();
-			if (this.delegate instanceof RequestAttributeHystrixConcurrencyStrategy) {
+			if (this.delegate instanceof ThreadLocalProcessHystrixConcurrencyStrategy) {
 				// Welcome to singleton hell...
 				return;
 			}
-			HystrixCommandExecutionHook commandExecutionHook = HystrixPlugins
-					.getInstance().getCommandExecutionHook();
-			HystrixEventNotifier eventNotifier = HystrixPlugins.getInstance()
-					.getEventNotifier();
-			HystrixMetricsPublisher metricsPublisher = HystrixPlugins.getInstance()
-					.getMetricsPublisher();
-			HystrixPropertiesStrategy propertiesStrategy = HystrixPlugins.getInstance()
-					.getPropertiesStrategy();
-			this.logCurrentStateOfHystrixPlugins(eventNotifier, metricsPublisher,
-					propertiesStrategy);
+			HystrixCommandExecutionHook commandExecutionHook = HystrixPlugins.getInstance().getCommandExecutionHook();
+			HystrixEventNotifier eventNotifier = HystrixPlugins.getInstance().getEventNotifier();
+			HystrixMetricsPublisher metricsPublisher = HystrixPlugins.getInstance().getMetricsPublisher();
+			HystrixPropertiesStrategy propertiesStrategy = HystrixPlugins.getInstance().getPropertiesStrategy();
+
+			this.logCurrentStateOfHystrixPlugins(eventNotifier, metricsPublisher, propertiesStrategy);
+
 			HystrixPlugins.reset();
 			HystrixPlugins.getInstance().registerConcurrencyStrategy(this);
-			HystrixPlugins.getInstance()
-					.registerCommandExecutionHook(commandExecutionHook);
+			HystrixPlugins.getInstance().registerCommandExecutionHook(commandExecutionHook);
 			HystrixPlugins.getInstance().registerEventNotifier(eventNotifier);
 			HystrixPlugins.getInstance().registerMetricsPublisher(metricsPublisher);
 			HystrixPlugins.getInstance().registerPropertiesStrategy(propertiesStrategy);
@@ -71,8 +70,11 @@ public class RequestAttributeHystrixConcurrencyStrategy extends HystrixConcurren
 	}
 	@Override
 	public <T> Callable<T> wrapCallable(Callable<T> callable) {
+		System.err.println("wrapCallable.thred.name >>>>>>>>>>>>>>>>>> " + Thread.currentThread().getName());
 		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-		return new WrappedCallable<>(callable, requestAttributes);
+		DataBoss dataBoss = DataBoss.get();
+		AoomsContext.Context context = AoomsContext.get();
+		return new WrappedCallable<>(callable, requestAttributes,dataBoss,context);
 	}
 	@Override
 	public ThreadPoolExecutor getThreadPool(HystrixThreadPoolKey threadPoolKey,
@@ -102,18 +104,33 @@ public class RequestAttributeHystrixConcurrencyStrategy extends HystrixConcurren
 	static class WrappedCallable<T> implements Callable<T> {
 		private final Callable<T> target;
 		private final RequestAttributes requestAttributes;
-		public WrappedCallable(Callable<T> target, RequestAttributes requestAttributes) {
+		private final DataBoss dataBoss;
+		private final AoomsContext.Context context;
+
+
+		public WrappedCallable(Callable<T> target, RequestAttributes requestAttributes,DataBoss dataBoss,AoomsContext.Context context) {
 			this.target = target;
 			this.requestAttributes = requestAttributes;
+			this.dataBoss = dataBoss;
+			this.context = context;
 		}
+
 		@Override
 		public T call() throws Exception {
 			try {
 				RequestContextHolder.setRequestAttributes(requestAttributes);
+				if(dataBoss != null){
+					DataBoss.create(dataBoss.getPara(),dataBoss.getResult());
+				}
+				if(context != null){
+					AoomsContext.init(context);
+				}
 				return target.call();
 			}
 			finally {
 				RequestContextHolder.resetRequestAttributes();
+				DataBoss.destroy();
+				AoomsContext.remove();
 			}
 		}
 	}

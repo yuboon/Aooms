@@ -15,7 +15,7 @@ public class DataBoss implements Serializable {
     private static Logger logger = LoggerFactory.getLogger(DataBoss.class);
 
     //
-    private static final ThreadLocal<DataBoss> DATA_BOSS_THREAD_LOCAL = new InheritableThreadLocal<>();
+    private static final ThreadLocal<DataBoss> DATA_BOSS_THREAD_LOCAL = new ThreadLocal<>();
 
     private DataPara dataPara;
 
@@ -33,13 +33,25 @@ public class DataBoss implements Serializable {
     }
 
     /**
+     * 创建
+     * @return
+     */
+    public static DataBoss create(DataPara dataPara,DataResult dataResult){
+        DataBoss dto = new DataBoss(dataPara,dataResult);
+        // 放入线程变量
+        DATA_BOSS_THREAD_LOCAL.set(dto);
+        return dto;
+    }
+
+    /**
      * 获取
      * @return
      */
     public static DataBoss get(){
        DataBoss dto = DATA_BOSS_THREAD_LOCAL.get();
        if(dto == null){
-           throw AoomsExceptions.create("The DataBoss object is not initialized.");
+           //throw AoomsExceptions.create("The DataBoss object is not initialized.");
+           logger.error("The DataBoss object is not initialized.");
        }
        return dto;
     }
