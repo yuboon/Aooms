@@ -30,6 +30,9 @@ public abstract class AoomsAbstractController {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 熔断降级方法名
+    public static final String ERROR_METHOD = "error";
+
     /**
      * 获取参数
      * @return
@@ -287,6 +290,15 @@ public abstract class AoomsAbstractController {
         } catch (IOException e) {
             throw new RenderException(e.getMessage(),e);
         }
+    }
+
+    // 熔断后执行的方法
+    public void error(Throwable e) throws Throwable {
+        //System.err.println("name:" + this.getParaString("name"));
+        //System.err.println("hiError.ThreadName = " + Thread.currentThread().getName());
+        throw e;
+        //this.redirect("/error");
+        //this.getResult().failure();
     }
 
     // 获取response

@@ -71,10 +71,13 @@ kisso:
     cacheExpires: -1              # 缓存失效时间
     loginUrl: 'page'  # 未登陆时重定向失败跳转页面
 
+
 hystrix:
   command:
     default:
       execution:
         timeout:
-          enabled: false
+          enabled: false  # 开发阶段可禁用超时检测，方便debug
+
+
 

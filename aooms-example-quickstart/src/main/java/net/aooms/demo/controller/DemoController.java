@@ -3,7 +3,9 @@ package net.aooms.demo.controller;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.google.common.collect.Maps;
+import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 import net.aooms.core.module.mybatis.service.UserService;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.property.PropertyTest;
@@ -42,22 +44,13 @@ public class DemoController extends AoomsAbstractController {
     @Autowired
     private RestTemplate restTemplate;
 
-    //熔断后执行的方法
-    public void hiError(Throwable e) {
-        System.err.println("error......" + e.toString());
-        //System.err.println("name:" + this.getParaString("name"));
-        //System.err.println("hiError.ThreadName = " + Thread.currentThread().getName());
-        this.redirect("/error");
-        //this.getResult().failure();
-    }
-
     /**
      * 登陆
      * @return
      */
     @RequestMapping("/login")
     @ClearInterceptor({KissoLoginInterceptor.class})
-    //@HystrixCommand()
+    @HystrixCommand
     public void login(){
 
         String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
@@ -68,7 +61,7 @@ public class DemoController extends AoomsAbstractController {
         // 耗时加密算法
         //System.out.println(PasswordUtil.createHash("admin"));
 
-        //restTemplate.getForEntity("http://127.0.0.1:8080/test888",String.class);
+        restTemplate.getForEntity("http://127.0.0.1:8080/test888",String.class);
 
        /* try {
 
