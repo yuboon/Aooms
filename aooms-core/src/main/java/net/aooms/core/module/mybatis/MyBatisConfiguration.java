@@ -1,7 +1,6 @@
 package net.aooms.core.module.mybatis;
 
-import cn.hutool.db.dialect.Dialect;
-import net.aooms.core.module.mybatis.interceptor.PagingInterceptor;
+import net.aooms.core.module.mybatis.interceptor.QueryInterceptor;
 import net.aooms.core.module.mybatis.interceptor.RecordInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
@@ -24,7 +23,7 @@ public class MyBatisConfiguration {
 
     @Bean
     public Interceptor pagingInterceptor(){
-        return new PagingInterceptor();
+        return new QueryInterceptor();
     }
 
 
@@ -69,6 +68,7 @@ public class MyBatisConfiguration {
                 configuration.addMappedStatement(recordMappedStatmentFactory.getRecordInsertMappedStatment());
                 configuration.addMappedStatement(recordMappedStatmentFactory.getRecordUpdateMappedStatment());
                 configuration.addMappedStatement(recordMappedStatmentFactory.getRecordDeleteMappedStatment());
+                configuration.addMappedStatement(recordMappedStatmentFactory.getRecordFindByPkMappedStatment());
 
             }
         };

@@ -1,20 +1,23 @@
 package net.aooms.demo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.google.common.collect.Maps;
-import com.netflix.hystrix.HystrixCommandProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
-import net.aooms.core.module.mybatis.service.UserService;
+import net.aooms.core.module.AoomsModule;
+import net.aooms.core.module.mybatis.dao.GenericDao;
+import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.property.PropertyTest;
 import net.aooms.core.web.AoomsAbstractController;
 import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
+import net.aooms.demo.service.UserService;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.beans.Transient;
 import java.io.File;
 import java.util.Map;
 
@@ -52,6 +56,11 @@ public class DemoController extends AoomsAbstractController {
     @ClearInterceptor({KissoLoginInterceptor.class})
     @HystrixCommand
     public void login(){
+        // mybatis缓存
+        // 事务、分布式事务
+        // 分库分表
+        // 服务注册发现
+        // ID生成
 
         String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
         System.err.println(Thread.currentThread().getName() + " cookieName:" + cookieName);
@@ -61,25 +70,24 @@ public class DemoController extends AoomsAbstractController {
         // 耗时加密算法
         //System.out.println(PasswordUtil.createHash("admin"));
 
-        restTemplate.getForEntity("http://127.0.0.1:8080/test888",String.class);
-
-       /* try {
-
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }*/
-
-/*
-        String s = null;
-        if(s == null){
-            throw new RuntimeException("123");
-        }*/
-        //restTemplate.getForEntity("http://121.23.2.2:8080/test",String.class);
-//        System.err.println("testProperty > " + testProperty.getName());
 
         //String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
         //System.err.println(Thread.currentThread().getName() + " cookieName:" + cookieName);
+
+        userService.selectMap();
+
+        //GenericDao genericDao = AoomsModule.getInstance().getGenericDao();
+
+       // genericDao.findObject("Demo.selectListBySQL", SqlPara.SINGLETON);
+
+        //genericDao.findObject("Demo.selectListBySQL", SqlPara.SINGLETON);
+        //genericDao.findObject("Demo.selectListBySQL", SqlPara.SINGLETON);
+
+       /* genericDao.findByPrimaryKey("user", "1534904693057-0");
+        Record record = genericDao.findByPrimaryKey("user","1534904693057-0");
+        System.err.println(JSON.toJSONString(record));
+
+        Record record2 = genericDao.findByPrimaryKey("user","1534904693057-0");*/
 
 
         /*// 设置登录 COOKIE

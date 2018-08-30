@@ -16,7 +16,7 @@ import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 import java.util.Iterator;
 import java.util.Map;
 
-public class RecordOperRouting {
+public class OperRouting {
 
     public IRecordOper route(MetaObject metaobject){
         MappedStatement mappedStatement = MetaObjectAssistant.getMappedStatement(metaobject);

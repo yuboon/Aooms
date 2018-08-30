@@ -1,23 +1,14 @@
 package net.aooms.core.module.mybatis.interceptor;
 
-import cn.hutool.core.util.StrUtil;
 import net.aooms.core.module.mybatis.record.IRecordOper;
 import net.aooms.core.module.mybatis.record.Record;
-import net.aooms.core.module.mybatis.record.RecordOperRouting;
-import org.apache.ibatis.executor.CachingExecutor;
-import org.apache.ibatis.executor.Executor;
+import net.aooms.core.module.mybatis.record.OperRouting;
 import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.SystemMetaObject;
-import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.Map;
 import java.util.Properties;
 
 
@@ -35,7 +26,7 @@ import java.util.Properties;
 })
 public class RecordInterceptor implements Interceptor {
 
-    private RecordOperRouting recordOperRouting = new RecordOperRouting();
+    private OperRouting recordOperRouting = new OperRouting();
 
     /* 
      * (non-Javadoc) 
@@ -53,6 +44,7 @@ public class RecordInterceptor implements Interceptor {
         StatementHandler target = MetaObjectAssistant.getTarget(invocation, StatementHandler.class);
         MetaObject metaObject = MetaObjectAssistant.getMetaObject(target);
         Object parameterObject = MetaObjectAssistant.getParameterObject(metaObject);
+        if(parameterObject == null) return invocation.proceed();
 
         // parameterObject is not a pojo , skip RecordInterceptor
         if(parameterObject.getClass() != Record.class){

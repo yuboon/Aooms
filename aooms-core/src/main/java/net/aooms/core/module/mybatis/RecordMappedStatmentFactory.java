@@ -1,10 +1,11 @@
 package net.aooms.core.module.mybatis;
 
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.SqlCommandType;
-import org.apache.ibatis.mapping.SqlSource;
+import com.google.common.collect.Lists;
+import net.aooms.core.module.mybatis.record.Record;
+import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.session.Configuration;
+
+import java.util.Map;
 
 public class RecordMappedStatmentFactory {
 
@@ -30,6 +31,16 @@ public class RecordMappedStatmentFactory {
         SqlSource sqlSource = getSqlSource("Record Delete MappedStatment");
         MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, MyBatisConst.MS_RECORD_DELETE, sqlSource, SqlCommandType.DELETE);
         return statementBuilder.build();
+    }
+
+    public MappedStatement getRecordFindByPkMappedStatment() {
+        SqlSource sqlSource = getSqlSource("Record FindByPk MappedStatment");
+        MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, MyBatisConst.MS_RECORD_FIND_BY_PK, sqlSource, SqlCommandType.SELECT);
+
+        ResultMap.Builder builder = new ResultMap.Builder(configuration,MyBatisConst.MS_RECORD_FIND_BY_PK + "-Inline",Record.class, Lists.newArrayList());
+        statementBuilder.resultMaps(Lists.newArrayList(builder.build()));
+        MappedStatement mappedStatement = statementBuilder.build();
+        return mappedStatement;
     }
 
     private SqlSource getSqlSource(String script){

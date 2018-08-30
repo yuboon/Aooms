@@ -1,19 +1,22 @@
 package net.aooms.core.module.mybatis.interceptor;
 
+import com.google.common.collect.Lists;
+import net.aooms.core.Constants;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.dialect.DialectSelector;
-import net.aooms.core.module.mybatis.record.IRecordOper;
 import net.aooms.core.module.mybatis.record.Record;
-import net.aooms.core.module.mybatis.record.RecordOperRouting;
 import org.apache.ibatis.executor.statement.PreparedStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ResultMap;
+import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 import org.apache.ibatis.session.RowBounds;
 
 import java.sql.Connection;
-import java.sql.Statement;
 import java.util.Map;
 import java.util.Properties;
 
@@ -25,7 +28,7 @@ import java.util.Properties;
         args = {Connection.class, Integer.class}
     )
 })
-public class PagingInterceptor implements Interceptor {
+public class QueryInterceptor implements Interceptor {
 
     private DialectSelector dialectSelector = new DialectSelector();
 
@@ -43,8 +46,24 @@ public class PagingInterceptor implements Interceptor {
 
         PreparedStatementHandler preparedStatementHandler = (PreparedStatementHandler) metaObject.getValue("delegate");
         Map para = (Map) preparedStatementHandler.getBoundSql().getParameterObject();
+        if(para == null) return invocation.proceed();
+
         Object isCount = para.get(MyBatisConst.CRUD_QUERY_COUNT_PLACEHOLDER);
         Object isPaging = para.get(MyBatisConst.CRUD_QUERY_PAGING_PLACEHOLDER);
+        Object isFindByPk = para.get(MyBatisConst.CRUD_QUERY_PK_PLACEHOLDER);
+
+        if(isFindByPk != null){
+            MappedStatement mappedStatement = MetaObjectAssistant.getMappedStatement(metaObject);
+            Object parameterObject = MetaObjectAssistant.getParameterObject(metaObject);
+            Object pkName = para.getOrDefault(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER , Constants.ID);
+            Object tableName = para.get(MyBatisConst.TABLE_NAME_PLACEHOLDER);
+            String sql = "select * from " + tableName + " where " + pkName + " = #{"+ pkName +"}";
+
+            SqlSource sqlSource = new XMLLanguageDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
+            BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
+            metaObject.setValue("delegate.boundSql", boundSql);
+            MetaObjectAssistant.setDelegateParameterHandlerBoundSql(metaObject,boundSql);
+        }
 
         if(isCount != null){
             String countsql = "select count(*) count from (" + preparedStatementHandler.getBoundSql().getSql() + ") _table";

@@ -2,11 +2,9 @@ package net.aooms.core.module.mybatis.dao;
 
 import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.module.mybatis.record.Record;
-import net.aooms.core.module.mybatis.record.RecordDelete;
-import net.aooms.core.module.mybatis.record.RecordPaging;
+import net.aooms.core.module.mybatis.record.PagingRecord;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
 
@@ -88,6 +86,20 @@ public interface GenericDao {
     public int update(String mappedStatementId, SqlPara sqlpara);
 
     /**
+     * 根据主键查找对象
+     * @return
+     * @
+     */
+    public <T> T findByPrimaryKey(String tableName, String primaryKeyValue);
+
+    /**
+     * 根据主键查找对象
+     * @return
+     * @
+     */
+    public <T> T findByPrimaryKey(String tableName, String primaryKeyColumn , String primaryKeyValue);
+
+    /**
      * 查找单个对象
      * @return
      * @
@@ -106,7 +118,7 @@ public interface GenericDao {
      * @return 
      * @
      */
-    public RecordPaging findList(String mappedStatementId, SqlPara sqlPara);
+    public PagingRecord findList(String mappedStatementId, SqlPara sqlPara);
 
       
 }

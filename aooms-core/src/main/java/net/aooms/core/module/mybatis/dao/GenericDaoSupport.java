@@ -2,15 +2,17 @@ package net.aooms.core.module.mybatis.dao;
 
 import cn.hutool.core.lang.Assert;
 import com.google.common.collect.Lists;
+import net.aooms.core.Constants;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.SqlPara;
+import net.aooms.core.module.mybatis.record.PagingRecord;
 import net.aooms.core.module.mybatis.record.Record;
-import net.aooms.core.module.mybatis.record.RecordPaging;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -124,6 +126,26 @@ public class GenericDaoSupport implements GenericDao {
     }
 
     @Override
+    public Record findByPrimaryKey(String tableName, String primaryKeyValue) {
+        return findByPrimaryKey(tableName, Constants.ID ,primaryKeyValue);
+    }
+
+    @Override
+    public Record findByPrimaryKey(String tableName, String primaryKeyColumn ,String primaryKeyValue) {
+        SqlPara sqlPara = SqlPara.NEW();
+        sqlPara.set(MyBatisConst.CRUD_QUERY_PK_PLACEHOLDER,true);
+        sqlPara.set(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+        sqlPara.set(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,primaryKeyColumn);
+        sqlPara.set(primaryKeyColumn,primaryKeyValue);
+
+        List<Record> records = sqlSessionTemplate.selectList(MyBatisConst.MS_RECORD_FIND_BY_PK,sqlPara.getParams());
+        if(records.size() > 0){
+            return records.get(0);
+        }
+        return null;
+    }
+
+    @Override
     public Record findObject(String mappedStatementId, SqlPara sqlPara) {
         List<Record> records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams());
         if(records.size() > 0){
@@ -140,8 +162,8 @@ public class GenericDaoSupport implements GenericDao {
     }
 
     @Override
-    public RecordPaging findList(String mappedStatementId, SqlPara sqlPara) {
-        RecordPaging recordPaging = null;
+    public PagingRecord findList(String mappedStatementId, SqlPara sqlPara) {
+        PagingRecord recordPaging = null;
         List<Record> records = Lists.newArrayList();
         if(sqlPara.isPaging()){
             sqlPara.set(MyBatisConst.CRUD_QUERY_COUNT_PLACEHOLDER,true);
@@ -153,10 +175,10 @@ public class GenericDaoSupport implements GenericDao {
                 records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams(),new RowBounds(sqlPara.getPage(),sqlPara.getLimit()));
                 sqlPara.removeInternalKey();
             }
-            recordPaging = new RecordPaging(sqlPara.getPage(),sqlPara.getLimit(),records,total,sqlPara.isPaging());
+            recordPaging = new PagingRecord(sqlPara.getPage(),sqlPara.getLimit(),records,total,sqlPara.isPaging());
         }else{
             records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams());
-            recordPaging = new RecordPaging(sqlPara.getPage(),sqlPara.getLimit(),records,records.size(),sqlPara.isPaging());
+            recordPaging = new PagingRecord(sqlPara.getPage(),sqlPara.getLimit(),records,records.size(),sqlPara.isPaging());
         }
         return recordPaging;
     }
