@@ -3,6 +3,7 @@ package net.aooms.core.module.mybatis.dao;
 import cn.hutool.core.lang.Assert;
 import com.google.common.collect.Lists;
 import net.aooms.core.Constants;
+import net.aooms.core.datasource.DynamicDataSourceContextHolder;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.module.mybatis.record.PagingRecord;
@@ -13,6 +14,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +24,10 @@ import java.util.List;
 
 @Component
 public class GenericDaoSupport implements GenericDao {
-  
+
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
 
@@ -33,6 +39,40 @@ public class GenericDaoSupport implements GenericDao {
     @Override
     public SqlSessionFactory getSqlSessionFactory() {
         return sqlSessionTemplate.getSqlSessionFactory();
+    }
+
+    @Override
+    public GenericDao use(String name) {
+        Assert.notNull(name,"datasource name is not allow null !");
+
+        if (!DynamicDataSourceContextHolder.containsDataSource(name)) {
+            logger.error("datasource [{}] not found !",name);
+        } else {
+            logger.info("use datasource [{}]",name);
+            // 设置动态数据源上下文
+            DynamicDataSourceContextHolder.setDataSource(name);
+        }
+
+        return this;
+    }
+
+    @Override
+    public void useOn(String name) {
+        Assert.notNull(name,"datasource name is not allow null !");
+
+        if (!DynamicDataSourceContextHolder.containsDataSource(name)) {
+            logger.error("datasource [{}] not found !",name);
+        } else {
+            logger.info("on datasource [{}]",name);
+            // 设置动态数据源上下文
+            DynamicDataSourceContextHolder.setDataSource(name);
+        }
+    }
+
+    @Override
+    public void useOff(String name) {
+        logger.info("off datasource [{}]",name);
+        DynamicDataSourceContextHolder.clearDataSource();
     }
 
     /**

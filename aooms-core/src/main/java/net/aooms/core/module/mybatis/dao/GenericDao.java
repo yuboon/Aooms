@@ -11,6 +11,24 @@ import java.util.List;
 public interface GenericDao {
 
     /**
+     * 数据源指定,使用完即可还原
+     * @return
+     */
+    public GenericDao use(String name);
+
+    /**
+     * 数据源指定打开，后续该线程一系列操作均使用该数据源，useOff 时还原
+     * @return
+     */
+    public void useOn(String name);
+
+    /**
+     * 数据源指定关闭，还原为默认数据源
+     * @return
+     */
+    public void useOff(String name);
+
+    /**
      * 获取Connection
      * @return
      */

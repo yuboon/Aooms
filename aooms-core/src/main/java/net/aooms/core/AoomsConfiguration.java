@@ -1,5 +1,6 @@
 package net.aooms.core;
 
+import com.codahale.metrics.MetricRegistry;
 import net.aooms.core.module.AoomsModule;
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
 import net.aooms.core.property.PropertyObject;
@@ -55,6 +56,11 @@ public class AoomsConfiguration implements IConfiguration {
     @Bean
     public ThreadLocalProcessHystrixConcurrencyStrategy threadLocalProcessHystrixConcurrencyStrategy(){
         return new ThreadLocalProcessHystrixConcurrencyStrategy();
+    }
+
+    @Bean
+    public MetricRegistry metricRegistry(){
+        return new MetricRegistry();
     }
 
     /**

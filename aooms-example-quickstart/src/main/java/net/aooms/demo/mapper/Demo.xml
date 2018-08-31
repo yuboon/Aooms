@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Demo">
 
+    <!-- 二级缓存 -->
+    <cache type="net.aooms.core.module.mybatis.J2CacheSupport" eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>
+
     <sql id="columns">
          id,name, 1 code
     </sql>

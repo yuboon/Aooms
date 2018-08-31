@@ -1,11 +1,13 @@
 package net.aooms.demo;
 
+import net.aooms.core.datasource.DynamicDataSourceRegister;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -18,6 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootApplication(scanBasePackages = {"net.aooms.core","net.aooms.demo"})
 @EnableHystrix
 @EnableTransactionManagement
+@Import({DynamicDataSourceRegister.class})
 public class DemoApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

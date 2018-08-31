@@ -16,6 +16,7 @@ import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
 import net.aooms.demo.service.UserService;
 import net.oschina.j2cache.CacheChannel;
+import org.apache.ibatis.mapping.CacheBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,11 +57,12 @@ public class DemoController extends AoomsAbstractController {
     @ClearInterceptor({KissoLoginInterceptor.class})
     @HystrixCommand
     public void login(){
-        // mybatis缓存
+        // mybatis缓存      X
         // 事务、分布式事务
         // 分库分表
         // 服务注册发现
         // ID生成
+
 
         String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
         System.err.println(Thread.currentThread().getName() + " cookieName:" + cookieName);
@@ -89,10 +91,12 @@ public class DemoController extends AoomsAbstractController {
 
         Record record2 = genericDao.findByPrimaryKey("user","1534904693057-0");*/
 
+        SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.create().setIp(getRequest()).setId("放用户ID").setIssuer("kisso"), false);
+        SSOHelper.clearLogin(getRequest(), getResponse());
 
         /*// 设置登录 COOKIE
         SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.create().setIp(getRequest()).setId("放用户ID").setIssuer("kisso"), false);
-        //SSOHelper.clearLogin(getRequest(), getResponse());
+        SSOHelper.clearLogin(getRequest(), getResponse());
 
         GenericDao genericDao = AoomsModule.getInstance().getGenericDao();
         genericDao.findObject("Demo.selectListBySQL", SqlPara.SINGLETON);

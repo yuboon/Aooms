@@ -28,17 +28,33 @@ spring:
   #  add-mappings: false  #不开启默认的资源处理
 
   cloud:
-    service-registry:
-      auto-registration:
-        enabled: true
+    #service-registry:
+    # auto-registration:
+    #   enabled: true
+    refresh:
+      refreshable: none
 
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: root
+    #type: com.alibaba.druid.pool.DruidDataSource
+    #driver-class-name: com.mysql.jdbc.Driver
+    #username: root
+    #password: root
     #url: jdbc:mysql://127.0.0.1:3306/test
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+    #url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+
+    hikari:
+      username: root
+      password: root
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+      driver-class-name: com.mysql.jdbc.Driver
+
+  more-datasource:
+     keys: slave
+     slave:
+      username: root
+      password: root
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+      driver-class-name: com.mysql.jdbc.Driver
 
 
 
@@ -60,6 +76,7 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 
+
 # 单点信息配置，全部可无
 kisso:
   config:
@@ -77,7 +94,19 @@ hystrix:
     default:
       execution:
         timeout:
-          enabled: false  # 开发阶段可禁用超时检测，方便debug
+          enabled: false # 开发阶段可禁用超时检测，方便debug
 
 
+# actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health.show-details: always
+
+  health:
+    defaults:
+      enabled: false
 

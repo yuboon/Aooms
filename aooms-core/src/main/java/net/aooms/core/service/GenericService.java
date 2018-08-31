@@ -1,4 +1,4 @@
-package net.aooms.core.module.mybatis.service;
+package net.aooms.core.service;
 
 import net.aooms.core.data.DataBoss;
 import net.aooms.core.data.DataPara;
@@ -6,11 +6,9 @@ import net.aooms.core.data.DataResult;
 import net.aooms.core.module.mybatis.SqlPara;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
 
 public class GenericService {
