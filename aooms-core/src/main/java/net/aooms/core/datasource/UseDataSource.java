@@ -19,6 +19,6 @@ import java.lang.annotation.Target;
 @Documented
 public @interface UseDataSource {
 
-    String value();
+    String value() default "";
 
 }

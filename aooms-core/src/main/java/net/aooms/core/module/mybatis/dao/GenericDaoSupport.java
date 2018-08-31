@@ -3,7 +3,7 @@ package net.aooms.core.module.mybatis.dao;
 import cn.hutool.core.lang.Assert;
 import com.google.common.collect.Lists;
 import net.aooms.core.Constants;
-import net.aooms.core.datasource.DynamicDataSourceContextHolder;
+import net.aooms.core.datasource.DynamicDataSourceHolder;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.module.mybatis.record.PagingRecord;
@@ -13,7 +13,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,11 @@ public class GenericDaoSupport implements GenericDao {
     private SqlSessionTemplate sqlSessionTemplate;
 
     @Override
+    public SqlSessionTemplate getSqlSessionTemplate() {
+        return sqlSessionTemplate;
+    }
+
+    @Override
     public Connection getConnection() {
         return sqlSessionTemplate.getConnection();
     }
@@ -41,38 +45,51 @@ public class GenericDaoSupport implements GenericDao {
         return sqlSessionTemplate.getSqlSessionFactory();
     }
 
+    private SqlSession getSqlSession(){
+        return sqlSessionTemplate;
+    }
+
+    /**
+     * 注意：开启	@Transactional 时无法使用该方法
+     */
     @Override
     public GenericDao use(String name) {
         Assert.notNull(name,"datasource name is not allow null !");
 
-        if (!DynamicDataSourceContextHolder.containsDataSource(name)) {
+        if (!DynamicDataSourceHolder.containsDataSource(name)) {
             logger.error("datasource [{}] not found !",name);
         } else {
             logger.info("use datasource [{}]",name);
             // 设置动态数据源上下文
-            DynamicDataSourceContextHolder.setDataSource(name);
+            DynamicDataSourceHolder.setDataSource(name);
         }
 
         return this;
     }
 
+    /**
+     * 注意：开启	@Transactional 时无法使用该方法
+     */
     @Override
     public void useOn(String name) {
         Assert.notNull(name,"datasource name is not allow null !");
 
-        if (!DynamicDataSourceContextHolder.containsDataSource(name)) {
+        if (!DynamicDataSourceHolder.containsDataSource(name)) {
             logger.error("datasource [{}] not found !",name);
         } else {
             logger.info("on datasource [{}]",name);
             // 设置动态数据源上下文
-            DynamicDataSourceContextHolder.setDataSource(name);
+            DynamicDataSourceHolder.setDataSource(name);
         }
     }
 
+    /**
+     * 注意：开启	@Transactional 时无法使用该方法
+     */
     @Override
     public void useOff(String name) {
         logger.info("off datasource [{}]",name);
-        DynamicDataSourceContextHolder.clearDataSource();
+        DynamicDataSourceHolder.clearDataSource();
     }
 
     /**
@@ -83,7 +100,7 @@ public class GenericDaoSupport implements GenericDao {
     public int insert(String tableName, Record record) {
         Assert.notNull(record,"pojo must not be null");
         record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
-        return sqlSessionTemplate.insert(MyBatisConst.MS_RECORD_INSERT, record);
+        return getSqlSession().insert(MyBatisConst.MS_RECORD_INSERT, record);
     }
 
     /**
@@ -94,7 +111,7 @@ public class GenericDaoSupport implements GenericDao {
     public int update(String tableName, Record record){
         Assert.notNull(record,"pojo must not be null");
         record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
-        return sqlSessionTemplate.update(MyBatisConst.MS_RECORD_UPDATE, record);
+        return getSqlSession().update(MyBatisConst.MS_RECORD_UPDATE, record);
     }
 
     /**
@@ -105,7 +122,7 @@ public class GenericDaoSupport implements GenericDao {
     public int delete(String tableName, Record record)  {
         Assert.notNull(record,"pojo must not be null");
         record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
-        return sqlSessionTemplate.delete(MyBatisConst.MS_RECORD_DELETE, record);
+        return getSqlSession().delete(MyBatisConst.MS_RECORD_DELETE, record);
     }
 
     /** 
@@ -162,7 +179,7 @@ public class GenericDaoSupport implements GenericDao {
      * @
      */
     public int update(String mappedStatementId, SqlPara sqlpara) {
-        return sqlSessionTemplate.update(mappedStatementId, sqlpara.getParams());
+        return getSqlSession().update(mappedStatementId, sqlpara.getParams());
     }
 
     @Override
@@ -177,8 +194,7 @@ public class GenericDaoSupport implements GenericDao {
         sqlPara.set(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         sqlPara.set(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,primaryKeyColumn);
         sqlPara.set(primaryKeyColumn,primaryKeyValue);
-
-        List<Record> records = sqlSessionTemplate.selectList(MyBatisConst.MS_RECORD_FIND_BY_PK,sqlPara.getParams());
+        List<Record> records = getSqlSession().selectList(MyBatisConst.MS_RECORD_FIND_BY_PK,sqlPara.getParams());
         if(records.size() > 0){
             return records.get(0);
         }
@@ -187,7 +203,7 @@ public class GenericDaoSupport implements GenericDao {
 
     @Override
     public Record findObject(String mappedStatementId, SqlPara sqlPara) {
-        List<Record> records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams());
+        List<Record> records = getSqlSession().selectList(mappedStatementId,sqlPara.getParams());
         if(records.size() > 0){
             return records.get(0);
         }
@@ -207,17 +223,17 @@ public class GenericDaoSupport implements GenericDao {
         List<Record> records = Lists.newArrayList();
         if(sqlPara.isPaging()){
             sqlPara.set(MyBatisConst.CRUD_QUERY_COUNT_PLACEHOLDER,true);
-            Record totalRecord = sqlSessionTemplate.selectOne(mappedStatementId,sqlPara.getParams());
+            Record totalRecord = getSqlSession().selectOne(mappedStatementId,sqlPara.getParams());
             int total = totalRecord.getInteger("count");
             if(total > 0){
                 sqlPara.removeInternalKey();
                 sqlPara.set(MyBatisConst.CRUD_QUERY_PAGING_PLACEHOLDER,true);
-                records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams(),new RowBounds(sqlPara.getPage(),sqlPara.getLimit()));
+                records = getSqlSession().selectList(mappedStatementId,sqlPara.getParams(),new RowBounds(sqlPara.getPage(),sqlPara.getLimit()));
                 sqlPara.removeInternalKey();
             }
             recordPaging = new PagingRecord(sqlPara.getPage(),sqlPara.getLimit(),records,total,sqlPara.isPaging());
         }else{
-            records = sqlSessionTemplate.selectList(mappedStatementId,sqlPara.getParams());
+            records = getSqlSession().selectList(mappedStatementId,sqlPara.getParams());
             recordPaging = new PagingRecord(sqlPara.getPage(),sqlPara.getLimit(),records,records.size(),sqlPara.isPaging());
         }
         return recordPaging;

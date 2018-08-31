@@ -1,10 +1,14 @@
 package net.aooms.core.datasource;
 
 
+import cn.hutool.core.util.StrUtil;
+import net.aooms.core.Constants;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +20,12 @@ import java.lang.reflect.Method;
  * @version v.0.1
  */
 
-//@Order(1)// 保证该AOP在@Transactional之前执行
-//@Component
-//@Aspect
+@Order(-1)// 保证该AOP在@Transactional之前执行
+@Component
+@Aspect
 public class DynamicDataSourceAspect {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     /*@Pointcut("@annotation(net.aooms.core.datasource.UseDataSource)")
@@ -27,8 +33,9 @@ public class DynamicDataSourceAspect {
 
     }*/
 
-    @Pointcut("execution(* net.aooms.core.module.mybatis.dao.GenericDaoSupport.*(..))")
-    public void daoSupport() {
+    //@Pointcut("execution(* net.aooms.core.module.mybatis.dao.GenericDaoSupport.*(..))")
+    @Pointcut("@annotation(net.aooms.core.datasource.UseDataSource)")
+    public void dataSource() {
 
     }
 
@@ -55,27 +62,66 @@ public class DynamicDataSourceAspect {
                 String dsId = dataSource.value();
 
                 // 如果不在我们注入的所有的数据源范围之内，那么输出警告信息，系统自动使用默认的数据源。
-                if (!DynamicDataSourceContextHolder.containsDataSource(dsId)) {
+                if (!DynamicDataSourceHolder.containsDataSource(dsId)) {
                     System.err.println("数据源[{}]不存在，使用默认数据源 > {}" + dataSource.value() + point.getSignature());
                 } else {
                     System.out.println("Use DataSource : {} > {}" + dataSource.value() + point.getSignature());
                     // 找到的话，那么设置到动态数据源上下文中。
-                    DynamicDataSourceContextHolder.setDataSourceType(dataSource.value());
+                    DynamicDataSourceHolder.setDataSourceType(dataSource.value());
                 }
             }
         }
     }*/
 
-    @After("daoSupport()")
-    public void restoreDataSource(JoinPoint point) {
-        System.err.println("123123");
-        DynamicDataSourceContextHolder.clearDataSource();
+    @Before("dataSource()")
+    public void changeDataSource(JoinPoint point) throws Throwable {
+        Signature signature = point.getSignature();
+        if (signature instanceof MethodSignature) {
+            MethodSignature msig = (MethodSignature) signature;
+            Object target = point.getTarget();
+            Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
+
+            if("use".equals(currentMethod.getName()) || "onUse".equals(currentMethod.getName()) || "uesOff".equals(currentMethod.getName())){
+                return;
+            }
+
+            UseDataSource dataSource = currentMethod.getAnnotation(UseDataSource.class);
+            if(dataSource != null){
+                // 获取当前的指定的数据源;
+                String name = dataSource.value();
+                if(StrUtil.isBlank(name)){
+                    name = Constants.DEFAULT_DATASOURCE;
+                }
+
+                if (!DynamicDataSourceHolder.containsDataSource(name)) {
+                    logger.error("datasource [{}] not found !",name);
+                } else {
+                    logger.info("use datasource [{}]",name);
+                    DynamicDataSourceHolder.setDataSource(dataSource.value());
+                }
+            }
+        }
     }
 
-    @AfterThrowing("daoSupport()")
+    @After("dataSource()")
+    public void restoreDataSource(JoinPoint point) throws Throwable {
+        Signature signature = point.getSignature();
+        if (signature instanceof MethodSignature) {
+            MethodSignature msig = (MethodSignature) signature;
+            Object target = point.getTarget();
+            Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
+
+            if ("use".equals(currentMethod.getName()) || "onUse".equals(currentMethod.getName()) || "uesOff".equals(currentMethod.getName())) {
+                //DynamicDataSourceHolder.setDataSource();
+            } else {
+                DynamicDataSourceHolder.clearDataSource();
+            }
+        }
+    }
+
+    @AfterThrowing("dataSource()")
     public void releaseDataSource(JoinPoint point) {
-        System.err.println("werwerwerwre");
-        DynamicDataSourceContextHolder.clearDataSource();
+        DynamicDataSourceHolder.clearDataSource();
     }
 
 }

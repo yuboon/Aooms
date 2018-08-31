@@ -1,13 +1,9 @@
 package net.aooms.demo.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.google.common.collect.Maps;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import net.aooms.core.module.AoomsModule;
-import net.aooms.core.module.mybatis.dao.GenericDao;
-import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.property.PropertyTest;
 import net.aooms.core.web.AoomsAbstractController;
@@ -16,9 +12,7 @@ import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
 import net.aooms.demo.service.UserService;
 import net.oschina.j2cache.CacheChannel;
-import org.apache.ibatis.mapping.CacheBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.beans.Transient;
 import java.io.File;
 import java.util.Map;
 
@@ -59,7 +52,7 @@ public class DemoController extends AoomsAbstractController {
     public void login(){
         // mybatis缓存      X
         // 事务、分布式事务
-        // 分库分表
+        // 多数据源、分库分表
         // 服务注册发现
         // ID生成
 
@@ -76,7 +69,8 @@ public class DemoController extends AoomsAbstractController {
         //String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
         //System.err.println(Thread.currentThread().getName() + " cookieName:" + cookieName);
 
-        userService.selectMap();
+        userService.query();
+        userService.master();
 
         //GenericDao genericDao = AoomsModule.getInstance().getGenericDao();
 
@@ -167,7 +161,6 @@ public class DemoController extends AoomsAbstractController {
                 .set("datetime", DateUtil.now())
                 .set("datet", DateUtil.formatDate(new Date()));*/
 
-        userService.selectMap();
         this.setResultValue("idsd2","");
 
         this.renderJson();

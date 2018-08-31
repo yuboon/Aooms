@@ -106,12 +106,12 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
 
         // 将主数据源添加到更多数据源中
         targetDataSources.put(Constants.DEFAULT_DATASOURCE, defaultDataSource);
-        DynamicDataSourceContextHolder.dataSourceIds.add(Constants.DEFAULT_DATASOURCE);
+        DynamicDataSourceHolder.dataSourceIds.add(Constants.DEFAULT_DATASOURCE);
 
         // 添加更多数据源
         targetDataSources.putAll(moreDataSources);
         for (String key : moreDataSources.keySet()) {
-            DynamicDataSourceContextHolder.dataSourceIds.add(key);
+            DynamicDataSourceHolder.dataSourceIds.add(key);
         }
 
         // 创建DynamicDataSource

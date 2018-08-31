@@ -71,7 +71,6 @@ public class ThreadLocalProcessHystrixConcurrencyStrategy extends HystrixConcurr
 	}
 	@Override
 	public <T> Callable<T> wrapCallable(Callable<T> callable) {
-		System.err.println("wrapCallable.thred.name >>>>>>>>>>>>>>>>>> " + Thread.currentThread().getName());
 		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 		DataBoss dataBoss = DataBoss.get();
 		AoomsContext.Context context = AoomsContext.get();

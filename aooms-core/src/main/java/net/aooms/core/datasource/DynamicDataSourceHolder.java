@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 动态数据源上下文
  */
-public class DynamicDataSourceContextHolder {
+public class DynamicDataSourceHolder {
 
 
     /*

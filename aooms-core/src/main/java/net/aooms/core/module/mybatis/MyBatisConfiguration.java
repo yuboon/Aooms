@@ -1,5 +1,6 @@
 package net.aooms.core.module.mybatis;
 
+import net.aooms.core.module.mybatis.interceptor.ClearDataSourceInterceptor;
 import net.aooms.core.module.mybatis.interceptor.QueryInterceptor;
 import net.aooms.core.module.mybatis.interceptor.RecordInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
@@ -15,6 +16,11 @@ public class MyBatisConfiguration {
         return new MyInterceptor();
     }*/
 
+
+    @Bean
+    public Interceptor clearDataSourceInterceptor(){
+        return new ClearDataSourceInterceptor();
+    }
 
     @Bean
     public Interceptor recordInterceptor(){

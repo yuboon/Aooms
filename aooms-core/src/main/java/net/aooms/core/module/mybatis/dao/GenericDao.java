@@ -4,6 +4,7 @@ import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.module.mybatis.record.PagingRecord;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionTemplate;
 
 import java.sql.Connection;
 import java.util.List;
@@ -27,6 +28,12 @@ public interface GenericDao {
      * @return
      */
     public void useOff(String name);
+
+    /**
+     * SqlSessionTemplate
+     * @return
+     */
+    public SqlSessionTemplate getSqlSessionTemplate();
 
     /**
      * 获取Connection
