@@ -5,17 +5,10 @@ import net.aooms.core.datasource.UseDataSource;
 import net.aooms.core.module.mybatis.dao.GenericDao;
 import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.service.GenericService;
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.SqlSessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.core.support.TransactionalRepositoryFactoryBeanSupport;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionalProxy;
-
-import java.util.List;
 
 @Service
 public class UserService extends GenericService {
