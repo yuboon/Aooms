@@ -76,7 +76,7 @@ public class UserService extends GenericService {
 		//baseMapper.insert(u);
 		//baseMapper.deleteById(1L);
 
-
+        this.master();
 
 		//return Lists.newArrayList();//userMapper.selectMap(maps);
 	}

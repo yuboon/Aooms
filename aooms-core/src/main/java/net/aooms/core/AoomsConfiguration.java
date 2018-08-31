@@ -63,6 +63,7 @@ public class AoomsConfiguration implements IConfiguration {
         return new MetricRegistry();
     }
 
+
     /**
      * web环境配置
      * @return

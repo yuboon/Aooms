@@ -70,7 +70,7 @@ public class DemoController extends AoomsAbstractController {
         //System.err.println(Thread.currentThread().getName() + " cookieName:" + cookieName);
 
         userService.query();
-        userService.master();
+       // userService.master();
 
         //GenericDao genericDao = AoomsModule.getInstance().getGenericDao();
 
