@@ -1,13 +1,16 @@
 package net.aooms.core.datasource;
 
 import cn.hutool.core.util.StrUtil;
+import com.codahale.metrics.MetricRegistry;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import net.aooms.core.Constants;
+import net.aooms.core.util.ApplicationContextUtils;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.boot.context.properties.bind.Binder;
@@ -35,6 +38,9 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
     private DataSource defaultDataSource;
     // 其他数据源
     private Map<String, DataSource> moreDataSources = new HashMap<String, DataSource>();
+
+    @Autowired
+    private MetricRegistry metricRegistry;
 
     /**
      * 加载多数据源配置
@@ -96,6 +102,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         // HikariDataSource dataSource = (HikariDataSource)factory.build();
         // DataSourceBuilder.create()..build()
         HikariDataSource dataSource = new HikariDataSource(config);
+        dataSource.setMetricRegistry(metricRegistry);
         logger.info(LogUtils.logFormat("DataSource [" + name + "] - Start Completed , use conifg : " + prefix));
         return dataSource;
     }

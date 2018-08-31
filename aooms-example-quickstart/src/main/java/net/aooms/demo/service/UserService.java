@@ -6,6 +6,7 @@ import net.aooms.core.module.mybatis.dao.GenericDao;
 import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.service.GenericService;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ public class UserService extends GenericService {
 	private GenericDao genericDao;
 
 	@Transactional(readOnly = true)
-	@UseDataSource("slave")
+	@UseDataSource()
 	public void query() {
 		/*Record record1 = Record.NEW();
 		record1.set(Constants.ID,System.currentTimeMillis());
@@ -76,13 +77,17 @@ public class UserService extends GenericService {
 		//baseMapper.insert(u);
 		//baseMapper.deleteById(1L);
 
-        this.master();
+        // this.master();
+
+		// 自我调用不走aspect问题
+		((UserService)AopContext.currentProxy()).master();
+
 
 		//return Lists.newArrayList();//userMapper.selectMap(maps);
 	}
 
 	@Transactional(readOnly = true)
-	@UseDataSource()
+	@UseDataSource("slave")
 	public void master() {
 
 		Record R2 = genericDao.findByPrimaryKey("user","1534904693057-0");

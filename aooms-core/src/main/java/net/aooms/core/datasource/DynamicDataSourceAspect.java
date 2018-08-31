@@ -96,7 +96,7 @@ public class DynamicDataSourceAspect {
                 if (!DynamicDataSourceHolder.containsDataSource(name)) {
                     logger.error("datasource [{}] not found !",name);
                 } else {
-                    logger.info("use datasource [{}]",name);
+                    logger.info(target.getClass().getName() + "." + currentMethod.getName() + " use datasource [{}]",name);
                     DynamicDataSourceHolder.setDataSource(dataSource.value());
                 }
             }

@@ -23,7 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 @EnableHystrix
 @EnableTransactionManagement(mode = AdviceMode.ASPECTJ)
 @Import({DynamicDataSourceRegister.class})
-@EnableAspectJAutoProxy
+@EnableAspectJAutoProxy(exposeProxy = true)
 public class DemoApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
