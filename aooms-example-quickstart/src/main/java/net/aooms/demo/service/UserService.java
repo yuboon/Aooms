@@ -79,8 +79,10 @@ public class UserService extends GenericService {
 
         // this.master();
 
+		proxy(this.getClass()).master();
+
 		// 自我调用不走aspect问题
-		((UserService)AopContext.currentProxy()).master();
+		// ((UserService)AopContext.currentProxy()).master();
 
 
 		//return Lists.newArrayList();//userMapper.selectMap(maps);

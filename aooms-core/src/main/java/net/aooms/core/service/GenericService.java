@@ -6,6 +6,7 @@ import net.aooms.core.data.DataResult;
 import net.aooms.core.module.mybatis.SqlPara;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -14,6 +15,10 @@ import java.util.Map;
 public class GenericService {
 
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	public <T> T proxy(Class<T> obj){
+		return ((T) AopContext.currentProxy());
+	}
 
 	/**
 	 * 以DataBoss.DataPara为参数创建SqlPara对象
