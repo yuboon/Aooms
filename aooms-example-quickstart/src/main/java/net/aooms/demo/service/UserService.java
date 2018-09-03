@@ -21,7 +21,6 @@ public class UserService extends GenericService {
 	private GenericDao genericDao;
 
 	@Transactional(readOnly = true)
-	@UseDataSource()
 	public void query() {
 		/*Record record1 = Record.NEW();
 		record1.set(Constants.ID,System.currentTimeMillis());
@@ -46,7 +45,7 @@ public class UserService extends GenericService {
 		//Record record2 = genericDao.findByPrimaryKey("user","1534904693057-0");
 		//System.err.println("secord:" + JSON.toJSONString(record2));
 		Record R2 = genericDao.findByPrimaryKey("user","1534904693057-0");
-		System.err.println("THREE:" + JSON.toJSONString(R2));
+		System.err.println("master:" + JSON.toJSONString(R2));
 
 
 		//获取session1
@@ -79,7 +78,7 @@ public class UserService extends GenericService {
 
         // this.master();
 
-		proxy(this.getClass()).master();
+		//proxy(this.getClass()).master();
 
 		// 自我调用不走aspect问题
 		// ((UserService)AopContext.currentProxy()).master();
@@ -93,7 +92,7 @@ public class UserService extends GenericService {
 	public void master() {
 
 		Record R2 = genericDao.findByPrimaryKey("user","1534904693057-0");
-		System.err.println("master:" + JSON.toJSONString(R2));
+		System.err.println("slave:" + JSON.toJSONString(R2));
 	}
 
 }

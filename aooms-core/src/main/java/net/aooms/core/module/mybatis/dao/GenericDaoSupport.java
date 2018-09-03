@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.sql.Connection;
 import java.util.List;
@@ -55,6 +56,10 @@ public class GenericDaoSupport implements GenericDao {
     @Override
     public GenericDao use(String name) {
         Assert.notNull(name,"datasource name is not allow null !");
+        // 如果包含在当前spring事务中，拒绝操作
+        if(TransactionSynchronizationManager.isActualTransactionActive()){
+            throw new UnsupportedOperationException("Cannot be used in spring transactions !");
+        }
 
         if (!DynamicDataSourceHolder.containsDataSource(name)) {
             logger.error("datasource [{}] not found !",name);
@@ -73,6 +78,10 @@ public class GenericDaoSupport implements GenericDao {
     @Override
     public void useOn(String name) {
         Assert.notNull(name,"datasource name is not allow null !");
+        // 如果包含在当前spring事务中，拒绝操作
+        if(TransactionSynchronizationManager.isActualTransactionActive()){
+            throw new UnsupportedOperationException("Cannot be used in spring transactions !");
+        }
 
         if (!DynamicDataSourceHolder.containsDataSource(name)) {
             logger.error("datasource [{}] not found !",name);
@@ -89,6 +98,10 @@ public class GenericDaoSupport implements GenericDao {
     @Override
     public void useOff(String name) {
         logger.info("off datasource [{}]",name);
+        // 如果包含在当前spring事务中，拒绝操作
+        if(TransactionSynchronizationManager.isActualTransactionActive()){
+            throw new UnsupportedOperationException("Cannot be used in spring transactions !");
+        }
         DynamicDataSourceHolder.clearDataSource();
     }
 

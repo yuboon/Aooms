@@ -48,7 +48,7 @@ public class DemoController extends AoomsAbstractController {
      */
     @RequestMapping("/login")
     @ClearInterceptor({KissoLoginInterceptor.class})
-    @HystrixCommand
+    //@HystrixCommand
     public void login(){
         // mybatis缓存      X
         // 事务、分布式事务
