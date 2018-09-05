@@ -75,7 +75,6 @@ public class DynamicDataSourceAspect {
 
     @Before("dataSource()")
     public void changeDataSource(JoinPoint point) throws Throwable {
-        System.err.println("changeDataSource > " + point.getSignature().getName());
         Signature signature = point.getSignature();
         if (signature instanceof MethodSignature) {
             MethodSignature msig = (MethodSignature) signature;
