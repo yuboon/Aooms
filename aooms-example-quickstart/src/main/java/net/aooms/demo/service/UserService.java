@@ -1,6 +1,7 @@
 package net.aooms.demo.service;
 
 import com.alibaba.fastjson.JSON;
+import net.aooms.core.Constants;
 import net.aooms.core.datasource.UseDataSource;
 import net.aooms.core.module.mybatis.dao.GenericDao;
 import net.aooms.core.module.mybatis.record.Record;
@@ -9,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -20,7 +22,7 @@ public class UserService extends GenericService {
 	@Autowired
 	private GenericDao genericDao;
 
-	@Transactional(readOnly = true)
+	@UseDataSource
 	public void query() {
 		/*Record record1 = Record.NEW();
 		record1.set(Constants.ID,System.currentTimeMillis());
@@ -47,6 +49,10 @@ public class UserService extends GenericService {
 		Record R2 = genericDao.findByPrimaryKey("user","1534904693057-0");
 		System.err.println("master:" + JSON.toJSONString(R2));
 
+		Record record1 = Record.NEW();
+		record1.set(Constants.ID,System.currentTimeMillis());
+		record1.set("name","lisi2");
+		genericDao.insert("user",record1);
 
 		//获取session1
 		/*SqlSession session1 = sessionTemplate.getSqlSessionFactory().openSession();
@@ -78,21 +84,27 @@ public class UserService extends GenericService {
 
         // this.master();
 
-		//proxy(this.getClass()).master();
+		proxy(this.getClass()).slave();
 
 		// 自我调用不走aspect问题
-		// ((UserService)AopContext.currentProxy()).master();
-
+		// ((UserService)AopContext.currentProxy()).slave();
 
 		//return Lists.newArrayList();//userMapper.selectMap(maps);
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	@UseDataSource("slave")
-	public void master() {
+	public void slave() {
 
 		Record R2 = genericDao.findByPrimaryKey("user","1534904693057-0");
 		System.err.println("slave:" + JSON.toJSONString(R2));
+
+		Record record1 = Record.NEW();
+		record1.set(Constants.ID,System.currentTimeMillis());
+		record1.set("name","lisi3");
+		genericDao.insert("user",record1);
+
+		//throw new RuntimeException("不能保存");
 	}
 
 }

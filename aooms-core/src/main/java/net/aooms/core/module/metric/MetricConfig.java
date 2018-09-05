@@ -1,4 +1,4 @@
-/*
+
 package net.aooms.core.module.metric;
 
 import com.codahale.metrics.*;
@@ -12,17 +12,16 @@ import java.util.concurrent.TimeUnit;
 public class MetricConfig {
 
     @Bean
-    public MetricRegistry metrics() {
+    public MetricRegistry metricRegistry() {
         return new MetricRegistry();
     }
 
-    */
-/**
+    /**
      * Reporter 数据的展现位置
      *
      * @param metrics
      * @return
-     *//*
+     */
 
     @Bean
     public ConsoleReporter consoleReporter(MetricRegistry metrics) {
@@ -41,53 +40,47 @@ public class MetricConfig {
                 .build();
     }
 
-    */
-/**
+    /*
      * TPS 计算器
      *
      * @param metrics
      * @return
-     *//*
-
+     */
     @Bean
     public Meter requestMeter(MetricRegistry metrics) {
         return metrics.meter("request");
     }
 
-    */
-/**
+    /**
      * 直方图
      *
      * @param metrics
      * @return
-     *//*
+     */
 
     @Bean
     public Histogram responseSizes(MetricRegistry metrics) {
         return metrics.histogram("response-sizes");
     }
 
-    */
-/**
+
+    /**
      * 计数器
      *
      * @param metrics
      * @return
-     *//*
-
+     */
     @Bean
     public Counter pendingJobs(MetricRegistry metrics) {
         return metrics.counter("requestCount");
     }
 
-    */
-/**
+    /**
      * 计时器
      *
      * @param metrics
      * @return
-     *//*
-
+     */
     @Bean
     public Timer responses(MetricRegistry metrics) {
         return metrics.timer("executeTime");
@@ -95,4 +88,4 @@ public class MetricConfig {
 
 }
 
-*/
+

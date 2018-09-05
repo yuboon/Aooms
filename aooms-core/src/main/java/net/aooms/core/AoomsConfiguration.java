@@ -58,12 +58,6 @@ public class AoomsConfiguration implements IConfiguration {
         return new ThreadLocalProcessHystrixConcurrencyStrategy();
     }
 
-    @Bean
-    public MetricRegistry metricRegistry(){
-        return new MetricRegistry();
-    }
-
-
     /**
      * web环境配置
      * @return

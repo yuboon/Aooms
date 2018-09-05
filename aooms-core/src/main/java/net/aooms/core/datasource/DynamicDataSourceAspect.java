@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
  * @version v.0.1
  */
 
-@Order(-1)// 保证该AOP在@Transactional之前执行
+@Order(-10)// 保证该AOP在@Transactional之前执行
 @Component
 @Aspect
 public class DynamicDataSourceAspect {
@@ -75,13 +75,14 @@ public class DynamicDataSourceAspect {
 
     @Before("dataSource()")
     public void changeDataSource(JoinPoint point) throws Throwable {
+        System.err.println("changeDataSource > " + point.getSignature().getName());
         Signature signature = point.getSignature();
         if (signature instanceof MethodSignature) {
             MethodSignature msig = (MethodSignature) signature;
             Object target = point.getTarget();
             Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
 
-            if("use".equals(currentMethod.getName()) || "onUse".equals(currentMethod.getName()) || "uesOff".equals(currentMethod.getName())){
+            if("use".equals(currentMethod.getName()) || "useOn".equals(currentMethod.getName()) || "uesOff".equals(currentMethod.getName())){
                 return;
             }
 
@@ -111,7 +112,7 @@ public class DynamicDataSourceAspect {
             Object target = point.getTarget();
             Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
 
-            if ("use".equals(currentMethod.getName()) || "onUse".equals(currentMethod.getName()) || "uesOff".equals(currentMethod.getName())) {
+            if ("use".equals(currentMethod.getName()) || "useOn".equals(currentMethod.getName()) || "uesOff".equals(currentMethod.getName())) {
                 //DynamicDataSourceHolder.setDataSource();
             } else {
                 DynamicDataSourceHolder.clearDataSource();
