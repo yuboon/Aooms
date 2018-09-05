@@ -1,6 +1,5 @@
 package net.aooms.core;
 
-import com.codahale.metrics.MetricRegistry;
 import net.aooms.core.module.AoomsModule;
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
 import net.aooms.core.property.PropertyObject;

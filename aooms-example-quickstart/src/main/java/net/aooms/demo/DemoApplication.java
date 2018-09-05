@@ -23,7 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootApplication(scanBasePackages = {"net.aooms.core","net.aooms.demo"})
 @EnableHystrix
 @EnableTransactionManagement
-@Import({DynamicDataSourceRegister.class})
+//@Import({DynamicDataSourceRegister.class})
 @EnableAspectJAutoProxy(exposeProxy = true)
 public class DemoApplication extends SpringBootServletInitializer {
 

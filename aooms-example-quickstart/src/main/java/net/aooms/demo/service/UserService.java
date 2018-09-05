@@ -2,15 +2,13 @@ package net.aooms.demo.service;
 
 import com.alibaba.fastjson.JSON;
 import net.aooms.core.Constants;
-import net.aooms.core.datasource.UseDataSource;
+import net.aooms.core.datasource.DS;
 import net.aooms.core.module.mybatis.dao.GenericDao;
 import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.service.GenericService;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -22,7 +20,7 @@ public class UserService extends GenericService {
 	@Autowired
 	private GenericDao genericDao;
 
-	@UseDataSource
+	@DS
 	public void query() {
 		/*Record record1 = Record.NEW();
 		record1.set(Constants.ID,System.currentTimeMillis());
@@ -93,7 +91,7 @@ public class UserService extends GenericService {
 	}
 
 	@Transactional
-	@UseDataSource("slave")
+	@DS("slave")
 	public void slave() {
 
 		Record R2 = genericDao.findByPrimaryKey("user","1534904693057-0");

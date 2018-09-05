@@ -42,11 +42,12 @@ spring:
     #url: jdbc:mysql://127.0.0.1:3306/test
     #url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
 
-    hikari:
+    master:
       username: root
       password: root
       jdbc-url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
       driver-class-name: com.mysql.jdbc.Driver
+
 
   more-datasource:
      keys: slave

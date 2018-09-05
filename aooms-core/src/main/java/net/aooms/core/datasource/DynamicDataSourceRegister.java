@@ -1,11 +1,10 @@
 package net.aooms.core.datasource;
 
 import cn.hutool.core.util.StrUtil;
-import com.codahale.metrics.MetricRegistry;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.micrometer.core.instrument.MeterRegistry;
 import net.aooms.core.Constants;
-import net.aooms.core.util.ApplicationContextUtils;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 动态数据源注册
+ * 动态数据源注册（未使用，使用DataSourceConfiguration代替）
  */
 
 public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar, EnvironmentAware {
@@ -40,7 +39,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
     private Map<String, DataSource> moreDataSources = new HashMap<String, DataSource>();
 
     @Autowired
-    private MetricRegistry metricRegistry;
+    private MeterRegistry meterRegistry;
 
     /**
      * 加载多数据源配置
@@ -102,7 +101,8 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         // HikariDataSource dataSource = (HikariDataSource)factory.build();
         // DataSourceBuilder.create()..build()
         HikariDataSource dataSource = new HikariDataSource(config);
-        dataSource.setMetricRegistry(metricRegistry);
+        System.err.println("meterRegistry = " + meterRegistry);
+        dataSource.setMetricRegistry(meterRegistry);
         logger.info(LogUtils.logFormat("DataSource [" + name + "] - Start Completed , use conifg : " + prefix));
         return dataSource;
     }

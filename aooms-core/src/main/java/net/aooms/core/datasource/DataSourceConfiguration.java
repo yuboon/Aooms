@@ -1,57 +1,71 @@
 
 package net.aooms.core.datasource;
 
-import com.codahale.metrics.MetricRegistry;
+import cn.hutool.core.util.StrUtil;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import io.micrometer.core.instrument.MeterRegistry;
+import net.aooms.core.Constants;
+import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.lookup.DataSourceLookup;
+import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
+
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
-@ConfigurationProperties(prefix="spring.datasource")
 public class DataSourceConfiguration {
 
     private Logger logger = LoggerFactory.getLogger(DataSourceConfiguration.class);
 
-    /*private String user;
-
-    private String password;
-
-    private String url;
-
-    private String driverClassName;
-
-    private String connectionTestQuery;*/
-
     @Autowired
-    private MetricRegistry metricRegistry;
-/*
+    private MeterRegistry meterRegistry;
+
     @Bean
-    public DataSource primaryDataSource() {
-        Properties dsProps = new Properties();
-        dsProps.setProperty("url", url);
-        dsProps.setProperty("user", user);
-        dsProps.setProperty("password", password);
+    public DataSource dataSource(Environment env) {
+        // 数据源对象
+        DynamicDataSource dynamicDataSource = new DynamicDataSource();
 
-        Properties configProps = new Properties();
-        configProps.setProperty("connectionTestQuery", connectionTestQuery);
-        configProps.setProperty("driverClassName", driverClassName);
-        configProps.setProperty("jdbcUrl", url);
+        // 默认数据源
+        DataSource defaultDataSource = createDataSource(env,"spring.datasource",Constants.DEFAULT_DATASOURCE);
 
-        HikariConfig hc = new HikariConfig(configProps);
-        hc.setDataSourceProperties(dsProps);
-        hc.setMetricRegistry(metricRegistry);
-        return new HikariDataSource(hc);
-    }*/
+        // 其他数据源
+        String more = env.getProperty("spring.more-datasource.keys");
+        Map<Object, Object> moreDataSources = new HashMap<Object, Object>();
+        if(StrUtil.isNotBlank(more)){
 
-    /*@Bean(name = "primaryDataSource")
-    @Primary
-    @ConfigurationProperties(prefix="spring.datasource.hikari")
-    public DataSource primaryDataSource() {
-        //HikariDataSource hikariDataSource = new HikariDataSource();
-        logger.info("hikari datasource create.......");
-        return DataSourceBuilder.create().build();
-    }*/
+            String[] moreDataSourceNames = more.split(",");
+            for(String name : moreDataSourceNames){
+                if(StrUtil.isNotBlank(name)){
+                    // 创建其他数据源
+                    moreDataSources.put(name, createDataSource(env,"spring.more-datasource",name));
+                }
+            }
+        }
+
+        // 设置dynamicDataSource数据源
+        dynamicDataSource.setDefaultTargetDataSource(defaultDataSource);
+        dynamicDataSource.setTargetDataSources(moreDataSources);
+
+        return dynamicDataSource;
+    }
+
+    private DataSource createDataSource(Environment env,String prefix,String name){
+        HikariConfig config = Binder.get(env).bind(prefix + "." + name, HikariConfig.class).orElse(new HikariConfig());
+        config.setMetricRegistry(meterRegistry);
+        HikariDataSource dataSource = new HikariDataSource(config);
+        // 添加到数据源持有对象
+        DynamicDataSourceHolder.dataSourceIds.add(name);
+        logger.info(LogUtils.logFormat("DataSource [" + name + "] - Start Completed , use conifg : " + prefix + "." + name));
+        return dataSource;
+    }
 
 }

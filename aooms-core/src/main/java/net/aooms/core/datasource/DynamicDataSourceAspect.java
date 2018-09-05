@@ -28,13 +28,13 @@ public class DynamicDataSourceAspect {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-    /*@Pointcut("@annotation(net.aooms.core.datasource.UseDataSource)")
+    /*@Pointcut("@annotation(net.aooms.core.datasource.DS)")
     public void useDataSource() {
 
     }*/
 
     //@Pointcut("execution(* net.aooms.core.module.mybatis.dao.GenericDaoSupport.*(..))")
-    @Pointcut("@annotation(net.aooms.core.datasource.UseDataSource)")
+    @Pointcut("@annotation(net.aooms.core.datasource.DS)")
     public void dataSource() {
 
     }
@@ -56,7 +56,7 @@ public class DynamicDataSourceAspect {
             Object target = point.getTarget();
             Method currentMethod = target.getClass().getMethod(msig.getName(), msig.getParameterTypes());
 
-            UseDataSource dataSource = currentMethod.getAnnotation(UseDataSource.class);
+            DS dataSource = currentMethod.getAnnotation(DS.class);
             if(dataSource != null){
                 // 获取当前的指定的数据源;
                 String dsId = dataSource.value();
@@ -86,7 +86,7 @@ public class DynamicDataSourceAspect {
                 return;
             }
 
-            UseDataSource dataSource = currentMethod.getAnnotation(UseDataSource.class);
+            DS dataSource = currentMethod.getAnnotation(DS.class);
             if(dataSource != null){
                 // 获取当前的指定的数据源;
                 String name = dataSource.value();
