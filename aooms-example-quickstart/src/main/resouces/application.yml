@@ -31,10 +31,15 @@ spring:
     #service-registry:
     # auto-registration:
     #   enabled: true
-    refresh:
-      refreshable: none
+    # refresh:
+    #   refreshable: none
+
 
   datasource:
+    names: master,slave
+    sharding-jdbc: true
+    sharding-names: master,slave  # sharding-jdbc 使用的数据源
+
     #type: com.alibaba.druid.pool.DruidDataSource
     #driver-class-name: com.mysql.jdbc.Driver
     #username: root
@@ -48,14 +53,13 @@ spring:
       jdbc-url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
       driver-class-name: com.mysql.jdbc.Driver
 
-
-  more-datasource:
-     keys: slave
-     slave:
+    slave:
       username: root
       password: root
       jdbc-url: jdbc:mysql://127.0.0.1:3306/ds_0?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
       driver-class-name: com.mysql.jdbc.Driver
+
+
 
 
 

@@ -1,11 +1,15 @@
 package net.aooms.demo.service;
 
 import com.alibaba.fastjson.JSON;
+import io.shardingsphere.core.keygen.DefaultKeyGenerator;
 import net.aooms.core.Constants;
 import net.aooms.core.datasource.DS;
+import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.module.mybatis.dao.GenericDao;
+import net.aooms.core.module.mybatis.record.PagingRecord;
 import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.service.GenericService;
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +24,8 @@ public class UserService extends GenericService {
 	@Autowired
 	private GenericDao genericDao;
 
-	@DS
+	//@DS
+	@Transactional
 	public void query() {
 		/*Record record1 = Record.NEW();
 		record1.set(Constants.ID,System.currentTimeMillis());
@@ -44,13 +49,22 @@ public class UserService extends GenericService {
 		System.err.println(JSON.toJSONString(record));*/
 		//Record record2 = genericDao.findByPrimaryKey("user","1534904693057-0");
 		//System.err.println("secord:" + JSON.toJSONString(record2));
-		Record R2 = genericDao.findByPrimaryKey("user","1534904693057-0");
-		System.err.println("master:" + JSON.toJSONString(R2));
+		//Record R2 = genericDao.findByPrimaryKey("user","1534904693057-0");
+		//System.err.println("master:" + JSON.toJSONString(R2));
 
+		PagingRecord R3 = genericDao.findList("selectMaster", SqlPara.SINGLETON);
+
+
+		DefaultKeyGenerator defaultKeyGenerator = new DefaultKeyGenerator();
 		Record record1 = Record.NEW();
-		record1.set(Constants.ID,System.currentTimeMillis());
-		record1.set("name","lisi2");
-		genericDao.insert("user",record1);
+		long id = System.currentTimeMillis();
+		record1.set("order_id", defaultKeyGenerator.generateKey());
+		record1.set("user_id",12);
+		record1.set("status","NEW");
+
+
+		genericDao.insert("t_order",record1);
+
 
 		//获取session1
 		/*SqlSession session1 = sessionTemplate.getSqlSessionFactory().openSession();
@@ -82,7 +96,7 @@ public class UserService extends GenericService {
 
         // this.master();
 
-		proxy(this.getClass()).slave();
+		//proxy(this.getClass()).slave();
 
 		// 自我调用不走aspect问题
 		// ((UserService)AopContext.currentProxy()).slave();

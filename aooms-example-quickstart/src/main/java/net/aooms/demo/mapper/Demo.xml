@@ -17,4 +17,8 @@
         update user set name = '123' where id = #{id}
     </select>
 
+    <select id="selectMaster" resultType="net.aooms.core.module.mybatis.record.Record">
+        select * from t_order
+    </select>
+
 </mapper>
