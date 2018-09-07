@@ -102,7 +102,7 @@ public class GenericDaoSupport implements GenericDao {
         if(TransactionSynchronizationManager.isActualTransactionActive()){
             throw new UnsupportedOperationException("Cannot be used in spring transactions !");
         }
-        DynamicDataSourceHolder.clearDataSource();
+        DynamicDataSourceHolder.removeDataSource();
     }
 
     /**

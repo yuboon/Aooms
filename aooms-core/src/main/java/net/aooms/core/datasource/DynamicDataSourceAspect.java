@@ -16,11 +16,8 @@ import java.lang.reflect.Method;
 
 /**
  * 切换数据源Advice
- * @author Angel(QQ:412887952)
- * @version v.0.1
  */
-
-@Order(-10)// 保证该AOP在@Transactional之前执行
+@Order(-100)// 保证该AOP在@Transactional之前执行
 @Component
 @Aspect
 public class DynamicDataSourceAspect {
@@ -114,14 +111,14 @@ public class DynamicDataSourceAspect {
             if ("use".equals(currentMethod.getName()) || "useOn".equals(currentMethod.getName()) || "uesOff".equals(currentMethod.getName())) {
                 //DynamicDataSourceHolder.setDataSource();
             } else {
-                DynamicDataSourceHolder.clearDataSource();
+                DynamicDataSourceHolder.removeDataSource();
             }
         }
     }
 
     @AfterThrowing("dataSource()")
     public void releaseDataSource(JoinPoint point) {
-        DynamicDataSourceHolder.clearDataSource();
+        DynamicDataSourceHolder.removeDataSource();
     }
 
 }

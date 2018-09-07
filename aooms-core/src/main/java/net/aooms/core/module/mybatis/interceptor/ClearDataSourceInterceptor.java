@@ -31,7 +31,7 @@ public class ClearDataSourceInterceptor implements Interceptor {
             Object value = invocation.proceed();
             return value;
         }finally {
-            DynamicDataSourceHolder.clearDataSource();
+            DynamicDataSourceHolder.removeDataSource();
         }
     }
 

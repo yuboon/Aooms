@@ -256,6 +256,12 @@
         </dependency>
 
         <dependency>
+            <groupId>io.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-transaction</artifactId>
+            <version>3.0.0.M2</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
             <version>5.0.5.RELEASE</version>

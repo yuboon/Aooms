@@ -14,4 +14,12 @@ public class LogUtils {
         return "AoomsMsg >> " + msg;
     }
 
+    public static void logFormatPrint(String msg){
+        System.err.println(logFormat(msg));
+    }
+
+    public static void errorLogFormatPrint(String msg){
+        System.err.println(errorLogFormat(msg));
+    }
+
 }

@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.lookup.DataSourceLookup;
 import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
@@ -48,6 +49,7 @@ public class DataSourceConfiguration {
     private MeterRegistry meterRegistry;
 
     @Bean
+    @Primary
     public DataSource dataSource(Environment env) throws Exception {
 
         // 数据源名称
@@ -90,6 +92,7 @@ public class DataSourceConfiguration {
                 dynamicDataSource.setDefaultTargetDataSource(dataSource);
                 // 修改datasources中的默认数据源,其他数据源不变
                 dataSources.put(Constants.DEFAULT_DATASOURCE,dataSource);
+                DynamicDataSourceHolder.dataSourceMap.put(Constants.DEFAULT_DATASOURCE,dataSource);
             }else{
                 throw new RuntimeException("application-sharding-jdbc.yml not found !");
             }
@@ -142,6 +145,8 @@ public class DataSourceConfiguration {
         HikariDataSource dataSource = new HikariDataSource(config);
         // 添加到数据源持有对象
         DynamicDataSourceHolder.dataSourceIds.add(name);
+        DynamicDataSourceHolder.dataSourceMap.put(name,dataSource);
+
         logger.info(LogUtils.logFormat("DataSource [" + name + "] - Start Completed , use conifg : " + prefix + "." + name));
         return dataSource;
     }

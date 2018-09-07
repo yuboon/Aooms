@@ -5,15 +5,19 @@ import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrateg
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.client.SimpleRestTemplate;
 import net.aooms.core.web.interceptor.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.sql.DataSource;
 
 /**
  * 框架默认配置类
@@ -46,10 +50,10 @@ public class AoomsConfiguration implements IConfiguration {
     }
 
     @Bean
-    public AoomsModule aoomsModule(){
-        AoomsModule aoomsModule = new AoomsModule();
-        aoomsModule.instance(aoomsModule);
-        return aoomsModule;
+    public Aooms aoomsInstance(){
+        Aooms aooms = new Aooms();
+        aooms.instance(aooms);
+        return aooms;
     }
 
     @Bean

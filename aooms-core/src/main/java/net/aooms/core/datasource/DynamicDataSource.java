@@ -1,8 +1,10 @@
 package net.aooms.core.datasource;
 
+import net.aooms.core.Constants;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
- 
+import javax.sql.DataSource;
+
 
 /**
  * 获取DynamicDataSourceHolder指定的数据源
@@ -14,8 +16,20 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
      */
     @Override
     protected Object determineCurrentLookupKey() {
-
        return DynamicDataSourceHolder.getDataSource();
+    }
+
+    public DataSource getDefaultDataSource(){
+        //return this.determineTargetDataSource();
+        return getDataSource(Constants.DEFAULT_DATASOURCE);
+    }
+
+    public DataSource getDataSource(String key){
+        DataSource dataSource = DynamicDataSourceHolder.dataSourceMap.get(key);
+        if(dataSource == null){
+            throw new RuntimeException("The datasource was not found through the key [ {} ] " + key);
+        }
+        return dataSource;
     }
 
 }
