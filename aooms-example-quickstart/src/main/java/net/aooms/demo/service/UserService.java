@@ -1,29 +1,23 @@
 package net.aooms.demo.service;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.collect.Lists;
-import com.google.common.eventbus.EventBus;
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.config.ConfigService;
 import io.shardingsphere.core.keygen.DefaultKeyGenerator;
-import io.shardingsphere.core.transaction.event.TransactionEvent;
-import io.shardingsphere.core.transaction.listener.TransactionListener;
-import io.shardingsphere.transaction.bed.sync.BestEffortsDeliveryListener;
-import net.aooms.core.Constants;
-import net.aooms.core.datasource.DS;
-import net.aooms.core.datasource.DynamicDataSourceHolder;
+import net.aooms.core.AoomsConstants;
 import net.aooms.core.module.dbsharding.SoftTransactional;
-import net.aooms.core.module.mybatis.SqlPara;
+import net.aooms.core.module.id.GeneratorForUUID;
+import net.aooms.core.module.id.IDGenerator;
+import net.aooms.core.module.id.IDType;
 import net.aooms.core.module.mybatis.dao.GenericDao;
-import net.aooms.core.module.mybatis.record.PagingRecord;
 import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.service.GenericService;
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.RuntimeMBeanException;
-import java.util.List;
+import java.util.Properties;
 
 @Service
 public class UserService extends GenericService {
@@ -40,7 +34,7 @@ public class UserService extends GenericService {
 	//@DS
 	public void query() {
 		/*Record record1 = Record.NEW();
-		record1.set(Constants.ID,System.currentTimeMillis());
+		record1.set(AoomsConstants.ID,System.currentTimeMillis());
 		record1.set("name","lisi");
 		//genericDaoSupport.delete("user",record1);
 		//genericDaoSupport.batchDelete("user",records,2);
@@ -50,7 +44,7 @@ public class UserService extends GenericService {
 
 		//System.err.println("Record = " + JSON.toJSONString(recordPaging,SerializerFeature.WriteMapNullValue));
 
-		//getResult().set(Constants.Result.DATA,recordPaging);
+		//getResult().set(AoomsConstants.Result.DATA,recordPaging);
 
 
 
@@ -84,13 +78,16 @@ public class UserService extends GenericService {
 		Record record1 = Record.NEW();
 		long id = System.currentTimeMillis();
 		record1.set("order_id", defaultKeyGenerator.generateKey());
-		record1.set("user_id",12);
+		record1.set("user_id2",12);
 		record1.set("status","NEW");
+
+        String id2 = IDGenerator.getStringValue(IDType.SNOWFLAKE);
+        System.err.println("id2 = " + id2);
 
 		genericDao.insert("t_order",record1);
 
 
-  throw new RuntimeException("事务报错");
+  //throw new RuntimeException("事务报错");
 		//获取session1
 		/*SqlSession session1 = sessionTemplate.getSqlSessionFactory().openSession();
 		List<Record> records = session1.selectList("Demo.selectListBySQL");
@@ -137,7 +134,7 @@ public class UserService extends GenericService {
 		System.err.println("slave:" + JSON.toJSONString(R2));
 
 		Record record1 = Record.NEW();
-		record1.set(Constants.ID,System.currentTimeMillis());
+		record1.set(AoomsConstants.ID,System.currentTimeMillis());
 		record1.set("name","lisi3");
 		genericDao.insert("user",record1);
 

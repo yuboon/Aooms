@@ -1,7 +1,7 @@
 package net.aooms.core.data;
 
 import cn.hutool.core.collection.CollectionUtil;
-import net.aooms.core.Constants;
+import net.aooms.core.AoomsConstants;
 import net.aooms.core.exception.AoomsException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -183,7 +183,7 @@ public class DataPara implements Serializable {
      * @return
      */
     public int getPage(){
-        String page = getString(Constants.Para.PAGE);
+        String page = getString(AoomsConstants.Para.PAGE);
         if(StringUtils.isEmpty(page)) return 0;
         return Integer.valueOf(page);
     };
@@ -193,7 +193,7 @@ public class DataPara implements Serializable {
      * @return
      */
     public int getLimit(){
-        String limit = getString(Constants.Para.LIMIT);
+        String limit = getString(AoomsConstants.Para.LIMIT);
         if(StringUtils.isEmpty(limit)) return 0;
         return Integer.valueOf(limit);
     };

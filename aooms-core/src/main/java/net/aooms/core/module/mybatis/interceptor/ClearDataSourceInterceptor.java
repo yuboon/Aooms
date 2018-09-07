@@ -6,6 +6,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.Properties;
 
@@ -31,7 +32,9 @@ public class ClearDataSourceInterceptor implements Interceptor {
             Object value = invocation.proceed();
             return value;
         }finally {
-            DynamicDataSourceHolder.removeDataSource();
+            if(!TransactionSynchronizationManager.isActualTransactionActive()){
+                DynamicDataSourceHolder.removeDataSource();
+            }
         }
     }
 

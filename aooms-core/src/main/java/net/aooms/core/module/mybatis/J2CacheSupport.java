@@ -1,6 +1,5 @@
 package net.aooms.core.module.mybatis;
 
-import net.aooms.core.module.AoomsModule;
 import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.J2Cache;
 import org.apache.ibatis.cache.Cache;

@@ -2,7 +2,7 @@ package net.aooms.core.module.mybatis.dao;
 
 import cn.hutool.core.lang.Assert;
 import com.google.common.collect.Lists;
-import net.aooms.core.Constants;
+import net.aooms.core.AoomsConstants;
 import net.aooms.core.datasource.DynamicDataSourceHolder;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.SqlPara;
@@ -197,7 +197,7 @@ public class GenericDaoSupport implements GenericDao {
 
     @Override
     public Record findByPrimaryKey(String tableName, String primaryKeyValue) {
-        return findByPrimaryKey(tableName, Constants.ID ,primaryKeyValue);
+        return findByPrimaryKey(tableName, AoomsConstants.ID ,primaryKeyValue);
     }
 
     @Override

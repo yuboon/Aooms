@@ -3,21 +3,11 @@ package net.aooms.core.datasource;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.db.sql.SqlExecutor;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.shardingsphere.core.api.ShardingDataSourceFactory;
-import io.shardingsphere.core.api.config.MasterSlaveRuleConfiguration;
-import io.shardingsphere.core.api.config.ShardingRuleConfiguration;
-import io.shardingsphere.core.api.config.TableRuleConfiguration;
-import io.shardingsphere.core.api.config.strategy.InlineShardingStrategyConfiguration;
 import io.shardingsphere.core.api.yaml.YamlShardingDataSourceFactory;
-import io.shardingsphere.core.keygen.DefaultKeyGenerator;
-import io.shardingsphere.core.yaml.sharding.YamlShardingConfiguration;
-import net.aooms.core.Constants;
+import net.aooms.core.AoomsConstants;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,18 +17,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.lookup.DataSourceLookup;
-import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
 
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
-import java.io.File;
-import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 public class DataSourceConfiguration {
@@ -75,7 +57,7 @@ public class DataSourceConfiguration {
         }
 
         // 设置dynamicDataSource数据源
-        dynamicDataSource.setDefaultTargetDataSource(dataSources.get(Constants.DEFAULT_DATASOURCE));
+        dynamicDataSource.setDefaultTargetDataSource(dataSources.get(AoomsConstants.DEFAULT_DATASOURCE));
         dynamicDataSource.setTargetDataSources(dataSources);
 
 
@@ -91,8 +73,8 @@ public class DataSourceConfiguration {
                 // 设置默认数据源为 sharding-jdbc 构造的数据源
                 dynamicDataSource.setDefaultTargetDataSource(dataSource);
                 // 修改datasources中的默认数据源,其他数据源不变
-                dataSources.put(Constants.DEFAULT_DATASOURCE,dataSource);
-                DynamicDataSourceHolder.dataSourceMap.put(Constants.DEFAULT_DATASOURCE,dataSource);
+                dataSources.put(AoomsConstants.DEFAULT_DATASOURCE,dataSource);
+                DynamicDataSourceHolder.dataSourceMap.put(AoomsConstants.DEFAULT_DATASOURCE,dataSource);
             }else{
                 throw new RuntimeException("application-sharding-jdbc.yml not found !");
             }

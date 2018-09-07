@@ -1,6 +1,6 @@
 package net.aooms.core.module.mybatis.record;
 
-import net.aooms.core.Constants;
+import net.aooms.core.AoomsConstants;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.interceptor.MetaObjectAssistant;
 import org.apache.ibatis.mapping.BoundSql;
@@ -26,7 +26,7 @@ public class RecordDelete implements IRecordOper {
         Record record = (Record) parameterObject;
 
         String tableName = record.getString(MyBatisConst.TABLE_NAME_PLACEHOLDER);
-        String pkName = String.valueOf(record.getOrDefault(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER, Constants.ID));
+        String pkName = String.valueOf(record.getOrDefault(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER, AoomsConstants.ID));
         Object pkValue = record.get(pkName);
 
         StringBuilder stringBuilder = new StringBuilder();

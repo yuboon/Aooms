@@ -267,6 +267,12 @@
             <version>5.0.5.RELEASE</version>
         </dependency>
 
+        <!-- 配置、服务注册、服务发现  -->
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>0.1.0</version>
+        </dependency>
 
         <!--spring相关包
         <dependency>

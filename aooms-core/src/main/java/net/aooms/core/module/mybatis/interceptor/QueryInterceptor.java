@@ -1,15 +1,12 @@
 package net.aooms.core.module.mybatis.interceptor;
 
-import com.google.common.collect.Lists;
-import net.aooms.core.Constants;
+import net.aooms.core.AoomsConstants;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.dialect.DialectSelector;
-import net.aooms.core.module.mybatis.record.Record;
 import org.apache.ibatis.executor.statement.PreparedStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.ResultMap;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
@@ -55,7 +52,7 @@ public class QueryInterceptor implements Interceptor {
         if(isFindByPk != null){
             MappedStatement mappedStatement = MetaObjectAssistant.getMappedStatement(metaObject);
             Object parameterObject = MetaObjectAssistant.getParameterObject(metaObject);
-            Object pkName = para.getOrDefault(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER , Constants.ID);
+            Object pkName = para.getOrDefault(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER , AoomsConstants.ID);
             Object tableName = para.get(MyBatisConst.TABLE_NAME_PLACEHOLDER);
             String sql = "select * from " + tableName + " where " + pkName + " = #{"+ pkName +"}";
 

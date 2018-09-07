@@ -2,7 +2,7 @@ package net.aooms.core.datasource;
 
 
 import cn.hutool.core.util.StrUtil;
-import net.aooms.core.Constants;
+import net.aooms.core.AoomsConstants;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
@@ -87,7 +87,7 @@ public class DynamicDataSourceAspect {
                 // 获取当前的指定的数据源;
                 String name = dataSource.value();
                 if(StrUtil.isBlank(name)){
-                    name = Constants.DEFAULT_DATASOURCE;
+                    name = AoomsConstants.DEFAULT_DATASOURCE;
                 }
 
                 if (!DynamicDataSourceHolder.containsDataSource(name)) {

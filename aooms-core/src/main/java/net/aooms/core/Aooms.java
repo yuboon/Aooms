@@ -24,7 +24,7 @@ public class Aooms {
     @Autowired
     private DataSource dataSource;
 
-    public void instance(Aooms aooms){
+    void instance(Aooms aooms){
         INSTANCE = aooms;
     }
 
