@@ -1,6 +1,5 @@
 # aooms-core Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-net.aooms.core.starter.AoomsCoreAutoConfiguration,\
 net.aooms.core.datasource.DynamicDataSourceConfiguration,\
 net.aooms.core.AoomsConfiguration,\
 net.aooms.core.module.mybatis.MyBatisConfiguration

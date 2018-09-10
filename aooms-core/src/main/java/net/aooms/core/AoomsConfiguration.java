@@ -1,7 +1,12 @@
 package net.aooms.core;
 
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
+import net.aooms.core.module.mybatis.dao.GenericDao;
+import net.aooms.core.module.mybatis.dao.GenericDaoSupport;
+import net.aooms.core.property.PropertyApplication;
 import net.aooms.core.property.PropertyObject;
+import net.aooms.core.property.PropertyServer;
+import net.aooms.core.property.PropertyTest;
 import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.interceptor.*;
@@ -57,6 +62,26 @@ public class AoomsConfiguration {
         PropertyObject propertyObject = new PropertyObject();
         propertyObject.instance(propertyObject);
         return propertyObject;
+    }
+
+    @Bean
+    public PropertyApplication propertyApplication(){
+        return new PropertyApplication();
+    }
+
+    @Bean
+    public PropertyServer propertyServer(){
+        return new PropertyServer();
+    }
+
+    @Bean
+    public PropertyTest propertyTest(){
+        return new PropertyTest();
+    }
+
+    @Bean
+    public GenericDao genericDao(){
+        return new GenericDaoSupport();
     }
 
     @Bean
