@@ -1,0 +1,2 @@
+# aooms-core Auto Configure
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=net.aooms.core.starter.AoomsCoreAutoConfiguration

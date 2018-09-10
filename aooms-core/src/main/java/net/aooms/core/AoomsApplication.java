@@ -1,4 +1,4 @@
-package net;
+package net.aooms.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
