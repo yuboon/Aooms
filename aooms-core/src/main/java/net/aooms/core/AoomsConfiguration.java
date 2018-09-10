@@ -3,7 +3,9 @@ package net.aooms.core;
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.client.AoomsHttpTemplate;
+import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.interceptor.*;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -44,11 +46,11 @@ public class AoomsConfiguration {
         return httpTemplate;
     }
 
-   /* @Bean
-    public SimpleRestTemplate simpleRestTemplate(){
-        SimpleRestTemplate simpleRestTemplate = new SimpleRestTemplate();
-        return simpleRestTemplate;
-    }*/
+    @Bean
+    public AoomsRestTemplate aoomsRestTemplate(){
+        AoomsRestTemplate restTemplate = new AoomsRestTemplate();
+        return restTemplate;
+    }
 
     @Bean
     public PropertyObject propertyObject(){
@@ -74,7 +76,7 @@ public class AoomsConfiguration {
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean
+    //@ConditionalOnMissingBean
     public WebMvcConfigurer aoomsWebConfigurer() {
         return new WebMvcConfigurer() {
 

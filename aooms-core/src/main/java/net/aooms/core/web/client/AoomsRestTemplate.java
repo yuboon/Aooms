@@ -26,7 +26,6 @@ import java.util.Map;
  * 服务请求客户端
  * Created by cccyb on 2018-02-24
  */
-@Component
 public class AoomsRestTemplate {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());

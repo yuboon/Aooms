@@ -4,6 +4,8 @@ import net.aooms.core.Aooms;
 import net.aooms.core.datasource.DynamicDataSourceRegister;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.EmbeddedDataSourceConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
@@ -21,10 +23,9 @@ import org.springframework.web.context.WebApplicationContext;
 //@EnableDiscoveryClient(autoRegister = true)
 /*@MapperScan("net.aooms.core.module.mybatis.mapper")//将项目中对应的mapper类的路径加进来就可以了 */
 
-@SpringBootApplication(scanBasePackages = {Aooms.CORE_PACKAGE,"net.aooms.demo"})
+@SpringBootApplication(scanBasePackages = {"net.aooms.demo"})
 @EnableHystrix
 @EnableTransactionManagement
-//@Import({DynamicDataSourceRegister.class})
 @EnableAspectJAutoProxy(exposeProxy = true)
 public class DemoApplication extends SpringBootServletInitializer {
 

@@ -53,7 +53,6 @@ spring:
     #password: root
     #url: jdbc:mysql://127.0.0.1:3306/test
     #url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
-
     master:
       username: root
       password: root

@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class DataSourceConfiguration {
+public class DynamicDataSourceConfiguration {
 
-    private Logger logger = LoggerFactory.getLogger(DataSourceConfiguration.class);
+    private Logger logger = LoggerFactory.getLogger(DynamicDataSourceConfiguration.class);
 
     @Autowired
     private MeterRegistry meterRegistry;
