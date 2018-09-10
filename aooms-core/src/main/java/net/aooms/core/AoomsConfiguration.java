@@ -1,6 +1,7 @@
 package net.aooms.core;
 
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
+import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.dao.GenericDao;
 import net.aooms.core.module.mybatis.dao.GenericDaoSupport;
 import net.aooms.core.property.PropertyApplication;
@@ -82,6 +83,11 @@ public class AoomsConfiguration {
     @Bean
     public GenericDao genericDao(){
         return new GenericDaoSupport();
+    }
+
+    @Bean
+    public Db db(){
+        return new Db();
     }
 
     @Bean

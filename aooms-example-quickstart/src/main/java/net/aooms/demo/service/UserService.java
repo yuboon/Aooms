@@ -3,10 +3,10 @@ package net.aooms.demo.service;
 import com.alibaba.fastjson.JSON;
 import io.shardingsphere.core.keygen.DefaultKeyGenerator;
 import net.aooms.core.AoomsConstants;
-import net.aooms.core.module.dbsharding.SoftTransactional;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.id.IDType;
-import net.aooms.core.module.mybatis.dao.GenericDao;
+import net.aooms.core.module.dbsharding.SoftTransactional;
+import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.service.GenericService;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -20,8 +20,11 @@ public class UserService extends GenericService {
 	@Autowired
 	private SqlSessionTemplate sessionTemplate;
 
-	@Autowired
-	private GenericDao genericDao;
+	//@Autowired
+	//private GenericDao genericDao;
+
+    @Autowired
+    private Db db;
 
 	//@DS
 	//@Transactional
@@ -79,7 +82,7 @@ public class UserService extends GenericService {
         String id2 = IDGenerator.getStringValue(IDType.SNOWFLAKE);
         System.err.println("id2 = " + id2);
 
-		genericDao.insert("t_order",record1);
+        db.insert("t_order",record1);
 
 
   //throw new RuntimeException("事务报错");
@@ -125,13 +128,13 @@ public class UserService extends GenericService {
 	//@DS("slave")
 	public void slave() {
 
-		Record R2 = genericDao.findByPrimaryKey("user","1534904693057-0");
+		Record R2 = db.findByPrimaryKey("user","1534904693057-0");
 		System.err.println("slave:" + JSON.toJSONString(R2));
 
 		Record record1 = Record.NEW();
 		record1.set(AoomsConstants.ID,System.currentTimeMillis());
 		record1.set("name","lisi3");
-		genericDao.insert("user",record1);
+		db.insert("user",record1);
 
 		throw new RuntimeException("事务测试");
 
