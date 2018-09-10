@@ -13,6 +13,9 @@ import javax.sql.DataSource;
  */
 public class Aooms {
 
+    // 框架core包
+    public static final String CORE_PACKAGE = "net.aooms.core";
+
     private static Aooms INSTANCE;
 
     @Autowired
