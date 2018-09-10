@@ -20,13 +20,13 @@ import java.util.Map;
 
 @Controller
 @ClearInterceptor(KissoLoginInterceptor.class)
-public class MainErrorController extends BasicErrorController {
+public class AoomsGlobalErrorController extends BasicErrorController {
 
     private static final String ERROR_PATH = "/error";
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public MainErrorController(ServerProperties serverProperties) {
+    public AoomsGlobalErrorController(ServerProperties serverProperties) {
         super(new DefaultErrorAttributes(), serverProperties.getError());
     }
 

@@ -2,6 +2,7 @@ package net.aooms.core;
 
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
 import net.aooms.core.property.PropertyObject;
+import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.interceptor.*;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -21,13 +22,25 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * Created by cccyb on 2018-03-05
  */
 @Configuration
-public class AoomsConfiguration implements IConfiguration {
+public class AoomsConfiguration {
 
-    @LoadBalanced
-    @Bean
+    @Bean("restTemplate")
     public RestTemplate restTemplate(){
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate;
+    }
+
+    @LoadBalanced
+    @Bean("loadBalancedRestTemplate")
+    public RestTemplate loadBalancedRestTemplate(){
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate;
+    }
+
+    @Bean
+    public AoomsHttpTemplate aoomsHttpTemplate(){
+        AoomsHttpTemplate httpTemplate = new AoomsHttpTemplate();
+        return httpTemplate;
     }
 
    /* @Bean

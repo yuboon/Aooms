@@ -15,6 +15,7 @@ import net.aooms.core.property.PropertyObject;
 import net.aooms.core.property.PropertyTest;
 import net.aooms.core.web.AoomsAbstractController;
 import net.aooms.core.web.annotation.ClearInterceptor;
+import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
@@ -57,6 +58,9 @@ public class DemoController extends AoomsAbstractController {
     @Autowired
     private AoomsRestTemplate aoomsRestTemplate;
 
+    @Autowired
+    private AoomsHttpTemplate aoomsHttpTemplate;
+
 
     /**
      * 登陆
@@ -72,8 +76,8 @@ public class DemoController extends AoomsAbstractController {
         // 服务注册发现
         // ID生成
 
-        String s = restTemplate.getForObject("http://AOOMS/hello/123",String.class);
-
+        //String body =  aoomsHttpTemplate.get("https://www.baidu.com");
+        //System.err.println("body = " + body);
         DataResult dataResult = aoomsRestTemplate.get("http://AOOMS/hello/123");
         List<UserPojo> users = dataResult.getBeanList("list",UserPojo.class);
         PagingRecord pagingRecord = dataResult.getPagingRecord("pgRecord");

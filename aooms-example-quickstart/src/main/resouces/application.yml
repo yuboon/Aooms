@@ -11,7 +11,7 @@ logging:
 spring:
   application:
     name: Aooms
-    aooms-use-registry: true
+    aooms-use-registry: false
 
   profiles:
     active: dev
@@ -32,9 +32,11 @@ spring:
       enabled: true
       host: 127.0.0.1
       port: 8500
-    #service-registry:
-    # auto-registration:
-    #   enabled: true
+   #   discovery:
+   #     register: true
+   # service-registry:
+   #   auto-registration:
+   #     enabled: true
     # refresh:
     #   refreshable: none
 

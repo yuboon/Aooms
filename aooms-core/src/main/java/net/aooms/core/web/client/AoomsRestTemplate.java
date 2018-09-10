@@ -11,6 +11,7 @@ import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -34,6 +35,10 @@ public class AoomsRestTemplate {
     private RestTemplate restTemplate;
 
     @Autowired
+    @Qualifier("loadBalancedRestTemplate")
+    private RestTemplate loadBalancedRestTemplate;
+
+    @Autowired
     private PropertyApplication applicationProperties;
 
     @Autowired
@@ -45,15 +50,11 @@ public class AoomsRestTemplate {
         return get(url, Collections.emptyMap());
     }
 
-    public DataResult getOriginal(String url) {
-       return getOriginal(url, Collections.emptyMap());
-    }
-
     public DataResult get(String url, Map<String, Object> params) {
         DataResult dataResult = new DataResult();
         Map map = null;
         if(useRegistry()){
-            map = restTemplate.getForObject(url,Map.class);
+            map = loadBalancedRestTemplate.getForObject(url,Map.class);
         }else{
             String serverUrl = getLocalServerUrl(url);
             if(logger.isInfoEnabled()){
@@ -61,7 +62,7 @@ public class AoomsRestTemplate {
             }
             map = restTemplate.getForObject(serverUrl,Map.class,params);
         }
-        System.err.println("map = " + JSON.toJSONString(map));
+
         Map mapStatus = (Map) map.get(AoomsConstants.Result.META);
         DataResultStatus status = BeanUtil.mapToBean(mapStatus,DataResultStatus.class,true);
         map.put(AoomsConstants.Result.META,status);
@@ -69,48 +70,33 @@ public class AoomsRestTemplate {
         return dataResult;
     }
 
-    public DataResult getOriginal(String url, Map<String, Object> params) {
-        Map map = restTemplate.getForObject(url,Map.class,params);
-        return new DataResult(map);
-    }
-
-    public ResponseEntity<String> post(String url) {
+    public DataResult post(String url) {
         return post(url,Collections.emptyMap());
     }
 
-    public ResponseEntity<String> postOriginal(String url) {
-        return postOriginal(url,Collections.emptyMap());
-    }
-
-    public ResponseEntity<String> post(String url, Map<String, Object> params) {
-        ResponseEntity<String> resp = null;
+    public DataResult post(String url, Map<String, Object> params) {
+        DataResult dataResult = new DataResult();
+        Map map = null;
         if(useRegistry()){
-            resp = restTemplate.postForEntity(url,null,String.class,params);
+            map = loadBalancedRestTemplate.getForObject(url,Map.class);
         }else{
             String serverUrl = getLocalServerUrl(url);
             if(logger.isInfoEnabled()){
                 logger.info(LogUtils.logFormat("convert " + url + " -> " + serverUrl));
             }
-            resp = postOriginal(serverUrl,params);
+            map = restTemplate.postForObject(serverUrl,params,Map.class);
         }
-        return resp;
 
+        Map mapStatus = (Map) map.get(AoomsConstants.Result.META);
+        DataResultStatus status = BeanUtil.mapToBean(mapStatus,DataResultStatus.class,true);
+        map.put(AoomsConstants.Result.META,status);
+        dataResult.setData(map);
+        return dataResult;
     }
 
-    public ResponseEntity<String> postOriginal(String url, Map<String, Object> params) {
-        //ResponseEntity<String> resp = simpleRestTemplate.postForEntity(url,null,String.class,params);
-        //return resp;
-        return null;
-    }
-
-    public ResponseEntity<String> upload(String url, Map<String, Object> params, Map<String, File> uploadFiles) {
+    public DataResult upload(String url, Map<String, Object> params, Map<String, File> uploadFiles) {
         params.putAll(uploadFiles);
         return this.post(url,params);
-    }
-
-    public ResponseEntity<String> uploadOriginal(String url, Map<String, Object> params, Map<String, File> uploadFiles) {
-        params.putAll(uploadFiles);
-        return postOriginal(url,params);
     }
 
     // 是否使用注册中心
