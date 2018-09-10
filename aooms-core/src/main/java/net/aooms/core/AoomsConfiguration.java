@@ -4,6 +4,7 @@ import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrateg
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.interceptor.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -73,6 +74,7 @@ public class AoomsConfiguration {
      * @return
      */
     @Bean
+    @ConditionalOnMissingBean
     public WebMvcConfigurer aoomsWebConfigurer() {
         return new WebMvcConfigurer() {
 
