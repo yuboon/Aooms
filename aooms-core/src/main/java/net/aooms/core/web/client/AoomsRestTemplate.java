@@ -1,5 +1,10 @@
 package net.aooms.core.web.client;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
+import net.aooms.core.AoomsConstants;
+import net.aooms.core.data.DataResultStatus;
+import net.aooms.core.data.DataResult;
 import net.aooms.core.property.PropertyApplication;
 import net.aooms.core.property.PropertyServer;
 import net.aooms.core.util.LogUtils;
@@ -21,15 +26,12 @@ import java.util.Map;
  * Created by cccyb on 2018-02-24
  */
 @Component
-public class AoomsRestClient implements IRestClient {
+public class AoomsRestTemplate {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RestTemplate restTemplate;
-
-    @Autowired
-    private SimpleRestTemplate simpleRestTemplate;
 
     @Autowired
     private PropertyApplication applicationProperties;
@@ -39,48 +41,47 @@ public class AoomsRestClient implements IRestClient {
 
     private Boolean useRegistry;
 
-    @Override
-    public ResponseEntity<String> get(String url) {
+    public DataResult get(String url) {
         return get(url, Collections.emptyMap());
     }
 
-    @Override
-    public ResponseEntity<String> getOriginal(String url) {
+    public DataResult getOriginal(String url) {
        return getOriginal(url, Collections.emptyMap());
     }
 
-    @Override
-    public ResponseEntity<String> get(String url, Map<String, Object> params) {
-        ResponseEntity<String> resp = null;
+    public DataResult get(String url, Map<String, Object> params) {
+        DataResult dataResult = new DataResult();
+        Map map = null;
         if(useRegistry()){
-            resp = restTemplate.getForEntity(url,String.class);
+            map = restTemplate.getForObject(url,Map.class);
         }else{
             String serverUrl = getLocalServerUrl(url);
             if(logger.isInfoEnabled()){
                 logger.info(LogUtils.logFormat("convert " + url + " -> " + serverUrl));
             }
-            resp = getOriginal(serverUrl,params);
+            map = restTemplate.getForObject(serverUrl,Map.class,params);
         }
-        return resp;
+        System.err.println("map = " + JSON.toJSONString(map));
+        Map mapStatus = (Map) map.get(AoomsConstants.Result.META);
+        DataResultStatus status = BeanUtil.mapToBean(mapStatus,DataResultStatus.class,true);
+        map.put(AoomsConstants.Result.META,status);
+        dataResult.setData(map);
+        return dataResult;
     }
 
-    @Override
-    public ResponseEntity<String> getOriginal(String url, Map<String, Object> params) {
-        ResponseEntity<String> resp = simpleRestTemplate.getForEntity(url,String.class,params);
-        return resp;
+    public DataResult getOriginal(String url, Map<String, Object> params) {
+        Map map = restTemplate.getForObject(url,Map.class,params);
+        return new DataResult(map);
     }
 
-    @Override
     public ResponseEntity<String> post(String url) {
         return post(url,Collections.emptyMap());
     }
 
-    @Override
     public ResponseEntity<String> postOriginal(String url) {
         return postOriginal(url,Collections.emptyMap());
     }
 
-    @Override
     public ResponseEntity<String> post(String url, Map<String, Object> params) {
         ResponseEntity<String> resp = null;
         if(useRegistry()){
@@ -96,19 +97,17 @@ public class AoomsRestClient implements IRestClient {
 
     }
 
-    @Override
     public ResponseEntity<String> postOriginal(String url, Map<String, Object> params) {
-        ResponseEntity<String> resp = simpleRestTemplate.postForEntity(url,null,String.class,params);
-        return resp;
+        //ResponseEntity<String> resp = simpleRestTemplate.postForEntity(url,null,String.class,params);
+        //return resp;
+        return null;
     }
 
-    @Override
     public ResponseEntity<String> upload(String url, Map<String, Object> params, Map<String, File> uploadFiles) {
         params.putAll(uploadFiles);
         return this.post(url,params);
     }
 
-    @Override
     public ResponseEntity<String> uploadOriginal(String url, Map<String, Object> params, Map<String, File> uploadFiles) {
         params.putAll(uploadFiles);
         return postOriginal(url,params);
@@ -127,26 +126,20 @@ public class AoomsRestClient implements IRestClient {
             URI uri = new URI(url);
             StringBuilder builder = new StringBuilder();
             builder
-                    .append(uri.getScheme())
-                    .append(":")
-                    .append("//")
-                    .append("127.0.0.1:")
-                    .append(serverProperties.getPort() == 0 ? 8080 : serverProperties.getPort())
-                    .append(uri.getPath())
+                .append(uri.getScheme())
+                .append(":")
+                .append("//")
+                .append("127.0.0.1:")
+                .append(serverProperties.getPort() == 0 ? 8080 : serverProperties.getPort())
+                .append(uri.getPath())
             ;
 
             return builder.toString();
         } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(LogUtils.errorLogFormat("server url : "+ url +" is invalid"),e);
+            throw new IllegalArgumentException(LogUtils.errorLogFormat("server url : "+ url +" is invalid !"),e);
         }
     }
 
-    @Override
-    public SimpleRestTemplate getSimpleRestTemplate() {
-        return simpleRestTemplate;
-    }
-
-    @Override
     public RestTemplate getRestTemplate() {
         return restTemplate;
     }

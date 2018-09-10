@@ -1,9 +1,6 @@
-package net.aooms.core.module.id;
+package net.aooms.core.id;
 
 import io.shardingsphere.core.keygen.DefaultKeyGenerator;
-import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties;
-
-import java.util.UUID;
 
 /**
  * snowflake id 算法生成

@@ -1,14 +1,11 @@
 package net.aooms.demo.service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.config.ConfigService;
 import io.shardingsphere.core.keygen.DefaultKeyGenerator;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.module.dbsharding.SoftTransactional;
-import net.aooms.core.module.id.GeneratorForUUID;
-import net.aooms.core.module.id.IDGenerator;
-import net.aooms.core.module.id.IDType;
+import net.aooms.core.id.IDGenerator;
+import net.aooms.core.id.IDType;
 import net.aooms.core.module.mybatis.dao.GenericDao;
 import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.service.GenericService;
@@ -16,8 +13,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Properties;
 
 @Service
 public class UserService extends GenericService {
@@ -78,7 +73,7 @@ public class UserService extends GenericService {
 		Record record1 = Record.NEW();
 		long id = System.currentTimeMillis();
 		record1.set("order_id", defaultKeyGenerator.generateKey());
-		record1.set("user_id2",12);
+		record1.set("user_id",12);
 		record1.set("status","NEW");
 
         String id2 = IDGenerator.getStringValue(IDType.SNOWFLAKE);

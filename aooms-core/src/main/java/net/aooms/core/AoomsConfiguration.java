@@ -2,7 +2,6 @@ package net.aooms.core;
 
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
 import net.aooms.core.property.PropertyObject;
-import net.aooms.core.web.client.SimpleRestTemplate;
 import net.aooms.core.web.interceptor.*;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -31,11 +30,11 @@ public class AoomsConfiguration implements IConfiguration {
         return restTemplate;
     }
 
-    @Bean
+   /* @Bean
     public SimpleRestTemplate simpleRestTemplate(){
         SimpleRestTemplate simpleRestTemplate = new SimpleRestTemplate();
         return simpleRestTemplate;
-    }
+    }*/
 
     @Bean
     public PropertyObject propertyObject(){

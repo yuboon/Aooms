@@ -1,4 +1,4 @@
-package net.aooms.core.module.id;
+package net.aooms.core.id;
 
 /**
  * 分布式ID生成

@@ -1,4 +1,4 @@
-package net.aooms.core.module.id;
+package net.aooms.core.id;
 
 /**
  * ID生成器

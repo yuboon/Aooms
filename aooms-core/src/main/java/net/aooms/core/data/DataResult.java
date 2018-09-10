@@ -1,9 +1,15 @@
 package net.aooms.core.data;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import net.aooms.core.AoomsConstants;
+import net.aooms.core.module.mybatis.record.PagingRecord;
+import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +30,19 @@ public class DataResult implements Serializable {
     private List<String> caller = Lists.newArrayList();
 
     public DataResult() {
-
         // 默认设置成功状态
         this.success();
+
+    }
+
+    public DataResult(Map<String,Object> results) {
+        this.results = results;
+        // 默认设置成功状态
+        this.success();
+    }
+
+    public void setData(Map<String,Object> results) {
+        this.results = results;
 
     }
 
@@ -49,11 +65,19 @@ public class DataResult implements Serializable {
         return this;
     }
 
+    /**
+     * 设置请求状态
+     */
+    public DataResult setStatus(DataResultStatus status){
+        results.put(AoomsConstants.Result.META ,status);
+        return this;
+    }
+
     public void printCaller(){
-        System.out.println(LogUtils.logFormat("DataResult.set Total Called " + caller.size() + " Times"));
+        LogUtils.logFormatPrint("DataResult.set Total Called " + caller.size() + " Times");
         int index = 0;
         for(String call : caller){
-            System.out.println(LogUtils.logFormat((++index) + " : " + call));
+            LogUtils.logFormatPrint((++index) + " : " + call);
         }
     }
 
@@ -76,26 +100,72 @@ public class DataResult implements Serializable {
     }
 
     /**
+     * 获取Bean结果
+     * @return
+     */
+    public <T> T getBean(String key,Class<T> beanClass){
+        return BeanUtil.mapToBean(((Map)results.get(key)),beanClass,true);
+    }
+
+    /**
+     * 获取Bean结果
+     * @return
+     */
+    public <T> List<T> getBeanList(String key,Class<T> beanClass){
+        List<Map<String,Object>> list = (List<Map<String,Object>>)results.get(key);
+        List<T> targetList = Lists.newArrayList();
+        for (Map<String,Object> item : list) {
+            targetList.add(BeanUtil.mapToBean(item,beanClass,true));
+        }
+        return targetList;
+    }
+
+    /**
+     * 获取Bean结果
+     * @return
+     */
+    public <T> T getValue(String key,Class<T> typeClass){
+        return (T)results.get(key);
+    }
+
+    /**
+     * 获取PagingRecord结果
+     * @return
+     */
+    public PagingRecord getPagingRecord(String key){
+        return BeanUtil.mapToBean(((Map)results.get(key)),PagingRecord.class,true);
+    }
+
+    /**
+     * 获取Record结果
+     * @return
+     */
+    public Record getRecord(String key){
+        return Record.NEW().setData((Map)results.get(key));
+    }
+
+
+    /**
      * 逻辑失败，由业务控制
      * @param code
      * @param msg
      */
     public void logicFailure(int code, String msg){
-        results.put(AoomsConstants.Result.META ,new Status(code, msg));
+        results.put(AoomsConstants.Result.META ,new DataResultStatus(code, msg));
     }
 
     /**
      * 设置成功
      */
     public void success(){
-        results.put(AoomsConstants.Result.META ,new Status("success",true));
+        results.put(AoomsConstants.Result.META ,new DataResultStatus("success",true));
     }
 
     /**
      * 设置成功
      */
     public void success(String msg){
-        results.put(AoomsConstants.Result.META ,new Status(msg,true));
+        results.put(AoomsConstants.Result.META ,new DataResultStatus(msg,true));
     }
 
     /**
@@ -103,7 +173,7 @@ public class DataResult implements Serializable {
      */
     public void failure(){
         results.clear(); // 失败时清理数据
-        Status status = new Status("",false);
+        DataResultStatus status = new DataResultStatus("",false);
         status.setError("Aooms error");
         results.put(AoomsConstants.Result.META ,status);
     }
@@ -113,7 +183,7 @@ public class DataResult implements Serializable {
      */
     public void failure(String error){
         results.clear(); // 失败时清理数据
-        Status status = new Status("",false);
+        DataResultStatus status = new DataResultStatus("",false);
         status.setError(error);
         results.put(AoomsConstants.Result.META ,status);
     }
@@ -121,87 +191,16 @@ public class DataResult implements Serializable {
     /**
      * 获取结果状态
      */
-    public Status getStatus(){
-       return (Status) results.get(AoomsConstants.Result.META);
+    public DataResultStatus getStatus(){
+       return (DataResultStatus) results.get(AoomsConstants.Result.META);
     }
 
     /**
      * 判断结果置状态是否正常
      */
     public boolean isSuccess(){
-        return getStatus().code == 0;
+        return getStatus().isSuccess();
     }
 
-    /**
-     * 结果状态对象
-     */
-    public class Status implements Serializable {
-
-        private int code;
-
-        private String msg;
-
-        private String error;
-
-        private String trace;
-
-        private boolean isSuccess = true;
-
-        public Status(String msg, boolean isSuccess) {
-            this.msg = msg;
-            this.isSuccess = isSuccess;
-        }
-
-        public Status(int code, String msg) {
-            this.code = code;
-            this.msg = msg;
-        }
-
-        public Status(int code, String msg, boolean isSuccess) {
-            this.code = code;
-            this.msg = msg;
-            this.isSuccess = isSuccess;
-        }
-
-        public int getCode() {
-            return code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
-
-        public boolean isSuccess() {
-            return isSuccess;
-        }
-
-        public void setSuccess(boolean success) {
-            isSuccess = success;
-        }
-
-        public String getMsg() {
-            return msg;
-        }
-
-        public void setMsg(String msg) {
-            this.msg = msg;
-        }
-
-        public String getError() {
-            return error;
-        }
-
-        public void setError(String error) {
-            this.error = error;
-        }
-
-        public String getTrace() {
-            return trace;
-        }
-
-        public void setTrace(String trace) {
-            this.trace = trace;
-        }
-    }
 
 }

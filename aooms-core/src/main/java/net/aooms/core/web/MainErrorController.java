@@ -1,5 +1,6 @@
 package net.aooms.core.web;
 
+import net.aooms.core.data.DataResultStatus;
 import net.aooms.core.data.DataResult;
 import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
@@ -38,7 +39,7 @@ public class MainErrorController extends BasicErrorController {
         HttpStatus status = getStatus(request);
 
         DataResult ret = new DataResult();
-        DataResult.Status rsStatus = ret.getStatus();
+        DataResultStatus rsStatus = ret.getStatus();
         rsStatus.setSuccess(false);
         rsStatus.setMsg("");
         rsStatus.setError(String.valueOf(model.get("message")));

@@ -28,11 +28,16 @@ spring:
   #  add-mappings: false  #不开启默认的资源处理
 
   cloud:
+    consul:
+      enabled: true
+      host: 127.0.0.1
+      port: 8500
     #service-registry:
     # auto-registration:
     #   enabled: true
     # refresh:
     #   refreshable: none
+
 
 
   datasource:

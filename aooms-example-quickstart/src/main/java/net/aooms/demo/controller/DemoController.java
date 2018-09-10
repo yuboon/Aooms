@@ -1,18 +1,29 @@
 package net.aooms.demo.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.security.token.SSOToken;
+import com.ecwid.consul.v1.ConsulClient;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import net.aooms.core.data.DataResult;
+import net.aooms.core.module.mybatis.record.PagingRecord;
+import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.property.PropertyTest;
 import net.aooms.core.web.AoomsAbstractController;
 import net.aooms.core.web.annotation.ClearInterceptor;
+import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.KissoLoginInterceptor;
+import net.aooms.demo.pojo.User;
+import net.aooms.demo.pojo.UserPojo;
 import net.aooms.demo.service.UserService;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.consul.discovery.ConsulDiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +32,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
- * 抽象控制器类
+ * Demo
  * Created by cccyb on 2018-02-06
  */
 @RestController
@@ -42,6 +54,10 @@ public class DemoController extends AoomsAbstractController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private AoomsRestTemplate aoomsRestTemplate;
+
+
     /**
      * 登陆
      * @return
@@ -55,6 +71,21 @@ public class DemoController extends AoomsAbstractController {
         // 多数据源、分库分表
         // 服务注册发现
         // ID生成
+
+        String s = restTemplate.getForObject("http://AOOMS/hello/123",String.class);
+
+        DataResult dataResult = aoomsRestTemplate.get("http://AOOMS/hello/123");
+        List<UserPojo> users = dataResult.getBeanList("list",UserPojo.class);
+        PagingRecord pagingRecord = dataResult.getPagingRecord("pgRecord");
+        String id = dataResult.getValue("id",String.class);
+
+        System.err.println("id:" + id);
+        System.err.println("pagingRecord:" + JSON.toJSONString(pagingRecord));
+        System.err.println("users:" + JSON.toJSONString(users));
+        System.err.println("result = " + JSON.toJSONString(dataResult.getData(), SerializerFeature.WriteMapNullValue));
+
+        //ConsulClient client = new ConsulClient("127.0.0.1",8500);
+        //System.err.println("kv = " + client.getKVValue("name"));
 
 
         String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
@@ -149,7 +180,7 @@ public class DemoController extends AoomsAbstractController {
      * @return
      */
     @RequestMapping("/hello/{code}")
-    @ClearInterceptor(DemoInterceptor.class)
+    @ClearInterceptor({KissoLoginInterceptor.class})
     public void hello(){
 
         logger.info("ID = {}" ,this.getParaString("id"));
@@ -161,7 +192,22 @@ public class DemoController extends AoomsAbstractController {
                 .set("datetime", DateUtil.now())
                 .set("datet", DateUtil.formatDate(new Date()));*/
 
-        this.setResultValue("idsd2","");
+        List<User> users = Lists.newArrayList();
+        User u = new User();
+        u.setName("wangwu");
+        u.set("name","wangwu");
+        users.add(u);
+        this.setResultValue("list",users);
+        this.setResultValue("id","zhangsan");
+
+        List<User> records = Lists.newArrayList();
+        Record r = new Record();
+        r.set("id","recordid");
+        records.add(u);
+
+        PagingRecord pgr = new PagingRecord(1,2,  records,100,true);
+        this.setResultValue("pgRecord",pgr);
+
 
         this.renderJson();
     };

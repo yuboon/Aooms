@@ -35,10 +35,4 @@ public interface IRestClient {
 
     public ResponseEntity<String> uploadOriginal(String url,Map<String,Object> params, Map<String,File> uploadFiles);
 
-
-    // get RestTemmplate Original
-    public RestTemplate getRestTemplate();
-
-    public SimpleRestTemplate getSimpleRestTemplate();
-
 }

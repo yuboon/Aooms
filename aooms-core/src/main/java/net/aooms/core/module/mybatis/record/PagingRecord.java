@@ -10,12 +10,14 @@ public class PagingRecord {
 
     private int page;
     private int limit;
-    private List<Record> list;
+    private List<? extends Record> list;
     private int total;
     private int totalPage;
     private boolean isPaging;
 
-    public PagingRecord(int page, int limit, List<Record> list, int total, boolean isPaging) {
+    public PagingRecord(){}
+
+    public PagingRecord(int page, int limit, List<? extends Record> list, int total, boolean isPaging) {
         this.page = page;
         this.limit = limit;
         this.list = list;
@@ -44,7 +46,7 @@ public class PagingRecord {
         this.limit = limit;
     }
 
-    public List<Record> getList() {
+    public List<? extends Record> getList() {
         return list;
     }
 

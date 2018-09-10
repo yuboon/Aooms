@@ -1,6 +1,4 @@
-package net.aooms.core.module.id;
-
-import org.springframework.util.IdGenerator;
+package net.aooms.core.id;
 
 import java.util.UUID;
 

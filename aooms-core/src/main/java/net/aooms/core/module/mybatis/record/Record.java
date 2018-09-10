@@ -35,6 +35,16 @@ public class Record extends LinkedCaseInsensitiveMap {
     }
 
     /**
+     * 设置数据集
+     * @return
+     */
+    public Record setData(Map<String, Object> data){
+        this.clear();
+        this.putAll(data);
+        return this;
+    }
+
+    /**
      * 清空
      */
     @Override
