@@ -52,11 +52,11 @@ public class SoftTransactionalAspect {
                 SoftTransactional softTransaction = currentMethod.getAnnotation(SoftTransactional.class);
                 if(softTransaction != null){
                     SoftTransactionType softTransactionType = softTransaction.value();
-                    DataSource dataSource = Aooms.getInstance().getDynamicDataSource().getDefaultDataSource();
+                    DataSource dataSource = Aooms.self().getDynamicDataSource().getDefaultDataSource();
                     SoftTransactionConfiguration transactionConfig = new SoftTransactionConfiguration(dataSource);
                     //transactionConfig.setStorageType(TransactionLogDataSourceType.MEMORY);
                     transactionConfig.setBestEffortsDeliveryJobConfiguration(Optional.of(new NestedBestEffortsDeliveryJobConfiguration()));
-                    transactionConfig.setTransactionLogDataSource(Aooms.getInstance().getDynamicDataSource().getDataSource("slave"));
+                    transactionConfig.setTransactionLogDataSource(Aooms.self().getDynamicDataSource().getDataSource("slave"));
 
                     // 2. 初始化SoftTransactionManager
                     SoftTransactionManager transactionManager = new SoftTransactionManager(transactionConfig);

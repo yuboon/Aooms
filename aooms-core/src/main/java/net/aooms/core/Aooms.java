@@ -2,6 +2,7 @@ package net.aooms.core;
 
 import net.aooms.core.datasource.DynamicDataSource;
 import net.aooms.core.module.mybatis.Db;
+import net.aooms.core.property.PropertyObject;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,11 +28,14 @@ public class Aooms {
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private PropertyObject propertyObject;
+
     void instance(Aooms aooms){
         INSTANCE = aooms;
     }
 
-    public static Aooms getInstance(){
+    public static Aooms self(){
         return INSTANCE;
     }
 
@@ -47,5 +51,8 @@ public class Aooms {
         return (DynamicDataSource) dataSource;
     }
 
+    public PropertyObject getPropertyObject(){
+        return propertyObject;
+    }
 
 }
