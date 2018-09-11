@@ -1,4 +1,4 @@
-package net.aooms.demo.mapper;
+package net.aooms.example.mapper;
 
 public class MapperXml {
 

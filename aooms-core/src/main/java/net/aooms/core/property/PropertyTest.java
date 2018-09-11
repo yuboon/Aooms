@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource(value = "classpath:/aooms/my2.yml" ,factory = YamlPropertyLoaderFactory.class)
 // prefix 必须包含点
-@ConfigurationProperties(prefix = "demo")
+@ConfigurationProperties(prefix = "example")
 public class PropertyTest {
 
     private String name;

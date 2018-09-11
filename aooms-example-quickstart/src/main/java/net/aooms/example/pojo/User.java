@@ -1,4 +1,4 @@
-package net.aooms.demo.pojo;
+package net.aooms.example.pojo;
 
 import net.aooms.core.module.mybatis.record.Record;
 

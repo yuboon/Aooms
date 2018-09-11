@@ -1,4 +1,4 @@
-package net.aooms.demo.service;
+package net.aooms.example.service;
 
 import com.alibaba.fastjson.JSON;
 import io.shardingsphere.core.keygen.DefaultKeyGenerator;

@@ -1,6 +1,4 @@
-package net.aooms.demo.pojo;
-
-import net.aooms.core.module.mybatis.record.Record;
+package net.aooms.example.pojo;
 
 import java.io.Serializable;
 import java.util.Date;

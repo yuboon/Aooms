@@ -1,4 +1,4 @@
-package net.aooms.demo.controller;
+package net.aooms.example.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -18,9 +18,9 @@ import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.LoginInterceptor;
-import net.aooms.demo.pojo.User;
-import net.aooms.demo.pojo.UserPojo;
-import net.aooms.demo.service.UserService;
+import net.aooms.example.pojo.User;
+import net.aooms.example.pojo.UserPojo;
+import net.aooms.example.service.UserService;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -222,7 +222,7 @@ public class DemoController extends AoomsAbstractController {
     @ClearInterceptor({DemoInterceptor.class})
     public ModelAndView hello2(){
         this.getResult().set("name","byHello2");
-        return new ModelAndView("/demo.html",this.getResult().getData());
+        return new ModelAndView("/example.html",this.getResult().getData());
     };
 
     /**
@@ -297,7 +297,7 @@ public class DemoController extends AoomsAbstractController {
         //System.err.println(JSON.toJSONString(map));
         Map<String,Object> values = Maps.newHashMap();
         values.put("name","admin");
-        this.renderThymeleaf("/demo.html",values);
+        this.renderThymeleaf("/example.html",values);
        //this.renderJson();
     };
 
@@ -308,6 +308,6 @@ public class DemoController extends AoomsAbstractController {
      */
     @GetMapping("/send")
     public void send(){
-        this.redirect("/demo.html");
+        this.redirect("/example.html");
     };
 }
