@@ -15,7 +15,6 @@
  */
 package net.aooms.core.web.interceptor;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.kisso.SSOAuthorization;
 import com.baomidou.kisso.SSOConfig;
 import com.baomidou.kisso.SSOHelper;
@@ -40,9 +39,9 @@ import java.lang.reflect.Method;
  * @author hubin
  * @since 2016-04-03
  */
-public class KissoPermissionInterceptor extends AoomsAbstractInterceptor {
+public class PermissionInterceptor extends AoomsAbstractInterceptor {
 
-    private static final Logger logger = LoggerFactory.getLogger(KissoPermissionInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(PermissionInterceptor.class);
 
     /*
      * 系统权限授权接口
@@ -59,7 +58,7 @@ public class KissoPermissionInterceptor extends AoomsAbstractInterceptor {
      */
     private boolean nothingAnnotationPass = false;
 
-    public KissoPermissionInterceptor(String[] pathPatterns, String[] ignores) {
+    public PermissionInterceptor(String[] pathPatterns, String[] ignores) {
         super(pathPatterns, ignores);
     }
 

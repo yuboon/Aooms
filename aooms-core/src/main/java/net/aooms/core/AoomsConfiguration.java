@@ -112,7 +112,7 @@ public class AoomsConfiguration {
                 String[] ignores = registryProxy.getIgnores();
 
                 registryProxy.addInterceptor(new LoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
-                //registryProxy.addInterceptor(new KissoPermissionInterceptor(pathPatterns,ignores));
+                //registryProxy.addInterceptor(new PermissionInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new DataBossInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new ContextInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new DemoInterceptor(pathPatterns,ignores));
