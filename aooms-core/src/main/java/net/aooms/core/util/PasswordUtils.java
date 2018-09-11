@@ -70,7 +70,7 @@ import java.security.spec.InvalidKeySpecException;
 
  */
 
-public class PasswordUtil
+public class PasswordUtils
 
 {
 
@@ -299,7 +299,7 @@ public class PasswordUtil
     }
 
     /**
-     * Tests the basic functionality of the PasswordUtil class
+     * Tests the basic functionality of the PasswordUtils class
      *
      * @param args ignored
      */
@@ -311,16 +311,16 @@ public class PasswordUtil
         try {
             //String str = "1024:231967094e1a2f74125d2609a2eaf8ecb4635a0925c6ef81:0be0276340294f8e2d889ec45ab6a7b08496fcbe63766bef";
 
-            System.out.println(PasswordUtil.createHash("admin"));
+            System.out.println(PasswordUtils.createHash("admin"));
            /* System.out.println("------------------------------------");
-            System.out.println(PasswordUtil.createHash("123"));
+            System.out.println(PasswordUtils.createHash("123"));
             System.out.println("------------------------------------");
 			
-			*//*System.out.println(PasswordUtil.createHash("123").length());
+			*//*System.out.println(PasswordUtils.createHash("123").length());
 			System.out.println("------------------------------------");
 			
-			String hashs2 = PasswordUtil.createHash("123");*//*
-            System.out.println(PasswordUtil.validatePassword("admin", str));
+			String hashs2 = PasswordUtils.createHash("123");*//*
+            System.out.println(PasswordUtils.validatePassword("admin", str));
             System.out.println("------------------------------------");*/
 
             long end = System.currentTimeMillis();
