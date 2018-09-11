@@ -1,6 +1,5 @@
 package net.aooms.core.data;
 
-import net.aooms.core.exception.AoomsExceptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * 数据对象：贯穿与框架各个层
- * Created by cccyb on 2018-04-18
+ * Created by 风象南(cheereebo) on 2018-04-18
  */
 public class DataBoss implements Serializable {
 

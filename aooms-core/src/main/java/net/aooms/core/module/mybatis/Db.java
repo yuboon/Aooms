@@ -20,8 +20,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import java.sql.Connection;
 import java.util.List;
 
+
 /**
  * 基于record的数据库操作对象Db
+ * Created by 风象南(cheereebo) on 2018/9/11
  */
 @Component
 public class Db {

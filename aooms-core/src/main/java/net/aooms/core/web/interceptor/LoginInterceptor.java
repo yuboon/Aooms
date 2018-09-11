@@ -34,14 +34,15 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
- * 登录权限验证
+ * 登陆认证
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
-public class KissoLoginInterceptor extends AoomsAbstractInterceptor {
+public class LoginInterceptor extends AoomsAbstractInterceptor {
 
-    private static final Logger logger = LoggerFactory.getLogger(KissoLoginInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
     private SSOHandlerInterceptor handlerInterceptor;
 
-    public KissoLoginInterceptor(String[] pathPatterns, String[] ignores) {
+    public LoginInterceptor(String[] pathPatterns, String[] ignores) {
         super(pathPatterns, ignores);
     }
 

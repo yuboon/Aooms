@@ -2,10 +2,7 @@ package net.aooms.core.data;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.module.mybatis.record.PagingRecord;
@@ -20,7 +17,7 @@ import java.util.Map;
 
 /**
  * DataBoss-结果对象
- * Created by cccyb on 2018-04-18
+ * Created by 风象南(cheereebo) on 2018-04-18
  */
 public class DataResult implements Serializable {
 

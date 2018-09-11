@@ -8,6 +8,10 @@ import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Mybatis配置
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 @Configuration
 public class MyBatisConfiguration {
 

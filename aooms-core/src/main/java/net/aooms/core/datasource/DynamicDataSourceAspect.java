@@ -16,8 +16,9 @@ import java.lang.reflect.Method;
 
 /**
  * 切换数据源Advice
+ * Created by 风象南(cheereebo) on 2018-08-18
  */
-@Order(-100)// 保证该AOP在@Transactional之前执行
+@Order(-100)
 @Component
 @Aspect
 public class DynamicDataSourceAspect {

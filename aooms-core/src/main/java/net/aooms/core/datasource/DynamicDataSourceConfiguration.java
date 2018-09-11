@@ -22,6 +22,10 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 数据源配置
+ * Created by 风象南(cheereebo) on 2018-08-18
+ */
 @Configuration
 public class DynamicDataSourceConfiguration {
 

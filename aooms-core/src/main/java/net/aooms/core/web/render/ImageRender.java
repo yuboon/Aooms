@@ -1,12 +1,11 @@
 package net.aooms.core.web.render;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
  * 图片渲染
- * Created by cccyb on 2018-04-20
+ * Created by 风象南(cheereebo) on 2018-04-20
  */
 public class ImageRender extends AbstractRender {
 

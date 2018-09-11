@@ -1,21 +1,14 @@
 package net.aooms.core.module.mybatis.record;
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.interceptor.MetaObjectAssistant;
-import org.apache.ibatis.executor.statement.RoutingStatementHandler;
-import org.apache.ibatis.javassist.tools.reflect.Metaobject;
-import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
-import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 
-import java.util.Iterator;
-import java.util.Map;
-
+/**
+ * Record操作路由
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 public class OperRouting {
 
     public IRecordOper route(MetaObject metaobject){

@@ -5,11 +5,10 @@ import org.springframework.web.method.HandlerMethod;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 
 /**
  * Servlet上下文持有对象
- * Created by cccyb on 2018-04-20
+ * Created by 风象南(cheereebo) on 2018-04-20
  */
 public class AoomsContext {
 

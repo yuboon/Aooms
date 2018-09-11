@@ -77,7 +77,7 @@ public class PasswordUtil
     public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 
     // 盐值
-    private static final String SALT = "1s;'a;123`-123,c.efjwuwidncmsoo123.da~!@#$%HNM.?;''{请问";
+    private static final String SALT = "1s;'a;123`-123,c.efjwuwidncmsoo123.da~!@#$%HNM.?;''{00djlsdlkkdkdk";
 
     // The following constants may be changed without breaking existing hashes.
 

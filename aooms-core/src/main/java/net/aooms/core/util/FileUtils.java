@@ -1,11 +1,10 @@
 package net.aooms.core.util;
 
-import java.io.File;  
-
 import org.apache.commons.lang.StringUtils;
 
 /**
- * 文件相关操作
+ * 文件工具类
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
 public class FileUtils {
 

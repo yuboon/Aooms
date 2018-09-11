@@ -7,7 +7,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * application.yml 配置文件映射
- * Created by cccyb on 2018-02-06
+ * Created by 风象南(cheereebo) on 2018-02-06
  */
 @Component
 @ConfigurationProperties(prefix="spring.application")

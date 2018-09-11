@@ -4,7 +4,7 @@ import java.util.UUID;
 
 /**
  * uuid 生成
- * Created by cccyb on 2018/9/7
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
 public class GeneratorForUUID implements IDGenerator {
 

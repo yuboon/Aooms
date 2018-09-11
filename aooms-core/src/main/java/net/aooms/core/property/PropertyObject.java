@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 所有属性持有者
- * Created by cccyb on 2018/8/25
+ * Created by 风象南(cheereebo) on 2018/8/25
  */
 public class PropertyObject {
 

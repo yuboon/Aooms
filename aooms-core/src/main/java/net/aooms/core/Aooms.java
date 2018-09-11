@@ -1,7 +1,7 @@
 package net.aooms.core;
 
 import net.aooms.core.datasource.DynamicDataSource;
-import net.aooms.core.module.mybatis.dao.GenericDao;
+import net.aooms.core.module.mybatis.Db;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 /**
  * 框架模块访问接口
- * Created by cccyb on 2018-04-18
+ * Created by 风象南(cheereebo) on 2018-04-18
  */
 public class Aooms {
 
@@ -22,7 +22,7 @@ public class Aooms {
     private CacheChannel j2Cache;
 
     @Autowired
-    private GenericDao genericDao;
+    private Db db;
 
     @Autowired
     private DataSource dataSource;
@@ -35,8 +35,8 @@ public class Aooms {
         return INSTANCE;
     }
 
-    public GenericDao getGenericDao() {
-        return genericDao;
+    public Db getDb() {
+        return db;
     }
 
     public CacheChannel getJ2Cache() {

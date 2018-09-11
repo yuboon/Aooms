@@ -2,7 +2,7 @@ package net.aooms.core.id;
 
 /**
  * 分布式ID生成
- * Created by cccyb on 2018/9/7
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
 public class GeneratorForDistribution implements IDGenerator {
 

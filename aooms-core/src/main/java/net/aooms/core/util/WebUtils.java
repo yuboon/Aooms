@@ -3,10 +3,9 @@ package net.aooms.core.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Http工具类
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
 public class WebUtils {
 

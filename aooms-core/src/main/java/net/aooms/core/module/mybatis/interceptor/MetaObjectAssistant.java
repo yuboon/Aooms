@@ -11,6 +11,10 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import java.lang.reflect.Proxy;
 
 
+/**
+ * MetaObject操作
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 public abstract class MetaObjectAssistant {
 
     public static Object realTarget(Object target) {

@@ -5,8 +5,10 @@ import net.aooms.core.module.mybatis.record.Record;
 import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.session.Configuration;
 
-import java.util.Map;
-
+/**
+ * RecordMappedStatment工厂
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 public class RecordMappedStatmentFactory {
 
     private Configuration configuration;

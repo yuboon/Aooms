@@ -13,6 +13,10 @@ import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * RecordUpdate
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 public class RecordUpdate implements IRecordOper {
 
     private MetaObject metaObject;

@@ -2,7 +2,7 @@ package net.aooms.core.web.render;
 
 /**
  * 响应渲染类型
- * Created by cccyb on 2018-04-20
+ * Created by 风象南(cheereebo) on 2018-04-20
  */
 public enum RenderType {
 

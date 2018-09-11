@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * yaml资源加载类
+ * yaml资料加载
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
 public class YamlPropertyLoaderFactory extends DefaultPropertySourceFactory {
 

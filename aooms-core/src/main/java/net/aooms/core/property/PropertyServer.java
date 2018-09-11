@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * server 配置文件映射
- * Created by cccyb on 2018-03-06
+ * Created by 风象南(cheereebo) on 2018-03-06
  */
 @Component
 @ConfigurationProperties("server")

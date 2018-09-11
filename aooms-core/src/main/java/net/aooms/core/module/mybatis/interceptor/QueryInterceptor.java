@@ -18,6 +18,10 @@ import java.util.Map;
 import java.util.Properties;
 
 
+/**
+ * 查询插件
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 @Intercepts({
     @Signature(
         type = StatementHandler.class,

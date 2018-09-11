@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * 数据库方言选择器
- * Created by cccyb on 2018-08-23
+ * Created by 风象南(cheereebo) on 2018-08-23
  */
 public class DialectSelector {
 

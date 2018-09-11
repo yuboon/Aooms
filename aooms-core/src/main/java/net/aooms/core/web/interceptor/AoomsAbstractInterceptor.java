@@ -13,7 +13,7 @@ import java.util.Set;
 
 /**
  * 抽象拦截器
- * Created by cccyb on 2018-04-23
+ * Created by 风象南(cheereebo) on 2018-04-23
  */
 public abstract class AoomsAbstractInterceptor {
 

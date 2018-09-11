@@ -12,6 +12,10 @@ import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * RecordInsert
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 public class RecordInsert implements IRecordOper {
 
     private MetaObject metaObject;

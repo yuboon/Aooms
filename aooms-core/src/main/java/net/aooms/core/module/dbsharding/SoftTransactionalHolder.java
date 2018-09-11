@@ -3,8 +3,8 @@ package net.aooms.core.module.dbsharding;
 import io.shardingsphere.transaction.api.AbstractSoftTransaction;
 
 /**
- * 柔性事务持有
- * Created by cccyb on 2018/9/7
+ * 柔性事务持有对象
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
 public class SoftTransactionalHolder {
 

@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 /**
  * 拦截器注册代理类
- * Created by cccyb on 2018-04-28
+ * Created by 风象南(cheereebo) on 2018-04-28
  */
 public class AoomsInterceptorRegistryProxy {
 

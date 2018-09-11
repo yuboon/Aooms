@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * 抽象控制器类
- * Created by cccyb on 2018-02-06
+ * Created by 风象南(cheereebo) on 2018-02-06
  */
 @RestController
 public abstract class AoomsAbstractController {

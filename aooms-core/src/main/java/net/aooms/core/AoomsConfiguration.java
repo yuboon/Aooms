@@ -2,8 +2,6 @@ package net.aooms.core;
 
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
 import net.aooms.core.module.mybatis.Db;
-import net.aooms.core.module.mybatis.dao.GenericDao;
-import net.aooms.core.module.mybatis.dao.GenericDaoSupport;
 import net.aooms.core.property.PropertyApplication;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.property.PropertyServer;
@@ -11,8 +9,6 @@ import net.aooms.core.property.PropertyTest;
 import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.interceptor.*;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,10 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 框架默认配置类
- *
- * 项目中可自定义实现IConfiguration覆盖默认的AoomsConfiguration
- *
- * Created by cccyb on 2018-03-05
+ * Created by 风象南(cheereebo) on 2018-03-05
  */
 @Configuration
 public class AoomsConfiguration {
@@ -81,11 +74,6 @@ public class AoomsConfiguration {
     }
 
     @Bean
-    public GenericDao genericDao(){
-        return new GenericDaoSupport();
-    }
-
-    @Bean
     public Db db(){
         return new Db();
     }
@@ -123,7 +111,7 @@ public class AoomsConfiguration {
                 String[] pathPatterns = registryProxy.getPathPatterns();
                 String[] ignores = registryProxy.getIgnores();
 
-                registryProxy.addInterceptor(new KissoLoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
+                registryProxy.addInterceptor(new LoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
                 //registryProxy.addInterceptor(new KissoPermissionInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new DataBossInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new ContextInterceptor(pathPatterns,ignores));

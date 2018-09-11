@@ -1,26 +1,19 @@
 package net.aooms.core.module.hystrix;
 
-import org.aopalliance.intercept.MethodInvocation;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.aop.ProxyMethodInvocation;
-import org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint;
-import org.springframework.aop.interceptor.ExposeInvocationInterceptor;
 import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
  * 保证AoomsHystrixAspect最后一个执行，设置Ordered属性
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
 /*@Component
 @Aspect*/

@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 
 /**
  * 拦截器清理
- * Created by cccyb on 2018-04-23
+ * Created by 风象南(cheereebo) on 2018-04-23
  */
 @Target({ElementType.METHOD ,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

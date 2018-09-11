@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * Record
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
 public class Record extends LinkedCaseInsensitiveMap {
 

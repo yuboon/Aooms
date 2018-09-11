@@ -11,6 +11,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import java.util.Properties;
 
 
+/**
+ * 数据源清除
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 @Intercepts({
     @Signature(
         type = Executor.class,

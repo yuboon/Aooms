@@ -1,10 +1,9 @@
 package net.aooms.core.module.mybatis.record;
 
-import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.mapping.SqlSource;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.session.Configuration;
-
+/**
+ * Record操作
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 public interface IRecordOper {
 
     void process();

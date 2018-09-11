@@ -4,7 +4,7 @@ import org.apache.ibatis.session.RowBounds;
 
 /**
  * Mysql方言
- * Created by cccyb on 2018-08-23
+ * Created by 风象南(cheereebo) on 2018-08-23
  */
 public class MysqlDialect implements Dialect {
 

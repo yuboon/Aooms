@@ -2,7 +2,7 @@ package net.aooms.core;
 
 /**
  * 常量声明
- * Created by cccyb on 2018-04-20
+ * Created by 风象南(cheereebo) on 2018-04-20
  */
 public interface AoomsConstants {
 

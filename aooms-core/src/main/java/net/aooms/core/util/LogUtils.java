@@ -1,8 +1,8 @@
 package net.aooms.core.util;
 
 /**
- * 日志打印
- * Created by cccyb on 2018-03-06
+ * 简易日志输出、格式化
+ * Created by 风象南(cheereebo) on 2018-03-06
  */
 public class LogUtils {
 

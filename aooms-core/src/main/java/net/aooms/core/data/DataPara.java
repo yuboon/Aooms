@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * DataBoss-参数对象
- * Created by cccyb on 2018-04-18
+ * Created by 风象南(cheereebo) on 2018-04-18
  */
 public class DataPara implements Serializable {
 

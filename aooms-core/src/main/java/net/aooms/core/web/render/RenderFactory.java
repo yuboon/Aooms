@@ -4,7 +4,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 渲染工厂
- * Created by cccyb on 2018-04-20
+ * Created by 风象南(cheereebo) on 2018-04-20
  */
 public class RenderFactory {
 

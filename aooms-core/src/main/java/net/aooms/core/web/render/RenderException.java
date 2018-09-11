@@ -4,8 +4,7 @@ import net.aooms.core.exception.AoomsException;
 
 /**
  * 渲染异常
- *
- * Created by cccyb on 2018-04-18
+ * Created by 风象南(cheereebo) on 2018-04-18
  */
 public class RenderException extends AoomsException {
 

@@ -5,6 +5,10 @@ import io.shardingsphere.core.api.algorithm.sharding.standard.PreciseShardingAlg
 
 import java.util.Collection;
 
+/**
+ * 分表策略
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 public final class PreciseModuloTableShardingAlgorithm implements PreciseShardingAlgorithm<Long> {
     
     @Override

@@ -2,8 +2,7 @@ package net.aooms.core.exception;
 
 /**
  * 自定义框架异常，框架所有异常的基类
- *
- * Created by cccyb on 2018-04-18
+ * Created by 风象南(cheereebo) on 2018-04-18
  */
 public class AoomsException extends RuntimeException {
 

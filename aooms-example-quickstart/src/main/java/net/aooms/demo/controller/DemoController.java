@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.security.token.SSOToken;
-import com.ecwid.consul.v1.ConsulClient;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -18,13 +17,12 @@ import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.interceptor.DemoInterceptor;
-import net.aooms.core.web.interceptor.KissoLoginInterceptor;
+import net.aooms.core.web.interceptor.LoginInterceptor;
 import net.aooms.demo.pojo.User;
 import net.aooms.demo.pojo.UserPojo;
 import net.aooms.demo.service.UserService;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.consul.discovery.ConsulDiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,7 +65,7 @@ public class DemoController extends AoomsAbstractController {
      * @return
      */
     @RequestMapping("/login")
-    @ClearInterceptor({KissoLoginInterceptor.class})
+    @ClearInterceptor({LoginInterceptor.class})
     @HystrixCommand
     public void login(){
         // mybatis缓存      X
@@ -184,7 +182,7 @@ public class DemoController extends AoomsAbstractController {
      * @return
      */
     @RequestMapping("/hello/{code}")
-    @ClearInterceptor({KissoLoginInterceptor.class})
+    @ClearInterceptor({LoginInterceptor.class})
     public void hello(){
 
         logger.info("ID = {}" ,this.getParaString("id"));
@@ -291,7 +289,7 @@ public class DemoController extends AoomsAbstractController {
      * @return
      */
     @GetMapping("/page")
-    @ClearInterceptor(KissoLoginInterceptor.class)
+    @ClearInterceptor(LoginInterceptor.class)
     public void page(){
 
        // System.err.println(JSON.toJSONString(recordMapper.insert(new Record())));

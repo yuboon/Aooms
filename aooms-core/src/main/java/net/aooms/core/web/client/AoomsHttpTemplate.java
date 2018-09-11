@@ -9,9 +9,8 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * web http请求客户端
- * @author cccyb
- *
+ * web请求客户端
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
 public class AoomsHttpTemplate {
 

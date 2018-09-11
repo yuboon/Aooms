@@ -1,8 +1,8 @@
 package net.aooms.core.module.mybatis.interceptor;
 
 import net.aooms.core.module.mybatis.record.IRecordOper;
-import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.module.mybatis.record.OperRouting;
+import net.aooms.core.module.mybatis.record.Record;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
@@ -12,6 +12,10 @@ import java.sql.Statement;
 import java.util.Properties;
 
 
+/**
+ * Record处理插件
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 @Intercepts({
     @Signature(
         type = StatementHandler.class,

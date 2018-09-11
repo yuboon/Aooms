@@ -12,6 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 import java.util.Map;
 
+/**
+ * 公共Service
+ * Created by 风象南(cheereebo) on 2018/9/7
+ */
 public class GenericService {
 
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());

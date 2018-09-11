@@ -10,11 +10,12 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Param参数处理
- * Created by cccyb on 2018-04-19
+ * Created by 风象南(cheereebo) on 2018-04-19
  */
 public class ParamInterceptor extends AoomsAbstractInterceptor {
 

@@ -1,10 +1,9 @@
 package net.aooms.core.web.client;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.alibaba.fastjson.JSON;
 import net.aooms.core.AoomsConstants;
-import net.aooms.core.data.DataResultStatus;
 import net.aooms.core.data.DataResult;
+import net.aooms.core.data.DataResultStatus;
 import net.aooms.core.property.PropertyApplication;
 import net.aooms.core.property.PropertyServer;
 import net.aooms.core.util.LogUtils;
@@ -12,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -24,7 +21,7 @@ import java.util.Map;
 
 /**
  * 服务请求客户端
- * Created by cccyb on 2018-02-24
+ * Created by 风象南(cheereebo) on 2018-02-24
  */
 public class AoomsRestTemplate {
 

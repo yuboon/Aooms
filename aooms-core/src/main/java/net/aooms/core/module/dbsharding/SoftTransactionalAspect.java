@@ -26,9 +26,10 @@ import java.sql.SQLException;
 
 
 /**
- * 柔性事务控制Advice
+ * 柔性事务控制
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
-@Order(1)// 保证该AOP在@Transactional之前执行
+@Order(1)
 @Component
 @Aspect
 public class SoftTransactionalAspect {
