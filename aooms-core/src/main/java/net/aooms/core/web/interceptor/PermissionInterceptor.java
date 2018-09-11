@@ -32,12 +32,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 /**
- * <p>
- * kisso 权限拦截器（必须在 kisso 拦截器之后执行）
- * </p>
- *
- * @author hubin
- * @since 2016-04-03
+ * 授权认证
+ * Created by 风象南(cheereebo) on 2018/9/7
  */
 public class PermissionInterceptor extends AoomsAbstractInterceptor {
 
