@@ -19,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 @EnableHystrix
 @EnableTransactionManagement
 @EnableAspectJAutoProxy(exposeProxy = true)
-public class DemoApplication extends SpringBootServletInitializer {
+public class ExampleApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
 
@@ -36,12 +36,12 @@ public class DemoApplication extends SpringBootServletInitializer {
         //ApplicationContext context = new AnnotationConfigApplicationContext(AoomsConfiguration.class);
         //SpringApplication.run(AoomsBoot.class,args);*/
 
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(ExampleApplication.class, args);
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(DemoApplication.class);
+        return application.sources(ExampleApplication.class);
     }
 
     @Override
