@@ -107,7 +107,7 @@ public class Db {
      * @ 
      */
     public int insert(String tableName, Record record) {
-        Assert.notNull(record,"pojo must not be null");
+        Assert.notNull(record,"record must not be null");
         record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return getSqlSession().insert(MyBatisConst.MS_RECORD_INSERT, record);
     }
@@ -132,6 +132,29 @@ public class Db {
         Assert.notNull(record,"record must not be null");
         record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return getSqlSession().delete(MyBatisConst.MS_RECORD_DELETE, record);
+    }
+
+    /**
+     * 删除对象
+     * @return
+     * @
+     */
+    public int deleteByPrimaryKey(String tableName, Object primaryKeyValue){
+        Record record = new Record();
+        record.set(AoomsConstants.ID,primaryKeyValue);
+        return delete(tableName,record);
+    }
+
+    /**
+     * 删除对象
+     * @return
+     * @
+     */
+    public int deleteByPrimaryKey(String tableName, String primaryKeyColumn, Object primaryKeyValue){
+        Record record = new Record();
+        record.put(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,primaryKeyColumn);
+        record.set(primaryKeyColumn,primaryKeyValue);
+        return delete(tableName,record);
     }
 
     /** 
@@ -162,6 +185,27 @@ public class Db {
         return batchExecute(tableName,MyBatisConst.MS_RECORD_UPDATE,records,batchSize);
     }
 
+
+    /**
+     * 批量删除
+     * @return
+     * @
+     */
+    public int batchDelete(String tableName, Object... primaryKeyValues){
+        int size = primaryKeyValues.length;
+        if(size > 0){
+            List<Record> records = Lists.newArrayList();
+            for (int i  = 0; i< size; i++){
+                Record record = new Record();
+                record.set(AoomsConstants.ID, primaryKeyValues[i]);
+                records.add(record);
+            }
+            return batchExecute(tableName,MyBatisConst.MS_RECORD_DELETE,records,-1);
+        }
+
+        return 0;
+    }
+
     /**
      * 批量删除
      * @return
@@ -189,11 +233,11 @@ public class Db {
         return getSqlSession().update(mappedStatementId, sqlpara.getParams());
     }
 
-    public Record findByPrimaryKey(String tableName, String primaryKeyValue) {
+    public Record findByPrimaryKey(String tableName, Object primaryKeyValue) {
         return findByPrimaryKey(tableName, AoomsConstants.ID ,primaryKeyValue);
     }
 
-    public Record findByPrimaryKey(String tableName, String primaryKeyColumn ,String primaryKeyValue) {
+    public Record findByPrimaryKey(String tableName, String primaryKeyColumn ,Object primaryKeyValue) {
         SqlPara sqlPara = SqlPara.NEW();
         sqlPara.set(MyBatisConst.CRUD_QUERY_PK_PLACEHOLDER,true);
         sqlPara.set(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
