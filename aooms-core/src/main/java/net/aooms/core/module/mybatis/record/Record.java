@@ -1,5 +1,6 @@
 package net.aooms.core.module.mybatis.record;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
@@ -57,6 +58,16 @@ public class Record extends LinkedCaseInsensitiveMap {
     public Record set(String key,Object value){
         this.put(key,value);
         return this;
+    }
+
+    // bean getter
+    public <T> T toBean(Class<T> beanClass){
+        return BeanUtil.mapToBean(this,beanClass,true);
+    }
+
+    // bean setter
+    public <T> Record fromBean(T bean){
+        return (Record) BeanUtil.beanToMap(bean,this,true,true);
     }
 
     public String getString(String key){
