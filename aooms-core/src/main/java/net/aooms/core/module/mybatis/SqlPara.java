@@ -44,8 +44,8 @@ public class SqlPara {
 
     public static SqlPara fromDataBoss(){
         SqlPara sqlPara = new SqlPara();
-        sqlPara.addParams(DataBoss.get().getPara().getData());
-        sqlPara.addParams(DataBoss.get().getPara().getPathVars());
+        sqlPara.addParams(DataBoss.self().getPara().getData());
+        sqlPara.addParams(DataBoss.self().getPara().getPathVars());
         return sqlPara;
     }
 

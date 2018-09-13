@@ -37,13 +37,13 @@ public class ParamInterceptor extends AoomsAbstractInterceptor {
             //CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request.getServletContext());
             StandardMultipartHttpServletRequest multipartHttpServletRequest = (StandardMultipartHttpServletRequest)request;
             Map<String,MultipartFile> multipartFileMap = multipartHttpServletRequest.getFileMap();
-            DataBoss.get().getPara().setFiles(multipartFileMap);
+            DataBoss.self().getPara().setFiles(multipartFileMap);
         }
 
         // 请求参数
-        DataBoss.get().getPara().setData(params);
+        DataBoss.self().getPara().setData(params);
         // 路径参数
-        DataBoss.get().getPara().setPathVars((Map)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
+        DataBoss.self().getPara().setPathVars((Map)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
         return true;
     }
 

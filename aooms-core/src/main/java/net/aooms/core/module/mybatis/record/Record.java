@@ -5,6 +5,8 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import net.aooms.core.data.DataBoss;
+import net.aooms.core.data.DataResult;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
@@ -68,6 +70,20 @@ public class Record extends LinkedCaseInsensitiveMap {
     // bean setter
     public <T> Record fromBean(T bean){
         return (Record) BeanUtil.beanToMap(bean,this,true,true);
+    }
+
+    public Record fromDataBoss(String prefix){
+        String paraPrefix = prefix + ".";
+
+        Map<String,Object> paras = DataBoss.self().getPara().getData();
+        for(Map.Entry<String,Object> entry : paras.entrySet()){
+            Object value = entry.getValue();
+            /* 不是以定义的记录标识为前缀不处理  */
+            if(!entry.getKey().startsWith(paraPrefix))continue;
+            String key = entry.getKey().replace(paraPrefix, "");
+            this.set(key,value);
+        }
+        return this;
     }
 
     public String getString(String key){

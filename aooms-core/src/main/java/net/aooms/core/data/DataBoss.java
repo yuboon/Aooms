@@ -46,7 +46,7 @@ public class DataBoss implements Serializable {
      * 获取
      * @return
      */
-    public static DataBoss get(){
+    public static DataBoss self(){
        DataBoss dto = DATA_BOSS_THREAD_LOCAL.get();
        if(dto == null){
            //throw AoomsExceptions.create("The DataBoss object is not initialized.");

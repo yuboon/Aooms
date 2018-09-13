@@ -1,5 +1,7 @@
 package net.aooms.core.web;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.data.DataBoss;
 import net.aooms.core.data.DataPara;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,7 +41,7 @@ public abstract class AoomsAbstractController {
      * @return
      */
     public DataPara getPara(){
-        return DataBoss.get().getPara();
+        return DataBoss.self().getPara();
     };
 
     /**
@@ -46,7 +49,7 @@ public abstract class AoomsAbstractController {
      * @return
      */
     public DataResult getResult(){
-        return DataBoss.get().getResult();
+        return DataBoss.self().getResult();
     };
 
     /**

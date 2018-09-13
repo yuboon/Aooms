@@ -38,7 +38,7 @@ import java.util.Map;
  * Demo
  * Created by cccyb on 2018-02-06
  */
-@RestController
+//@RestController
 public class OtherController extends AoomsAbstractController {
 
     @Autowired
@@ -102,7 +102,6 @@ public class OtherController extends AoomsAbstractController {
         //String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
         //System.err.println(Thread.currentThread().getName() + " cookieName:" + cookieName);
 
-        userService.query();
        // userService.master();
 
         //GenericDao genericDao = AoomsModule.getInstance().getGenericDao();

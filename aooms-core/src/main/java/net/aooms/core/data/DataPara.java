@@ -1,6 +1,10 @@
 package net.aooms.core.data;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.google.common.collect.Lists;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.exception.AoomsException;
 import org.springframework.util.StringUtils;
@@ -9,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -197,5 +202,21 @@ public class DataPara implements Serializable {
         if(StringUtils.isEmpty(limit)) return 0;
         return Integer.valueOf(limit);
     };
+
+    /**
+     * 获取json字符串
+     * @throws Exception
+     */
+    public List<String> getIdsFromJsonStr(String jsonStr){
+        //[{"bean.id": "1"},{"bean.id": "1"}]
+        List<String> ids = Lists.newArrayList();
+        if(StrUtil.isEmpty(jsonStr))return ids;
+        JSONArray idArray = JSON.parseArray(jsonStr);
+        int size = idArray.size();
+        for (int i = 0;i<size;i++) {
+            ids.add(idArray.getJSONObject(i).getString(AoomsConstants.ID));
+        }
+        return ids;
+    }
 
 }

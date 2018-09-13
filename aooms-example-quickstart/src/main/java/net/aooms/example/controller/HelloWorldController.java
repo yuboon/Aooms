@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class HelloWorldController extends AoomsAbstractController {
 
-
     /**
      * 基础访问
      */

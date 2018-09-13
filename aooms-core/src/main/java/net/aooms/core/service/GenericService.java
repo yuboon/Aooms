@@ -45,7 +45,7 @@ public class GenericService {
 	 * @return
 	 */
 	public DataPara getPara() {
-		return DataBoss.get().getPara();
+		return DataBoss.self().getPara();
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class GenericService {
 	 * @return
 	 */
 	public DataResult getResult(){
-		return DataBoss.get().getResult();
+		return DataBoss.self().getResult();
 	}
 
 
