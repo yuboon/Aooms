@@ -1,12 +1,13 @@
-package net.aooms.example.pojo;
+package net.aooms.example.vo;
 
-import java.io.Serializable;
+import net.aooms.core.module.mybatis.record.Record;
+
 import java.util.Date;
 
 /**
  * 用户表
  */
-public class UserPojo implements Serializable {
+public class User extends Record{
 
     private long id;
 
@@ -28,7 +29,7 @@ public class UserPojo implements Serializable {
 
     private Long role;
 
-    public UserPojo() {
+    public User() {
     }
 
     public long getId() {

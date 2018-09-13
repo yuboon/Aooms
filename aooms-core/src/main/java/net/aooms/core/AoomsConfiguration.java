@@ -111,11 +111,11 @@ public class AoomsConfiguration {
                 String[] pathPatterns = registryProxy.getPathPatterns();
                 String[] ignores = registryProxy.getIgnores();
 
-                registryProxy.addInterceptor(new LoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
+                //registryProxy.addInterceptor(new LoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
                 //registryProxy.addInterceptor(new PermissionInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new DataBossInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new ContextInterceptor(pathPatterns,ignores));
-                registryProxy.addInterceptor(new DemoInterceptor(pathPatterns,ignores));
+                //registryProxy.addInterceptor(new DemoInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new ParamInterceptor(pathPatterns,ignores));
             }
 

@@ -40,7 +40,10 @@ public class DataResult implements Serializable {
 
     public void setData(Map<String,Object> results) {
         this.results = results;
+    }
 
+    public void merge(Map<String,Object> results) {
+        this.results.putAll(results);
     }
 
     /**

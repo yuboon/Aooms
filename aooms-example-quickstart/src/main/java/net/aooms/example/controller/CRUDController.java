@@ -18,9 +18,9 @@ import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.interceptor.DemoInterceptor;
 import net.aooms.core.web.interceptor.LoginInterceptor;
-import net.aooms.example.pojo.User;
-import net.aooms.example.pojo.UserPojo;
 import net.aooms.example.service.UserService;
+import net.aooms.example.vo.User;
+import net.aooms.example.vo.UserVo;
 import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,11 +35,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Demo
- * Created by cccyb on 2018-02-06
+ * simple crud
+ * Created by 风象南(cheereebo) on 2018-09-12
  */
 @RestController
-public class DemoController extends AoomsAbstractController {
+public class CRUDController extends AoomsAbstractController {
 
     @Autowired
     private PropertyTest testProperty;
@@ -77,7 +77,7 @@ public class DemoController extends AoomsAbstractController {
         //String body =  aoomsHttpTemplate.get("https://www.baidu.com");
         //System.err.println("body = " + body);
         DataResult dataResult = aoomsRestTemplate.get("http://AOOMS/hello/123");
-        List<UserPojo> users = dataResult.getBeanList("list",UserPojo.class);
+        List<UserVo> users = dataResult.getBeanList("list",UserVo.class);
         PagingRecord pagingRecord = dataResult.getPagingRecord("pgRecord");
         String id = dataResult.getValue("id",String.class);
 

@@ -191,14 +191,25 @@ public abstract class AoomsAbstractController {
     };
 
     /**
-     * 响应结果
+     * 图片输出
      * @return
      */
-    private void renderImage(InputStream imgStream,String suffix){
+    public void renderImage(InputStream imgStream,String suffix){
         if(imgStream == null){
             throw new RenderException("imgStream is null");
         }
         this.doRender(RenderFactory.me().getImageRender(suffix),imgStream);
+    };
+
+    /**
+     * 图片输出
+     * @return
+     */
+    public void renderImage(InputStream imgStream){
+        if(imgStream == null){
+            throw new RenderException("imgStream is null");
+        }
+        this.doRender(RenderFactory.me().getImageRender(null),imgStream);
     };
 
     /**

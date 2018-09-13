@@ -18,7 +18,7 @@ public class ImageRender extends AbstractRender {
 
     @Override
     public void render(HttpServletResponse response, Object value) throws Exception {
-        response.setContentType("image/" + suffix);
+        response.setContentType("image/" + (suffix == null? "jpeg" : suffix));
         // response.setHeader("Content-Encoding","gzip"); // 启用压缩
 
 

@@ -118,7 +118,7 @@ public class Db {
      * @
      */
     public int update(String tableName, Record record){
-        Assert.notNull(record,"pojo must not be null");
+        Assert.notNull(record,"vo must not be null");
         record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return getSqlSession().update(MyBatisConst.MS_RECORD_UPDATE, record);
     }

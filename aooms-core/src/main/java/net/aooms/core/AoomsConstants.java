@@ -23,7 +23,7 @@ public interface AoomsConstants {
         public static final String META = "$";
         public static final String DATA = "$data";
         public static final String TOTAL = "$total";
-        public static final String RECORD = "$pojo";
+        public static final String RECORD = "$vo";
 
     }
 
