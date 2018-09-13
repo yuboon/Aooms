@@ -24,7 +24,7 @@ public class UserService extends GenericService {
     private Db db;
 
 	public void findList() {
-		PagingRecord pagingRecord = db.findList("", SqlPara.fromDataBoss());
+		PagingRecord pagingRecord = db.findList("UserMapper.findList", SqlPara.fromDataBoss());
 		// 返回值
 		setResultValue(AoomsConstants.Result.DATA,pagingRecord);
 	}

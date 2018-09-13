@@ -7,10 +7,10 @@
     <cache type="net.aooms.core.module.mybatis.J2CacheSupport" eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>
 
     <sql id="columns">
-         id,name, 1 code
+         id,name
     </sql>
 
-    <select id="selectListBySQL" resultType="net.aooms.core.module.mybatis.record.Record">
+    <select id="findList" resultType="net.aooms.core.module.mybatis.record.Record">
         SELECT <include refid="columns" /> FROM USER
     </select>
 
@@ -18,7 +18,7 @@
         update user set name = '123' where id = #{id}
     </select>
 
-    <select id="selectMaster" resultType="net.aooms.core.module.mybatis.record.Record">
+    <select id="findAll" resultType="net.aooms.core.module.mybatis.record.Record">
         select * from t_order
     </select>
 
