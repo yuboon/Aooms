@@ -258,7 +258,7 @@ public class UserService extends GenericService {
     public void insert() {
 
 	// record 模式
-	Record record1 = Record.NEW();
+        Record record1 = Record.NEW();
 	record1.set(AoomsConstants.ID,IDGenerator.getLongValue());
 	record1.set("name","lisi3");
 	db.insert("user",record1);
