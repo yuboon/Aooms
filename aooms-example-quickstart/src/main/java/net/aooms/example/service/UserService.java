@@ -44,6 +44,11 @@ public class UserService extends GenericService {
 		userVo.setId(IDGenerator.getLongValue());
 		userVo.setName("wangwu");
 		Record record2 = Record.NEW().fromBean(userVo);
+		// fromDataBoss(prefix) 该方法可将参数 满足model.xxx 规则的参数构造成record属性
+		// 例：http://xxx/insert?record.id=1&record.name=zhangsan&model.role=3&code=02,
+		// 通过 fromDataBoss 将提取id,name,role三个属性的值,不会提取code值
+		record2.fromDataBoss("model");  // model为参数prefix 格式：model.role , 将会通过model取到role值
+
 		db.insert("user",record2);
 
 	}
