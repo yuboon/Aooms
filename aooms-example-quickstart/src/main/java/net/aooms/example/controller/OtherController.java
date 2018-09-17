@@ -16,7 +16,7 @@ import net.aooms.core.web.AoomsAbstractController;
 import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
-import net.aooms.core.web.interceptor.DemoInterceptor;
+import net.aooms.core.web.interceptor.RequestInterceptor;
 import net.aooms.core.web.interceptor.LoginInterceptor;
 import net.aooms.example.vo.User;
 import net.aooms.example.vo.UserVo;
@@ -26,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,8 +34,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Demo
- * Created by cccyb on 2018-02-06
+ * Other
+ * Created by 风象南(cheereebo) on 2018-09-12
  */
 //@RestController
 public class OtherController extends AoomsAbstractController {
@@ -218,7 +217,7 @@ public class OtherController extends AoomsAbstractController {
      * @return
      */
     @GetMapping("/hello2")
-    @ClearInterceptor({DemoInterceptor.class})
+    @ClearInterceptor({RequestInterceptor.class})
     public ModelAndView hello2(){
         this.getResult().set("name","byHello2");
         return new ModelAndView("/example.html",this.getResult().getData());
@@ -254,15 +253,6 @@ public class OtherController extends AoomsAbstractController {
     @GetMapping("/html")
     public void html(){
         this.renderHtml("<h1>这是标题</h1><script>alert(123);</script>");
-    };
-
-    /**
-     * html
-     * @return
-     */
-    @GetMapping("/js")
-    public void js(){
-        this.renderJavaScript("<script>alert('奥迪功能');</script>");
     };
 
     /**

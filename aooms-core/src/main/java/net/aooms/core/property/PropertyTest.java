@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
  * 测试自定义配置文件映射
  * Created by 风象南(cheereebo) on 2018-02-06
  */
-@Component
-@PropertySource(value = "classpath:/aooms/my2.yml" ,factory = YamlPropertyLoaderFactory.class)
+//@Component
+//@PropertySource(value = "classpath:/aooms/my2.yml" ,factory = YamlPropertyLoaderFactory.class)
 // prefix 必须包含点
-@ConfigurationProperties(prefix = "example")
+//@ConfigurationProperties(prefix = "example")
 public class PropertyTest {
 
     private String name;

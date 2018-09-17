@@ -1,7 +1,7 @@
 package net.aooms.core;
 
 /**
- * 常量声明
+ * 常量
  * Created by 风象南(cheereebo) on 2018-04-20
  */
 public interface AoomsConstants {
@@ -24,6 +24,12 @@ public interface AoomsConstants {
         public static final String DATA = "$data";
         public static final String TOTAL = "$total";
         public static final String RECORD = "$vo";
+
+    }
+
+    public static interface Render{
+
+        public static final String IS_RENDER = "is_render";
 
     }
 

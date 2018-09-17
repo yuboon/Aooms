@@ -17,6 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * simple crud service
+ * Created by 风象南(cheereebo) on 2018-09-17
+ */
 @Service
 public class UserService extends GenericService {
 
@@ -25,8 +29,11 @@ public class UserService extends GenericService {
 
 	public void findList() {
 		PagingRecord pagingRecord = db.findList("UserMapper.findList", SqlPara.fromDataBoss());
-		// 返回值
-		setResultValue(AoomsConstants.Result.DATA,pagingRecord);
+
+		{
+			// 返回值
+			this.setResultValue(AoomsConstants.Result.DATA,pagingRecord);
+		}
 	}
 
 	@Transactional

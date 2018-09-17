@@ -8,15 +8,13 @@
 <body>
     <h1>Aooms Test Page</h1>
 
-    <!-- 配合TestController提供一个完整的web调试环境 -->
-
 
     <p th:text="${name}" ></p>
 
-    <form id="fileForm" method="post" action="upload?id=111" enctype="multipart/form-data" >
-        <input name="my" type="file">
+    <form id="fileForm" method="post" action="hello4?id=111" enctype="multipart/form-data" >
+        <input name="upload" type="file">
     </form>
-    <a id="upload" href="#">上传212</a>
+    <a id="upload" href="#">上传文件</a>
 
     <script>
         $(function () {

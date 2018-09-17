@@ -115,8 +115,9 @@ public class AoomsConfiguration {
                 //registryProxy.addInterceptor(new PermissionInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new DataBossInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new ContextInterceptor(pathPatterns,ignores));
-                //registryProxy.addInterceptor(new DemoInterceptor(pathPatterns,ignores));
+                //registryProxy.addInterceptor(new RequestInterceptor(pathPatterns,ignores));
                 registryProxy.addInterceptor(new ParamInterceptor(pathPatterns,ignores));
+                registryProxy.addInterceptor(new DefaultRenderInterceptor(pathPatterns,ignores));
             }
 
             // 指定路径忽略大小写

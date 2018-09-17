@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户表
+ * 用户值对象
+ * Created by 风象南(cheereebo) on 2018-09-17
  */
 public class UserVo implements Serializable {
 

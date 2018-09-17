@@ -19,7 +19,7 @@ public class HelloWorldController extends AoomsAbstractController {
     /**
      * 基础访问
      */
-    @GetMapping("/hello")
+    @RequestMapping("/hello")
     public void hello(){
         String str = "hello world !";
         this.renderText(str);
@@ -28,10 +28,10 @@ public class HelloWorldController extends AoomsAbstractController {
     /**
      * 获取基本参数
      */
-    @GetMapping("/hello2")
+    @RequestMapping("/hello2")
     public void hello2(){
         String id = getParaString("id");
-        logger.info("id = {}" + id);
+        logger.info("id = {}" , id);
         this.renderText(id);
     };
 
@@ -39,20 +39,20 @@ public class HelloWorldController extends AoomsAbstractController {
     /**
      * 获取路径参数
      */
-    @GetMapping("/hello/{id}")
+    @RequestMapping("/hello/{id}")
     public void hello3(){
         String id = getPathString("id");
-        logger.info("id = {}" + id);
+        logger.info("id = {}" , id);
         this.renderText(id);
     };
 
     /**
      * 上传文件
      */
-    @PostMapping("/hello4")
+    @RequestMapping("/hello4")
     public void hello4(){
         MultipartFile multipartFile = this.getParaFile("upload");
-        logger.info("fileName = {}" + multipartFile.getName());
+        logger.info("fileName = {}", multipartFile.getName());
         this.renderText("success");
     };
 
@@ -64,7 +64,10 @@ public class HelloWorldController extends AoomsAbstractController {
         UserVo userVo = new UserVo();
         userVo.setName("zhangsan");
         setResultValue("userVo",userVo);
+
+        // 输出json
         this.renderJson();
+        // this.renderJson(); 也可省略不写，默认会使用JSONRender
     };
 
     /**
@@ -80,16 +83,16 @@ public class HelloWorldController extends AoomsAbstractController {
     /**
      * 文件下载
      */
-    @GetMapping("/hello7")
+    @RequestMapping("/hello7")
     public void hello7(){
-        this.renderFile("测试文件", this.getClass().getResourceAsStream("application.yml"));
+        this.renderFile("application.yml", this.getClass().getResourceAsStream("/application.yml"));
     };
 
     /**
      * 图片输出
      * @return
      */
-    @PostMapping("/hello8")
+    @RequestMapping("/hello8")
     public void hello8(){
         this.renderImage("F:/1.png","F:/default.png");
     };
@@ -98,7 +101,7 @@ public class HelloWorldController extends AoomsAbstractController {
      * html输出
      * @return
      */
-    @PostMapping("/hello9")
+    @RequestMapping("/hello9")
     public void hello9(){
         this.renderHtml("<html><h1>标题</h1> <script>alert('hello world !');</script> </html>");
     };
@@ -107,7 +110,7 @@ public class HelloWorldController extends AoomsAbstractController {
      * 模版页面输出
      * @return
      */
-    @PostMapping("/hello10")
+    @RequestMapping("/hello10")
     public void hello10(){
         ModelAndView mv = new ModelAndView();
         mv.addObject("name","lisi");
@@ -119,7 +122,7 @@ public class HelloWorldController extends AoomsAbstractController {
      * 重定向
      * @return
      */
-    @PostMapping("/hello11")
+    @GetMapping("/hello11")
     public void hello11(){
         this.redirect("https://www.oschina.net");
     };

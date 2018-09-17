@@ -143,9 +143,9 @@ public abstract class AoomsAbstractController {
      * 响应结果
      * @return
      */
-    public void renderJavaScript(String jsScript){
+    /*public void renderJavaScript(String jsScript){
         this.doRender(RenderFactory.me().getJavaScriptRender(),jsScript);
-    };
+    };*/
 
     /**
      * 响应结果
@@ -282,6 +282,7 @@ public abstract class AoomsAbstractController {
     // 输出
     private void doRender(AbstractRender render, Object value){
         try {
+            AoomsContext.getRequest().setAttribute(AoomsConstants.Render.IS_RENDER,true);
             render.render(getResponse(),value);
         } catch (Exception e) {
             throw new RenderException(e.getMessage(),e);

@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServletResponse;
  * demo拦截器
  * Created by 风象南(cheereebo) on 2018-04-19
  */
-public class DemoInterceptor extends AoomsAbstractInterceptor {
+public class RequestInterceptor extends AoomsAbstractInterceptor {
 
-    public DemoInterceptor(String[] pathPatterns, String[] ignores) {
+    public RequestInterceptor(String[] pathPatterns, String[] ignores) {
         super(pathPatterns, ignores);
     }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
-        System.err.println("DemoInterceptor.getRequestURL:" + request.getRequestURL());
+        System.err.println("RequestInterceptor.getRequestURL:" + request.getRequestURL());
 
         return true;
     }
