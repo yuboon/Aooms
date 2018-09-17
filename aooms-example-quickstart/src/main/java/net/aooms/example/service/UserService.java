@@ -1,18 +1,13 @@
 package net.aooms.example.service;
 
-import com.alibaba.fastjson.JSON;
-import io.shardingsphere.core.keygen.DefaultKeyGenerator;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.id.IDGenerator;
-import net.aooms.core.id.IDType;
-import net.aooms.core.module.dbsharding.SoftTransactional;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.module.mybatis.record.PagingRecord;
 import net.aooms.core.module.mybatis.record.Record;
 import net.aooms.core.service.GenericService;
 import net.aooms.example.vo.UserVo;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
