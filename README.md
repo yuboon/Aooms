@@ -246,33 +246,33 @@ public class UserService extends GenericService {
     private Db db;
 
     public void findList() {
-	PagingRecord pagingRecord = db.findList("UserMapper.findList", SqlPara.fromDataBoss());
+        PagingRecord pagingRecord = db.findList("UserMapper.findList", SqlPara.fromDataBoss());
 
-	{
-	    // 返回值
-	    this.setResultValue(AoomsConstants.Result.DATA,pagingRecord);
-	}
+        {
+            // 返回值
+            this.setResultValue(AoomsConstants.Result.DATA,pagingRecord);
+        }
     }
 
     @Transactional
     public void insert() {
 
-	// record 模式
+        // record 模式
         Record record1 = Record.NEW();
-	record1.set(AoomsConstants.ID,IDGenerator.getLongValue());
-	record1.set("name","lisi3");
-	db.insert("user",record1);
+        record1.set(AoomsConstants.ID,IDGenerator.getLongValue());
+        record1.set("name","lisi3");
+        db.insert("user",record1);
 
-	UserVo userVo = new UserVo();
-	userVo.setId(IDGenerator.getLongValue());
-	userVo.setName("wangwu");
-	Record record2 = Record.NEW().fromBean(userVo);
-	// fromDataBoss(prefix) 该方法可将参数 满足model.xxx 规则的参数构造成record属性
-	// 例：http://xxx/insert?record.id=1&record.name=zhangsan&model.role=3&code=02,
-	// 通过 fromDataBoss 将提取id,name,role三个属性的值,不会提取code值
-	record2.fromDataBoss("model");  // model为参数prefix 格式：model.role , 将会通过model取到role值
+        UserVo userVo = new UserVo();
+        userVo.setId(IDGenerator.getLongValue());
+        userVo.setName("wangwu");
+        Record record2 = Record.NEW().fromBean(userVo);
+        // fromDataBoss(prefix) 该方法可将参数 满足model.xxx 规则的参数构造成record属性
+        // 例：http://xxx/insert?record.id=1&record.name=zhangsan&model.role=3&code=02,
+        // 通过 fromDataBoss 将提取id,name,role三个属性的值,不会提取code值
+        record2.fromDataBoss("model");  // model为参数prefix 格式：model.role , 将会通过model取到role值
 
-	db.insert("user",record2);
+        db.insert("user",record2);
     }
 
     @Transactional
