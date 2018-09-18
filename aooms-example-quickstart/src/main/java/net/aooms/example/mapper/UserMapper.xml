@@ -4,7 +4,9 @@
 <mapper namespace="UserMapper">
 
     <!-- 二级缓存 -->
+    <!--
     <cache type="net.aooms.core.module.mybatis.J2CacheSupport" eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>
+    -->
 
     <sql id="columns">
          id,name

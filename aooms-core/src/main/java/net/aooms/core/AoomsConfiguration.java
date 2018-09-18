@@ -6,12 +6,20 @@ import net.aooms.core.property.PropertyApplication;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.property.PropertyServer;
 import net.aooms.core.property.PropertyTest;
+import net.aooms.core.web.AoomsGlobalErrorController;
 import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.interceptor.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -76,7 +84,7 @@ public class AoomsConfiguration {
     @Bean
     public Db db(){
         return new Db();
-    }
+   }
 
     @Bean
     public Aooms aoomsInstance(){
@@ -88,6 +96,13 @@ public class AoomsConfiguration {
     @Bean
     public ThreadLocalProcessHystrixConcurrencyStrategy threadLocalProcessHystrixConcurrencyStrategy(){
         return new ThreadLocalProcessHystrixConcurrencyStrategy();
+    }
+
+    @Autowired
+    private ServerProperties serverProperties;
+    @Bean
+    public BasicErrorController basicErrorController(){
+        return new AoomsGlobalErrorController(serverProperties);
     }
 
     /**

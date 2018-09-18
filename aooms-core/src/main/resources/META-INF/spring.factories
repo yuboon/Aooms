@@ -4,3 +4,6 @@ net.aooms.core.datasource.DynamicDataSourceConfiguration,\
 net.aooms.core.AoomsConfiguration,\
 net.aooms.core.module.mybatis.MyBatisConfiguration
 
+
+
+

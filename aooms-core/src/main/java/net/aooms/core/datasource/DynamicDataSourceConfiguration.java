@@ -35,6 +35,11 @@ public class DynamicDataSourceConfiguration {
     private MeterRegistry meterRegistry;
 
     @Bean
+    DynamicDataSourceAspect dynamicDataSourceAspect(){
+        return new DynamicDataSourceAspect();
+    }
+
+    @Bean
     @Primary
     public DataSource dataSource(Environment env) throws Exception {
 

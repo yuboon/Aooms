@@ -1,5 +1,6 @@
 package net.aooms.example;
 
+import net.aooms.core.Aooms;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;

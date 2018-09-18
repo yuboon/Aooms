@@ -81,8 +81,6 @@ public class DataResult implements Serializable {
         }
     }
 
-
-
     /**
      * 转换JSON字符串
      * @return
@@ -144,6 +142,13 @@ public class DataResult implements Serializable {
         return Record.NEW().setData((Map)results.get(key));
     }
 
+    /**
+     * 获取RecordList结果
+     * @return
+     */
+    public List<Record> getRecordList(String key){
+        return (List<Record>)results.get(key);
+    }
 
     /**
      * 逻辑失败，由业务控制
