@@ -1,7 +1,6 @@
 package net.aooms.core.web;
 
 import net.aooms.core.web.interceptor.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
