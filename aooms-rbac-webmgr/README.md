@@ -1,4 +1,4 @@
-aooms-rbac-webmgr
+aooms-rbac-webmgr &nbsp;基于D2admin &nbsp;http://d2admin.fairyever.com/
 
 ##运行
 
