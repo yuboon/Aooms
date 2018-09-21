@@ -11,7 +11,7 @@
       <div
         class="d2-theme-header"
         :style="{
-          opacity: this.searchActive ? 0.3 : 1
+          opacity: this.searchActive ? 0.5 : 1
         }"
         flex-box="0">
         <div class="logo-group" :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}">
@@ -29,6 +29,7 @@
           <d2-header-error-log/>
           <d2-header-fullscreen/>
           <d2-header-theme/>
+          <d2-header-size/>
           <d2-header-user/>
         </div>
       </div>
@@ -41,7 +42,7 @@
           class="d2-theme-container-aside"
           :style="{
             width: asideCollapse ? asideWidthCollapse : asideWidth,
-            opacity: this.searchActive ? 0.3 : 1
+            opacity: this.searchActive ? 0.5 : 1
           }">
           <d2-menu-side/>
         </div>
@@ -92,6 +93,7 @@ export default {
     'd2-tabs': () => import('./components/tabs'),
     'd2-header-fullscreen': () => import('./components/header-fullscreen'),
     'd2-header-search': () => import('./components/header-search'),
+    'd2-header-size': () => import('./components/header-size'),
     'd2-header-theme': () => import('./components/header-theme'),
     'd2-header-user': () => import('./components/header-user'),
     'd2-header-error-log': () => import('./components/header-error-log')
@@ -106,12 +108,12 @@ export default {
   },
   computed: {
     ...mapState('d2admin', {
+      keepAlive: state => state.page.keepAlive,
       grayActive: state => state.gray.active,
       transitionActive: state => state.transition.active,
       asideCollapse: state => state.menu.asideCollapse
     }),
     ...mapGetters('d2admin', {
-      keepAlive: 'page/keepAlive',
       themeActiveSetting: 'theme/activeSetting'
     }),
     /**
