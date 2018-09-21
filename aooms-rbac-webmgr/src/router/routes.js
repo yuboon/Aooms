@@ -1,7 +1,7 @@
 // layout
 import layoutHeaderAside from '@/layout/header-aside'
 
-const meta = { requiresAuth: true }
+const meta = { requiresAuth: true , keepAlive: true}
 
 /**
  * 在主框架内显示
@@ -287,8 +287,8 @@ const frameIn = [
         redirect: { name: 'sys-index' },
         component: layoutHeaderAside,
         children: (pre => [
-            { path: 'index', name: `${pre}/index`, component: () => import('@/pages/sys/index'), meta: { ...meta, title: '首页' } },
-            { path: 'user', name: `${pre}/user`, component: () => import('@/pages/sys/user'), meta: { ...meta, title: '用户管理' } }
+            { path: 'index', name: `${pre}/index`,meta, component: () => import('@/pages/sys/index'), meta: { ...meta, title: '首页' } },
+            { path: 'user', name: `user`, meta ,component: () => import('@/pages/sys/user'), meta: { ...meta, title: '用户管理' } }
         ])('sys-')
     }
 ]

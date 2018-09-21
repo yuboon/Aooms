@@ -1,73 +1,79 @@
 <template>
   <d2-container>
-    <template slot="header">基础表格</template>
-    <d2-crud
-      ref="d2Crud"
-      :columns="columns"
-      :data="data"/>
-    <el-card shadow="never" class="d2-mb">
-      <d2-markdown :source="doc"/>
-    </el-card>
-    <el-card shadow="never" class="d2-mb">
-      <d2-highlight :code="code"/>
-    </el-card>
-    <template slot="footer">
-      <d2-link-btn title="文档" link="https://d2-projects.github.io/d2-admin-doc/zh/ecosystem-d2-crud/"/>
-    </template>
+    <demo-page-header
+      slot="header"
+      @submit="handleSubmit"
+      ref="header"/>
+    <demo-page-main
+      :table-data="table"
+      :loading="loading"/>
+    <demo-page-footer
+      slot="footer"
+      :current="page.current"
+      :size="page.size"
+      :total="page.total"
+      @change="handlePaginationChange"/>
   </d2-container>
 </template>
 
 <script>
-import doc from './doc.md'
-import code from './code.js'
-
+import { BusinessTable1List } from '@/api/demo/business/table/1'
 export default {
+  // name 值和本页的 $route.name 一致才可以缓存页面
+  name: 'user',
+  components: {
+    'DemoPageHeader': () => import('./componnets/PageHeader'),
+    'DemoPageMain': () => import('./componnets/PageMain'),
+    'DemoPageFooter': () => import('./componnets/PageFooter')
+  },
   data () {
     return {
-      doc,
-      code,
-      columns: [
-        {
-          title: '日期',
-          key: 'date',
-          width: '180'
-        },
-        {
-          title: '姓名',
-          key: 'name',
-          width: '180'
-        },
-        {
-          title: '地址',
-          key: 'address'
-        }
-      ],
-      data: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ]
+      table: [],
+      loading: false,
+      page: {
+        current: 1,
+        size: 100,
+        total: 0
+      }
     }
   },
-  mounted () {
-    console.log(this.$refs.d2Crud.d2Data)
+  methods: {
+    handlePaginationChange (val) {
+      this.$notify({
+        title: '分页变化',
+        message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`
+      })
+      this.page = val
+      // nextTick 只是为了优化示例中 notify 的显示
+      this.$nextTick(() => {
+        this.$refs.header.handleFormSubmit()
+      })
+    },
+    handleSubmit (form) {
+      this.loading = true
+      this.$notify({
+        title: '开始请求模拟表格数据'
+      })
+      BusinessTable1List({
+        ...form,
+        page: this.page
+      })
+        .then(res => {
+          this.loading = false
+          this.$notify({
+            title: '模拟表格数据请求完毕'
+          })
+          this.table = res.list
+          this.page = res.page
+        })
+        .catch(err => {
+          this.loading = false
+          this.$notify({
+            title: '模拟表格数据请求异常'
+          })
+          console.log('err', err)
+        })
+    }
   }
 }
 </script>
