@@ -7,6 +7,7 @@
     <demo-page-main
       :table-data="table"
       :loading="loading"/>
+
     <demo-page-footer
       slot="footer"
       :current="page.current"
@@ -22,9 +23,9 @@ export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
   name: 'user',
   components: {
-    'DemoPageHeader': () => import('./componnets/PageHeader'),
-    'DemoPageMain': () => import('./componnets/PageMain'),
-    'DemoPageFooter': () => import('./componnets/PageFooter')
+    'DemoPageHeader': () => import('./components/PageHeader'),
+    'DemoPageMain': () => import('./components/PageMain.vue'),
+    'DemoPageFooter': () => import('./components/PageFooter')
   },
   data () {
     return {

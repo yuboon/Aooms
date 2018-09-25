@@ -2,9 +2,14 @@
   <div>
     <el-form
       :inline="true"
-      size="mini">
+      size="mini"
+      style="padding-bottom: 10px;margin-top: -8px;"
+      class="demo"
+    >
 
-      <el-button type="primary" size="mini" icon="el-icon-edit" round>新增</el-button>
+      <el-button type="primary" size="mini" icon="el-icon-plus" @click="add()">新增</el-button>
+      <el-button type="primary" size="mini" icon="el-icon-edit">编辑</el-button>
+      <el-button type="danger" size="mini" icon="el-icon-delete">删除</el-button>
 
     </el-form>
 
@@ -110,16 +115,27 @@
       </el-table-column>
 
     </el-table>
+
+    <!-- 弹窗 -->
+    <data-form ref="dataForm"></data-form>
+
   </div>
+
+
 </template>
 
+
 <script>
-import BooleanControl from '../BooleanControl'
-import BooleanControlMini from '../BooleanControlMini'
+
+import BooleanControl from './BooleanControl'
+import BooleanControlMini from './BooleanControlMini'
+import DataForm from './DataForm.vue'
+
 export default {
   components: {
     BooleanControl,
-    BooleanControlMini
+    BooleanControlMini,
+    DataForm
   },
   props: {
     tableData: {
@@ -142,7 +158,8 @@ export default {
         { label: '创建时间', prop: 'dateTimeCreat' },
         { label: '使用状态', prop: 'used' },
         { label: '使用时间', prop: 'dateTimeUse' }
-      ]
+      ],
+      isShow:false
     }
   },
   watch: {
@@ -191,6 +208,9 @@ export default {
         .then(() => {
           this.$message('导出CSV成功')
         })
+    },
+    add:function(){
+        this.$refs.dataForm.open();
     }
   }
 }
