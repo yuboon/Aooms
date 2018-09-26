@@ -4,6 +4,7 @@
       slot="header"
       @submit="handleSubmit"
       ref="header"/>
+
     <demo-page-main
       :table-data="table"
       :loading="loading"/>
@@ -19,13 +20,14 @@
 
 <script>
 import { BusinessTable1List } from '@/api/demo/business/table/1'
+
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
   name: 'user',
   components: {
-    'DemoPageHeader': () => import('./components/PageHeader'),
-    'DemoPageMain': () => import('./components/PageMain.vue'),
-    'DemoPageFooter': () => import('./components/PageFooter')
+    'DemoPageHeader': () => import('./PageHeader.vue'),
+    'DemoPageMain': () => import('./PageMain.vue'),
+    'DemoPageFooter': () => import('./PageFooter.vue')
   },
   data () {
     return {
