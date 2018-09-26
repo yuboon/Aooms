@@ -60,11 +60,65 @@
       </el-form-item>
 
       <el-form-item>
-        <span class="el-dropdown-link" style="cursor:pointer;color:#409eff;" @click="showMore = !showMore">
+
+        <!--<span class="el-dropdown-link" style="cursor:pointer;color:#409eff;" @click="showMore = !showMore">
           更多条件
-          <!--<i class="el-icon-arrow-down el-icon--right"></i>-->
-          <i :class="['el-icon--right', showMore?'el-icon-arrow-up':'el-icon-arrow-down']"></i>
-        </span>
+          <i :class="['el-icon&#45;&#45;right', showMore?'el-icon-arrow-up':'el-icon-arrow-down']"></i>
+        </span>-->
+
+        <el-popover
+                placement="bottom"
+                trigger="click"
+                width="460"
+                popper-class="aooms-popper-condition"
+        >
+
+          <!-- content -->
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <!--<el-button type="primary" icon="el-icon-more-outline" plain circle style="margin-right: 10px;"></el-button>-->
+              <span>更多条件</span>
+            </div>
+
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="用户" prop="user" >
+                  <el-input
+                          v-model="form.user"
+                          placeholder="用户"
+                          style="width:120px;"/>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="12">
+                <el-form-item label="用户2" prop="user">
+                  <el-input
+                          v-model="form.user"
+                          placeholder="用户2"
+                          style="width:120px;"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="用户3" prop="user" >
+                  <el-input
+                          v-model="form.user"
+                          placeholder="用户"
+                          style="width:330px;"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-card>
+          <!-- content -->
+
+          <span class="el-dropdown-link" style="cursor:pointer;color:#409eff;" slot="reference">
+            更多条件
+            <i class="el-icon--right el-icon-arrow-down"></i>
+          </span>
+        </el-popover>
+
       </el-form-item>
 
       <div v-if="showMore">
@@ -85,6 +139,12 @@
 
     </el-form>
 </template>
+
+<style lang="scss">
+  .aooms-popper-condition{
+    padding: 0px;
+  }
+</style>
 
 <script>
 export default {
