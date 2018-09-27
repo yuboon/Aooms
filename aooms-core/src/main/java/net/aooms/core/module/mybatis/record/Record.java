@@ -3,17 +3,16 @@ package net.aooms.core.module.mybatis.record;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import net.aooms.core.data.DataBoss;
 import net.aooms.core.data.DataResult;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Record
@@ -72,7 +71,7 @@ public class Record extends LinkedCaseInsensitiveMap {
         return (Record) BeanUtil.beanToMap(bean,this,true,true);
     }
 
-    public Record fromDataBoss(String prefix){
+    public Record setByKey(String prefix){
         String paraPrefix = prefix + ".";
 
         Map<String,Object> paras = DataBoss.self().getPara().getData();
@@ -82,6 +81,19 @@ public class Record extends LinkedCaseInsensitiveMap {
             if(!entry.getKey().startsWith(paraPrefix))continue;
             String key = entry.getKey().replace(paraPrefix, "");
             this.set(key,value);
+        }
+        return this;
+    }
+
+    public Record setByJsonKey(String jsonKey){
+        String jsonStr = DataBoss.self().getPara().getString(jsonKey);
+        if(StrUtil.isNotBlank(jsonStr)){
+            JSONObject jsonObject = (JSONObject) JSONObject.parse(jsonStr);
+            Set<String> keySet = jsonObject.keySet();
+            for(String key : keySet){
+                Object value = jsonObject.get(key);
+                this.set(key,value);
+            }
         }
         return this;
     }

@@ -281,15 +281,15 @@ const frameIn = [
   },
 
     {
-        path: '/sys',
-        name: 'sys',
+        path: '/rbac',
+        name: 'rbac',
         meta,
-        redirect: { name: 'sys-index' },
+        redirect: { name: 'rbac-index' },
         component: layoutHeaderAside,
         children: (pre => [
-            { path: 'index', name: `${pre}/index`,meta, component: () => import('@/pages/sys/index'), meta: { ...meta, title: '首页' } },
-            { path: 'user', name: `user`, meta ,component: () => import('@/pages/sys/user'), meta: { ...meta, title: '用户管理' } }
-        ])('sys-')
+            { path: 'index', name: `${pre}/index`,meta, component: () => import('@/pages/rbac/index'), meta: { ...meta, title: '首页' } },
+            { path: 'user', name: `user`, meta ,component: () => import('@/pages/rbac/user'), meta: { ...meta, title: '用户管理' } }
+        ])('rbac-')
     }
 ]
 

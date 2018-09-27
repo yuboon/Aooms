@@ -15,7 +15,10 @@ import javax.sql.DataSource;
 public class Aooms {
 
     // 框架core包
-    public static final String CORE_PACKAGE = "net.aooms.core";
+    public static final String CorePackage = "net.aooms.core";
+    // 框架名
+    public static final String NAME = "aooms";
+    public static final String WebContext = "/" + NAME;
 
     private static Aooms INSTANCE;
 

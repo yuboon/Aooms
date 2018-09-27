@@ -2,14 +2,19 @@ package net.aooms.core.web.interceptor;
 
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.http.HttpUtil;
 import net.aooms.core.data.DataBoss;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
@@ -28,9 +33,8 @@ public class ParamInterceptor extends AoomsAbstractInterceptor {
         Map<String,String[]> paramMaps = request.getParameterMap();
         Map<String,Object> params = CollectionUtil.newHashMap();
         paramMaps.forEach((k,v) -> {
-            params.put(k.toLowerCase(),convert(v));
+            params.put(k,convert(v));
         });
-
 
         // 文件上传
         if(request instanceof AbstractMultipartHttpServletRequest){

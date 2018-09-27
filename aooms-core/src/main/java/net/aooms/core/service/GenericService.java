@@ -3,6 +3,8 @@ package net.aooms.core.service;
 import net.aooms.core.data.DataBoss;
 import net.aooms.core.data.DataPara;
 import net.aooms.core.data.DataResult;
+import net.aooms.core.module.mybatis.MappedStatementId;
+import net.aooms.core.module.mybatis.MapperPackage;
 import net.aooms.core.module.mybatis.SqlPara;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,5 +120,12 @@ public class GenericService {
 	 */
 	public DataResult setResultValue(String key,Object value){
 		return getResult().set(key,value);
+	}
+
+	/**
+	 * 获取statementId
+	 */
+	public String getStatementId(Class<? extends MapperPackage> mapperPackageClass, String method){
+		return MappedStatementId.getStatementId(mapperPackageClass,method);
 	}
 }

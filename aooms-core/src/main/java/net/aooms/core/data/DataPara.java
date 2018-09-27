@@ -114,7 +114,7 @@ public class DataPara implements Serializable {
      * @return
      */
     public Object get(String key){
-        Object value = params.get(key.toLowerCase());
+        Object value = params.get(key);
         return value;
     };
 

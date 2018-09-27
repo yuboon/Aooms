@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.aooms.rbac.mapper.UserMapper">
+
+    <select id="findList" resultType="net.aooms.core.module.mybatis.record.Record">
+        SELECT
+            id,
+            user_name,
+            user_nickname,
+            account,
+            sex,
+            phone,
+            photo,
+            email,
+            remark,
+            status,
+            create_time,
+            update_time
+         FROM aooms_rbac_user
+    </select>
+
+    <select id="updateById" resultType="int">
+        update user set name = '123' where id = #{id}
+    </select>
+
+    <select id="findAll" resultType="net.aooms.core.module.mybatis.record.Record">
+        select * from t_order
+    </select>
+
+</mapper>

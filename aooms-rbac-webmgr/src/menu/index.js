@@ -15,7 +15,7 @@ import demoD2Crud from './modules/demo-d2-crud'
 // 第三方网页
 import demoFrame from './modules/demo-frame'
 // 系统管理
-import sysFrame from './modules/sys'
+import rbacFrame from './modules/rbac'
 
 // 菜单 侧边栏
 export const menuAside = [
@@ -27,7 +27,7 @@ export const menuAside = [
   demoBusiness,
   demoD2Crud,
   demoFrame,
-  sysFrame
+  rbacFrame
 ]
 
 // 菜单 顶栏
@@ -63,5 +63,5 @@ export const menuHeader = [
   },
   demoPlayground,
   demoBusiness,
-  sysFrame
+  rbacFrame
 ]

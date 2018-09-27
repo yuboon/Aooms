@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head xmlns:th="http://www.w3.org/1999/xhtml">
+    <meta charset="UTF-8">
+    <title>Aooms Test Page</title>
+
+    <script type="text/javascript" src="jquery.min.js"></script>
+</head>
+<body>
+    <h1>Aooms Test Page</h1>
+
+
+    <p th:text="${name}" ></p>
+
+    <form id="fileForm" method="post" action="hello4?id=111" enctype="multipart/form-data" >
+        <input name="upload" type="file">
+    </form>
+    <a id="upload" href="#">上传文件</a>
+
+    <script>
+        $(function () {
+            $("#upload").click(function(){
+                alert('upload');
+                $("#fileForm").submit();
+            });
+
+        });
+    </script>
+
+</body>
+</html>

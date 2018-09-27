@@ -1,0 +1,45 @@
+# sharing-jdbc 配置
+
+# 数据源使用application.yml中定义的数据源，此处不重复定义
+#dataSources:
+#  master: !!com.zaxxer.hikari.HikariDataSource
+#    username: root
+#    password: root
+#    jdbcUrl: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+#    driverClassName: com.mysql.jdbc.Driver
+
+#  slave: !!com.zaxxer.hikari.HikariDataSource
+#    username: root
+#    password: root
+#    jdbcUrl: jdbc:mysql://127.0.0.1:3306/ds_0?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+#    driverClassName: com.mysql.jdbc.Driver
+
+shardingRule:
+  tables:
+    t_order:
+      actualDataNodes: master.t_order_${0..1}
+      tableStrategy:
+        inline:
+          shardingColumn: order_id
+          algorithmExpression: t_order_${order_id % 2}
+      keyGeneratorColumnName: order_id
+
+
+  bindingTables:
+    - t_order
+
+  defaultDatabaseStrategy:
+    inline:
+      shardingColumn: user_id
+      algorithmExpression: master
+
+  defaultTableStrategy:
+    none:
+
+  defaultKeyGeneratorClassName: io.shardingsphere.core.keygen.DefaultKeyGenerator
+
+  masterSlaveRules:
+    master:
+      masterDataSourceName: master
+      slaveDataSourceNames:
+        - slave
