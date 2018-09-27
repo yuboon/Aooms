@@ -152,12 +152,12 @@ export default {
             });
         },
         open:function(row){
-            this.form = row;
-            this.method = (row.id) ? 'update':'insert';
-
-            // 放最后
             this.dialogVisible = true;
-            this.$refs.form.resetFields();
+            this.$nextTick(()=>{
+                this.method = (row.id) ? 'update':'insert';
+                this.form = row;
+                this.$refs.form.resetFields();
+            })
             //this.$emit('ee', 'cc12345')
         },
         close:function() {
