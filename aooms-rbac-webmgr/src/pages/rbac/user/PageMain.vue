@@ -187,7 +187,6 @@ export default {
             this.multipleSelection = val
         },
         handleForm: function (row) {
-            console.log(JSON.stringify(row));
             this.$refs.dataForm.open(row ? row : {sex:'0'});
         },
         handleDelete: function (row) {
