@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.exception.AoomsException;
@@ -73,6 +74,31 @@ public class DataPara implements Serializable {
      */
     public Map<String, Object> getPathVars() {
         return pathVars;
+    }
+
+    /**
+     * 获取属性集合
+     * @return
+     */
+    public List<Object> getListFromJson(String key,String propName) {
+        return getListFromJson(key,propName,Object.class);
+    }
+
+    /**
+     * 获取属性集合
+     * @return
+     */
+    public <T> List<T> getListFromJson(String key,String propName,Class<T> propType) {
+        List<T> list = Lists.newArrayList();
+        String jsonStr = getString(key);
+        if(StrUtil.isNotBlank(jsonStr)){
+            JSONArray jsonArray = JSON.parseArray(jsonStr);
+            for(Object obj : jsonArray){
+                JSONObject jsonObject = (JSONObject)obj;
+                list.add((T)jsonObject.get(propName));
+            }
+        }
+        return list;
     }
 
     /**

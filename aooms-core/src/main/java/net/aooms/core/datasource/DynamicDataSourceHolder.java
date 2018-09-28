@@ -25,9 +25,10 @@ public class DynamicDataSourceHolder {
      * 管理所有的数据源id;
      * 主要是为了判断数据源是否存在;
      */
-
     static List<String> dataSourceIds = new ArrayList<String>();
     static Map<String,DataSource> dataSourceMap = Maps.newHashMap();
+    static Map<String,String> driveNameMap = Maps.newHashMap();
+
 
     /**
      * 使用setDataSource设置当前的

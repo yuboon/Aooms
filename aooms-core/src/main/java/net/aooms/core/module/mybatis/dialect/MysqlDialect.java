@@ -10,7 +10,8 @@ public class MysqlDialect implements Dialect {
 
     @Override
     public String pagingQuery(String originalSql, RowBounds rowBounds) {
-        String countsql = "select * from (" + originalSql + ") _table limit " + rowBounds.getOffset() + "," + rowBounds.getLimit();
+        int start = (rowBounds.getOffset() - 1) * rowBounds.getLimit();
+        String countsql = "select * from (" + originalSql + ") _table limit " + start + "," + rowBounds.getLimit();
         return  countsql;
     }
 }

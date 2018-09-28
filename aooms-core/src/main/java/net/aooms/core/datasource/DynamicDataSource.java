@@ -28,9 +28,17 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     public DataSource getDataSource(String key){
         DataSource dataSource = DynamicDataSourceHolder.dataSourceMap.get(key);
         if(dataSource == null){
-            throw new RuntimeException("The datasource was not found through the key [ {} ] " + key);
+            throw new RuntimeException("The datasource was not found through the key [ {"+ key +"} ] ");
         }
         return dataSource;
+    }
+
+    public String getDriveName(String key){
+        String driveName = DynamicDataSourceHolder.driveNameMap.get(key);
+        if(driveName == null){
+            throw new RuntimeException("The driveName was not found through the key [ {" + key + "} ] ");
+        }
+        return driveName;
     }
 
 }

@@ -111,8 +111,7 @@
 
 <script>
 
-import {httpPost} from '@/api/sys/http'
-import {httpGet} from '@/api/sys/http'
+import {httpGet, httpPost} from '@/api/sys/http'
 
 export default {
     data() {

@@ -7,6 +7,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.shardingsphere.core.api.yaml.YamlShardingDataSourceFactory;
+import io.shardingsphere.core.jdbc.core.datasource.ShardingDataSource;
+import io.shardingsphere.core.yaml.sharding.YamlShardingConfiguration;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
@@ -78,7 +80,8 @@ public class DynamicDataSourceConfiguration {
             java.net.URL url = this.getClass().getResource("/application-sharding-jdbc.yml");
             if(url != null){
                 byte[] bytes = FileUtil.readBytes(url.getPath());
-                DataSource dataSource = YamlShardingDataSourceFactory.createDataSource(shardingDataSources,bytes);
+                ShardingDataSource dataSource = (ShardingDataSource)YamlShardingDataSourceFactory.createDataSource(shardingDataSources,bytes);
+
                 // 设置默认数据源为 sharding-jdbc 构造的数据源
                 dynamicDataSource.setDefaultTargetDataSource(dataSource);
                 // 修改datasources中的默认数据源,其他数据源不变
@@ -137,6 +140,8 @@ public class DynamicDataSourceConfiguration {
         // 添加到数据源持有对象
         DynamicDataSourceHolder.dataSourceIds.add(name);
         DynamicDataSourceHolder.dataSourceMap.put(name,dataSource);
+        // 数据库方言在sharding-jdbc情况下，以master数据源为标准，只处理主从库同类型
+        DynamicDataSourceHolder.driveNameMap.put(name,dataSource.getDriverClassName());
 
         logger.info(LogUtils.logFormat("DataSource [" + name + "] - Start Completed , use conifg : " + prefix + "." + name));
         return dataSource;

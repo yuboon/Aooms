@@ -41,7 +41,7 @@ public class UserController extends AoomsAbstractController {
      * 修改
      * @return
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public void update(){
         userService.update();
     };
@@ -50,7 +50,7 @@ public class UserController extends AoomsAbstractController {
      * 删除
      * @return
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public void delete(){
         userService.delete();
     };

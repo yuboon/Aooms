@@ -12,6 +12,7 @@ import org.springframework.aop.framework.AopContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -65,6 +66,34 @@ public class GenericService {
 	 */
 	public String getParaString(String key) {
 		return getPara().getString(key);
+	}
+
+	/**
+	 * 获取参数
+	 * @return
+	 */
+	public List<Object> getListFromJson(String key, String propName) {
+		return getPara().getListFromJson(key,propName);
+	}
+
+	/**
+	 * 获取参数
+	 * @return
+	 */
+	public <T> List<T> getListFromJson(String key, String propName,Class<T> propType) {
+		return getPara().getListFromJson(key,propName,propType);
+	}
+
+	/**
+	 * 获取分页参数
+	 * @return
+	 */
+	public int getPage() {
+		return getPara().getPage();
+	}
+
+	public int getLimit() {
+		return getPara().getLimit();
 	}
 
 	/**

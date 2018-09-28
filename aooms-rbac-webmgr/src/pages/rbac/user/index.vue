@@ -2,10 +2,11 @@
     <d2-container>
         <demo-page-header
             slot="header"
-            @submit="handleSubmit"
+            @getTableData="getTableData"
             ref="header"/>
 
         <demo-page-main
+             @getTableData="getTableData"
             :table-data="table"
             :loading="loading"/>
 
@@ -36,44 +37,32 @@ export default {
             loading: false,
             page: {
                 current: 1,
-                size: 100,
+                size: 5,
                 total: 0
             }
         }
     },
-
-    mounted() {
-        this.$nextTick(() => {
-            httpGet('aooms/rbac/user/findList', {
-                id: '1'
-            }).then(res => {
-                this.loading = false
-                this.$notify({
-                    title: '数据请求完毕'
-                })
-                this.table = res.$data.list
-                this.page = {
-                    current: 1,
-                    size: 100,
-                    total: 1
-                }
-            });
-        })
-    },
-
     methods: {
-        handlePaginationChange(val) {
-            this.$notify({
-                title: '分页变化',
-                message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`
-            })
-            this.page = val
-            // nextTick 只是为了优化示例中 notify 的显示
-            this.$nextTick(() => {
-                this.$refs.header.handleFormSubmit()
-            })
+        getTableData(params){
+            Object.assign(params,{page:this.page.current,limit:this.page.size}); // 分页参数拷贝
+            this.loading = true;
+            httpGet('aooms/rbac/user/findList', params).then(res => {
+                this.loading = false;
+                this.table = res.$data.list
+                this.page.total = res.$data.total;
+            });
         },
-        handleSubmit(form) {
+        handlePaginationChange(val) {
+
+            this.page = val;
+            this.$refs.header.handleFormSubmit();
+
+            /*// nextTick 只是为了优化示例中 notify 的显示
+            this.$nextTick(() => {
+
+            })*/
+        }/*,
+        search(form) {
             this.loading = true
             this.$notify({
                 title: '开始请求模拟表格数据'
@@ -95,7 +84,7 @@ export default {
                 })
                 console.log('err', err)
             })
-        }
+        }*/
     }
 }
 </script>

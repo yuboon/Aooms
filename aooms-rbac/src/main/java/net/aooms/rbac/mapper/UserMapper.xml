@@ -5,19 +5,23 @@
 
     <select id="findList" resultType="net.aooms.core.module.mybatis.record.Record">
         SELECT
-            id,
-            user_name,
-            user_nickname,
-            account,
-            sex,
-            phone,
-            photo,
-            email,
-            remark,
-            status,
-            create_time,
-            update_time
-         FROM aooms_rbac_user
+            t.id,
+            t.user_name,
+            t.user_nickname,
+            t.account,
+            t.sex,
+            t.phone,
+            t.photo,
+            t.email,
+            t.remark,
+            t.status,
+            t.create_time,
+            t.update_time
+         FROM aooms_rbac_user t
+         WHERE  1=1
+        <if test="status != null and status != ''">
+            AND t.status = #{status}
+        </if>
     </select>
 
     <select id="updateById" resultType="int">

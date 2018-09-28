@@ -1,6 +1,8 @@
 package net.aooms.core.module.mybatis.interceptor;
 
+import net.aooms.core.Aooms;
 import net.aooms.core.AoomsConstants;
+import net.aooms.core.datasource.DynamicDataSourceHolder;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.dialect.DialectSelector;
 import org.apache.ibatis.executor.statement.PreparedStatementHandler;
@@ -72,11 +74,16 @@ public class QueryInterceptor implements Interceptor {
         }
 
         if(isPaging != null){
-            String driveClass = (String)metaObject.getValue("delegate.configuration.environment.dataSource.driverClass");
+            String ds = DynamicDataSourceHolder.getDataSource();
+            String driveClass = Aooms.self().getDynamicDataSource().getDriveName(ds == null ? AoomsConstants.DEFAULT_DATASOURCE:ds);
+            //(String)metaObject.getValue("delegate.configuration.environment.dataSource.driverClass");
             RowBounds rowBounds = (RowBounds) metaObject.getValue("delegate.rowBounds");
             String sql = preparedStatementHandler.getBoundSql().getSql();
             String pagingSql = dialectSelector.selector(driveClass).pagingQuery(sql,rowBounds);
             metaObject.setValue("delegate.boundSql.sql",pagingSql);
+
+            metaObject.setValue("delegate.rowBounds.offset", RowBounds.NO_ROW_OFFSET); // 默认分页不生效
+            metaObject.setValue("delegate.rowBounds.limit", RowBounds.NO_ROW_LIMIT);   // 默认分页不生效
         }
 
         Object value = invocation.proceed();

@@ -125,6 +125,7 @@
 <script>
 import BooleanControl from './BooleanControl.vue'
 import DataForm from './DataForm.vue'
+import {httpPost} from '@/api/sys/http'
 
 export default {
     components: {
@@ -184,22 +185,37 @@ export default {
             // 注意 这里并没有把修改后的数据传递出去 如果需要的话请自行修改
         },
         handleSelectionChange(val) {
-            this.multipleSelection = val
+            this.multipleSelection = val;
         },
         handleForm: function (row) {
             this.$refs.dataForm.open(row ? row : {sex:'0'});
         },
         handleDelete: function (row) {
             var self = this;
-            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+            this.$confirm('确定删除选择的数据?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                var len = self.multipleSelection.length;
-                this.$message({
-                    type: 'success',
-                    message: '成功删除' + len + '条数据'
+                var selection = [],ids = [];
+                if(row){
+                    selection.push(row);
+                }else{
+                    selection = self.multipleSelection;
+                }
+
+                selection.forEach(item => {
+                    ids.push({id:item.id});
+                });
+
+                let submitData = new FormData();
+                submitData.append("ids",JSON.stringify(ids));
+                httpPost('aooms/rbac/user/delete',submitData).then(res => {
+                    this.$message({
+                        type: 'success',
+                        message: '成功删除' + selection.length + '条数据'
+                    });
+                    this.$emit('getTableData',{});
                 });
             })
         }

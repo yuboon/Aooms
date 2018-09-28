@@ -75,6 +75,14 @@ public class SqlPara {
         return this;
     }
 
+    /**
+     * 分页 获取DataBoss参数
+     * @return
+     */
+    public SqlPara paging(){
+        return paging(DataBoss.self().getPara().getPage(),DataBoss.self().getPara().getLimit());
+    }
+
     public boolean isPaging(){
         return isPaging;
     }

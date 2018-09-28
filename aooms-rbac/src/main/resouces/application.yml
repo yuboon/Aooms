@@ -43,7 +43,7 @@ spring:
 
 
   datasource:
-    names: master
+    names: master,slave
     sharding-jdbc: false
     sharding-names: master,slave  # sharding-jdbc 使用的数据源
 
@@ -57,6 +57,12 @@ spring:
       username: root
       password: root
       jdbc-url: jdbc:mysql://127.0.0.1:3306/aooms?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+      driver-class-name: com.mysql.jdbc.Driver
+
+    slave:
+      username: root
+      password: root
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
       driver-class-name: com.mysql.jdbc.Driver
 
 
