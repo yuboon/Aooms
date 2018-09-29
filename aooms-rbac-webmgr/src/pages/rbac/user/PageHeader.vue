@@ -29,7 +29,7 @@
         </el-form-item>
 
         <el-form-item>
-            <el-button type="primary" @click="handleFormSubmit">
+            <el-button type="primary" @click="handleFormSubmit(true)">
                 <d2-icon name="search"/>查询
             </el-button>
         </el-form-item>
@@ -134,12 +134,12 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
-            this.handleFormSubmit();
+            this.handleFormSubmit(true);
         })
     },
     methods: {
-        handleFormSubmit() {
-            this.$emit('getTableData', this.form);
+        handleFormSubmit(jumpFirst) {
+            this.$emit('getTableData', this.form , jumpFirst);
         },
         handleFormReset() {
             this.form = {status: 'Y'};

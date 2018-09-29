@@ -43,7 +43,8 @@ export default {
         }
     },
     methods: {
-        getTableData(params){
+        getTableData(params,jumpFirst){
+            if(jumpFirst) this.page.current = 1;
             Object.assign(params,{page:this.page.current,limit:this.page.size}); // 分页参数拷贝
             this.loading = true;
             httpGet('aooms/rbac/user/findList', params).then(res => {
@@ -53,7 +54,6 @@ export default {
             });
         },
         handlePaginationChange(val) {
-
             this.page = val;
             this.$refs.header.handleFormSubmit();
 
@@ -61,30 +61,7 @@ export default {
             this.$nextTick(() => {
 
             })*/
-        }/*,
-        search(form) {
-            this.loading = true
-            this.$notify({
-                title: '开始请求模拟表格数据'
-            })
-            BusinessTable1List({
-                ...form,
-                page: this.page
-            }).then(res => {
-                this.loading = false
-                this.$notify({
-                    title: '模拟表格数据请求完毕'
-                })
-                this.table = res.list
-                this.page = res.page
-            }).catch(err => {
-                this.loading = false
-                this.$notify({
-                    title: '模拟表格数据请求异常'
-                })
-                console.log('err', err)
-            })
-        }*/
+        }
     }
 }
 </script>
