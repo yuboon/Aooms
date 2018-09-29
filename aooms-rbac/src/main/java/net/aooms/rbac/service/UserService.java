@@ -2,10 +2,13 @@ package net.aooms.rbac.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ArrayUtil;
+import com.baomidou.kisso.web.waf.attack.SqlInjection;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.datasource.DS;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
+import net.aooms.core.module.mybatis.Roper;
 import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.module.mybatis.record.PagingRecord;
 import net.aooms.core.module.mybatis.record.Record;
@@ -32,6 +35,12 @@ public class UserService extends GenericService {
     //@DS("slave")
     public void findList() {
         SqlPara sqlPara = SqlPara.fromDataBoss().paging();
+        sqlPara.and("status")
+               .andLikeAfter("user_name","account","phone","user_nickname","email")
+               .gte("create_time","update_time")
+               .lteCp("create_time","create_time_end")
+               .lteCp("update_time","update_time_end");
+
         String statementId = getStatementId(RbacMapperPackage.class,"UserMapper.findList");
 		PagingRecord pagingRecord = db.findList(statementId,sqlPara);
 		this.setResultValue(AoomsConstants.Result.DATA,pagingRecord);

@@ -17,11 +17,40 @@
             t.status,
             t.create_time,
             t.update_time
-         FROM aooms_rbac_user t
-         WHERE  1=1
+         FROM aooms_rbac_user t where 1=1 ${_conditions_}
+
+
+        <!--
         <if test="status != null and status != ''">
             AND t.status = #{status}
         </if>
+        <if test="user_name != null and user_name != ''">
+            AND t.user_name LIKE #{user_name}
+        </if>
+        <if test="account != null and account != ''">
+            AND t.account LIKE #{account}
+        </if>
+        <if test="phone != null and phone != ''">
+            AND t.phone LIKE #{phone}
+        </if>
+        <if test="email != null and email != ''">
+            AND t.email LIKE #{email}
+        </if>
+        <if test="create_time != null and create_time != ''">
+            AND t.create_time &gt; #{create_time}
+        </if>
+        <if test="create_time_end != null and create_time_end != ''">
+            AND t.create_time &lt; #{create_time_end}
+        </if>
+
+        <if test="update_time != null and update_time != ''">
+            AND t.update_time &gt; #{update_time}
+        </if>
+        <if test="update_time_end != null and update_time_end != ''">
+            AND t.update_time &lt; #{update_time_end}
+        </if>
+        -->
+
     </select>
 
     <select id="updateById" resultType="int">
