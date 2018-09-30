@@ -288,7 +288,7 @@ const frameIn = [
         component: layoutHeaderAside,
         children: (pre => [
             { path: 'index', name: `${pre}/index`,meta, component: () => import('@/pages/rbac/index'), meta: { ...meta, title: '首页' } },
-            { path: 'user', name: `user`, meta ,component: () => import('@/pages/rbac/user'), meta: { ...meta, title: '用户管理' } }
+            { path: 'user', name: `rbac-user`, meta ,component: () => import('@/pages/rbac/user'), meta: { ...meta, title: '用户管理' } }
         ])('rbac-')
     }
 ]

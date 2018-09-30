@@ -1,16 +1,16 @@
 <template>
     <d2-container>
-        <demo-page-header
+        <page-header
             slot="header"
             @getTableData="getTableData"
             ref="header"/>
 
-        <demo-page-main
+        <page-main
              @getTableData="getTableData"
             :table-data="table"
             :loading="loading"/>
 
-        <demo-page-footer
+        <page-footer
             slot="footer"
             :current="page.current"
             :size="page.size"
@@ -25,11 +25,11 @@ import {httpGet} from '@/api/sys/http'
 
 export default {
     // name 值和本页的 $route.name 一致才可以缓存页面
-    name: 'user',
+    name: 'rbac-user',
     components: {
-        'DemoPageHeader': () => import('./PageHeader.vue'),
-        'DemoPageMain': () => import('./PageMain.vue'),
-        'DemoPageFooter': () => import('./PageFooter.vue')
+        'PageHeader': () => import('./PageHeader.vue'),
+        'PageMain': () => import('./PageMain.vue'),
+        'PageFooter': () => import('./PageFooter.vue')
     },
     data() {
         return {

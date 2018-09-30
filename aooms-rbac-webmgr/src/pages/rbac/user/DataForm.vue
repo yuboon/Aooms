@@ -94,20 +94,6 @@
 
 </template>
 
-<style lang="scss">
-    .aooms-dialog .el-dialog__body{
-        padding: 20px 30px 5px 20px;
-    }
-
-    .aooms-dialog .el-dialog{
-        margin-top: 10vh !important;
-    }
-
-    .aooms-form-textarea textarea{
-        font-family: "Arial", "Microsoft YaHei", "\9ED1\4F53", "\5B8B\4F53", sans-serif;
-        color: #030406;
-    }
-</style>
 
 <script>
 

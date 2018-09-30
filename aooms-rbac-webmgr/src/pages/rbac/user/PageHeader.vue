@@ -2,14 +2,13 @@
     <el-form
             :inline="true"
             :model="form"
-            :rules="rules"
             ref="form"
             size="mini"
             label-width="70px"
             style="margin-bottom: -18px;">
 
         <el-form-item label="状态">
-            <el-select v-model="form.status" placeholder="状态" style="width: 100px;">
+            <el-select v-model="form.status" placeholder="状态" @change="handleFormSubmit(true)" style="width: 100px;">
                 <el-option label="全部" value=""/>
                 <el-option label="正常" value="Y"/>
                 <el-option label="禁用" value="N"/>
@@ -54,13 +53,13 @@
                     </div>
 
                     <el-row>
-                        <el-col :span="12">
+                        <el-col :span="24">
                             <el-form-item label="昵称" prop="user">
                                 <el-input v-model="form.user_nickname" placeholder="昵称" style="width:130px;"/>
                             </el-form-item>
                         </el-col>
 
-                        <el-col :span="12">
+                        <el-col :span="24">
                             <el-form-item label="邮箱" prop="user">
                                 <el-input v-model="form.email" placeholder="邮箱" style="width:130px;"/>
                             </el-form-item>
@@ -73,8 +72,8 @@
                                 <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="form.create_time" style="width:130px;"></el-date-picker>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="5" style="text-align: center"><el-form-item>至</el-form-item></el-col>
-                        <el-col :span="6">
+                        <el-col :span="2" style="text-align: center;"><el-form-item>至</el-form-item></el-col>
+                        <el-col :span="11">
                             <el-form-item>
                                 <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="form.create_time_end" style="width:130px;"></el-date-picker>
                             </el-form-item>
@@ -87,8 +86,8 @@
                                 <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="form.update_time" style="width:130px;"></el-date-picker>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="5" style="text-align: center"><el-form-item>至</el-form-item></el-col>
-                        <el-col :span="6">
+                        <el-col :span="2" style="text-align: center"><el-form-item>至</el-form-item></el-col>
+                        <el-col :span="11">
                             <el-form-item>
                                 <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="form.update_time_end" style="width:130px;"></el-date-picker>
                             </el-form-item>
@@ -107,12 +106,6 @@
 
     </el-form>
 </template>
-
-<style lang="scss">
-    .aooms-popper-condition {
-        padding: 0px;
-    }
-</style>
 
 <script>
 export default {
