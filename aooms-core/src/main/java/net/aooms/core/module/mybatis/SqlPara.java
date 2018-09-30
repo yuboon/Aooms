@@ -3,7 +3,6 @@ package net.aooms.core.module.mybatis;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.kisso.web.waf.attack.SqlInjection;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.aooms.core.data.DataBoss;
@@ -26,8 +25,6 @@ public class SqlPara {
 
     // 空实例 无查询条件时使用
     public static final SqlPara SINGLETON = new SqlPara();
-    // Sql注入过滤
-    private static SqlInjection sqlInjection = new SqlInjection();
     // 查询条件
     private StringBuilder conditions = new StringBuilder();
     // 查询条件参数占位
@@ -91,13 +88,12 @@ public class SqlPara {
 
     /**
      * 追加条件
-     * @param express
-     * @param value
      * @return
      */
-    private boolean appendCondition(String express,String value){
+    private boolean appendCondition(String join, String column,Roper roper,String value){
         if(StrUtil.isNotBlank(value)){
-            conditions.append(express + "'" + sqlInjection.strip(value) + "'");
+            //conditions.append(express + "'" + WAF.escapeSql(value) + "'");
+            conditions.append(join + column + roper.getOper() + "#{"+ column +"}");
             return true;
         }
         return false;
@@ -109,7 +105,7 @@ public class SqlPara {
      */
     public SqlPara and(String... props){
         for (String prop: props) {
-            appendCondition((whereOrAnd() + prop + " = "), getString(prop));
+            appendCondition(whereOrAnd(),prop, Roper.Eq, getString(prop));
         }
         return this;
     }
@@ -120,7 +116,7 @@ public class SqlPara {
      * @return
      */
     public SqlPara andCp(String column,String valueProp){
-        appendCondition((whereOrAnd() + column + " = "), getString(valueProp));
+        appendCondition(whereOrAnd(),column, Roper.Eq, getString(valueProp));
         return this;
     }
 
@@ -136,9 +132,9 @@ public class SqlPara {
         List<String> list = Lists.newArrayList();
         int size = columns.length;
         for (int i = 0 ;i < size; i++){
-            String value = sqlInjection.strip(this.getString(valueProps[i]));
+            String value = this.getString(valueProps[i]);
             if(StrUtil.isNotBlank(value)){
-                list.add(columns[i] + ropers[i].getOper() + "'" + value + "'");
+                list.add(columns[i] + ropers[i].getOper() + "#{"+ valueProps[i] +"}");
             }
         }
 
@@ -161,13 +157,13 @@ public class SqlPara {
      */
     public SqlPara andLikeAfter(String... props){
         for (String prop: props) {
-            appendCondition((whereOrAnd() + prop + " like "), getStringLikeAfter(prop));
+            appendCondition(whereOrAnd(),prop, Roper.Like, getStringLikeAfter(prop));
         }
         return this;
     }
 
     public SqlPara andLikeAfterCp(String column,String valueProp){
-        appendCondition((whereOrAnd() + column + " like "), getStringLikeAfter(valueProp));
+        appendCondition(whereOrAnd(),column, Roper.Like, getStringLikeAfter(valueProp));
         return this;
     }
 
@@ -177,13 +173,13 @@ public class SqlPara {
      */
     public SqlPara andLike(String... props){
         for (String prop: props) {
-            appendCondition((whereOrAnd() + prop + " like "), getStringLike(prop));
+            appendCondition(whereOrAnd(),prop, Roper.Like, getStringLike(prop));
         }
         return this;
     }
 
     public SqlPara andLikeCp(String column,String valueProp){
-        appendCondition((whereOrAnd() + column + " like "), getStringLike(valueProp));
+        appendCondition(whereOrAnd(),column, Roper.Like, getStringLike(valueProp));
         return this;
     }
 
@@ -193,13 +189,13 @@ public class SqlPara {
      */
     public SqlPara gt(String... props){
         for (String prop: props) {
-            appendCondition((whereOrAnd() + prop + " > "), getString(prop));
+            appendCondition(whereOrAnd(), prop ,Roper.Gt,getString(prop));
         }
         return this;
     }
 
     public SqlPara gtCp(String column, String valueProp){
-        appendCondition((whereOrAnd() + column + " > "), getString(valueProp));
+        appendCondition(whereOrAnd(), column ,Roper.Gt,getString(valueProp));
         return this;
     }
 
@@ -209,13 +205,13 @@ public class SqlPara {
      */
     public SqlPara lt(String... props){
         for (String prop: props) {
-            appendCondition((whereOrAnd() + prop + " < "), getString(prop));
+            appendCondition(whereOrAnd(), prop ,Roper.Lt,getString(prop));
         }
         return this;
     }
 
     public SqlPara ltCp(String column, String valueProp){
-        appendCondition((whereOrAnd() + column + " < "), getString(valueProp));
+        appendCondition(whereOrAnd(), column ,Roper.Lt,getString(valueProp));
         return this;
     }
 
@@ -225,13 +221,13 @@ public class SqlPara {
      */
     public SqlPara gte(String... props){
         for (String prop: props) {
-            appendCondition((whereOrAnd() + prop + " >= "), getString(prop));
+            appendCondition(whereOrAnd(), prop, Roper.Gte, getString(prop));
         }
         return this;
     }
 
     public SqlPara gteCp(String column, String valueProp){
-        appendCondition((whereOrAnd() + column + " >= "), getString(valueProp));
+        appendCondition(whereOrAnd(), column, Roper.Gte, getString(valueProp));
         return this;
     }
 
@@ -241,13 +237,13 @@ public class SqlPara {
      */
     public SqlPara lte(String... props){
         for (String prop: props) {
-            appendCondition((whereOrAnd() + prop + " <= "), getString(prop));
+            appendCondition(whereOrAnd(), prop, Roper.Lte, getString(prop));
         }
         return this;
     }
 
     public SqlPara lteCp(String column, String valueProp){
-        appendCondition((whereOrAnd() + column + " <= "), getString(valueProp));
+        appendCondition(whereOrAnd(), column, Roper.Lte, getString(valueProp));
         return this;
     }
 
@@ -334,7 +330,12 @@ public class SqlPara {
         if(StringUtils.isEmpty(value)){
             return "";
         }
-        return new StringBuilder("%" + value +"%").toString();
+
+        if(!value.endsWith("%")){
+            value = "%" + value + "%";
+            paramMaps.put(key, value);
+        }
+        return value;
     };
 
     /**
@@ -351,7 +352,11 @@ public class SqlPara {
         if(StringUtils.isEmpty(value)){
             return "";
         }
-        return new StringBuilder(value + "%").toString();
+        if(!value.endsWith("%")){
+            value = value + "%";
+            paramMaps.put(key, value);
+        }
+        return value;
     };
 
     public Integer getInteger(String key){
