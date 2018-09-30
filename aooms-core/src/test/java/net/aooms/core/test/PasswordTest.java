@@ -1,6 +1,8 @@
 package net.aooms.core.test;
 
+import cn.hutool.core.io.watch.Watcher;
 import net.aooms.core.util.PasswordHash;
+import org.springframework.util.StopWatch;
 
 /**
  * 类描述
@@ -10,6 +12,13 @@ public class PasswordTest {
 
     public static void main(String[] args) {
         try {
+
+            StopWatch stopWatch = new StopWatch();
+            stopWatch.start();
+            System.out.println(PasswordHash.createHash("p\r\nassw0Rd!"));
+            stopWatch.stop();
+            System.err.println("cost:" + stopWatch.getTotalTimeMillis());
+
             // Print out 10 hashes
             for (int i = 0; i < 10; i++)
                 System.out.println(PasswordHash.createHash("p\r\nassw0Rd!"));
