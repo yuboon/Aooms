@@ -15,7 +15,9 @@ public class PasswordTest {
 
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
-            System.out.println(PasswordHash.createHash("p\r\nassw0Rd!"));
+            for(int i = 0 ;i < 1000; i++){
+                System.out.println(PasswordHash.createHash("p\r\nassw0Rd!"));
+            }
             stopWatch.stop();
             System.err.println("cost:" + stopWatch.getTotalTimeMillis());
 
