@@ -87,7 +87,7 @@ export default {
                             message: '保存成功'
                         });
 
-                        this.$emit('refreshTable');
+                        this.$emit('tableLoad');
                         this.dialogVisible = false;
                     });
                 }

@@ -61,7 +61,7 @@ export default {
             return this.form;
         },
         handleFormSubmit(jumpFirst) {
-            this.$emit('getTableData', this.form , jumpFirst);
+            this.$emit('tableLoad', this.form , jumpFirst);
         },
         handleFormReset() {
             this.form = {status: 'Y'};

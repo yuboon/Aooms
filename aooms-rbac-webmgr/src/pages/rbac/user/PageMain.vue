@@ -186,7 +186,7 @@ export default {
                         type: 'success',
                         message: '成功删除' + selection.length + '条数据'
                     });
-                    this.$emit('getTableData',{});
+                    this.$emit('tableLoad',{});
                 });
             })
         }

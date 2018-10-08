@@ -112,7 +112,7 @@
         </div>
 
         <!-- 表单弹窗 -->
-        <data-form ref="dataForm" @refreshTable="refreshTable"></data-form>
+        <data-form ref="dataForm" @tableLoad="tableLoad"></data-form>
     </div>
 </template>
 
@@ -260,8 +260,8 @@ export default {
                 });
             })
         },
-        refreshTable(){
-            this.$emit('getTableData',{});
+        tableLoad(){
+            this.$emit('tableLoad',{});
         },
         handleNodeClick(data) {
             console.log(data);

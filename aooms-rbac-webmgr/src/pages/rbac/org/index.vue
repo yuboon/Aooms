@@ -2,11 +2,11 @@
     <d2-container>
         <page-header
                 slot="header"
-                @getTableData="getTableData"
+                @tableLoad="tableLoad"
                 ref="header"/>
 
         <page-main
-                @getTableData="getTableData"
+                @tableLoad="tableLoad"
                 :table-data="table"
                 :loading="loading"/>
 
@@ -43,7 +43,7 @@
             }
         },
         methods: {
-            getTableData(params, jumpFirst) {
+            tableLoad(params, jumpFirst){
                 if (jumpFirst) this.page.current = 1;
                 Object.assign(params,this.$refs.header.getFormData(),{page: this.page.current, limit: this.page.size}); // 分页参数、查询条件拷贝
                 this.loading = true;
