@@ -6,13 +6,6 @@
                 ref="header"/>
 
         <page-main
-                slot="section"
-                style="width: 200px"
-                @getTableData="getTableData"
-                :table-data="table"
-                :loading="loading"/>
-
-        <page-main
                 @getTableData="getTableData"
                 :table-data="table"
                 :loading="loading"/>
@@ -36,7 +29,7 @@
         components: {
             'PageHeader': () => import('./PageHeader.vue'),
             'PageMain': () => import('./PageMain.vue'),
-            'PageFooter': () => import('../org/PageFooter.vue')
+            'PageFooter': () => import('../user/PageFooter.vue')
         },
         data() {
             return {
@@ -52,9 +45,9 @@
         methods: {
             getTableData(params, jumpFirst) {
                 if (jumpFirst) this.page.current = 1;
-                Object.assign(params, {page: this.page.current, limit: this.page.size}); // 分页参数拷贝
+                Object.assign(params,this.$refs.header.getFormData(),{page: this.page.current, limit: this.page.size}); // 分页参数、查询条件拷贝
                 this.loading = true;
-                httpGet('aooms/rbac/user/findList', params).then(res => {
+                httpGet('aooms/rbac/org/findList', params).then(res => {
                     this.loading = false;
                     this.table = res.$data.list
                     this.page.total = res.$data.total;
@@ -63,11 +56,6 @@
             handlePaginationChange(val) {
                 this.page = val;
                 this.$refs.header.handleFormSubmit();
-
-                /*// nextTick 只是为了优化示例中 notify 的显示
-                this.$nextTick(() => {
-
-                })*/
             }
         }
     }

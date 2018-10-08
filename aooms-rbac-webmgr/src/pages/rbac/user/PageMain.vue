@@ -1,14 +1,10 @@
 <template>
     <div>
-        <el-form
-                :inline="true"
-                size="mini"
-                class="demo"
-        >
+        <div>
             <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm()">新增</el-button>
             <!--<el-button type="primary" size="mini" icon="el-icon-edit" @click="handleForm()">编辑</el-button>-->
             <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleDelete()">删除</el-button>
-        </el-form>
+        </div>
 
         <el-table
                 :data="currentTableData"
@@ -16,7 +12,7 @@
                 size="mini"
                 stripe
                 style="width: 100%;"
-                :height="tableHeight"
+                :height="mainHeight"
                 @selection-change="handleSelectionChange">
 
             <!-- Table 展开行 -->
@@ -87,7 +83,7 @@
                 </template>
             </el-table-column>
             <el-table-column label="电话" prop="phone"/>
-            <el-table-column label="邮箱" prop="email" width="150"/>
+            <el-table-column label="序号" prop="ordinal"/>
             <el-table-column label="创建时间" prop="create_time" align="center" width="150"/>
 
             <el-table-column fixed label="操作" align="center" width="100">
@@ -103,24 +99,6 @@
         <data-form ref="dataForm"></data-form>
     </div>
 </template>
-
-<style>
-    .aooms-table-expand {
-        font-size: 0;
-    }
-
-    .aooms-table-expand label {
-        width: 90px;
-        color: #99a9bf;
-        text-align: right !important;
-    }
-
-    .aooms-table-expand .el-form-item {
-        margin-right: 0;
-        margin-bottom: 0;
-        width: 50%;
-    }
-</style>
 
 <script>
 import BooleanControl from './BooleanControl.vue'
@@ -144,18 +122,7 @@ export default {
         return {
             currentTableData: [],
             multipleSelection: [],
-            downloadColumns: [
-                {label: '卡密', prop: 'key'},
-                {label: '面值', prop: 'value'},
-                {label: '状态', prop: 'type'},
-                {label: '管理员', prop: 'admin'},
-                {label: '管理员备注', prop: 'adminNote'},
-                {label: '创建时间', prop: 'dateTimeCreat'},
-                {label: '使用状态', prop: 'used'},
-                {label: '使用时间', prop: 'dateTimeUse'}
-            ],
-            isShow: false,
-            tableHeight: window.innerHeight - 300
+            mainHeight: window.innerHeight - 300
         }
     },
     watch: {
@@ -169,13 +136,17 @@ export default {
     mounted() {
         this.$nextTick(() => {
             let self = this;
+            self.resetMainHeight();
             window.onresize = function () {
                 //self.height = self.$refs.table.$el.offsetHeight
-                self.tableHeight = window.innerHeight - 300;
+                self.resetMainHeight();
             }
         })
     },
     methods: {
+        resetMainHeight:function(){
+            this.mainHeight = window.innerHeight - 293;
+        },
         handleSwitchChange(val, index) {
             const oldValue = this.currentTableData[index]
             this.$set(this.currentTableData, index, {

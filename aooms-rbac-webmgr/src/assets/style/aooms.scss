@@ -2,6 +2,7 @@
 
  Aooms 自定义样式
  Created by 风象南(cheereebo) on 2018-09-30
+
 **/
 
 .aooms-dialog .el-dialog__body{
@@ -19,4 +20,46 @@
 
 .aooms-popper-condition {
   padding: 0px !important;
+}
+
+.aooms-table-expand {
+  font-size: 0 !important;
+}
+
+.aooms-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+  text-align: right !important;
+}
+
+.aooms-table-expand .el-form-item {
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  width: 50%;
+}
+
+.aooms-tree-left{
+  padding: 0 5px 0 0;
+}
+
+.aooms-tree-node{
+  color:#606266 !important;
+  font-size: 14px;
+}
+
+.aooms-scrollbar{
+  height: 100%;
+}
+.aooms-scrollbar .el-scrollbar__wrap{
+  overflow-x: auto !important;
+}
+
+/**
+
+ Aooms 覆盖默认样式
+ Created by 风象南(cheereebo) on 2018-10-08
+
+**/
+.splitter-pane-resizer{
+  z-index: 100 !important;
 }

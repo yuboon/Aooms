@@ -104,24 +104,6 @@
     </div>
 </template>
 
-<style>
-    .aooms-table-expand {
-        font-size: 0;
-    }
-
-    .aooms-table-expand label {
-        width: 90px;
-        color: #99a9bf;
-        text-align: right !important;
-    }
-
-    .aooms-table-expand .el-form-item {
-        margin-right: 0;
-        margin-bottom: 0;
-        width: 50%;
-    }
-</style>
-
 <script>
 import BooleanControl from './BooleanControl.vue'
 import DataForm from './DataForm.vue'

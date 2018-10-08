@@ -1,125 +1,123 @@
 <template>
     <div>
-        <el-form
-                :inline="true"
-                size="mini"
-                class="demo"
-        >
-            <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm()">新增</el-button>
-            <!--<el-button type="primary" size="mini" icon="el-icon-edit" @click="handleForm()">编辑</el-button>-->
-            <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleDelete()">删除</el-button>
-        </el-form>
-
-        <el-table
-                :data="currentTableData"
-                v-loading="loading"
-                size="mini"
-                stripe
-                style="width: 100%;"
-                :height="tableHeight"
-                @selection-change="handleSelectionChange">
-
-            <!-- Table 展开行 -->
-            <el-table-column type="expand" width="20">
-                <template slot-scope="scope">
-                    <el-form label-position="left" inline class="aooms-table-expand">
-                        <el-form-item label="用户姓名">
-                            <span>{{ scope.row.user_name }}</span>
-                        </el-form-item>
-                        <el-form-item label="用户昵称">
-                            <span>{{ scope.row.user_nickname }}</span>
-                        </el-form-item>
-                        <el-form-item label="账号">
-                            <span>{{ scope.row.account }}</span>
-                        </el-form-item>
-                        <el-form-item label="性别">
-                            <span>{{ (scope.row.sex == '0') ? '男':'女' }}</span>
-                        </el-form-item>
-                        <el-form-item label="电话">
-                            <span>{{ scope.row.phone }}</span>
-                        </el-form-item>
-                        <el-form-item label="邮箱">
-                            <span>{{ scope.row.email }}</span>
-                        </el-form-item>
-                        <el-form-item label="创建时间">
-                            <span>{{ scope.row.create_time }}</span>
-                        </el-form-item>
-                        <el-form-item label="修改时间">
-                            <span>{{ scope.row.update_time }}</span>
-                        </el-form-item>
-                        <el-form-item label="备注" style="width: 100%;">
-                            <span>{{ scope.row.remark }}</span>
-                        </el-form-item>
-                    </el-form>
+        <div :style="{height: mainHeight + 'px' }">
+            <SplitPane :default-percent='20' split="vertical">
+                <template slot="paneL" :style="{height: '100%' }" >
+                    <el-scrollbar class="aooms-scrollbar">
+                        <div class="aooms-tree-left">
+                            <el-input size="mini" placeholder="输入关键字进行过滤" style="padding-bottom: 5px;"></el-input>
+                            <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick">
+                                <span class="aooms-tree-node" slot-scope="{ node, data }">
+                                   <i :class="node.icon"></i>{{ node.label }}
+                                   <!-- 自定义图标 : https://blog.csdn.net/qq_33242126/article/details/79365098-->
+                                </span>
+                            </el-tree>
+                        </div>
+                    </el-scrollbar>
                 </template>
-            </el-table-column>
 
-            <el-table-column
-                    type="selection"
-                    width="30">
-            </el-table-column>
+                <template slot="paneR">
 
-            <el-table-column label="头像" prop="photo"/>
-            <el-table-column label="用户姓名" prop="user_name"/>
-            <el-table-column label="用户昵称" prop="user_nickname"/>
-            <el-table-column label="账号" prop="account"/>
-            <el-table-column label="状态" align="center" width="50">
-                <template slot-scope="scope">
-                    <boolean-control
-                            :value="scope.row.status"
-                            @change="(val) => {
-                handleSwitchChange(val, scope.$index)
-            }">
-                        <d2-icon
-                                name="check-circle"
-                                style="font-size: 20px; line-height: 32px; color: #67C23A;"
-                                slot="active"/>
-                        <d2-icon
-                                name="times-circle"
-                                style="font-size: 20px; line-height: 32px; color: #F56C6C;"
-                                slot="inactive"/>
-                    </boolean-control>
+                    <div style="padding-left: 5px;">
+                        <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm()">新增</el-button>
+                        <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleDelete()">删除</el-button>
+                    </div>
+
+                    <el-table
+                            :data="currentTableData"
+                            v-loading="loading"
+                            size="mini"
+                            stripe
+                            style="width: 100%;"
+                            :height="mainHeight - 28"
+                            @selection-change="handleSelectionChange">
+
+                        <!-- Table 展开行 -->
+                        <el-table-column type="expand" width="20">
+                            <template slot-scope="scope">
+                                <el-form label-position="left" inline class="aooms-table-expand">
+                                    <el-form-item label="上级机构" style="width: 100%;">
+                                        <span>{{ scope.row.parent_org_name }}</span>
+                                    </el-form-item>
+                                    <el-form-item label="机构名称">
+                                        <span>{{ scope.row.org_name }}</span>
+                                    </el-form-item>
+                                    <el-form-item label="机构简称">
+                                        <span>{{ scope.row.org_shortname }}</span>
+                                    </el-form-item>
+                                    <el-form-item label="机构编码">
+                                        <span>{{ scope.row.org_code }}</span>
+                                    </el-form-item>
+                                    <el-form-item label="序号">
+                                        <span>{{ scope.row.phone }}</span>
+                                    </el-form-item>
+                                    <el-form-item label="创建时间">
+                                        <span>{{ scope.row.create_time }}</span>
+                                    </el-form-item>
+                                    <el-form-item label="修改时间">
+                                        <span>{{ scope.row.update_time }}</span>
+                                    </el-form-item>
+                                    <el-form-item label="备注" style="width: 100%;">
+                                        <span>{{ scope.row.remark }}</span>
+                                    </el-form-item>
+                                </el-form>
+                            </template>
+                        </el-table-column>
+
+                        <el-table-column
+                                type="selection"
+                                width="30">
+                        </el-table-column>
+
+                        <el-table-column label="头像" prop="photo"/>
+                        <el-table-column label="机构名称" prop="org_name"/>
+                        <el-table-column label="机构简称" prop="org_shortname">
+                            <template slot-scope="scope">
+                                <el-input v-model="scope.row.org_shortname" size="mini"></el-input>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="机构代码" prop="org_code"/>
+                        <el-table-column label="状态" align="center" width="50">
+                            <template slot-scope="scope">
+                                <boolean-control
+                                        :value="scope.row.status"
+                                        @change="(val) => {
+                                            handleSwitchChange(val, scope.$index)
+                                        }">
+                                    <d2-icon
+                                            name="check-circle"
+                                            style="font-size: 20px; line-height: 32px; color: #67C23A;"
+                                            slot="active"/>
+                                    <d2-icon
+                                            name="times-circle"
+                                            style="font-size: 20px; line-height: 32px; color: #F56C6C;"
+                                            slot="inactive"/>
+                                </boolean-control>
+                            </template>
+                        </el-table-column>
+
+                        <el-table-column label="序号" prop="ordinal" align="center"/>
+                        <el-table-column label="创建时间" prop="create_time" align="center" width="150"/>
+
+                        <el-table-column fixed label="操作" align="center" width="100">
+                            <template slot-scope="scope">
+                                <el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle @click="handleForm(scope.row)"></el-button>
+                                <el-button type="danger" title="删除" size="mini" icon="el-icon-delete" circle @click="handleDelete(scope.row)"></el-button>
+                            </template>
+                        </el-table-column>
+
+                    </el-table>
                 </template>
-            </el-table-column>
-            <el-table-column label="性别" prop="sex" align="center">
-                <template slot-scope="scope">
-                    {{ (scope.row.sex == '0') ? '男':'女' }}
-                </template>
-            </el-table-column>
-            <el-table-column label="电话" prop="phone"/>
-            <el-table-column label="邮箱" prop="email" width="150"/>
-            <el-table-column label="创建时间" prop="create_time" align="center" width="150"/>
-
-            <el-table-column fixed label="操作" align="center" width="100">
-                <template slot-scope="scope">
-                    <el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle @click="handleForm(scope.row)"></el-button>
-                    <el-button type="danger" title="删除" size="mini" icon="el-icon-delete" circle @click="handleDelete(scope.row)"></el-button>
-                </template>
-            </el-table-column>
-
-        </el-table>
+            </SplitPane>
+        </div>
 
         <!-- 表单弹窗 -->
-        <data-form ref="dataForm"></data-form>
+        <data-form ref="dataForm" @refreshTable="refreshTable"></data-form>
     </div>
 </template>
 
-<style>
-    .aooms-table-expand {
-        font-size: 0;
-    }
+<style lang="scss">
 
-    .aooms-table-expand label {
-        width: 90px;
-        color: #99a9bf;
-        text-align: right !important;
-    }
-
-    .aooms-table-expand .el-form-item {
-        margin-right: 0;
-        margin-bottom: 0;
-        width: 50%;
-    }
 </style>
 
 <script>
@@ -144,18 +142,58 @@ export default {
         return {
             currentTableData: [],
             multipleSelection: [],
-            downloadColumns: [
-                {label: '卡密', prop: 'key'},
-                {label: '面值', prop: 'value'},
-                {label: '状态', prop: 'type'},
-                {label: '管理员', prop: 'admin'},
-                {label: '管理员备注', prop: 'adminNote'},
-                {label: '创建时间', prop: 'dateTimeCreat'},
-                {label: '使用状态', prop: 'used'},
-                {label: '使用时间', prop: 'dateTimeUse'}
-            ],
-            isShow: false,
-            tableHeight: window.innerHeight - 300
+            mainHeight: 0,
+            treeData: [{
+                label: '一级 1',
+                icon:'el-icon-menu',
+                children: [{
+                    label: '二级 1-1',
+                    icon:'el-icon-news',
+                    children: [{
+                        icon:'el-icon-news',
+                        label: '三级 1-1-1'
+                    }]
+                }]
+            }, {
+                label: '一级 2',
+                icon:'el-icon-menu',
+                children: [{
+                    label: '二级 2-1',
+                    children: [{
+                        label: '三级 2-1-1'
+                    }]
+                }, {
+                    label: '二级 2-2',
+                    icon:'el-icon-menu',
+                    children: [{
+                        label: '三级 2-2-1'
+                    }]
+                }]
+            }, {
+                label: '一级 3',
+                icon:'el-icon-news',
+                children: [{
+                    label: '二级 3-1',
+                    children: [{
+                        label: '三级 3-1-1'
+                    }]
+                }, {
+                    label: '二级 3-2',
+                    children: [{
+                        label: '三级 3-2-1'
+                    },{
+                        label: '三级 3-2-2'
+                    },{
+                        label: '三级 3-2-3'
+                    },{
+                        label: '三级 3-2-4'
+                    }]
+                }]
+            }],
+            defaultProps: {
+                children: 'children',
+                label: 'label'
+            }
         }
     },
     watch: {
@@ -169,13 +207,16 @@ export default {
     mounted() {
         this.$nextTick(() => {
             let self = this;
+            self.resetMainHeight();
             window.onresize = function () {
-                //self.height = self.$refs.table.$el.offsetHeight
-                self.tableHeight = window.innerHeight - 300;
+                self.resetMainHeight();
             }
         })
     },
     methods: {
+        resetMainHeight:function(){
+            this.mainHeight = window.innerHeight - 265;
+        },
         handleSwitchChange(val, index) {
             const oldValue = this.currentTableData[index]
             this.$set(this.currentTableData, index, {
@@ -188,7 +229,7 @@ export default {
             this.multipleSelection = val;
         },
         handleForm: function (row) {
-            this.$refs.dataForm.open(row ? row : {sex:'0'});
+            this.$refs.dataForm.open(row);
         },
         handleDelete: function (row) {
             var self = this;
@@ -215,9 +256,15 @@ export default {
                         type: 'success',
                         message: '成功删除' + selection.length + '条数据'
                     });
-                    this.$emit('getTableData',{});
+                    refreshTable();
                 });
             })
+        },
+        refreshTable(){
+            this.$emit('getTableData',{});
+        },
+        handleNodeClick(data) {
+            console.log(data);
         }
     }
 }

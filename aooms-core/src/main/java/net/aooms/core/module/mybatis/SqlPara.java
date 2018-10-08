@@ -28,7 +28,7 @@ public class SqlPara {
     // 查询条件
     private StringBuilder conditions = new StringBuilder();
     // 查询条件参数占位
-    private static final String conditionsKey = "_conditions_";
+    private static final String conditionsKey = "_ANDS_";
 
     // 内置key
     private static List<String> InternalKey = Arrays.asList(
