@@ -3,6 +3,7 @@ package net.aooms.core.module.mybatis.record;
 import cn.hutool.core.util.StrUtil;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.interceptor.MetaObjectAssistant;
+import net.aooms.core.record.Record;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
@@ -29,9 +30,10 @@ public class RecordInsert implements IRecordOper {
         MappedStatement mappedStatement = MetaObjectAssistant.getMappedStatement(metaObject);
         Object parameterObject = MetaObjectAssistant.getParameterObject(metaObject);
         Record record = (Record) parameterObject;
+        String tableName = record.getGeneral(MyBatisConst.TABLE_NAME_PLACEHOLDER);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(" insert into ");
-        stringBuilder.append(record.get(MyBatisConst.TABLE_NAME_PLACEHOLDER)); // tableName
+        stringBuilder.append(tableName); // tableName
         stringBuilder.append(" ({}) ");
         stringBuilder.append(" values ");
         stringBuilder.append(" ({}) ");
@@ -40,9 +42,6 @@ public class RecordInsert implements IRecordOper {
         StringBuilder values = new StringBuilder();
 
         int index = 0;
-
-        // 移除内部属性
-        record.removeInternalKey();
         Iterator<String> keyIterator = record.keySet().iterator();
         while (keyIterator.hasNext()) {
             String key = keyIterator.next();

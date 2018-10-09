@@ -1,7 +1,7 @@
 package net.aooms.core.web;
 
-import net.aooms.core.data.DataResult;
-import net.aooms.core.data.DataResultStatus;
+import net.aooms.core.databoss.DataResult;
+import net.aooms.core.databoss.DataResultStatus;
 import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.interceptor.LoginInterceptor;
 import org.slf4j.Logger;

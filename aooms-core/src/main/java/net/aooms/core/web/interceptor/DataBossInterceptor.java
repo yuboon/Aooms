@@ -1,7 +1,7 @@
 package net.aooms.core.web.interceptor;
 
 
-import net.aooms.core.data.DataBoss;
+import net.aooms.core.databoss.DataBoss;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;

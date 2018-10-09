@@ -4,8 +4,8 @@ import net.aooms.core.AoomsConstants;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.module.mybatis.record.PagingRecord;
-import net.aooms.core.module.mybatis.record.Record;
+import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.Record;
 import net.aooms.core.service.GenericService;
 import net.aooms.example.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class UserService extends GenericService {
 	public void insert() {
 
 		// record 模式
-		Record record1 = Record.NEW();
+		Record record1 = Record.empty();
 		record1.set(AoomsConstants.ID,IDGenerator.getLongValue());
 		record1.set("name","lisi3");
 		db.insert("user",record1);
@@ -43,11 +43,11 @@ public class UserService extends GenericService {
 		UserVo userVo = new UserVo();
 		userVo.setId(IDGenerator.getLongValue());
 		userVo.setName("wangwu");
-		Record record2 = Record.NEW().fromBean(userVo);
+		Record record2 = Record.empty().fromBean(userVo);
 		// fromDataBoss(prefix) 该方法可将参数 满足model.xxx 规则的参数构造成record属性
 		// 例：http://xxx/insert?record.id=1&record.name=zhangsan&model.role=3&code=02,
 		// 通过 fromDataBoss 将提取id,name,role三个属性的值,不会提取code值
-		record2.fromDataBoss("model");  // model为参数prefix 格式：model.role , 将会通过model取到role值
+		record2.setByKey("model");  // model为参数prefix 格式：model.role , 将会通过model取到role值
 
 		db.insert("user",record2);
 

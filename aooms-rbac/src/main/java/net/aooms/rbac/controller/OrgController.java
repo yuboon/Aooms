@@ -30,6 +30,15 @@ public class OrgController extends AoomsAbstractController {
     };
 
     /**
+     * 树查询
+     * @return
+     */
+    @RequestMapping("/findTree")
+    public void findTree(){
+        orgService.findTree();
+    };
+
+    /**
      * 新增
      * @return
      */

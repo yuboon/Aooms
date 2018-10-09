@@ -1,8 +1,8 @@
 package net.aooms.core.service;
 
-import net.aooms.core.data.DataBoss;
-import net.aooms.core.data.DataPara;
-import net.aooms.core.data.DataResult;
+import net.aooms.core.databoss.DataBoss;
+import net.aooms.core.databoss.DataPara;
+import net.aooms.core.databoss.DataResult;
 import net.aooms.core.module.mybatis.MappedStatementId;
 import net.aooms.core.module.mybatis.MapperPackage;
 import net.aooms.core.module.mybatis.SqlPara;

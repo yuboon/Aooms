@@ -9,7 +9,7 @@ import org.apache.ibatis.reflection.MetaObject;
  * Record操作路由
  * Created by 风象南(cheereebo) on 2018/9/7
  */
-public class OperRouting {
+public class RoutingRecordOper {
 
     public IRecordOper route(MetaObject metaobject){
         MappedStatement mappedStatement = MetaObjectAssistant.getMappedStatement(metaobject);

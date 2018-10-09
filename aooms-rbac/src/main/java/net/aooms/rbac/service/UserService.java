@@ -1,24 +1,18 @@
 package net.aooms.rbac.service;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.ArrayUtil;
-import com.baomidou.kisso.web.waf.attack.SqlInjection;
 import net.aooms.core.AoomsConstants;
-import net.aooms.core.datasource.DS;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
-import net.aooms.core.module.mybatis.Roper;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.module.mybatis.record.PagingRecord;
-import net.aooms.core.module.mybatis.record.Record;
+import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.Record;
 import net.aooms.core.service.GenericService;
 import net.aooms.rbac.mapper.RbacMapperPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,8 +42,8 @@ public class UserService extends GenericService {
 
 	@Transactional
 	public void insert() {
-		Record record = Record.NEW();
-		record.set(AoomsConstants.ID,IDGenerator.getLongValue());
+		Record record = Record.empty();
+		record.set(AoomsConstants.ID,IDGenerator.getStringValue());
 		record.setByJsonKey("formData");
 		record.set("create_time", DateUtil.now());
 		db.insert("aooms_rbac_user",record);
@@ -57,7 +51,7 @@ public class UserService extends GenericService {
 
 	@Transactional
 	public void update() {
-        Record record = Record.NEW();
+        Record record = Record.empty();
         record.setByJsonKey("formData");
         record.set("update_time",DateUtil.now());
         db.update("aooms_rbac_user",record);

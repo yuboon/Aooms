@@ -1,4 +1,4 @@
-package net.aooms.core.data;
+package net.aooms.core.databoss;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;

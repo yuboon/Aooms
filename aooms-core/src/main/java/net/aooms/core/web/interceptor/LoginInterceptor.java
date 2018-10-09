@@ -21,7 +21,7 @@ import com.baomidou.kisso.common.util.HttpUtil;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.baomidou.kisso.web.handler.SSOHandlerInterceptor;
 import net.aooms.core.AoomsConstants;
-import net.aooms.core.data.DataResult;
+import net.aooms.core.databoss.DataResult;
 import net.aooms.core.exception.AoomsExceptions;
 import net.aooms.core.property.PropertyObject;
 import org.slf4j.Logger;

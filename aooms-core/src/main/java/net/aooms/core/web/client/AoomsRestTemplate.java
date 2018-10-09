@@ -2,8 +2,8 @@ package net.aooms.core.web.client;
 
 import cn.hutool.core.bean.BeanUtil;
 import net.aooms.core.AoomsConstants;
-import net.aooms.core.data.DataResult;
-import net.aooms.core.data.DataResultStatus;
+import net.aooms.core.databoss.DataResult;
+import net.aooms.core.databoss.DataResultStatus;
 import net.aooms.core.property.PropertyApplication;
 import net.aooms.core.property.PropertyServer;
 import net.aooms.core.util.LogUtils;

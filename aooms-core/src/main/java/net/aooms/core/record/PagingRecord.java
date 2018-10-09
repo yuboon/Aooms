@@ -1,4 +1,4 @@
-package net.aooms.core.module.mybatis.record;
+package net.aooms.core.record;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ public class PagingRecord {
     private int page;
     private int limit;
     private List<? extends Record> list;
+    private int currentTotal;
     private int total;
     private int totalPage;
     private boolean isPaging;
@@ -22,6 +23,7 @@ public class PagingRecord {
         this.limit = limit;
         this.list = list;
         this.total = total;
+        this.currentTotal = list.size();
         this.isPaging = isPaging;
 
         if(limit > 0){
@@ -72,5 +74,13 @@ public class PagingRecord {
 
     public void setPaging(boolean paging) {
         isPaging = paging;
+    }
+
+    public int getCurrentTotal() {
+        return currentTotal;
+    }
+
+    public void setCurrentTotal(int currentTotal) {
+        this.currentTotal = currentTotal;
     }
 }

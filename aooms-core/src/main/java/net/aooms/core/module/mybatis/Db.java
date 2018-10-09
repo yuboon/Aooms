@@ -4,8 +4,8 @@ import cn.hutool.core.lang.Assert;
 import com.google.common.collect.Lists;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.datasource.DynamicDataSourceHolder;
-import net.aooms.core.module.mybatis.record.PagingRecord;
-import net.aooms.core.module.mybatis.record.Record;
+import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.Record;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -108,7 +108,7 @@ public class Db {
      */
     public int insert(String tableName, Record record) {
         Assert.notNull(record,"record must not be null");
-        record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+        record.setGeneral(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return getSqlSession().insert(MyBatisConst.MS_RECORD_INSERT, record);
     }
 
@@ -119,7 +119,7 @@ public class Db {
      */
     public int update(String tableName, Record record){
         Assert.notNull(record,"vo must not be null");
-        record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+        record.setGeneral(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return getSqlSession().update(MyBatisConst.MS_RECORD_UPDATE, record);
     }
 
@@ -130,7 +130,7 @@ public class Db {
      */
     public int delete(String tableName, Record record)  {
         Assert.notNull(record,"record must not be null");
-        record.put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+        record.setGeneral(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return getSqlSession().delete(MyBatisConst.MS_RECORD_DELETE, record);
     }
 
@@ -152,7 +152,7 @@ public class Db {
      */
     public int deleteByPrimaryKey(String tableName, String primaryKeyColumn, Object primaryKeyValue){
         Record record = new Record();
-        record.put(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,primaryKeyColumn);
+        record.setGeneral(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,primaryKeyColumn);
         record.set(primaryKeyColumn,primaryKeyValue);
         return delete(tableName,record);
     }
@@ -238,7 +238,7 @@ public class Db {
     }
 
     public Record findByPrimaryKey(String tableName, String primaryKeyColumn ,Object primaryKeyValue) {
-        SqlPara sqlPara = SqlPara.NEW();
+        SqlPara sqlPara = SqlPara.empty();
         sqlPara.set(MyBatisConst.CRUD_QUERY_PK_PLACEHOLDER,true);
         sqlPara.set(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         sqlPara.set(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,primaryKeyColumn);
@@ -260,7 +260,7 @@ public class Db {
 
     public Record findObjectOrCreate(String mappedStatementId, SqlPara sqlPara) {
         Record record = findObject(mappedStatementId,sqlPara);
-        if(record == null) return Record.NEW();
+        if(record == null) return Record.empty();
         return record;
     }
 
@@ -307,7 +307,7 @@ public class Db {
                     }
 
                     for(int i = index * batchSize; i < size; i++){
-                        records.get(i).put(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
+                        records.get(i).setGeneral(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
                         sqlSession.update(msId, records.get(i));
                     }
                     sqlSession.flushStatements();

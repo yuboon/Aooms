@@ -1,8 +1,8 @@
 package net.aooms.core.module.mybatis.interceptor;
 
 import net.aooms.core.module.mybatis.record.IRecordOper;
-import net.aooms.core.module.mybatis.record.OperRouting;
-import net.aooms.core.module.mybatis.record.Record;
+import net.aooms.core.module.mybatis.record.RoutingRecordOper;
+import net.aooms.core.record.Record;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
@@ -30,7 +30,7 @@ import java.util.Properties;
 })
 public class RecordInterceptor implements Interceptor {
 
-    private OperRouting recordOperRouting = new OperRouting();
+    private RoutingRecordOper recordOperRouting = new RoutingRecordOper();
 
     /* 
      * (non-Javadoc) 

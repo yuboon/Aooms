@@ -1,4 +1,4 @@
-package net.aooms.core.data;
+package net.aooms.core.databoss;
 
 import java.io.Serializable;
 

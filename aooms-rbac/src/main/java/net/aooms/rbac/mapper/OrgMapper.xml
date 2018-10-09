@@ -3,7 +3,7 @@
 
 <mapper namespace="net.aooms.rbac.mapper.OrgMapper">
 
-    <select id="findList" resultType="net.aooms.core.module.mybatis.record.Record">
+    <select id="findList" resultType="net.aooms.core.record.Record">
         SELECT * FROM aooms_rbac_org t where 1=1 ${_ANDS_}
     </select>
 

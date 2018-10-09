@@ -1,13 +1,17 @@
 package net.aooms.rbac.service;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.module.mybatis.record.PagingRecord;
-import net.aooms.core.module.mybatis.record.Record;
+import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.Record;
+import net.aooms.core.record.TreeRecord;
 import net.aooms.core.service.GenericService;
+import net.aooms.core.util.Kv;
+import net.aooms.core.util.TreeUtils;
 import net.aooms.rbac.mapper.RbacMapperPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +32,7 @@ public class OrgService extends GenericService {
     @Transactional(readOnly = true)
     public void findList() {
         SqlPara sqlPara = SqlPara.fromDataBoss().paging();
-        sqlPara.and("status")
+        sqlPara.and("status","parent_org_id")
                .andLikeAfter("org_name","org_shortname","org_code");
 
         String statementId = getStatementId(RbacMapperPackage.class,"OrgMapper.findList");
@@ -36,26 +40,49 @@ public class OrgService extends GenericService {
 		this.setResultValue(AoomsConstants.Result.DATA,pagingRecord);
 	}
 
+	@Transactional(readOnly = true)
+	public void findTree() {
+		String statementId = getStatementId(RbacMapperPackage.class,"OrgMapper.findList");
+		PagingRecord pagingRecord = db.findList(statementId,SqlPara.SINGLETON);
+
+        TreeUtils treeUtils = new TreeUtils(pagingRecord.getList());
+        treeUtils.setParentIdKey("parent_org_id");
+        treeUtils.setConvertValueKey(Kv.fkv("org_name","label"));
+        treeUtils.setDefaultValue(Kv.fkv("icon","el-icon-news"));
+        List<Record> treeRecords = treeUtils.listTree(AoomsConstants.TREE_ROOT);
+
+		this.setResultValue(AoomsConstants.Result.TREE, treeRecords);
+	}
+
 	@Transactional
 	public void insert() {
-		Record record = Record.NEW();
-		record.set(AoomsConstants.ID,IDGenerator.getLongValue());
+		Record record = Record.empty();
+		record.set(AoomsConstants.ID,IDGenerator.getStringValue());
 		record.setByJsonKey("formData");
 		record.set("create_time", DateUtil.now());
 		db.insert("aooms_rbac_org",record);
+
+		record.convertValueKey(Kv.fkv("org_name","label"),false);
+		record.set("icon","el-icon-news");
+		this.setResultValue(AoomsConstants.Result.RECORD, record);
 	}
 
 	@Transactional
 	public void update() {
-        Record record = Record.NEW();
+        Record record = Record.empty();
         record.setByJsonKey("formData");
         record.set("update_time",DateUtil.now());
         db.update("aooms_rbac_org",record);
-	}
+
+        record.convertValueKey(Kv.fkv("org_name","label"),false);
+        record.set("icon","el-icon-news");
+        this.setResultValue(AoomsConstants.Result.RECORD, record);
+    }
 
 	@Transactional
 	public void delete() {
         List<Object> ids = this.getListFromJson("ids",AoomsConstants.ID);
 		db.batchDelete("aooms_rbac_org",ids.toArray());
 	}
+
 }

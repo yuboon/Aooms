@@ -52,9 +52,7 @@ export default {
         }
     },
     mounted() {
-        this.$nextTick(() => {
-            this.handleFormSubmit(true);
-        })
+
     },
     methods: {
         getFormData() {

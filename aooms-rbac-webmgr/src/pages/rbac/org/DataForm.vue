@@ -54,6 +54,10 @@
 import {httpGet, httpPost} from '@/api/sys/http'
 
 export default {
+    props: {
+        parent_org_id: {},
+        parent_org_name: {}
+    },
     data() {
         return {
             method:'',
@@ -69,7 +73,6 @@ export default {
                 status:'',
                 ordinal:''*/
             },
-            parent_org_name:'根机构',
             dialogVisible: false
         }
     },
@@ -78,7 +81,7 @@ export default {
             var self = this;
             this.$refs.form.validate((valid, error) => {
                 if (valid) {
-                    // 推荐使用这种方式提交，保证RequestHeaders = Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryzBe4gknCRJ5m3eaU
+                    // 推荐使用这种方式提交，保证RequestHeaders = Content-Type: multipart/form-databoss; boundary=----WebKitFormBoundaryzBe4gknCRJ5m3eaU
                     let submitData = new FormData();
                     submitData.append('formData',JSON.stringify(self.form));
                     httpPost('aooms/rbac/org/' + self.method,submitData).then(res => {
@@ -88,6 +91,7 @@ export default {
                         });
 
                         this.$emit('tableLoad');
+                        this.$emit('treeUpdate',res.$vo, self.method);
                         this.dialogVisible = false;
                     });
                 }
@@ -101,10 +105,10 @@ export default {
                     this.method = 'update';
                     this.form = row;
                 }else{
-                    this.form = {status:'Y',ordinal:0};
+                    this.form = {status:'Y',ordinal:0,parent_org_id:this.parent_org_id};
+                    this.$refs.form.resetFields();
                 }
-                this.$refs.form.resetFields();
-            })
+            });
         },
         close:function() {
             this.dialogVisible = false;

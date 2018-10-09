@@ -1,4 +1,4 @@
-package net.aooms.core.module.mybatis.record;
+package net.aooms.core.record;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
@@ -7,9 +7,10 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import net.aooms.core.data.DataBoss;
-import net.aooms.core.data.DataResult;
+import net.aooms.core.databoss.DataBoss;
 import net.aooms.core.module.mybatis.MyBatisConst;
+import net.aooms.core.util.Kv;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import java.util.*;
@@ -20,20 +21,14 @@ import java.util.*;
  */
 public class Record extends LinkedCaseInsensitiveMap {
 
-    // 内置key
-    private static List<String> InternalKey = Arrays.asList(
-            MyBatisConst.TABLE_NAME_PLACEHOLDER,
-            MyBatisConst.TABLE_PK_NAME_PLACEHOLDER
-    );
-
     // 一般属性，保存时，不会持久化到数据库
     private Map<String,Object> generalData = new LinkedCaseInsensitiveMap();
 
     /**
-     * 创建Record
+     * 创建空Record
      * @return
      */
-    public static Record NEW(){
+    public static Record empty(){
         return new Record();
     }
 
@@ -98,6 +93,23 @@ public class Record extends LinkedCaseInsensitiveMap {
         return this;
     }
 
+    /**
+     * key 转换
+     * @param kv  K:source,V:target
+     * @param retainOriginal 是否保留原始属性
+     * @return
+     */
+    public Record convertValueKey(Kv kv,boolean retainOriginal){
+        Set<String> keys = kv.keySet();
+        for(String key : keys){
+            this.set(kv.getString(key), this.get(key));
+            if(!retainOriginal){
+                this.remove(key);
+            }
+        }
+        return this;
+    }
+
     public String getString(String key){
         return String.valueOf(this.get(key));
     }
@@ -131,10 +143,9 @@ public class Record extends LinkedCaseInsensitiveMap {
     }
 
     public Record pkIs(String key){
-        this.put(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,key);
+        this.setGeneral(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,key);
         return this;
     }
-
 
     public Record setGeneral(String key,Object value){
         generalData.put(key,value);
@@ -145,21 +156,17 @@ public class Record extends LinkedCaseInsensitiveMap {
         return (T)generalData.get(key);
     }
 
+    public <T> T getGeneralOrDefault(String key,Object defaultValue){
+        Object value = generalData.get(key);
+        if(value == null) return (T) defaultValue;
+        return (T) value;
+    }
+
     public Map<String,Object> getGeneralData(){
         return generalData;
     }
 
-    /**
-     * 移除所有内置属性
-     */
-    public void removeInternalKey(){
-        InternalKey.forEach(key -> {
-            this.remove(key);
-        });
-    }
-
-    @Override
-    public String toString() {
+    public String toJsonString() {
         return JSON.toJSONString(this, SerializerFeature.WriteMapNullValue);
     }
 }

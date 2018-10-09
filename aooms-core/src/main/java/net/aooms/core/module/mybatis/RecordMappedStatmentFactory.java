@@ -1,7 +1,7 @@
 package net.aooms.core.module.mybatis;
 
 import com.google.common.collect.Lists;
-import net.aooms.core.module.mybatis.record.Record;
+import net.aooms.core.record.Record;
 import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.session.Configuration;
 

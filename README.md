@@ -228,8 +228,8 @@ import net.aooms.core.AoomsConstants;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.module.mybatis.record.PagingRecord;
-import net.aooms.core.module.mybatis.record.Record;
+import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.Record;
 import net.aooms.core.service.GenericService;
 import net.aooms.example.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -306,7 +306,7 @@ public class UserService extends GenericService {
          id,name
     </sql>
 
-    <select id="findList" resultType="net.aooms.core.module.mybatis.record.Record">
+    <select id="findList" resultType="net.aooms.core.record.Record">
         SELECT <include refid="columns" /> FROM USER
     </select>
 
@@ -314,7 +314,7 @@ public class UserService extends GenericService {
         update user set name = '123' where id = #{id}
     </select>
 
-    <select id="findAll" resultType="net.aooms.core.module.mybatis.record.Record">
+    <select id="findAll" resultType="net.aooms.core.record.Record">
         select * from t_order
     </select>
 

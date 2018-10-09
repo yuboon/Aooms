@@ -4,19 +4,18 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import net.aooms.core.Aooms;
-import net.aooms.core.data.DataResult;
+import net.aooms.core.databoss.DataResult;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.module.mybatis.record.PagingRecord;
-import net.aooms.core.module.mybatis.record.Record;
+import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.Record;
 import net.aooms.core.property.PropertyApplication;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.AoomsAbstractController;
 import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.example.service.ExampleService;
-import net.aooms.example.service.UserService;
 import net.aooms.example.vo.UserVo;
 import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
@@ -160,7 +159,7 @@ public class ExampleController extends AoomsAbstractController {
      */
     @RequestMapping("/example7")
     public void example7(){
-       Record record = Record.NEW().set("order_id",IDGenerator.getLongValue()).set("user_id","12").set("status","NEW");
+       Record record = Record.empty().set("order_id",IDGenerator.getLongValue()).set("user_id","12").set("status","NEW");
        // 根据application-sharding-jdbc.yml 配置的规则，order_id % 2 == 0 时放入t_order_0 表，否则存入t_order_1 表
        db.insert("t_order",record);
     };

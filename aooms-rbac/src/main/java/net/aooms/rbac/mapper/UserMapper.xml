@@ -3,7 +3,7 @@
 
 <mapper namespace="net.aooms.rbac.mapper.UserMapper">
 
-    <select id="findList" resultType="net.aooms.core.module.mybatis.record.Record">
+    <select id="findList" resultType="net.aooms.core.record.Record">
         SELECT
             t.id,
             t.user_name,
@@ -57,7 +57,7 @@
         update user set name = '123' where id = #{id}
     </select>
 
-    <select id="findAll" resultType="net.aooms.core.module.mybatis.record.Record">
+    <select id="findAll" resultType="net.aooms.core.record.Record">
         select * from t_order
     </select>
 

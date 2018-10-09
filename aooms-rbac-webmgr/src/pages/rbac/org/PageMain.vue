@@ -5,8 +5,17 @@
                 <template slot="paneL" :style="{height: '100%' }" >
                     <el-scrollbar class="aooms-scrollbar">
                         <div class="aooms-tree-left">
-                            <el-input size="mini" placeholder="输入关键字进行过滤" style="padding-bottom: 5px;"></el-input>
-                            <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick">
+                            <el-input size="mini" placeholder="输入关键字进行过滤" v-model="filterText" style="padding-bottom: 5px;"></el-input>
+                            <el-tree
+                                    ref="tree"
+                                    :expand-on-click-node="false"
+                                    :default-expanded-keys="['ROOT']"
+                                    highlight-current
+                                    node-key="id"
+                                    :data="treeData"
+                                    :props="defaultProps"
+                                    @node-click="handleNodeClick"
+                                    :filter-node-method="filterNode">
                                 <span class="aooms-tree-node" slot-scope="{ node, data }">
                                    <i :class="node.icon"></i>{{ node.label }}
                                    <!-- 自定义图标 : https://blog.csdn.net/qq_33242126/article/details/79365098-->
@@ -24,6 +33,7 @@
                     </div>
 
                     <el-table
+                            ref="table"
                             :data="currentTableData"
                             v-loading="loading"
                             size="mini"
@@ -37,7 +47,7 @@
                             <template slot-scope="scope">
                                 <el-form label-position="left" inline class="aooms-table-expand">
                                     <el-form-item label="上级机构" style="width: 100%;">
-                                        <span>{{ scope.row.parent_org_name }}</span>
+                                        <span>{{ $refs.tree.getNode(scope.row.parent_org_id).label }}</span>
                                     </el-form-item>
                                     <el-form-item label="机构名称">
                                         <span>{{ scope.row.org_name }}</span>
@@ -49,7 +59,7 @@
                                         <span>{{ scope.row.org_code }}</span>
                                     </el-form-item>
                                     <el-form-item label="序号">
-                                        <span>{{ scope.row.phone }}</span>
+                                        <span>{{ scope.row.ordinal }}</span>
                                     </el-form-item>
                                     <el-form-item label="创建时间">
                                         <span>{{ scope.row.create_time }}</span>
@@ -72,9 +82,11 @@
                         <el-table-column label="头像" prop="photo"/>
                         <el-table-column label="机构名称" prop="org_name"/>
                         <el-table-column label="机构简称" prop="org_shortname">
+                            <!--
                             <template slot-scope="scope">
                                 <el-input v-model="scope.row.org_shortname" size="mini"></el-input>
                             </template>
+                            -->
                         </el-table-column>
                         <el-table-column label="机构代码" prop="org_code"/>
                         <el-table-column label="状态" align="center" width="50">
@@ -112,7 +124,13 @@
         </div>
 
         <!-- 表单弹窗 -->
-        <data-form ref="dataForm" @tableLoad="tableLoad"></data-form>
+        <data-form ref="dataForm"
+                   :parent_org_id="parent_org_id"
+                   :parent_org_name="parent_org_name"
+                   @tableLoad="tableLoad"
+                   @treeUpdate="treeUpdate">
+        </data-form>
+
     </div>
 </template>
 
@@ -121,11 +139,11 @@
 </style>
 
 <script>
-import BooleanControl from './BooleanControl.vue'
-import DataForm from './DataForm.vue'
-import {httpPost} from '@/api/sys/http'
+    import BooleanControl from './BooleanControl.vue'
+    import DataForm from './DataForm.vue'
+    import {httpGet, httpPost} from '@/api/sys/http'
 
-export default {
+    export default {
     components: {
         BooleanControl,
         DataForm
@@ -143,52 +161,14 @@ export default {
             currentTableData: [],
             multipleSelection: [],
             mainHeight: 0,
+            filterText:'',
+            parent_org_id:'ROOT',
+            parent_org_name:'无',
             treeData: [{
-                label: '一级 1',
+                id:'ROOT',
+                label: '所有机构',
                 icon:'el-icon-menu',
-                children: [{
-                    label: '二级 1-1',
-                    icon:'el-icon-news',
-                    children: [{
-                        icon:'el-icon-news',
-                        label: '三级 1-1-1'
-                    }]
-                }]
-            }, {
-                label: '一级 2',
-                icon:'el-icon-menu',
-                children: [{
-                    label: '二级 2-1',
-                    children: [{
-                        label: '三级 2-1-1'
-                    }]
-                }, {
-                    label: '二级 2-2',
-                    icon:'el-icon-menu',
-                    children: [{
-                        label: '三级 2-2-1'
-                    }]
-                }]
-            }, {
-                label: '一级 3',
-                icon:'el-icon-news',
-                children: [{
-                    label: '二级 3-1',
-                    children: [{
-                        label: '三级 3-1-1'
-                    }]
-                }, {
-                    label: '二级 3-2',
-                    children: [{
-                        label: '三级 3-2-1'
-                    },{
-                        label: '三级 3-2-2'
-                    },{
-                        label: '三级 3-2-3'
-                    },{
-                        label: '三级 3-2-4'
-                    }]
-                }]
+                children: []
             }],
             defaultProps: {
                 children: 'children',
@@ -197,6 +177,9 @@ export default {
         }
     },
     watch: {
+        filterText(val) {
+            this.$refs.tree.filter(val);
+        },
         tableData: {
             handler(val) {
                 this.currentTableData = val
@@ -208,6 +191,8 @@ export default {
         this.$nextTick(() => {
             let self = this;
             self.resetMainHeight();
+            self.tableLoad();
+            self.treeLoad();
             window.onresize = function () {
                 self.resetMainHeight();
             }
@@ -223,7 +208,6 @@ export default {
                 ...oldValue,
                 type: val
             })
-            // 注意 这里并没有把修改后的数据传递出去 如果需要的话请自行修改
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
@@ -233,6 +217,15 @@ export default {
         },
         handleDelete: function (row) {
             var self = this;
+
+            if(!row && self.multipleSelection.length == 0){
+                this.$message({
+                    message: '请至少选择一条数据',
+                    type: 'warning'
+                });
+                return;
+            }
+
             this.$confirm('确定删除选择的数据?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -251,20 +244,46 @@ export default {
 
                 let submitData = new FormData();
                 submitData.append("ids",JSON.stringify(ids));
-                httpPost('aooms/rbac/user/delete',submitData).then(res => {
+                httpPost('aooms/rbac/org/delete',submitData).then(res => {
                     this.$message({
                         type: 'success',
                         message: '成功删除' + selection.length + '条数据'
                     });
-                    refreshTable();
+                    this.tableLoad();
+
+                    ids.forEach((id) => {
+                        var node = this.$refs.tree.getNode(id);
+                        this.$refs.tree.remove(node);
+                    });
                 });
             })
+        },
+        treeLoad(){
+            httpGet('aooms/rbac/org/findTree').then(res => {
+                this.treeData[0].children = res.$tree;
+            });
+        },
+        treeUpdate(newData,method){
+            if(method == 'insert'){
+                var parentNode = this.$refs.tree.getNode(this.parent_org_id);
+                this.$refs.tree.append(newData,parentNode);
+            }else{
+                var node = this.$refs.tree.getNode(newData.id);
+                Object.assign(node.data, newData);
+            }
         },
         tableLoad(){
             this.$emit('tableLoad',{});
         },
         handleNodeClick(data) {
-            console.log(data);
+            this.parent_org_id = data.id;
+            this.parent_org_name = data.id == 'ROOT'?'无':data.label;
+            //this.$refs.dataForm.parentNode(data);
+            this.$emit('tableLoad',{},true);
+        },
+        filterNode(value, data) {
+            if (!value) return true;
+            return data.label.indexOf(value) !== -1;
         }
     }
 }

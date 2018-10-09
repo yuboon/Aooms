@@ -5,7 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.aooms.core.data.DataBoss;
+import net.aooms.core.databoss.DataBoss;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -48,7 +48,7 @@ public class SqlPara {
 
     }*/
 
-    public static SqlPara NEW(){
+    public static SqlPara empty(){
         SqlPara sqlPara = new SqlPara();
         return sqlPara;
     }
@@ -60,7 +60,7 @@ public class SqlPara {
         return sqlPara;
     }
 
-    public static SqlPara NEW(Map<String,Object> params){
+    public static SqlPara empty(Map<String,Object> params){
         SqlPara sqlPara = new SqlPara();
         sqlPara.addParams(params);
         return sqlPara;

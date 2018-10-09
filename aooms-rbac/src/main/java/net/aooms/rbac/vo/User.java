@@ -1,6 +1,6 @@
 package net.aooms.rbac.vo;
 
-import net.aooms.core.module.mybatis.record.Record;
+import net.aooms.core.record.Record;
 
 import java.util.Date;
 

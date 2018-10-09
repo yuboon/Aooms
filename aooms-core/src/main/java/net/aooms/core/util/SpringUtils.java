@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Created by 风象南(cheereebo) on 2018/9/7
  */
 @Component
-public class ApplicationContextUtils implements ApplicationContextAware {
+public class SpringUtils implements ApplicationContextAware {
     private static ApplicationContext context;
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

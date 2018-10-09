@@ -11,7 +11,7 @@ import com.netflix.hystrix.strategy.executionhook.HystrixCommandExecutionHook;
 import com.netflix.hystrix.strategy.metrics.HystrixMetricsPublisher;
 import com.netflix.hystrix.strategy.properties.HystrixPropertiesStrategy;
 import com.netflix.hystrix.strategy.properties.HystrixProperty;
-import net.aooms.core.data.DataBoss;
+import net.aooms.core.databoss.DataBoss;
 import net.aooms.core.web.AoomsContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

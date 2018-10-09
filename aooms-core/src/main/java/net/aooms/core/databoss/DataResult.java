@@ -1,12 +1,12 @@
-package net.aooms.core.data;
+package net.aooms.core.databoss;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import net.aooms.core.AoomsConstants;
-import net.aooms.core.module.mybatis.record.PagingRecord;
-import net.aooms.core.module.mybatis.record.Record;
+import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.Record;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,7 +139,7 @@ public class DataResult implements Serializable {
      * @return
      */
     public Record getRecord(String key){
-        return Record.NEW().setData((Map)results.get(key));
+        return Record.empty().setData((Map)results.get(key));
     }
 
     /**

@@ -124,7 +124,7 @@ export default {
             var self = this;
             this.$refs.form.validate((valid, error) => {
                 if (valid) {
-                    // 推荐使用这种方式提交，保证RequestHeaders = Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryzBe4gknCRJ5m3eaU
+                    // 推荐使用这种方式提交，保证RequestHeaders = Content-Type: multipart/form-databoss; boundary=----WebKitFormBoundaryzBe4gknCRJ5m3eaU
                     let submitData = new FormData();
                     submitData.append('formData',JSON.stringify(self.form));
                     httpPost('aooms/rbac/user/' + self.method,submitData).then(res => {
@@ -138,12 +138,17 @@ export default {
         },
         open:function(row){
             this.dialogVisible = true;
+
             this.$nextTick(()=>{
-                this.method = (row.id) ? 'update':'insert';
-                this.form = row;
-                this.$refs.form.resetFields();
-            })
-            //this.$emit('ee', 'cc12345')
+                this.method = 'insert';
+                if(row){
+                    this.method = 'update';
+                    this.form = row;
+                }else{
+                    this.form = {sex:'0'};
+                    this.$refs.form.resetFields();
+                }
+            });
         },
         close:function() {
             this.dialogVisible = false;
