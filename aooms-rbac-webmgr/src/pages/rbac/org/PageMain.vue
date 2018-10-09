@@ -162,11 +162,11 @@
             multipleSelection: [],
             mainHeight: 0,
             filterText:'',
-            parent_org_id:'ROOT',
-            parent_org_name:'无',
+            parent_org_id: '',
+            parent_org_name: '',
             treeData: [{
                 id:'ROOT',
-                label: '所有机构',
+                label: '顶层机构',
                 icon:'el-icon-menu',
                 children: []
             }],
@@ -277,8 +277,7 @@
         },
         handleNodeClick(data) {
             this.parent_org_id = data.id;
-            this.parent_org_name = data.id == 'ROOT'?'无':data.label;
-            //this.$refs.dataForm.parentNode(data);
+            this.parent_org_name = data.label;
             this.$emit('tableLoad',{},true);
         },
         filterNode(value, data) {

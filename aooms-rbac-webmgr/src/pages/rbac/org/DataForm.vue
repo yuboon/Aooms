@@ -55,8 +55,12 @@ import {httpGet, httpPost} from '@/api/sys/http'
 
 export default {
     props: {
-        parent_org_id: {},
-        parent_org_name: {}
+        parent_org_id: {
+            default:'ROOT'
+        },
+        parent_org_name: {
+            default:'顶层机构'
+        }
     },
     data() {
         return {
