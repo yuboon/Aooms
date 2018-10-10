@@ -2,23 +2,22 @@ package net.aooms.rbac.controller;
 
 import net.aooms.core.Aooms;
 import net.aooms.core.web.AoomsAbstractController;
-import net.aooms.rbac.service.OrgService;
-import net.aooms.rbac.service.UserService;
+import net.aooms.rbac.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 机构管理
+ * 系统资源管理
  * Created by 风象南(cheereebo) on 2018-10-08
  */
 @RestController
-@RequestMapping(Aooms.WebContext + "/rbac/org")
-public class OrgController extends AoomsAbstractController {
+@RequestMapping(Aooms.WebContext + "/rbac/resource")
+public class ResourceController extends AoomsAbstractController {
 
     @Autowired
-    private OrgService orgService;
+    private ResourceService moduleService;
 
     /**
      * 查询
@@ -26,7 +25,7 @@ public class OrgController extends AoomsAbstractController {
      */
     @RequestMapping("/findList")
     public void findList(){
-        orgService.findList();
+        moduleService.findList();
     };
 
     /**
@@ -35,7 +34,7 @@ public class OrgController extends AoomsAbstractController {
      */
     @RequestMapping("/findTree")
     public void findTree(){
-        orgService.findTree();
+        moduleService.findTree();
     };
 
     /**
@@ -44,7 +43,7 @@ public class OrgController extends AoomsAbstractController {
      */
     @PostMapping("/insert")
     public void insert(){
-        orgService.insert();
+        moduleService.insert();
     };
 
     /**
@@ -53,7 +52,7 @@ public class OrgController extends AoomsAbstractController {
      */
     @PostMapping("/update")
     public void update(){
-        orgService.update();
+        moduleService.update();
     };
 
     /**
@@ -62,7 +61,7 @@ public class OrgController extends AoomsAbstractController {
      */
     @PostMapping("/updateStatus")
     public void updateStatus(){
-        orgService.updateStatus();
+        moduleService.updateStatus();
     };
 
     /**
@@ -71,7 +70,7 @@ public class OrgController extends AoomsAbstractController {
      */
     @PostMapping("/delete")
     public void delete(){
-        orgService.delete();
+        moduleService.delete();
     };
 
 

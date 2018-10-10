@@ -1,8 +1,8 @@
 <template>
-    <div class="aooms-dialog">
+    <div class="aooms-dialog" id="dialog">
         <el-dialog
-                title="机构信息"
-                :visible.sync="dialogVisible">
+                   title="机构信息" ref="dialog"
+                   :visible.sync="dialogVisible">
 
             <el-form ref="form" :model="form" label-width="80px" size="small">
                 <input type="hidden" v-model="form.id">
@@ -38,7 +38,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="insert">保存</el-button>
+                    <el-button type="primary" :loading="loading" @click="insert">保存</el-button>
                     <el-button @click="close">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -55,15 +55,12 @@ import {httpGet, httpPost} from '@/api/sys/http'
 
 export default {
     props: {
-        parent_org_id: {
-            default:'ROOT'
-        },
-        parent_org_name: {
-            default:'顶层机构'
-        }
+        parent_org_id: {},
+        parent_org_name: {}
     },
     data() {
         return {
+            loading:false,
             method:'',
             form: {
                 /*id:'',
@@ -85,15 +82,16 @@ export default {
             var self = this;
             this.$refs.form.validate((valid, error) => {
                 if (valid) {
-                    // 推荐使用这种方式提交，保证RequestHeaders = Content-Type: multipart/form-databoss; boundary=----WebKitFormBoundaryzBe4gknCRJ5m3eaU
                     let submitData = new FormData();
                     submitData.append('formData',JSON.stringify(self.form));
+                    this.loading = true;
                     httpPost('aooms/rbac/org/' + self.method,submitData).then(res => {
                         this.$message({
                             type: 'success',
                             message: '保存成功'
                         });
 
+                        this.loading = false;
                         this.$emit('tableLoad');
                         this.$emit('treeUpdate',res.$vo, self.method);
                         this.dialogVisible = false;

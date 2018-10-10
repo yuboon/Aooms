@@ -290,7 +290,7 @@ const frameIn = [
             { path: 'index', name: `${pre}/index`,meta, component: () => import('@/pages/rbac/index'), meta: { ...meta, title: '首页' } },
             { path: 'user', name: `rbac-user`, meta ,component: () => import('@/pages/rbac/user'), meta: { ...meta, title: '用户管理' } },
             { path: 'org', name: `rbac-org`, meta ,component: () => import('@/pages/rbac/org'), meta: { ...meta, title: '机构管理' } },
-            { path: 'module', name: `rbac-module`, meta ,component: () => import('@/pages/rbac/module'), meta: { ...meta, title: '模块管理' } }
+            { path: 'resource', name: `rbac-resource`, meta ,component: () => import('@/pages/rbac/resource'), meta: { ...meta, title: '资源管理' } }
         ])('rbac-')
     }
 ]

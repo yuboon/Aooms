@@ -29,7 +29,8 @@
 
                     <div style="padding-left: 5px;">
                         <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm()">新增</el-button>
-                        <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleDelete()">删除</el-button>
+                        <el-button :loading="delLoading"
+                                   type="danger" size="mini" icon="el-icon-delete" @click="handleDelete('del', multipleSelection)">删除</el-button>
                     </div>
 
                     <el-table
@@ -89,12 +90,14 @@
                             -->
                         </el-table-column>
                         <el-table-column label="机构代码" prop="org_code"/>
-                        <el-table-column label="状态" align="center" width="50">
+                        <el-table-column label="状态" align="center" width="60">
                             <template slot-scope="scope">
                                 <boolean-control
                                         :value="scope.row.status"
+                                        :id="scope.row.id"
+                                        @tableLoad="tableLoad"
                                         @change="(val) => {
-                                            handleSwitchChange(val, scope.$index)
+                                            currentTableData[scope.$index].status = val
                                         }">
                                     <d2-icon
                                             name="check-circle"
@@ -114,7 +117,7 @@
                         <el-table-column fixed label="操作" align="center" width="100">
                             <template slot-scope="scope">
                                 <el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle @click="handleForm(scope.row)"></el-button>
-                                <el-button type="danger" title="删除" size="mini" icon="el-icon-delete" circle @click="handleDelete(scope.row)"></el-button>
+                                <el-button type="danger" title="删除" :loading="scope.row.delLoading" size="mini" icon="el-icon-delete" circle @click="handleDelete('delOne',[scope.row])"></el-button>
                             </template>
                         </el-table-column>
 
@@ -158,12 +161,13 @@
     },
     data() {
         return {
+            delLoading:false,
             currentTableData: [],
             multipleSelection: [],
             mainHeight: 0,
             filterText:'',
-            parent_org_id: '',
-            parent_org_name: '',
+            parent_org_id: 'ROOT',
+            parent_org_name: '顶层机构',
             treeData: [{
                 id:'ROOT',
                 label: '顶层机构',
@@ -202,23 +206,16 @@
         resetMainHeight:function(){
             this.mainHeight = window.innerHeight - 265;
         },
-        handleSwitchChange(val, index) {
-            const oldValue = this.currentTableData[index]
-            this.$set(this.currentTableData, index, {
-                ...oldValue,
-                type: val
-            })
-        },
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
         handleForm: function (row) {
             this.$refs.dataForm.open(row);
         },
-        handleDelete: function (row) {
-            var self = this;
+        handleDelete: function (type , selection) {
 
-            if(!row && self.multipleSelection.length == 0){
+            var self = this;
+            if(selection.length == 0){
                 this.$message({
                     message: '请至少选择一条数据',
                     type: 'warning'
@@ -231,24 +228,21 @@
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                var selection = [],ids = [];
-                if(row){
-                    selection.push(row);
-                }else{
-                    selection = self.multipleSelection;
-                }
-
+                var ids = new Array();
                 selection.forEach(item => {
                     ids.push({id:item.id});
                 });
-
                 let submitData = new FormData();
                 submitData.append("ids",JSON.stringify(ids));
+
+                type == 'del' ? this.delLoading = true : this.$set(selection[0],'delLoading',true);
                 httpPost('aooms/rbac/org/delete',submitData).then(res => {
                     this.$message({
                         type: 'success',
                         message: '成功删除' + selection.length + '条数据'
                     });
+
+                    type == 'del' ? this.delLoading = false : this.$set(selection[0],'delLoading',false);
                     this.tableLoad();
 
                     ids.forEach((id) => {

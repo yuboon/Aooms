@@ -17,3 +17,6 @@ Vue.component('d2-icon-svg', () => import('./d2-icon-svg/index.vue'))
 Vue.component('d2-markdown', () => import('./d2-markdown'))
 Vue.component('d2-mde', () => import('./d2-mde'))
 Vue.component('d2-quill', () => import('./d2-quill'))
+// 扩展组件
+Vue.component('d2-treetable', () => import('./d2-treetable'))
+

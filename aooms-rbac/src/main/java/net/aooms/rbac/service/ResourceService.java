@@ -1,6 +1,5 @@
 package net.aooms.rbac.service;
 
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.id.IDGenerator;
@@ -8,7 +7,6 @@ import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.record.PagingRecord;
 import net.aooms.core.record.Record;
-import net.aooms.core.record.TreeRecord;
 import net.aooms.core.service.GenericService;
 import net.aooms.core.util.Kv;
 import net.aooms.core.util.TreeUtils;
@@ -20,11 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * 机构管理
+ * 系统资源管理
  * Created by 风象南(cheereebo) on 2018-10-08
  */
 @Service
-public class OrgService extends GenericService {
+public class ResourceService extends GenericService {
 
     @Autowired
     private Db db;
@@ -32,23 +30,20 @@ public class OrgService extends GenericService {
     @Transactional(readOnly = true)
     public void findList() {
         SqlPara sqlPara = SqlPara.fromDataBoss().paging();
-        sqlPara.and("status","parent_org_id")
-               .andLikeAfter("org_name","org_shortname","org_code");
+        sqlPara.and("status","parent_resource_id");
 
-        String statementId = getStatementId(RbacMapperPackage.class,"OrgMapper.findList");
+        String statementId = getStatementId(RbacMapperPackage.class,"ResourceMapper.findList");
 		PagingRecord pagingRecord = db.findList(statementId,sqlPara);
 		this.setResultValue(AoomsConstants.Result.DATA,pagingRecord);
 	}
 
 	@Transactional(readOnly = true)
 	public void findTree() {
-		String statementId = getStatementId(RbacMapperPackage.class,"OrgMapper.findList");
+		String statementId = getStatementId(RbacMapperPackage.class,"ResourceMapper.findList");
 		PagingRecord pagingRecord = db.findList(statementId,SqlPara.SINGLETON);
 
         TreeUtils treeUtils = new TreeUtils(pagingRecord.getList());
-        treeUtils.setParentIdKey("parent_org_id");
-        treeUtils.setConvertValueKey(Kv.fkv("org_name","label"));
-        treeUtils.setDefaultValue(Kv.fkv("icon","el-icon-news"));
+        treeUtils.setParentIdKey("parent_resource_id");
         List<Record> treeRecords = treeUtils.listTree(AoomsConstants.TREE_ROOT);
 
 		this.setResultValue(AoomsConstants.Result.TREE, treeRecords);
@@ -60,9 +55,8 @@ public class OrgService extends GenericService {
 		record.set(AoomsConstants.ID,IDGenerator.getStringValue());
 		record.setByJsonKey("formData");
 		record.set("create_time", DateUtil.now());
-		db.insert("aooms_rbac_org",record);
+		db.insert("aooms_rbac_resource",record);
 
-		record.convertValueKey(Kv.fkv("org_name","label"),false);
 		record.set("icon","el-icon-news");
 		this.setResultValue(AoomsConstants.Result.RECORD, record);
 	}
@@ -72,7 +66,7 @@ public class OrgService extends GenericService {
         Record record = Record.empty();
         record.setByJsonKey("formData");
         record.set("update_time",DateUtil.now());
-        db.update("aooms_rbac_org",record);
+        db.update("aooms_rbac_resource",record);
 
         record.convertValueKey(Kv.fkv("org_name","label"),false);
         record.set("icon","el-icon-news");
@@ -85,13 +79,13 @@ public class OrgService extends GenericService {
         record.set(AoomsConstants.ID, getParaString("id"));
         record.set("status", getParaString("status"));
         record.set("update_time",DateUtil.now());
-        db.update("aooms_rbac_org",record);
+        db.update("aooms_rbac_resource",record);
     }
 
 	@Transactional
 	public void delete() {
         List<Object> ids = this.getListFromJson("ids",AoomsConstants.ID);
-		db.batchDelete("aooms_rbac_org",ids.toArray());
+		db.batchDelete("aooms_rbac_resource",ids.toArray());
 	}
 
 

@@ -3,14 +3,16 @@
         <el-form
                 :inline="true"
                 size="mini"
-                class="demo"
         >
-            <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm()">新增</el-button>
-            <!--<el-button type="primary" size="mini" icon="el-icon-edit" @click="handleForm()">编辑</el-button>-->
+            <el-button type="primary" size="mini" icon="el-icon-plus"
+                       @click="handleForm({'status':'Y','ordinal':0,'open_type':'0','parent_resource_id':'ROOT'},'insert')">
+                新增
+            </el-button>
             <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleDelete()">删除</el-button>
         </el-form>
 
-        <el-table
+        <d2-treetable :data="tableData" :columns="columns" size="mini" stripe />
+        <!--<el-table
                 :data="currentTableData"
                 v-loading="loading"
                 size="mini"
@@ -19,7 +21,7 @@
                 :height="tableHeight"
                 @selection-change="handleSelectionChange">
 
-            <!-- Table 展开行 -->
+            &lt;!&ndash; Table 展开行 &ndash;&gt;
             <el-table-column type="expand" width="20">
                 <template slot-scope="scope">
                     <el-form label-position="left" inline class="aooms-table-expand">
@@ -97,7 +99,7 @@
                 </template>
             </el-table-column>
 
-        </el-table>
+        </el-table>-->
 
         <!-- 表单弹窗 -->
         <data-form ref="dataForm"></data-form>
@@ -107,7 +109,7 @@
 <script>
 import BooleanControl from './BooleanControl.vue'
 import DataForm from './DataForm.vue'
-import {httpPost} from '@/api/sys/http'
+import {httpPost,httpGet} from '@/api/sys/http'
 
 export default {
     components: {
@@ -126,18 +128,30 @@ export default {
         return {
             currentTableData: [],
             multipleSelection: [],
-            downloadColumns: [
-                {label: '卡密', prop: 'key'},
-                {label: '面值', prop: 'value'},
-                {label: '状态', prop: 'type'},
-                {label: '管理员', prop: 'admin'},
-                {label: '管理员备注', prop: 'adminNote'},
-                {label: '创建时间', prop: 'dateTimeCreat'},
-                {label: '使用状态', prop: 'used'},
-                {label: '使用时间', prop: 'dateTimeUse'}
-            ],
-            isShow: false,
-            tableHeight: window.innerHeight - 300
+            mainHeight: 0,
+            columns: [
+                {label: "资源名称", prop: "resource_name", width: 200},
+                {label: "资源编码", prop: "resource_code"},
+                {label: "资源类型", prop: "resource_type"},
+                {label: "链接地址", prop: "resource_url"},
+                {label: "序号", prop: "ordinal"},
+                {label: "状态", prop: "status"},
+                {label: "操作", prop:"id" ,fixed:'right', formatter:function(row, column, cellValue, index){
+                    var tpl = '';
+                    tpl += '<template slot-scope="scope">';
+                    tpl += '<el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle ></el-button>'
+                    tpl += '<el-button type="danger" title="删除" :loading="scope.row.delLoading" size="mini" icon="el-icon-delete" circle ></el-button>';
+                    tpl += '</template>';
+                    return tpl;
+                }},
+
+            /*<el-table-column fixed label="操作" align="center" width="100">
+            <template slot-scope="scope">
+                <el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle @click="handleForm(scope.row)"></el-button>
+                <el-button type="danger" title="删除" :loading="scope.row.delLoading" size="mini" icon="el-icon-delete" circle @click="handleDelete('delOne',[scope.row])"></el-button>
+            </template>
+            </el-table-column>*/
+            ]
         }
     },
     watch: {
@@ -151,13 +165,17 @@ export default {
     mounted() {
         this.$nextTick(() => {
             let self = this;
+            self.resetMainHeight();
+            self.$emit('tableLoad',{});
             window.onresize = function () {
-                //self.height = self.$refs.table.$el.offsetHeight
-                self.tableHeight = window.innerHeight - 300;
+                self.resetMainHeight();
             }
         })
     },
     methods: {
+        resetMainHeight:function(){
+            this.mainHeight = window.innerHeight - 265;
+        },
         handleSwitchChange(val, index) {
             const oldValue = this.currentTableData[index]
             this.$set(this.currentTableData, index, {
@@ -169,8 +187,8 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        handleForm: function (row) {
-            this.$refs.dataForm.open(row ? row : {sex:'0'});
+        handleForm: function (row,method) {
+            this.$refs.dataForm.open(row,method);
         },
         handleDelete: function (row) {
             var self = this;
@@ -201,6 +219,7 @@ export default {
                 });
             })
         }
+
     }
 }
 </script>

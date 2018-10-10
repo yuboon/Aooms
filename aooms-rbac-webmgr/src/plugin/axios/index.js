@@ -1,6 +1,6 @@
 import store from '@/store'
 import axios from 'axios'
-import { Message } from 'element-ui'
+import { Message,MessageBox } from 'element-ui'
 import util from '@/libs/util'
 
 // 创建一个错误
@@ -34,7 +34,7 @@ function errorLog (err) {
 // 创建一个 axios 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_API,
-  timeout: 5000 // 请求超时时间
+  timeout: 50000 // 请求超时时间
 })
 
 // 请求拦截器
@@ -87,6 +87,7 @@ service.interceptors.response.use(
   },
   error => {
     if (error && error.response) {
+
       switch (error.response.status) {
         case 400: error.message = '请求错误'; break
         case 401: error.message = '未授权，请登录'; break
@@ -101,6 +102,14 @@ service.interceptors.response.use(
         case 505: error.message = 'HTTP版本不受支持'; break
         default: break
       }
+
+        MessageBox.confirm(error.message + ',尝试刷新后重试?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'error'
+        }).then(() => {
+            window.location.reload();
+        })
     }
     errorLog(error)
     return Promise.reject(error)
