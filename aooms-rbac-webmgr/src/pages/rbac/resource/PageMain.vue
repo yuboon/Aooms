@@ -157,7 +157,11 @@ export default {
             immediate: true
         },
         filterText(val) {
-            this.$refs.treeTable.filter('resource_name',val);
+            if(!val){
+                this.$emit('tableLoad',{});
+            }else{
+                this.$refs.treeTable.filter('resource_name',val);
+            }
         }
     },
     mounted() {
