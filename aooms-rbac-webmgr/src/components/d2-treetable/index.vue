@@ -88,9 +88,8 @@
                 if(!isRoot){
                     show = row.row._show;
                 }else{
-                    show = row.row.parent._show && row.row._show;
+                    show = row.row.parent._show && row.row.parent._expanded && row.row._show;
                 }
-
                 /*const show = (row.row.parent)
                     ? row.row.parent._show && row.row._show
                     : true;*/
@@ -111,10 +110,11 @@
             // 切换下级是否展开
             toggleExpanded: function(trIndex) {
                 const record = this.formatData[trIndex];
+                record._expanded = !record._expanded;
+
                 record.children.forEach(item => {
                     item._show = !item._show;
                 });
-                record._expanded = !record._expanded;
             },
             // 图标显示
             iconShow(index, record) {
