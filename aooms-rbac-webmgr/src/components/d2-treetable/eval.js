@@ -1,5 +1,5 @@
 
-'use strict'
+'use strict';
 import Vue from 'vue'
 
 export default function treeToArray(data, expandAll, parent = null, level = null) {
@@ -8,16 +8,32 @@ export default function treeToArray(data, expandAll, parent = null, level = null
         if (record._expanded === undefined) {
             Vue.set(record, '_expanded', expandAll)
         }
+
+        if (record._show === undefined && !parent) {
+            Vue.set(record, '_show', true);
+        }else if(record._show === undefined){
+            Vue.set(record, '_show', false);
+        }
+
         let _level = 1
         if (level !== undefined && level !== null) {
             _level = level + 1
         }
-        Vue.set(record, '_level', _level)    // 如果有父元素
-        if (parent) {      Vue.set(record, 'parent', parent)    }
+        Vue.set(record, '_level', _level)
+
+        // 如果有父元素
+        if (parent) {
+            Vue.set(record, 'parent', parent);
+        }else{
+            //Vue.set(record, 'parent', null);
+        }
+
         tmp.push(record)
+
         if (record.children && record.children.length > 0) {
             const children = treeToArray(record.children, expandAll, record, _level)
-            tmp = tmp.concat(children)    }
+            tmp = tmp.concat(children)
+        }
     })
     return tmp
 }

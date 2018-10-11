@@ -68,7 +68,7 @@ public class ResourceService extends GenericService {
         record.set("update_time",DateUtil.now());
         db.update("aooms_rbac_resource",record);
 
-        record.convertValueKey(Kv.fkv("org_name","label"),false);
+        //record.convertValueKey(Kv.fkv("resource_name","label"),false);
         record.set("icon","el-icon-news");
         this.setResultValue(AoomsConstants.Result.RECORD, record);
     }

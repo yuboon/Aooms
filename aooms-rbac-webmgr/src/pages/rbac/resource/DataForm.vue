@@ -98,10 +98,18 @@ import {httpGet, httpPost} from '@/api/sys/http'
 export default {
     data() {
         return {
+            parentRow:{},
+            parent_resource_name:'',
             method:'',
             form: {},
-            parent_resource_name:'无',
             dialogVisible: false
+        }
+    },
+    watch: {
+        form(val){
+            this.$nextTick(() => {
+                this.$refs.form.clearValidate();
+            });
         }
     },
     methods: {
@@ -109,25 +117,36 @@ export default {
             var self = this;
             this.$refs.form.validate((valid, error) => {
                 if (valid) {
+                    let obj = Object.assign({},self.form);
+                    // 删除树扩展的属性
+                    delete obj._expanded;
+                    delete obj._level;
+                    delete obj._show;
+                    delete obj.children;
+                    delete obj.leaf;
+                    delete obj.parent;
+
                     let submitData = new FormData();
-                    submitData.append('formData',JSON.stringify(self.form));
+                    submitData.append('formData',JSON.stringify(obj));
                     httpPost('aooms/rbac/resource/' + self.method,submitData).then(res => {
                         this.$message({
                             type: 'success',
                             message: '保存成功'
                         });
                         this.dialogVisible = false;
+                        if(self.method == 'insert'){
+                            this.$emit('tableUpdate', res.$vo, this.parentRow);
+                        }
                     });
                 }
             });
         },
-        open:function(row,method){
+        open:function(row,method,parentRow){
             this.method = method;
             this.dialogVisible = true;
-            this.$nextTick(()=>{
-                this.$refs.form.resetFields();
-                this.form = row;
-            });
+            this.form = row;
+            this.parent_resource_name = parentRow.resource_name;
+            this.parentRow = parentRow;
         },
         close:function() {
             this.dialogVisible = false;

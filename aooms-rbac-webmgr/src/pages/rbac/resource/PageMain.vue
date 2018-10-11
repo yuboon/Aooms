@@ -5,13 +5,30 @@
                 size="mini"
         >
             <el-button type="primary" size="mini" icon="el-icon-plus"
-                       @click="handleForm({'status':'Y','ordinal':0,'open_type':'0','parent_resource_id':'ROOT'},'insert')">
+                       @click="handleForm({'status':'Y','ordinal':0,'resource_type':'1','open_type':'0','parent_resource_id':'ROOT'},'insert')">
                 新增
             </el-button>
-            <el-button type="danger" size="mini" icon="el-icon-delete" @click="handleDelete()">删除</el-button>
+
+            <el-input size="mini" v-model="filterText" placeholder="资源名称" style="width: 100px;margin-left: 10px;"/>
         </el-form>
 
-        <d2-treetable :data="tableData" :columns="columns" size="mini" stripe />
+        <d2-treetable ref="treeTable" row-key="resource_name" :data="tableData" size="mini" stripe >
+            <el-table-column label="资源名称" prop="resource_name" />
+            <el-table-column label="资源编码" prop="resource_code" align="center"/>
+            <el-table-column label="资源类型" prop="resource_type" align="center"/>
+            <el-table-column label="链接地址" prop="resource_url" width="250"/>
+            <el-table-column label="序号" prop="ordinal" align="center" width="50"/>
+            <el-table-column label="状态" prop="status" align="center" width="80"/>
+
+            <el-table-column fixed="right" label="操作" align="center" width="130">
+                <template slot-scope="scope">
+                    <el-button type="primary" title="添加子级" size="mini" icon="el-icon-plus" circle @click="handleForm({'status':'Y','ordinal':0, 'resource_type':'1','open_type':'0','parent_resource_id':scope.row.id},'insert',scope.row)"></el-button>
+                    <el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle @click="handleForm(scope.row,'update',scope.row)"></el-button>
+                    <el-button type="danger" title="删除" :loading="scope.row.delLoading" size="mini" icon="el-icon-delete" circle @click="handleDelete(scope.row)"></el-button>
+                </template>
+            </el-table-column>
+
+        </d2-treetable>
         <!--<el-table
                 :data="currentTableData"
                 v-loading="loading"
@@ -102,7 +119,7 @@
         </el-table>-->
 
         <!-- 表单弹窗 -->
-        <data-form ref="dataForm"></data-form>
+        <data-form @tableUpdate="tableUpdate" ref="dataForm"></data-form>
     </div>
 </template>
 
@@ -129,29 +146,7 @@ export default {
             currentTableData: [],
             multipleSelection: [],
             mainHeight: 0,
-            columns: [
-                {label: "资源名称", prop: "resource_name", width: 200},
-                {label: "资源编码", prop: "resource_code"},
-                {label: "资源类型", prop: "resource_type"},
-                {label: "链接地址", prop: "resource_url"},
-                {label: "序号", prop: "ordinal"},
-                {label: "状态", prop: "status"},
-                {label: "操作", prop:"id" ,fixed:'right', formatter:function(row, column, cellValue, index){
-                    var tpl = '';
-                    tpl += '<template slot-scope="scope">';
-                    tpl += '<el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle ></el-button>'
-                    tpl += '<el-button type="danger" title="删除" :loading="scope.row.delLoading" size="mini" icon="el-icon-delete" circle ></el-button>';
-                    tpl += '</template>';
-                    return tpl;
-                }},
-
-            /*<el-table-column fixed label="操作" align="center" width="100">
-            <template slot-scope="scope">
-                <el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle @click="handleForm(scope.row)"></el-button>
-                <el-button type="danger" title="删除" :loading="scope.row.delLoading" size="mini" icon="el-icon-delete" circle @click="handleDelete('delOne',[scope.row])"></el-button>
-            </template>
-            </el-table-column>*/
-            ]
+            filterText: ''
         }
     },
     watch: {
@@ -160,6 +155,9 @@ export default {
                 this.currentTableData = val
             },
             immediate: true
+        },
+        filterText(val) {
+            this.$refs.treeTable.filter('resource_name',val);
         }
     },
     mounted() {
@@ -187,8 +185,11 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        handleForm: function (row,method) {
-            this.$refs.dataForm.open(row,method);
+        handleForm: function (row,method,parentRow){
+            if(!parentRow){
+                parentRow = {resource_name:'无', children:this.tableData}
+            }
+            this.$refs.dataForm.open(row,method,parentRow);
         },
         handleDelete: function (row) {
             var self = this;
@@ -197,27 +198,16 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                var selection = [],ids = [];
-                if(row){
-                    selection.push(row);
-                }else{
-                    selection = self.multipleSelection;
-                }
-
-                selection.forEach(item => {
-                    ids.push({id:item.id});
-                });
-
+                var ids = [{id:row.id}];
                 let submitData = new FormData();
                 submitData.append("ids",JSON.stringify(ids));
-                httpPost('aooms/rbac/user/delete',submitData).then(res => {
-                    this.$message({
-                        type: 'success',
-                        message: '成功删除' + selection.length + '条数据'
-                    });
-                    this.$emit('getTableData',{});
+                httpPost('aooms/rbac/resource/delete',submitData).then(res => {
+                    this.$refs.treeTable.remove(row);
                 });
             })
+        },
+        tableUpdate(data,parentRow){
+            this.$refs.treeTable.append(data,parentRow);
         }
 
     }
