@@ -77,6 +77,13 @@ export default {
             dialogVisible: false
         }
     },
+    watch: {
+        form(val){
+            this.$nextTick(() => {
+                this.$refs.form.clearValidate();
+            });
+        }
+    },
     methods: {
         insert:function(){
             var self = this;
@@ -99,18 +106,10 @@ export default {
                 }
             });
         },
-        open:function(row){
+        open:function(row,method){
+            this.method = method;
             this.dialogVisible = true;
-            this.$nextTick(()=>{
-                this.method = 'insert';
-                if(row){
-                    this.method = 'update';
-                    this.form = row;
-                }else{
-                    this.form = {status:'Y',ordinal:0,parent_org_id:this.parent_org_id};
-                    this.$refs.form.resetFields();
-                }
-            });
+            this.form = row;
         },
         close:function() {
             this.dialogVisible = false;

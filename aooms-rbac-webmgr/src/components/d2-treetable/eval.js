@@ -24,8 +24,6 @@ export default function treeToArray(data, expandAll, parent = null, level = null
         // 如果有父元素
         if (parent) {
             Vue.set(record, 'parent', parent);
-        }else{
-            //Vue.set(record, 'parent', null);
         }
 
         tmp.push(record)

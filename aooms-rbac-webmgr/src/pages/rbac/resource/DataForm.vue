@@ -80,7 +80,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="insert">保存</el-button>
+                    <el-button :loading="loading" type="primary" @click="insert">保存</el-button>
                     <el-button @click="close">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -98,6 +98,7 @@ import {httpGet, httpPost} from '@/api/sys/http'
 export default {
     data() {
         return {
+            loading:false,
             parentRow:{},
             parent_resource_name:'',
             method:'',
@@ -128,12 +129,15 @@ export default {
 
                     let submitData = new FormData();
                     submitData.append('formData',JSON.stringify(obj));
+
+                    this.loading = true;
                     httpPost('aooms/rbac/resource/' + self.method,submitData).then(res => {
                         this.$message({
                             type: 'success',
                             message: '保存成功'
                         });
                         this.dialogVisible = false;
+                        this.loading = false;
                         if(self.method == 'insert'){
                             this.$emit('tableUpdate', res.$vo, this.parentRow);
                         }

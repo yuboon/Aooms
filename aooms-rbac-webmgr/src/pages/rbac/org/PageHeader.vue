@@ -20,11 +20,11 @@
         </el-form-item>
 
         <el-form-item label="机构编码">
-            <el-input v-model="form.account" style="width: 120px;"/>
+            <el-input v-model="form.org_code" style="width: 120px;"/>
         </el-form-item>
 
         <el-form-item label="机构简称">
-            <el-input v-model="form.phone" style="width: 120px;"/>
+            <el-input v-model="form.org_shortname" style="width: 120px;"/>
         </el-form-item>
 
         <el-form-item>

@@ -28,7 +28,7 @@
                 <template slot="paneR">
 
                     <div style="padding-left: 5px;">
-                        <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm()">新增</el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm({status:'Y',ordinal:0,parent_org_id:parent_org_id},'insert')">新增</el-button>
                         <el-button :loading="delLoading"
                                    type="danger" size="mini" icon="el-icon-delete" @click="handleDelete('del', multipleSelection)">删除</el-button>
                     </div>
@@ -116,7 +116,7 @@
 
                         <el-table-column fixed label="操作" align="center" width="100">
                             <template slot-scope="scope">
-                                <el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle @click="handleForm(scope.row)"></el-button>
+                                <el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle @click="handleForm(scope.row,'update')"></el-button>
                                 <el-button type="danger" title="删除" :loading="scope.row.delLoading" size="mini" icon="el-icon-delete" circle @click="handleDelete('delOne',[scope.row])"></el-button>
                             </template>
                         </el-table-column>
@@ -209,8 +209,8 @@
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        handleForm: function (row) {
-            this.$refs.dataForm.open(row);
+        handleForm: function (row,method) {
+            this.$refs.dataForm.open(row,method);
         },
         handleDelete: function (type , selection) {
 

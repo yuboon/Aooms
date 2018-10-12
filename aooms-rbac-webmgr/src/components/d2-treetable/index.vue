@@ -63,17 +63,15 @@
         computed: {
             // 格式化数据源
             formatData: function() {
-                let tmp;
-                if (!Array.isArray(this.data)) {
-                    tmp = [this.data];
-                } else {
-                    tmp = this.data;
-                }
-                const func = this.evalFunc || treeToArray;
+                let tmp = this.data;
+
+                /*const func = this.evalFunc || treeToArray;
                 const args = this.evalArgs
                     ? Array.concat([tmp, this.expandAll], this.evalArgs)
                     : [tmp, this.expandAll];
-                return func.apply(null, args);
+                func.apply(null, args);*/
+
+                return treeToArray(tmp, false);
             }
         },
         methods: {
@@ -88,8 +86,10 @@
                 if(!isRoot){
                     show = row.row._show;
                 }else{
+                    //console.log(row.row.resource_name + ",parentShow:" + row.row.parent._show + ",expand:" + row.row.parent._expanded + ",show:" + row.row._show);
                     show = row.row.parent._show && row.row.parent._expanded && row.row._show;
                 }
+
                 /*const show = (row.row.parent)
                     ? row.row.parent._show && row.row._show
                     : true;*/
@@ -141,7 +141,7 @@
                 this.$set(parentRow,"_expanded",true);
             },
 
-            // 隐藏节点
+            // 删除节点
             remove(row) {
                 //row._show = false;
                 //row.$set(row, 'resource_name' , 'delete');
@@ -174,26 +174,57 @@
             filter(key,val) {
                 function search(key,val,list){
                     if(!list) return;
-                    list.forEach(item => {
-                        if(item[key].indexOf(val) != -1){
+
+                    // 没有值的情况
+                    if(!val){
+                        list.forEach(item => {
                             item._show = true;
-                            var parent = item.parent;
-                            while(parent){
-                                parent._show = true;
-                                parent._expanded = true;
-                                parent = parent.parent;
+
+                            if(item.parent){
+                                item._show = item.parent._show && item.parent._expanded;
                             }
 
-                            if(item.children && item.children.length > 0){
-                                item._expanded = false;
+                            if(item.children){
+                                search(key, val ,item.children);
                             }
-                        }else{
-                            item._show = false;
-                            item._expanded = false;
-                        }
+                        });
+                    }else{
+                        list.forEach(item => {
+                            var isFind = false;
+                            key.forEach(v => {
+                                if(item[v].indexOf(val) != -1){
+                                    isFind = true;
+                                }
+                            })
+                            if(isFind){
+                                item._show = true;
+                                var parent = item.parent;
+                                while(parent){
+                                    parent._show = true;
+                                    parent._expanded = true;
+                                    parent = parent.parent;
+                                }
 
-                        search(key, val ,item.children);
-                    });
+                                // 找到并且存在子节点，收起来
+                                if(item.children){
+                                    item._expanded = false;
+                                    function expanded(list){
+                                        if(!list) return;
+                                        list.forEach(item => {
+                                            item._expanded = false;
+                                            expanded(item.children);
+                                        });
+                                    }
+                                    expanded(item.children);
+                                }
+                            }else{
+                                item._show = false;
+                                //item._expanded = false;
+                            }
+
+                            search(key, val ,item.children);
+                        });
+                    }
                 }
 
                 search(key,val,this.data);
