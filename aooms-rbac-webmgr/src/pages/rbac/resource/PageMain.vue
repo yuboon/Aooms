@@ -14,7 +14,7 @@
 
         </el-form>
 
-        <d2-treetable v-loading="loading" ref="treeTable" row-key="resource_name" :data="tableData" size="mini" stripe >
+        <ext-treetable v-loading="loading" ref="treeTable" row-key="resource_name" :data="tableData" size="mini" stripe >
             <el-table-column label="资源名称" prop="resource_name" />
             <el-table-column label="资源编码" prop="resource_code" align="center"/>
             <el-table-column label="资源类型" prop="resource_type" align="center"
@@ -58,7 +58,7 @@
                 </template>
             </el-table-column>
 
-        </d2-treetable>
+        </ext-treetable>
 
         <!-- 表单弹窗 -->
         <data-form @tableUpdate="tableUpdate" ref="dataForm"></data-form>

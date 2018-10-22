@@ -39,7 +39,7 @@
 
 <script>
 
-    import treeToArray from "./eval";
+    import treeToArray from "./tree";
     export default {
         props: {
             data: {

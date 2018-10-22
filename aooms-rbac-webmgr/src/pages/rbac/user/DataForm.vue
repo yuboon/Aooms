@@ -6,6 +6,11 @@
 
             <el-form ref="form" :model="form" label-width="80px" size="small">
                 <input type="hidden" v-model="form.id">
+                <input type="hidden" v-model="form.org_id">
+
+                <el-form-item prop="org_name" label="所属机构">
+                    <span> [ {{ org_name }} ] </span>
+                </el-form-item>
 
                 <el-form-item prop="account" label="用户账号" :rules="[{ required: true, message: '不能为空'}]">
                     <el-input v-model="form.account"></el-input>
@@ -84,7 +89,7 @@
                     <el-input type="textarea" class="aooms-form-textarea" v-model="form.desc"></el-input>
                 </el-form-item>-->
                 <el-form-item>
-                    <el-button type="primary" @click="insert">保存</el-button>
+                    <el-button type="primary" :loading="loading" @click="insert">保存</el-button>
                     <el-button @click="close">取消</el-button>
                 </el-form-item>
             </el-form>
@@ -100,11 +105,16 @@
 import {httpGet, httpPost} from '@/api/sys/http'
 
 export default {
+    props: {
+        org_id: {},
+        org_name: {}
+    },
     data() {
         return {
+            loading:false,
             method:'',
             form: {
-                id:'',
+                /*id:'',
                 user_name: '',
                 user_nickname: '',
                 account: '',
@@ -114,9 +124,16 @@ export default {
                 sex: '0',
                 remark: '',
                 status:'',
-                photo:''
+                photo:''*/
             },
             dialogVisible: false
+        }
+    },
+    watch: {
+        form(val){
+            this.$nextTick(() => {
+                this.$refs.form.clearValidate();
+            });
         }
     },
     methods: {
@@ -127,18 +144,21 @@ export default {
                     // 推荐使用这种方式提交，保证RequestHeaders = Content-Type: multipart/form-databoss; boundary=----WebKitFormBoundaryzBe4gknCRJ5m3eaU
                     let submitData = new FormData();
                     submitData.append('formData',JSON.stringify(self.form));
+                    this.loading = true;
                     httpPost('aooms/rbac/user/' + self.method,submitData).then(res => {
                         this.$message({
                             type: 'success',
                             message: '保存成功'
                         });
+                        this.loading = false;
+                        this.$emit('tableLoad');
+                        this.dialogVisible = false;
                     });
                 }
             });
         },
-        open:function(row){
-            this.dialogVisible = true;
-
+        open:function(row,method){
+            /*this.dialogVisible = true;
             this.$nextTick(()=>{
                 this.method = 'insert';
                 if(row){
@@ -148,7 +168,11 @@ export default {
                     this.form = {sex:'0'};
                     this.$refs.form.resetFields();
                 }
-            });
+            });*/
+
+            this.method = method;
+            this.dialogVisible = true;
+            this.form = row;
         },
         close:function() {
             this.dialogVisible = false;

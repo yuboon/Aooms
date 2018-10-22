@@ -126,11 +126,14 @@ export default {
         }
     },
     mounted() {
-        this.$nextTick(() => {
+        /*this.$nextTick(() => {
             this.handleFormSubmit(true);
-        })
+        })*/
     },
     methods: {
+        getFormData(){
+            return this.form;
+        },
         handleFormSubmit(jumpFirst) {
             this.$emit('tableLoad', this.form , jumpFirst);
         },

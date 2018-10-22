@@ -1,21 +1,22 @@
 <template>
     <d2-container>
         <page-header
-            slot="header"
-            @tableLoad="tableLoad"
-            ref="header"/>
+                ref="header"
+                slot="header"
+                @tableLoad="tableLoad"/>
 
         <page-main
-             @tableLoad="tableLoad"
-            :table-data="table"
-            :loading="loading"/>
+                ref="main"
+                @tableLoad="tableLoad"
+                :table-data="table"
+                :loading="loading"/>
 
         <page-footer
-            slot="footer"
-            :current="page.current"
-            :size="page.size"
-            :total="page.total"
-            @change="handlePaginationChange"/>
+                slot="footer"
+                :current="page.current"
+                :size="page.size"
+                :total="page.total"
+                @change="handlePaginationChange"/>
     </d2-container>
 </template>
 
@@ -45,7 +46,14 @@ export default {
     methods: {
         tableLoad(params,jumpFirst){
             if(jumpFirst) this.page.current = 1;
-            Object.assign(params,{page:this.page.current,limit:this.page.size}); // 分页参数拷贝
+
+            // 分页参数、查询条件拷贝
+            Object.assign(params,this.$refs.header.getFormData(),{
+                page: this.page.current,
+                limit: this.page.size,
+                org_id :this.$refs.main.org_id
+            });
+
             this.loading = true;
             httpGet('aooms/rbac/user/findList', params).then(res => {
                 this.loading = false;
