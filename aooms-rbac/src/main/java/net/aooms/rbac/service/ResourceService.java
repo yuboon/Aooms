@@ -44,6 +44,9 @@ public class ResourceService extends GenericService {
 
         TreeUtils treeUtils = new TreeUtils(pagingRecord.getList());
         treeUtils.setParentIdKey("parent_resource_id");
+        treeUtils.setConvertValueKey(Kv.fkv("resource_name","label"));
+        treeUtils.setRetainOriginal(true);
+        treeUtils.setDefaultValue(Kv.fkv("icon","el-icon-news"));
         List<Record> treeRecords = treeUtils.listTree(AoomsConstants.TREE_ROOT);
 
 		this.setResultValue(AoomsConstants.Result.TREE, treeRecords);

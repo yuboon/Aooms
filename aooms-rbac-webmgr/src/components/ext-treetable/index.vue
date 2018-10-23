@@ -228,6 +228,16 @@
                 }
 
                 search(key,val,this.data);
+            },
+
+            delExtAttr(obj){
+                delete obj._expanded;
+                delete obj._level;
+                delete obj._show;
+                delete obj.children;
+                delete obj.leaf;
+                delete obj.parent;
+                return obj;
             }
         }
     };

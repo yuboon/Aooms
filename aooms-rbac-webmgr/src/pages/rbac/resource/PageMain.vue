@@ -14,7 +14,7 @@
 
         </el-form>
 
-        <ext-treetable v-loading="loading" ref="treeTable" row-key="resource_name" :data="tableData" size="mini" stripe >
+        <ext-treetable v-loading="loading" ref="treeTable" row-key="resource_name" :data="currentTableData" size="mini" stripe >
             <el-table-column label="资源名称" prop="resource_name" />
             <el-table-column label="资源编码" prop="resource_code" align="center"/>
             <el-table-column label="资源类型" prop="resource_type" align="center"
@@ -61,7 +61,7 @@
         </ext-treetable>
 
         <!-- 表单弹窗 -->
-        <data-form @tableUpdate="tableUpdate" ref="dataForm"></data-form>
+        <data-form @tableUpdate="tableUpdate" @tableDelete="tableDelete" :currentTableData="currentTableData" ref="dataForm"></data-form>
     </div>
 </template>
 
@@ -75,16 +75,9 @@ export default {
         BooleanControl,
         DataForm
     },
-    props: {
-        tableData: {
-            default: () => []
-        },
-        loading: {
-            default: false
-        }
-    },
     data() {
         return {
+            loading:false,
             currentTableData: [],
             multipleSelection: [],
             mainHeight: 0,
@@ -92,12 +85,6 @@ export default {
         }
     },
     watch: {
-        tableData: {
-            handler(val) {
-                this.currentTableData = val
-            },
-            immediate: true
-        },
         filterText(val) {
             this.$refs.treeTable.filter(['resource_name','resource_code'],val);
         }
@@ -120,6 +107,10 @@ export default {
             this.multipleSelection = val;
         },
         handleForm: function (row,method,parentRow){
+            if(method == 'update'){
+                parentRow = parentRow.parent;
+            }
+
             if(!parentRow){
                 parentRow = {resource_name:'无', children:this.tableData}
             }
@@ -144,10 +135,17 @@ export default {
             })
         },
         tableLoad(){
-            this.$emit('tableLoad',{});
+            this.loading = true;
+            httpGet('aooms/rbac/resource/findTree').then(res => {
+                this.currentTableData = res.$tree;
+                this.loading = false;
+            });
         },
         tableUpdate(data,parentRow){
             this.$refs.treeTable.append(data,parentRow);
+        },
+        tableDelete(row){
+            this.$refs.treeTable.remove(row);
         },
         filterType(value, row, column) {
             const property = column['property'];

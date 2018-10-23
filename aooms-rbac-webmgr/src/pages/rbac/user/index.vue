@@ -1,74 +1,41 @@
 <template>
-    <d2-container>
-        <page-header
-                ref="header"
-                slot="header"
-                @tableLoad="tableLoad"/>
+    <div>
+        <d2-container>
+            <page-header
+                    ref="header"
+                    slot="header"
+                    @tableLoad="tableLoad"
+            />
 
-        <page-main
-                ref="main"
-                @tableLoad="tableLoad"
-                :table-data="table"
-                :loading="loading"/>
+            <page-main
+                    ref="main"
+                    @pageHeaderFormData="pageHeaderFormData"
+            />
 
-        <page-footer
-                slot="footer"
-                :current="page.current"
-                :size="page.size"
-                :total="page.total"
-                @change="handlePaginationChange"/>
-    </d2-container>
+        </d2-container>
+    </div>
+
 </template>
 
 <script>
-import {BusinessTable1List} from '@/api/demo/business/table/1'
-import {httpGet} from '@/api/sys/http'
+import PageHeader from './PageHeader.vue'
+import PageMain from './PageMain.vue'
 
 export default {
     // name 值和本页的 $route.name 一致才可以缓存页面
     name: 'rbac-user',
     components: {
-        'PageHeader': () => import('./PageHeader.vue'),
-        'PageMain': () => import('./PageMain.vue'),
-        'PageFooter': () => import('./PageFooter.vue')
-    },
-    data() {
-        return {
-            table: [],
-            loading: false,
-            page: {
-                current: 1,
-                size: 5,
-                total: 0
-            }
-        }
+        PageHeader,
+        PageMain
+        /*'PageFooter': () => import('./PageFooter.vue')*/
     },
     methods: {
-        tableLoad(params,jumpFirst){
-            if(jumpFirst) this.page.current = 1;
-
-            // 分页参数、查询条件拷贝
-            Object.assign(params,this.$refs.header.getFormData(),{
-                page: this.page.current,
-                limit: this.page.size,
-                org_id :this.$refs.main.org_id
-            });
-
-            this.loading = true;
-            httpGet('aooms/rbac/user/findList', params).then(res => {
-                this.loading = false;
-                this.table = res.$data.list
-                this.page.total = res.$data.total;
-            });
+        pageHeaderFormData(callback){
+            callback(this.$refs.header.form);
         },
-        handlePaginationChange(val) {
-            this.page = val;
-            this.$refs.header.handleFormSubmit();
 
-            /*// nextTick 只是为了优化示例中 notify 的显示
-            this.$nextTick(() => {
-
-            })*/
+        tableLoad(formData, jumpFirst){
+            return this.$refs.main.tableLoad(formData, true);
         }
     }
 }

@@ -15,9 +15,39 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="上级资源">
-                            <span>[ {{parent_resource_name}} ]</span>
+                        <el-form-item prop="org_name" label="上级资源">
+                            <el-popover
+                                    placement="bottom"
+                                    title="选择上级资源"
+                                    width="400"
+                                    :visible-arrow="false"
+                                    trigger="click"
+                                    v-model="popoverVisible"
+                            >
+
+                                <el-input size="mini" placeholder="输入关键字进行过滤" v-model="filterText" style="padding-bottom: 5px;"></el-input>
+                                <div style="height: 300px;">
+                                    <el-scrollbar class="aooms-scrollbar">
+                                        <el-tree
+                                                ref="tree"
+                                                :expand-on-click-node="false"
+                                                highlight-current
+                                                node-key="id"
+                                                :data="currentTableData"
+                                                @node-click="handleNodeClick"
+                                                :filter-node-method="filterNode">
+                                            <span class="aooms-tree-node" slot-scope="{ node, data }">
+                                               <i :class="node.icon"></i>{{ node.label }}
+                                            </span>
+                                        </el-tree>
+                                    </el-scrollbar>
+                                </div>
+
+                                <span style="color: blue;cursor: pointer;" slot="reference" @click="popoverVisible = !popoverVisible" > [ {{ changeParentResourceName || parent_resource_name }} ] </span>
+                            </el-popover>
+
                         </el-form-item>
+
                     </el-col>
                 </el-row>
 
@@ -90,12 +120,14 @@
 
 </template>
 
-
 <script>
 
 import {httpGet, httpPost} from '@/api/sys/http'
 
 export default {
+    props: {
+        currentTableData :{}
+    },
     data() {
         return {
             loading:false,
@@ -103,7 +135,12 @@ export default {
             parent_resource_name:'',
             method:'',
             form: {},
-            dialogVisible: false
+            dialogVisible: false,
+            popoverVisible: false,
+            filterText:'',
+            changeParentResourceName:'',
+            changeParentResource:{}
+
         }
     },
     watch: {
@@ -111,6 +148,9 @@ export default {
             this.$nextTick(() => {
                 this.$refs.form.clearValidate();
             });
+        },
+        filterText(val) {
+            this.$refs.tree.filter(val);
         }
     },
     methods: {
@@ -126,6 +166,7 @@ export default {
                     delete obj.children;
                     delete obj.leaf;
                     delete obj.parent;
+                    delete obj.label;
 
                     let submitData = new FormData();
                     submitData.append('formData',JSON.stringify(obj));
@@ -140,12 +181,20 @@ export default {
                         this.loading = false;
                         if(self.method == 'insert'){
                             this.$emit('tableUpdate', res.$vo, this.parentRow);
+                        }else{
+                            // 调整了父资源
+                            if(this.changeParentResource.id != this.parentRow.id){
+                                this.$emit('tableUpdate', res.$vo, this.changeParentResource);
+                                this.$emit('tableDelete', this.form);
+                            }
                         }
                     });
                 }
             });
         },
         open:function(row,method,parentRow){
+            this.changeParentResource = parentRow;
+            this.changeParentResourceName = '';
             this.method = method;
             this.dialogVisible = true;
             this.form = row;
@@ -154,6 +203,16 @@ export default {
         },
         close:function() {
             this.dialogVisible = false;
+        },
+        handleNodeClick(data) {
+            var self = this;
+            this.form.parent_resource_id = data.id;
+            this.changeParentResourceName = data.resource_name;
+            this.changeParentResource = data;
+        },
+        filterNode(value, data) {
+            if (!value) return true;
+            return data.label.indexOf(value) !== -1;
         }
     }
 }

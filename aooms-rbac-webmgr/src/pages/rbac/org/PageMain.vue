@@ -40,7 +40,7 @@
                             size="mini"
                             stripe
                             style="width: 100%;"
-                            :height="mainHeight - 28"
+                            :height="mainHeight - 72"
                             @selection-change="handleSelectionChange">
 
                         <!-- Table 展开行 -->
@@ -120,8 +120,9 @@
                                 <el-button type="danger" title="删除" :loading="scope.row.delLoading" size="mini" icon="el-icon-delete" circle @click="handleDelete('delOne',[scope.row])"></el-button>
                             </template>
                         </el-table-column>
-
                     </el-table>
+
+                    <ext-pagination ref="pagination" @change="tableLoad({},false)" style="padding:10px 0 0 10px; margin: 0px;" />
                 </template>
             </SplitPane>
         </div>
@@ -130,6 +131,7 @@
         <data-form ref="dataForm"
                    :parent_org_id="parent_org_id"
                    :parent_org_name="parent_org_name"
+                   :treeData="treeData"
                    @tableLoad="tableLoad"
                    @treeUpdate="treeUpdate">
         </data-form>
@@ -142,25 +144,21 @@
 </style>
 
 <script>
+    import {httpGet, httpPost} from '@/api/sys/http'
+
     import BooleanControl from './BooleanControl.vue'
     import DataForm from './DataForm.vue'
-    import {httpGet, httpPost} from '@/api/sys/http'
+    import ExtPagination from '@/components/ext-pagination'
 
     export default {
     components: {
         BooleanControl,
-        DataForm
-    },
-    props: {
-        tableData: {
-            default: () => []
-        },
-        loading: {
-            default: false
-        }
+        DataForm,
+        ExtPagination
     },
     data() {
         return {
+            loading:false,
             delLoading:false,
             currentTableData: [],
             multipleSelection: [],
@@ -183,20 +181,14 @@
     watch: {
         filterText(val) {
             this.$refs.tree.filter(val);
-        },
-        tableData: {
-            handler(val) {
-                this.currentTableData = val
-            },
-            immediate: true
         }
     },
     mounted() {
         this.$nextTick(() => {
             let self = this;
             self.resetMainHeight();
-            self.tableLoad();
             self.treeLoad();
+            self.tableLoad({},true);
             window.onresize = function () {
                 self.resetMainHeight();
             }
@@ -204,7 +196,7 @@
     },
     methods: {
         resetMainHeight:function(){
-            this.mainHeight = window.innerHeight - 265;
+            this.mainHeight = window.innerHeight - 215;
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
@@ -243,7 +235,7 @@
                     });
 
                     type == 'del' ? this.delLoading = false : this.$set(selection[0],'delLoading',false);
-                    this.tableLoad();
+                    this.tableLoad({});
 
                     ids.forEach((id) => {
                         var node = this.$refs.tree.getNode(id);
@@ -266,13 +258,36 @@
                 Object.assign(node.data, newData);
             }
         },
-        tableLoad(){
-            this.$emit('tableLoad',{});
+        tableLoad(params,jumpFirst){
+            var self = this;
+            this.$emit('pageHeaderFormData',function(formData) {
+                var pagination = self.$refs.pagination;
+
+                if (jumpFirst) pagination.current = 1;
+                // 分页参数、查询条件拷贝
+                Object.assign(params, formData, {
+                    page: pagination.current,
+                    limit: pagination.size,
+                    parent_org_id: self.parent_org_id
+                });
+
+                self.loading = true;
+                httpGet('aooms/rbac/org/findList', params).then(res => {
+                    self.loading = false;
+                    self.currentTableData = res.$data.list
+                    pagination.total = res.$data.total;
+
+                    /*if (res.$data.currentTotal == 0 && pagination.current > 1) {
+                        pagination.current = pagination.current - 1; // 当前页没有数据时，且不是第一页时，加载上一页
+                        self.tableLoad(params);
+                    }*/
+                });
+            });
         },
         handleNodeClick(data) {
             this.parent_org_id = data.id;
             this.parent_org_name = data.label;
-            this.$emit('tableLoad',{},true);
+            this.tableLoad({},true);
         },
         filterNode(value, data) {
             if (!value) return true;

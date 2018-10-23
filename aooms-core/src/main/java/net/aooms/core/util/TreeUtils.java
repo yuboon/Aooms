@@ -1,5 +1,6 @@
 package net.aooms.core.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import net.aooms.core.record.Record;
 
@@ -325,7 +326,9 @@ public class TreeUtils {
             Set<String> keys = defaultValue.keySet();
             for (Record record : records) {
                 for(String key : keys){
-                    record.set(key, defaultValue.get(key));
+                	if(record.get(key) == null){
+						record.set(key, defaultValue.get(key));
+					}
                 }
             }
         }

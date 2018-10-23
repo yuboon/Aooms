@@ -35,8 +35,8 @@
                             v-loading="loading"
                             size="mini"
                             stripe
-                            style="width: 100%;"
-                            :height="mainHeight - 28"
+                            style="margin-top: 5px"
+                            :height="mainHeight - 72"
                             @selection-change="handleSelectionChange">
 
                         <!-- Table 展开行 -->
@@ -74,11 +74,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column
-                                type="selection"
-                                width="30">
-                        </el-table-column>
-
+                        <el-table-column type="selection" width="50" align="center" />
                         <el-table-column label="用户姓名" prop="user_name"/>
                         <el-table-column label="账号" prop="account"/>
                         <el-table-column label="状态" align="center" width="50">
@@ -86,8 +82,9 @@
                                 <boolean-control
                                         :value="scope.row.status"
                                         @change="(val) => {
-                            handleSwitchChange(val, scope.$index)
-                        }">
+                                            handleSwitchChange(val, scope.$index)
+                                        }"
+                                >
                                     <d2-icon
                                             name="check-circle"
                                             style="font-size: 20px; line-height: 32px; color: #67C23A;"
@@ -116,15 +113,18 @@
                         </el-table-column>
 
                     </el-table>
+
+                    <ext-pagination ref="pagination" @change="tableLoad({},false)" style="padding:10px 0 0 10px; margin: 0px;" />
+
                 </template>
             </SplitPane>
         </div>
-
 
         <!-- 表单弹窗 -->
         <data-form
                 :org_id="org_id"
                 :org_name="org_name"
+                :treeData="treeData"
                 @tableLoad="tableLoad"
                 ref="dataForm">
         </data-form>
@@ -136,22 +136,17 @@
 import BooleanControl from './BooleanControl.vue'
 import DataForm from './DataForm.vue'
 import {httpGet,httpPost} from '@/api/sys/http'
+import ExtPagination from '@/components/ext-pagination'
 
 export default {
     components: {
         BooleanControl,
-        DataForm
-    },
-    props: {
-        tableData: {
-            default: () => []
-        },
-        loading: {
-            default: false
-        }
+        DataForm,
+        ExtPagination
     },
     data() {
         return {
+            loading:false,
             delLoading:false,
             currentTableData: [],
             multipleSelection: [],
@@ -170,12 +165,6 @@ export default {
     watch: {
         filterText(val) {
             this.$refs.tree.filter(val);
-        },
-        tableData: {
-            handler(val) {
-                this.currentTableData = val
-            },
-            immediate: true
         }
     },
     mounted() {
@@ -183,7 +172,8 @@ export default {
             let self = this;
             self.resetMainHeight();
             self.treeLoad();
-            self.tableLoad();
+            self.tableLoad({},true);
+
             window.onresize = function () {
                 //self.height = self.$refs.table.$el.offsetHeight
                 self.resetMainHeight();
@@ -192,7 +182,7 @@ export default {
     },
     methods: {
         resetMainHeight:function(){
-            this.mainHeight = window.innerHeight - 265;
+            this.mainHeight = window.innerHeight - 215;
         },
         handleSwitchChange(val, index) {
             const oldValue = this.currentTableData[index]
@@ -201,8 +191,23 @@ export default {
                 type: val
             })
         },
-        tableLoad(){
-            this.$emit('tableLoad',{});
+        tableLoad(params,jumpFirst){
+            var self = this;
+            this.$emit('pageHeaderFormData',function(formData){
+                if(jumpFirst) self.$refs.pagination.current = 1;
+                // 分页参数、查询条件拷贝
+                Object.assign(params,formData,{
+                    page: self.$refs.pagination.current,
+                    limit: self.$refs.pagination.size,
+                    org_id :self.org_id
+                });
+                self.loading = true;
+                httpGet('aooms/rbac/user/findList', params).then(res => {
+                    self.loading = false;
+                    self.currentTableData = res.$data.list
+                    self.$refs.pagination.total = res.$data.total;
+                });
+            });
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
@@ -240,7 +245,7 @@ export default {
                     });
 
                     type == 'del' ? this.delLoading = false : this.$set(selection[0],'delLoading',false);
-                    this.tableLoad();
+                    this.tableLoad({});
                 });
             })
         },
@@ -250,9 +255,10 @@ export default {
             });
         },
         handleNodeClick(data) {
+            var self = this;
             this.org_id = data.id;
             this.org_name = data.label;
-            this.$emit('tableLoad',{},true);
+            self.tableLoad({},true);
         },
         filterNode(value, data) {
             if (!value) return true;

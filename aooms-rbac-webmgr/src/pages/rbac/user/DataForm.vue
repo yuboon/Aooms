@@ -8,8 +8,39 @@
                 <input type="hidden" v-model="form.id">
                 <input type="hidden" v-model="form.org_id">
 
+
                 <el-form-item prop="org_name" label="所属机构">
-                    <span> [ {{ org_name }} ] </span>
+                    <el-popover
+                            placement="right-end"
+                            title="选择机构"
+                            width="400"
+                            :visible-arrow="false"
+                            trigger="click"
+                            v-model="popoverVisible"
+                    >
+
+                        <el-input size="mini" placeholder="输入关键字进行过滤" v-model="filterText" style="padding-bottom: 5px;"></el-input>
+                        <div style="height:300px;">
+                            <el-scrollbar class="aooms-scrollbar">
+                                <el-tree
+                                        ref="tree"
+                                        :expand-on-click-node="false"
+                                        :default-expanded-keys="['ROOT']"
+                                        highlight-current
+                                        node-key="id"
+                                        :data="treeData"
+                                        @node-click="handleNodeClick"
+                                        :filter-node-method="filterNode">
+                                    <span class="aooms-tree-node" slot-scope="{ node, data }">
+                                       <i :class="node.icon"></i>{{ node.label }}
+                                    </span>
+                                </el-tree>
+                            </el-scrollbar>
+                        </div>
+
+                        <span style="color: blue;cursor: pointer;" slot="reference" @click="popoverVisible = !popoverVisible" > [ {{ changeOrgName || org_name }} ] </span>
+                    </el-popover>
+
                 </el-form-item>
 
                 <el-form-item prop="account" label="用户账号" :rules="[{ required: true, message: '不能为空'}]">
@@ -99,15 +130,14 @@
 
 </template>
 
-
 <script>
-
 import {httpGet, httpPost} from '@/api/sys/http'
 
 export default {
     props: {
         org_id: {},
-        org_name: {}
+        org_name: {},
+        treeData:{}
     },
     data() {
         return {
@@ -126,7 +156,11 @@ export default {
                 status:'',
                 photo:''*/
             },
-            dialogVisible: false
+            dialogVisible: false,
+            popoverVisible: false,
+            filterText:'',
+            changeOrgName:''
+
         }
     },
     watch: {
@@ -134,6 +168,9 @@ export default {
             this.$nextTick(() => {
                 this.$refs.form.clearValidate();
             });
+        },
+        filterText(val) {
+            this.$refs.tree.filter(val);
         }
     },
     methods: {
@@ -151,31 +188,29 @@ export default {
                             message: '保存成功'
                         });
                         this.loading = false;
-                        this.$emit('tableLoad');
+                        this.$emit('tableLoad',{},false);
                         this.dialogVisible = false;
                     });
                 }
             });
         },
         open:function(row,method){
-            /*this.dialogVisible = true;
-            this.$nextTick(()=>{
-                this.method = 'insert';
-                if(row){
-                    this.method = 'update';
-                    this.form = row;
-                }else{
-                    this.form = {sex:'0'};
-                    this.$refs.form.resetFields();
-                }
-            });*/
-
+            this.changeOrgName = '';
             this.method = method;
             this.dialogVisible = true;
             this.form = row;
         },
-        close:function() {
+        close:function(){
             this.dialogVisible = false;
+        },
+        handleNodeClick(data) {
+            var self = this;
+            this.form.org_id = data.id;
+            this.changeOrgName = data.label;
+        },
+        filterNode(value, data) {
+            if (!value) return true;
+            return data.label.indexOf(value) !== -1;
         }
     }
 }

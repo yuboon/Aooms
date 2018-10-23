@@ -63,3 +63,7 @@
 .splitter-pane-resizer{
   z-index: 100 !important;
 }
+
+body .el-table th.gutter{
+  display: table-cell !important;
+}

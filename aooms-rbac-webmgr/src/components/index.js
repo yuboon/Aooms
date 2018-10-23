@@ -20,4 +20,4 @@ Vue.component('d2-quill', () => import('./d2-quill'))
 
 // 扩展组件
 Vue.component('ext-treetable', () => import('./ext-treetable'))
-Vue.component('ext-pagination', () => import('./ext-pagination'))
+//Vue.component('ext-pagination', () => import('./ext-pagination'))
