@@ -31,9 +31,10 @@
                                         <el-tree
                                                 ref="tree"
                                                 :expand-on-click-node="false"
+                                                :default-expanded-keys="['ROOT']"
                                                 highlight-current
                                                 node-key="id"
-                                                :data="currentTableData"
+                                                :data="tableData"
                                                 @node-click="handleNodeClick"
                                                 :filter-node-method="filterNode">
                                             <span class="aooms-tree-node" slot-scope="{ node, data }">
@@ -130,6 +131,12 @@ export default {
     },
     data() {
         return {
+            tableData:[{
+                id:'ROOT',
+                label: '顶层',
+                icon:'el-icon-menu',
+                children: []
+            }],
             loading:false,
             parentRow:{},
             parent_resource_name:'',
@@ -140,7 +147,6 @@ export default {
             filterText:'',
             changeParentResourceName:'',
             changeParentResource:{}
-
         }
     },
     watch: {
@@ -151,6 +157,12 @@ export default {
         },
         filterText(val) {
             this.$refs.tree.filter(val);
+        },
+        currentTableData:{
+            immediate:true,
+            handler:function(val){
+                this.tableData[0].children = val;
+            }
         }
     },
     methods: {

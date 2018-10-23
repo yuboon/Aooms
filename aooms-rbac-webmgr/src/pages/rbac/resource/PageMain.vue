@@ -112,7 +112,7 @@ export default {
             }
 
             if(!parentRow){
-                parentRow = {resource_name:'无', children:this.tableData}
+                parentRow = {resource_name:'顶层', children:this.tableData}
             }
             this.$refs.dataForm.open(row,method,parentRow);
         },
