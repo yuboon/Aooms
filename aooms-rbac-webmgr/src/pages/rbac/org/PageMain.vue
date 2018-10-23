@@ -39,7 +39,7 @@
                             v-loading="loading"
                             size="mini"
                             stripe
-                            style="width: 100%;"
+                            style="margin-top: 5px"
                             :height="mainHeight - 72"
                             @selection-change="handleSelectionChange">
 

@@ -14,7 +14,7 @@
 
         </el-form>
 
-        <ext-treetable v-loading="loading" ref="treeTable" row-key="resource_name" :data="currentTableData" size="mini" stripe >
+        <ext-treetable v-loading="loading" ref="treeTable" row-key="resource_name" :data="currentTableData" size="mini" stripe style="margin-top: 5px;">
             <el-table-column label="资源名称" prop="resource_name" />
             <el-table-column label="资源编码" prop="resource_code" align="center"/>
             <el-table-column label="资源类型" prop="resource_type" align="center"
