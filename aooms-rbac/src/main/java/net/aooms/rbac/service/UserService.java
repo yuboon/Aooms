@@ -58,6 +58,15 @@ public class UserService extends GenericService {
 	}
 
 	@Transactional
+	public void updateStatus() {
+		Record record = Record.empty();
+		record.set(AoomsConstants.ID, getParaString("id"));
+		record.set("status", getParaString("status"));
+		record.set("update_time",DateUtil.now());
+		db.update("aooms_rbac_user",record);
+	}
+
+	@Transactional
 	public void delete() {
         List<Object> ids = this.getListFromJson("ids",AoomsConstants.ID);
 		db.batchDelete("aooms_rbac_user",ids.toArray());

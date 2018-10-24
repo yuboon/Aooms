@@ -47,6 +47,15 @@ public class UserController extends AoomsAbstractController {
     };
 
     /**
+     * 修改状态
+     * @return
+     */
+    @PostMapping("/updateStatus")
+    public void updateStatus(){
+        userService.updateStatus();
+    };
+
+    /**
      * 删除
      * @return
      */

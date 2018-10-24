@@ -27,11 +27,11 @@
                                         :default-expanded-keys="['ROOT']"
                                         highlight-current
                                         node-key="id"
-                                        :data="treeData"
+                                        :data="currentTreeData"
                                         @node-click="handleNodeClick"
                                         :filter-node-method="filterNode">
                                     <span class="aooms-tree-node" slot-scope="{ node, data }">
-                                       <i :class="node.icon"></i>{{ node.label }}
+                                       <i :class="node.icon"></i>{{ node.org_name }}
                                     </span>
                                 </el-tree>
                             </el-scrollbar>
@@ -106,10 +106,12 @@ export default {
                 status:'',
                 ordinal:''*/
             },
+            currentTreeData:[],
             dialogVisible: false,
             popoverVisible: false,
             filterText:'',
-            changeOrgName:''
+            changeOrgName:'',
+            changeOrgId:''
         }
     },
     watch: {
@@ -120,6 +122,10 @@ export default {
         },
         filterText(val) {
             this.$refs.tree.filter(val);
+        },
+        popoverVisible(val){
+            if(!val) this.currentTreeData = [];
+            else this.currentTreeData = this.treeData;
         }
     },
     methods: {
@@ -128,6 +134,21 @@ export default {
             this.$refs.form.validate((valid, error) => {
                 if (valid) {
                     let submitData = new FormData();
+                    var isChangeOrg = false;
+
+                    if(this.changeOrgId == this.form.id){
+                        this.$message({
+                            showClose: true,
+                            message: '不能调整父机构为自己',
+                            type: 'warning'
+                        });
+                        return;
+                    }
+                    if(this.changeOrgId != this.form.parent_org_id){
+                        self.form.parent_org_id = this.changeOrgId;
+                        isChangeOrg = true;
+                    }
+
                     submitData.append('formData',JSON.stringify(self.form));
                     this.loading = true;
                     httpPost('aooms/rbac/org/' + self.method,submitData).then(res => {
@@ -137,14 +158,22 @@ export default {
                         });
 
                         this.loading = false;
-                        this.$emit('tableLoad');
-                        this.$emit('treeUpdate',res.$vo, self.method);
+                        this.$emit('tableLoad',{});
+                        if(isChangeOrg){
+                            this.$emit('treeLoad');
+                        }else{
+                            this.$emit('treeUpdate',res.$vo, self.method);
+                        }
                         this.dialogVisible = false;
+
+
                     });
                 }
             });
         },
         open:function(row,method){
+            this.changeOrgName = '';
+            this.changeOrgId = row.parent_org_id;
             this.method = method;
             this.dialogVisible = true;
             this.form = row;
@@ -154,12 +183,12 @@ export default {
         },
         handleNodeClick(data) {
             var self = this;
-            this.form.org_id = data.id;
-            this.changeOrgName = data.label;
+            this.changeOrgName = data.org_name;
+            this.changeOrgId = data.id;
         },
         filterNode(value, data) {
             if (!value) return true;
-            return data.label.indexOf(value) !== -1;
+            return data.org_name.indexOf(value) !== -1;
         }
     }
 }

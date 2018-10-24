@@ -5,11 +5,22 @@
                 <template slot="paneL" :style="{height: '100%' }" >
                     <el-scrollbar class="aooms-scrollbar">
                         <div class="aooms-tree-left">
-                            <el-input size="mini" placeholder="输入关键字进行过滤" v-model="filterText" style="padding-bottom: 5px;"></el-input>
+                            <el-row>
+                                <el-col :span="20">
+                                    <el-input size="mini" placeholder="输入关键字进行过滤" v-model="filterText" style="padding-bottom: 5px;"></el-input>
+                                </el-col>
+                                <el-col :span="4">
+                                    <el-button size="mini" title="刷新" @click="treeLoad" icon="el-icon-refresh" circle style="margin-left: 5px;"></el-button>
+                                </el-col>
+                            </el-row>
+
                             <el-tree
                                     ref="tree"
                                     :expand-on-click-node="false"
                                     :default-expanded-keys="['ROOT']"
+                                    :props="{
+                                        label: 'org_name'
+                                    }"
                                     highlight-current
                                     node-key="id"
                                     :data="treeData"
@@ -28,6 +39,13 @@
                     <div style="padding-left: 5px;">
                         <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm({sex:'0',status:'Y',ordinal:0,org_id:org_id},'insert')">新增</el-button>
                         <el-button type="danger" size="mini" icon="el-icon-delete" :loading="delLoading"  @click="handleDelete('del', multipleSelection)">删除</el-button>
+
+                        <el-switch
+                                v-model="cascade"
+                                active-text="开启级联"
+                                style="float: right"
+                                @change="cascadeChange"
+                        />
                     </div>
 
                     <el-table
@@ -77,23 +95,15 @@
                         <el-table-column type="selection" width="50" align="center" />
                         <el-table-column label="用户姓名" prop="user_name"/>
                         <el-table-column label="账号" prop="account"/>
-                        <el-table-column label="状态" align="center" width="50">
+                        <el-table-column label="状态" align="center" width="60">
                             <template slot-scope="scope">
-                                <boolean-control
-                                        :value="scope.row.status"
-                                        @change="(val) => {
-                                            handleSwitchChange(val, scope.$index)
-                                        }"
-                                >
-                                    <d2-icon
-                                            name="check-circle"
-                                            style="font-size: 20px; line-height: 32px; color: #67C23A;"
-                                            slot="active"/>
-                                    <d2-icon
-                                            name="times-circle"
-                                            style="font-size: 20px; line-height: 32px; color: #F56C6C;"
-                                            slot="inactive"/>
-                                </boolean-control>
+                                <el-switch
+                                        v-model="scope.row.status == 'Y'"
+                                        :disabled="radioDisabled"
+                                        active-color="#67C23A"
+                                        inactive-color="#F56C6C"
+                                        @change="handleStatusChange($event,scope.row)">
+                                </el-switch>
                             </template>
                         </el-table-column>
                         <el-table-column label="性别" prop="sex" align="center">
@@ -133,14 +143,12 @@
 </template>
 
 <script>
-import BooleanControl from './BooleanControl.vue'
 import DataForm from './DataForm.vue'
 import {httpGet,httpPost} from '@/api/sys/http'
 import ExtPagination from '@/components/ext-pagination'
 
 export default {
     components: {
-        BooleanControl,
         DataForm,
         ExtPagination
     },
@@ -155,11 +163,13 @@ export default {
             org_name: '顶层机构',
             treeData: [{
                 id:'ROOT',
-                label: '顶层机构',
+                org_name: '顶层机构',
                 icon:'el-icon-menu',
                 children: []
             }],
-            filterText:''
+            filterText:'',
+            cascade:true,
+            radioDisabled:false
         }
     },
     watch: {
@@ -183,13 +193,6 @@ export default {
     methods: {
         resetMainHeight:function(){
             this.mainHeight = window.innerHeight - 215;
-        },
-        handleSwitchChange(val, index) {
-            const oldValue = this.currentTableData[index]
-            this.$set(this.currentTableData, index, {
-                ...oldValue,
-                type: val
-            })
         },
         tableLoad(params,jumpFirst){
             var self = this;
@@ -245,6 +248,11 @@ export default {
                     });
 
                     type == 'del' ? this.delLoading = false : this.$set(selection[0],'delLoading',false);
+
+                    // 当前页全部删除，加载前一页
+                    if(selection.length == this.currentTableData.length && this.$refs.pagination.current > 1){
+                        this.$refs.pagination.current -= 1;
+                    }
                     this.tableLoad({});
                 });
             })
@@ -257,13 +265,30 @@ export default {
         handleNodeClick(data) {
             var self = this;
             this.org_id = data.id;
-            this.org_name = data.label;
+            this.org_name = data.org_name;
             self.tableLoad({},true);
         },
         filterNode(value, data) {
             if (!value) return true;
             return data.label.indexOf(value) !== -1;
+        },
+        cascadeChange(val){
+
+        },
+        handleStatusChange(val,row){
+            var status = val ? 'Y':'N';
+            var submitData = new FormData();
+            submitData.append("id",row.id);
+            submitData.append("status",status);
+            row.status = status;
+
+            this.radioDisabled = true;
+            httpPost('aooms/rbac/user/updateStatus',submitData).then(res => {
+                this.radioDisabled = false;
+                this.tableLoad({});
+            });
         }
+
     }
 }
 </script>

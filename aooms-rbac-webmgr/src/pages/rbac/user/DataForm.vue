@@ -206,11 +206,11 @@ export default {
         handleNodeClick(data) {
             var self = this;
             this.form.org_id = data.id;
-            this.changeOrgName = data.label;
+            this.changeOrgName = data.org_name;
         },
         filterNode(value, data) {
             if (!value) return true;
-            return data.label.indexOf(value) !== -1;
+            return data.org_name.indexOf(value) !== -1;
         }
     }
 }

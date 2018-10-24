@@ -173,7 +173,7 @@ export default {
                     let obj = Object.assign({},self.form);
                     // 删除树扩展的属性
                     delete obj._expanded;
-                    delete obj._level;
+                    //delete obj._level;
                     delete obj._show;
                     delete obj.children;
                     delete obj.leaf;

@@ -250,6 +250,14 @@ public class Db {
         return null;
     }
 
+    public <T> T findObject(String mappedStatementId, SqlPara sqlPara,Class<?> T) {
+        List<T> list = getSqlSession().selectList(mappedStatementId,sqlPara.getParams());
+        if(list.size() > 0){
+            return list.get(0);
+        }
+        return null;
+    }
+
     public Record findObject(String mappedStatementId, SqlPara sqlPara) {
         List<Record> records = getSqlSession().selectList(mappedStatementId,sqlPara.getParams());
         if(records.size() > 0){

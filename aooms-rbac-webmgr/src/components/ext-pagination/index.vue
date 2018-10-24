@@ -4,7 +4,7 @@
             :current-page="current"
             :page-size="size"
             :total="total"
-            :page-sizes="[5, 200, 300, 400]"
+            :page-sizes="[3, 200, 300, 400]"
             layout="total, sizes, prev, pager, next, jumper"
             style="margin: -10px;"
             @size-change="handleSizeChange"
@@ -18,7 +18,7 @@
         data() {
             return {
                 current: 1,
-                size:  5,
+                size:  3,
                 total: 0
             }
         },

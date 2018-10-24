@@ -2,6 +2,7 @@ package net.aooms.rbac.service;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
@@ -17,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * 机构管理
@@ -47,7 +50,7 @@ public class OrgService extends GenericService {
 
         TreeUtils treeUtils = new TreeUtils(pagingRecord.getList());
         treeUtils.setParentIdKey("parent_org_id");
-        treeUtils.setConvertValueKey(Kv.fkv("org_name","label"));
+        //treeUtils.setConvertValueKey(Kv.fkv("org_name","label"));
         treeUtils.setDefaultValue(Kv.fkv("icon","el-icon-news"));
         List<Record> treeRecords = treeUtils.listTree(AoomsConstants.TREE_ROOT);
 
@@ -60,9 +63,12 @@ public class OrgService extends GenericService {
 		record.set(AoomsConstants.ID,IDGenerator.getStringValue());
 		record.setByJsonKey("formData");
 		record.set("create_time", DateUtil.now());
-		db.insert("aooms_rbac_org",record);
+		record.set("org_permission", this.permissionCode(record.getString("parent_org_id")));
+        record.set("org_level", this.orgLevel(record.getString("parent_org_id")) + 1);
+        db.insert("aooms_rbac_org",record);
 
-		record.convertValueKey(Kv.fkv("org_name","label"),false);
+		// 返回前台
+		//record.convertValueKey(Kv.fkv("org_name","label"),true);
 		record.set("icon","el-icon-news");
 		this.setResultValue(AoomsConstants.Result.RECORD, record);
 	}
@@ -72,9 +78,11 @@ public class OrgService extends GenericService {
         Record record = Record.empty();
         record.setByJsonKey("formData");
         record.set("update_time",DateUtil.now());
+        record.set("org_permission", this.permissionCode(record.getString("parent_org_id")));
+        record.set("org_level", this.orgLevel(record.getString("parent_org_id")) + 1);
         db.update("aooms_rbac_org",record);
 
-        record.convertValueKey(Kv.fkv("org_name","label"),false);
+        //record.convertValueKey(Kv.fkv("org_name","label"),true);
         record.set("icon","el-icon-news");
         this.setResultValue(AoomsConstants.Result.RECORD, record);
     }
@@ -93,6 +101,46 @@ public class OrgService extends GenericService {
         List<Object> ids = this.getListFromJson("ids",AoomsConstants.ID);
 		db.batchDelete("aooms_rbac_org",ids.toArray());
 	}
+
+    /**
+     *
+     * 私有辅助
+     *
+     */
+
+    // 生成permissionCode
+    private String permissionCode(String parentId){
+        int permissionLen = 4;
+        //char permissionSplicChar = '.';
+        String permission;
+
+        synchronized (this.getClass()){
+            String statementId = getStatementId(RbacMapperPackage.class,"OrgMapper.findMaxOrgPermission");
+            Integer maxPermission = db.findObject(statementId,SqlPara.empty().set("parent_org_id",parentId),Integer.class);
+            if(maxPermission == null){
+                maxPermission = 0;
+            }
+            maxPermission += 1;
+
+            permission = maxPermission + "";
+            int start = permission.length();
+            for(int index = start; index < permissionLen; index++){
+                permission = "0" + permission;
+            };
+        }
+     System.err.println("permission" + permission);
+        return permission;
+    }
+
+    // 生成permissionCode
+    private Integer orgLevel(String parentId){
+        String statementId = getStatementId(RbacMapperPackage.class,"OrgMapper.findOrgLevel");
+        Integer orgLevel = db.findObject(statementId,SqlPara.empty().set("parent_org_id",parentId),Integer.class);
+        if(orgLevel == null){
+            orgLevel = 0;
+        }
+        return orgLevel;
+    }
 
 
 }

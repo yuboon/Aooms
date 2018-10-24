@@ -10,10 +10,12 @@
                                     ref="tree"
                                     :expand-on-click-node="false"
                                     :default-expanded-keys="['ROOT']"
+                                    :props="{
+                                        label: 'org_name'
+                                    }"
                                     highlight-current
                                     node-key="id"
                                     :data="treeData"
-                                    :props="defaultProps"
                                     @node-click="handleNodeClick"
                                     :filter-node-method="filterNode">
                                 <span class="aooms-tree-node" slot-scope="{ node, data }">
@@ -31,6 +33,14 @@
                         <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm({status:'Y',ordinal:0,parent_org_id:parent_org_id},'insert')">新增</el-button>
                         <el-button :loading="delLoading"
                                    type="danger" size="mini" icon="el-icon-delete" @click="handleDelete('del', multipleSelection)">删除</el-button>
+
+                        <el-switch
+                                v-model="cascade"
+                                active-text="开启级联"
+                                style="float: right"
+                                @change="cascadeChange"
+                        />
+
                     </div>
 
                     <el-table
@@ -48,7 +58,7 @@
                             <template slot-scope="scope">
                                 <el-form label-position="left" inline class="aooms-table-expand">
                                     <el-form-item label="上级机构" style="width: 100%;">
-                                        <span>{{ $refs.tree.getNode(scope.row.parent_org_id).label }}</span>
+                                        <span>{{ $refs.tree.getNode(scope.row.parent_org_id).org_name }}</span>
                                     </el-form-item>
                                     <el-form-item label="机构名称">
                                         <span>{{ scope.row.org_name }}</span>
@@ -75,12 +85,26 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column
-                                type="selection"
-                                width="30">
+                        <el-table-column type="selection" width="50" align="center" />
+                        <el-table-column width="30" align="left" v-if="isMultipleSelection">
+                                <template slot-scope="scope">
+                                    <el-dropdown size="mini" placement="bottom" @command="dropdownCommand">
+                                        <span class="el-dropdown-link">
+                                            <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                                        </span>
+                                        <el-dropdown-menu slot="dropdown">
+                                            <el-dropdown-item command="batchUpdateOrg">
+                                                <i class="el-icon-menu"/>&nbsp;批量修改机构
+                                            </el-dropdown-item>
+                                            <el-dropdown-item>
+                                                <i class="el-icon-menu"/>&nbsp;更多功能
+                                            </el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </el-dropdown>
+                                </template>
                         </el-table-column>
 
-                        <el-table-column label="头像" prop="photo"/>
+                        <!--<el-table-column label="头像" prop="photo"/>-->
                         <el-table-column label="机构名称" prop="org_name"/>
                         <el-table-column label="机构简称" prop="org_shortname">
                             <!--
@@ -133,6 +157,7 @@
                    :parent_org_name="parent_org_name"
                    :treeData="treeData"
                    @tableLoad="tableLoad"
+                   @treeLoad="treeLoad"
                    @treeUpdate="treeUpdate">
         </data-form>
 
@@ -158,6 +183,7 @@
     },
     data() {
         return {
+            isMultipleSelection:false,
             loading:false,
             delLoading:false,
             currentTableData: [],
@@ -168,20 +194,28 @@
             parent_org_name: '顶层机构',
             treeData: [{
                 id:'ROOT',
-                label: '顶层机构',
+                org_name: '顶层机构',
                 icon:'el-icon-menu',
                 children: []
             }],
-            defaultProps: {
-                children: 'children',
-                label: 'label'
-            }
+            cascade:false
         }
     },
     watch: {
         filterText(val) {
             this.$refs.tree.filter(val);
-        }
+        }/*,
+        treeData: {
+            handler(newValue, oldValue) {
+                //this.$ref.datForm.treeData = this.treeData;
+                /!*for (let i = 0; i < newValue.length; i++) {
+                    if (oldValue[i] != newValue[i]) {
+                        console.log(newValue)
+                    }
+                }*!/
+            },
+            deep: true
+        }*/
     },
     mounted() {
         this.$nextTick(() => {
@@ -199,6 +233,7 @@
             this.mainHeight = window.innerHeight - 215;
         },
         handleSelectionChange(val) {
+            this.isMultipleSelection = val.length > 1;
             this.multipleSelection = val;
         },
         handleForm: function (row,method) {
@@ -235,6 +270,11 @@
                     });
 
                     type == 'del' ? this.delLoading = false : this.$set(selection[0],'delLoading',false);
+
+                    // 当前页全部删除，加载前一页
+                    if(selection.length == this.currentTableData.length && this.$refs.pagination.current > 1){
+                        this.$refs.pagination.current -= 1;
+                    }
                     this.tableLoad({});
 
                     ids.forEach((id) => {
@@ -247,11 +287,13 @@
         treeLoad(){
             httpGet('aooms/rbac/org/findTree').then(res => {
                 this.treeData[0].children = res.$tree;
+                this.$refs.dataForm.treeData = this.treeData;
             });
         },
         treeUpdate(newData,method){
             if(method == 'insert'){
                 var parentNode = this.$refs.tree.getNode(this.parent_org_id);
+                parentNode.data.children.push(newData);
                 this.$refs.tree.append(newData,parentNode);
             }else{
                 var node = this.$refs.tree.getNode(newData.id);
@@ -286,12 +328,18 @@
         },
         handleNodeClick(data) {
             this.parent_org_id = data.id;
-            this.parent_org_name = data.label;
+            this.parent_org_name = data.org_name;
             this.tableLoad({},true);
         },
         filterNode(value, data) {
             if (!value) return true;
-            return data.label.indexOf(value) !== -1;
+            return data.org_name.indexOf(value) !== -1;
+        },
+        dropdownCommand(val){
+            alert(val);
+        },
+        cascadeChange(val){
+
         }
     }
 }
