@@ -56,7 +56,7 @@ public class SqlExpression {
         this.value = value;
     }
 
-    public String toString(String alias){
+    public String toSqlString(String alias){
         if(roper == Roper.LikeStart){
             return  "instr(" + alias + column + ", #{"+ valueKey +"}) = 1";
         }else if(roper == Roper.Like){

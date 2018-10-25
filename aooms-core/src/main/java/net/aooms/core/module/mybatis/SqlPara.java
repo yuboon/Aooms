@@ -107,7 +107,7 @@ public class SqlPara {
     private boolean appendCondition(String join, SqlExpression sqlExpression){
         if(StrUtil.isNotBlank(String.valueOf(sqlExpression.getValue()))){
             //conditions.append(express + "'" + WAF.escapeSql(value) + "'");
-            conditions.append(join + sqlExpression.toString(alias));
+            conditions.append(join + sqlExpression.toSqlString(alias));
             return true;
         }
         return false;
@@ -175,7 +175,7 @@ public class SqlPara {
         for(SqlExpression expression : expressions){
             String value = this.getString(expression.getValueKey());
             if(StrUtil.isNotBlank(value)){
-                list.add(alias + expression.toString());
+                list.add(alias + expression.toSqlString(alias));
             }
         }
 
