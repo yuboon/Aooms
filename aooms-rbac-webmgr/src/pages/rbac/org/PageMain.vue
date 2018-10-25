@@ -192,8 +192,10 @@
             filterText:'',
             parent_org_id: 'ROOT',
             parent_org_name: '顶层机构',
+            data_permission:'',
             treeData: [{
                 id:'ROOT',
+                data_permission:'',
                 org_name: '顶层机构',
                 icon:'el-icon-menu',
                 children: []
@@ -293,7 +295,7 @@
         treeUpdate(newData,method){
             if(method == 'insert'){
                 var parentNode = this.$refs.tree.getNode(this.parent_org_id);
-                parentNode.data.children.push(newData);
+                //parentNode.data.children.push(newData);
                 this.$refs.tree.append(newData,parentNode);
             }else{
                 var node = this.$refs.tree.getNode(newData.id);
@@ -306,29 +308,30 @@
                 var pagination = self.$refs.pagination;
 
                 if (jumpFirst) pagination.current = 1;
+
+                var ext = {parent_org_id: self.parent_org_id};
+                if (self.cascade){
+                    ext = {data_permission: self.data_permission};
+                };
+
                 // 分页参数、查询条件拷贝
                 Object.assign(params, formData, {
                     page: pagination.current,
-                    limit: pagination.size,
-                    parent_org_id: self.parent_org_id
-                });
+                    limit: pagination.size
+                },ext);
 
                 self.loading = true;
                 httpGet('aooms/rbac/org/findList', params).then(res => {
                     self.loading = false;
                     self.currentTableData = res.$data.list
                     pagination.total = res.$data.total;
-
-                    /*if (res.$data.currentTotal == 0 && pagination.current > 1) {
-                        pagination.current = pagination.current - 1; // 当前页没有数据时，且不是第一页时，加载上一页
-                        self.tableLoad(params);
-                    }*/
                 });
             });
         },
         handleNodeClick(data) {
             this.parent_org_id = data.id;
             this.parent_org_name = data.org_name;
+            this.data_permission = data.org_permission;
             this.tableLoad({},true);
         },
         filterNode(value, data) {
@@ -339,7 +342,7 @@
             alert(val);
         },
         cascadeChange(val){
-
+            this.tableLoad({});
         }
     }
 }

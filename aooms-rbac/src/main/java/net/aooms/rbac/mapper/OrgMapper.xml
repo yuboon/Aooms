@@ -7,7 +7,6 @@
         SELECT * FROM aooms_rbac_org t where 1=1 ${_ANDS_}
     </select>
 
-
     <select id="findMaxOrgPermission" resultType="int">
         SELECT max(org_permission) FROM aooms_rbac_org t where parent_org_id = #{parent_org_id}
     </select>

@@ -27,7 +27,7 @@ public class OrgController extends AoomsAbstractController {
     @RequestMapping("/findList")
     public void findList(){
         orgService.findList();
-    };
+    }
 
     /**
      * 树查询

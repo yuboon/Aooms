@@ -36,8 +36,7 @@ public class OrgService extends GenericService {
     @Transactional(readOnly = true)
     public void findList() {
         SqlPara sqlPara = SqlPara.fromDataBoss().paging();
-        sqlPara.and("status","parent_org_id")
-               .andLikeAfter("org_name","org_shortname","org_code");
+        sqlPara.and("status","parent_org_id").andLikeAfter("data_permission","org_name","org_shortname","org_code");
 
         String statementId = getStatementId(RbacMapperPackage.class,"OrgMapper.findList");
 		PagingRecord pagingRecord = db.findList(statementId,sqlPara);
@@ -130,6 +129,10 @@ public class OrgService extends GenericService {
             maxPermission += 1;
 
             permission = maxPermission + "";
+            if(permission.length() > permissionLen){
+                throw new RuntimeException("The org_permission length is not allowed to be greater than " + permissionLen);
+            }
+
             int start = permission.length();
             for(int index = start; index < permissionLen; index++){
                 permission = "0" + permission;
@@ -152,25 +155,12 @@ public class OrgService extends GenericService {
     private String dataPermission(String parentId,String orgPermission){
         char permissionSplicChar = '.';
         StringBuilder dataPermission = new StringBuilder(orgPermission);
-        System.err.println("parentId:" + parentId); // 261882383848968192
-        Record record = db.findByPrimaryKey("aooms_rbac_org","123");
-        System.err.println("record:" + record); // 261882383848968192
-
-        Record record2 = db.findByPrimaryKey("aooms_rbac_org","ROOT");
-        System.err.println("record2:" + record2); // 261882383848968192
-
-       /* int index = 0;
-        for(int i = 0 ; i< 4;i++){
-            if(record != null){
-                dataPermission.insert(0,record.getString("org_permission") + permissionSplicChar);
-                System.err.println(record.getString("parent_org_id"));
-
-                record = db.findByPrimaryKey("aooms_rbac_org",record.getString("parent_org_id"));
-                System.err.println(record);
-            }
-        }*/
+        Record record = db.findByPrimaryKey("aooms_rbac_org", parentId);
+        while(record != null){
+            dataPermission.insert(0,record.getString("org_permission") + permissionSplicChar);
+            record = db.findByPrimaryKey("aooms_rbac_org",record.getString("parent_org_id"));
+        }
         return dataPermission.toString();
     }
-
 
 }
