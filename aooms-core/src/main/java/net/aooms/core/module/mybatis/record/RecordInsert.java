@@ -8,7 +8,7 @@ import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
+import org.apache.ibatis.session.Configuration;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -55,7 +55,8 @@ public class RecordInsert implements IRecordOper {
         }
 
         String sql = StrUtil.format(stringBuilder, columns, values);
-        SqlSource sqlSource = new XMLLanguageDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
+        Configuration configuration = MetaObjectAssistant.getConfiguration(metaObject);
+        SqlSource sqlSource = configuration.getLanguageRegistry().getDefaultDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
         BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
         //metaObject.setValue("delegate.boundSql", boundSql);
         //metaObject.setValue("delegate.parameterHandler.boundSql", boundSql);

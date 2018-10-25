@@ -242,7 +242,7 @@ public class Db {
         sqlPara.set(MyBatisConst.CRUD_QUERY_PK_PLACEHOLDER,true);
         sqlPara.set(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         sqlPara.set(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER,primaryKeyColumn);
-        sqlPara.set(primaryKeyColumn,primaryKeyValue);
+        sqlPara.set(MyBatisConst.TABLE_PK_VALUE_PLACEHOLDER,primaryKeyValue);
         List<Record> records = getSqlSession().selectList(MyBatisConst.MS_RECORD_FIND_BY_PK,sqlPara.getParams());
         if(records.size() > 0){
             return records.get(0);

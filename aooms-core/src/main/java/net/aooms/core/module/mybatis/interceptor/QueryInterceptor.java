@@ -5,6 +5,7 @@ import net.aooms.core.AoomsConstants;
 import net.aooms.core.datasource.DynamicDataSourceHolder;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.dialect.DialectSelector;
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.PreparedStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -13,6 +14,7 @@ import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
+import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import java.sql.Connection;
@@ -30,6 +32,11 @@ import java.util.Properties;
         method = "prepare",
         args = {Connection.class, Integer.class}
     )
+    /*@Signature(
+        type = StatementHandler.class,
+        method = "parameterize",
+        args = {Statement.class}
+    )*/
 })
 public class QueryInterceptor implements Interceptor {
 
@@ -44,6 +51,13 @@ public class QueryInterceptor implements Interceptor {
      */  
     public Object intercept(Invocation invocation) throws Throwable {
 
+        /*MappedStatement mappedStatement2 = (MappedStatement)invocation.getArgs()[0];
+        if(MyBatisConst.MS_RECORD_FIND_BY_PK.equals(mappedStatement2.getId())){
+            System.err.println("invocation = " + invocation);
+        }else{
+            return invocation.proceed();
+        }*/
+
         StatementHandler target = MetaObjectAssistant.getTarget(invocation,StatementHandler.class);
         MetaObject metaObject = MetaObjectAssistant.getMetaObject(target);
 
@@ -56,16 +70,27 @@ public class QueryInterceptor implements Interceptor {
         Object isFindByPk = para.get(MyBatisConst.CRUD_QUERY_PK_PLACEHOLDER);
 
         if(isFindByPk != null){
-            MappedStatement mappedStatement = MetaObjectAssistant.getMappedStatement(metaObject);
+            /*MappedStatement mappedStatement = MetaObjectAssistant.getMappedStatement(metaObject);
             Object parameterObject = MetaObjectAssistant.getParameterObject(metaObject);
             Object pkName = para.getOrDefault(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER , AoomsConstants.ID);
             Object tableName = para.get(MyBatisConst.TABLE_NAME_PLACEHOLDER);
-            String sql = "select * from " + tableName + " where " + pkName + " = #{"+ pkName +"}";
+            String sql = "select * from " + tableName + " where " + pkName + " = #{"+ MyBatisConst.TABLE_PK_VALUE_PLACEHOLDER +"}";*/
 
-            SqlSource sqlSource = new XMLLanguageDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
+            /*SqlSource sqlSource = new XMLLanguageDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
             BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
+           *//* ParameterMapping.Builder builder = new ParameterMapping.Builder(mappedStatement.getConfiguration(),"delegate.boundSql." + pkName.toString(),Object.class);
+            boundSql.getParameterMappings().clear();
+            boundSql.getParameterMappings().add(builder.build());*//*
             metaObject.setValue("delegate.boundSql", boundSql);
-            MetaObjectAssistant.setDelegateParameterHandlerBoundSql(metaObject,boundSql);
+            MetaObjectAssistant.setDelegateParameterHandlerBoundSql(metaObject,boundSql);*/
+
+
+            /*SqlSource sqlSource = new XMLLanguageDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
+            BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
+
+            MetaObjectAssistant.setDelegateBoundSql(metaObject,boundSql);
+            MetaObjectAssistant.setDelegateParameterHandlerBoundSql(metaObject,boundSql);*/
+
         }
 
         if(isCount != null){

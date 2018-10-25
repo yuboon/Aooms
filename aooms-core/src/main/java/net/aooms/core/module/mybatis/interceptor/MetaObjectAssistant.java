@@ -7,6 +7,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
+import org.apache.ibatis.session.Configuration;
 
 import java.lang.reflect.Proxy;
 
@@ -44,6 +45,11 @@ public abstract class MetaObjectAssistant {
     public static Object getParameterObject(MetaObject metaObject) {
         Object parameterObject = metaObject.getValue("delegate.boundSql.parameterObject");
         return parameterObject;
+    }
+
+    public static Configuration getConfiguration(MetaObject metaObject) {
+        Configuration configuration = (Configuration)metaObject.getValue("delegate.configuration");
+        return configuration;
     }
 
     public static void setDelegateBoundSql(MetaObject metaObject, BoundSql boundSql) {

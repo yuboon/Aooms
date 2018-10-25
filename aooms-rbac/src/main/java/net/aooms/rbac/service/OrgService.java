@@ -3,6 +3,7 @@ package net.aooms.rbac.service;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import net.aooms.core.Aooms;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
@@ -63,8 +64,12 @@ public class OrgService extends GenericService {
 		record.set(AoomsConstants.ID,IDGenerator.getStringValue());
 		record.setByJsonKey("formData");
 		record.set("create_time", DateUtil.now());
-		record.set("org_permission", this.permissionCode(record.getString("parent_org_id")));
-        record.set("org_level", this.orgLevel(record.getString("parent_org_id")) + 1);
+		String parentId = record.getString("parent_org_id");
+		String orgPermission = this.permissionCode(parentId);
+		record.set("org_permission", orgPermission);
+        record.set("org_level", this.orgLevel(parentId) + 1);
+        record.set("data_permission", this.dataPermission(parentId,orgPermission));
+
         db.insert("aooms_rbac_org",record);
 
 		// 返回前台
@@ -78,8 +83,11 @@ public class OrgService extends GenericService {
         Record record = Record.empty();
         record.setByJsonKey("formData");
         record.set("update_time",DateUtil.now());
-        record.set("org_permission", this.permissionCode(record.getString("parent_org_id")));
+        String parentId = record.getString("parent_org_id");
+        String orgPermission = this.permissionCode(parentId);
+        record.set("org_permission", orgPermission);
         record.set("org_level", this.orgLevel(record.getString("parent_org_id")) + 1);
+        record.set("data_permission", this.dataPermission(parentId,orgPermission));
         db.update("aooms_rbac_org",record);
 
         //record.convertValueKey(Kv.fkv("org_name","label"),true);
@@ -111,7 +119,6 @@ public class OrgService extends GenericService {
     // 生成permissionCode
     private String permissionCode(String parentId){
         int permissionLen = 4;
-        //char permissionSplicChar = '.';
         String permission;
 
         synchronized (this.getClass()){
@@ -128,11 +135,10 @@ public class OrgService extends GenericService {
                 permission = "0" + permission;
             };
         }
-     System.err.println("permission" + permission);
         return permission;
     }
 
-    // 生成permissionCode
+    // 获取orgLevel
     private Integer orgLevel(String parentId){
         String statementId = getStatementId(RbacMapperPackage.class,"OrgMapper.findOrgLevel");
         Integer orgLevel = db.findObject(statementId,SqlPara.empty().set("parent_org_id",parentId),Integer.class);
@@ -140,6 +146,30 @@ public class OrgService extends GenericService {
             orgLevel = 0;
         }
         return orgLevel;
+    }
+
+    // 生成data_permission
+    private String dataPermission(String parentId,String orgPermission){
+        char permissionSplicChar = '.';
+        StringBuilder dataPermission = new StringBuilder(orgPermission);
+        System.err.println("parentId:" + parentId); // 261882383848968192
+        Record record = db.findByPrimaryKey("aooms_rbac_org","123");
+        System.err.println("record:" + record); // 261882383848968192
+
+        Record record2 = db.findByPrimaryKey("aooms_rbac_org","ROOT");
+        System.err.println("record2:" + record2); // 261882383848968192
+
+       /* int index = 0;
+        for(int i = 0 ; i< 4;i++){
+            if(record != null){
+                dataPermission.insert(0,record.getString("org_permission") + permissionSplicChar);
+                System.err.println(record.getString("parent_org_id"));
+
+                record = db.findByPrimaryKey("aooms_rbac_org",record.getString("parent_org_id"));
+                System.err.println(record);
+            }
+        }*/
+        return dataPermission.toString();
     }
 
 

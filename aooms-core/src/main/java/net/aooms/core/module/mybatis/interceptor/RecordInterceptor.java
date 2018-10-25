@@ -7,6 +7,7 @@ import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 
+import javax.security.auth.login.Configuration;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Properties;

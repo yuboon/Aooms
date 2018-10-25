@@ -9,6 +9,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
+import org.apache.ibatis.session.Configuration;
 
 import java.util.Map;
 
@@ -40,7 +41,9 @@ public class RecordDelete implements IRecordOper {
         stringBuilder.append(" where "+ pkName +" = #{"+ pkName +"} ");
         String sql = stringBuilder.toString();
 
-        SqlSource sqlSource = new XMLLanguageDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
+       // SqlSource sqlSource = new XMLLanguageDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
+        Configuration configuration = MetaObjectAssistant.getConfiguration(metaObject);
+        SqlSource sqlSource = configuration.getLanguageRegistry().getDefaultDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
         BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
 
         MetaObjectAssistant.setDelegateBoundSql(metaObject,boundSql);
