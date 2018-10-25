@@ -22,8 +22,8 @@ public enum Roper {
 	Lt(" < "), 
 	Gte(" >= "), 
 	Lte(" <= "),
+	LikeStart(" like "),
 	Like(" like "),
-	LikeAfter(" like "),
 	Or(" or ") 
 	;
 	

@@ -107,7 +107,7 @@ public class SqlPara {
     private boolean appendCondition(String join, SqlExpression sqlExpression){
         if(StrUtil.isNotBlank(String.valueOf(sqlExpression.getValue()))){
             //conditions.append(express + "'" + WAF.escapeSql(value) + "'");
-            conditions.append(join + alias + sqlExpression.toString());
+            conditions.append(join + sqlExpression.toString(alias));
             return true;
         }
         return false;
@@ -175,11 +175,6 @@ public class SqlPara {
         for(SqlExpression expression : expressions){
             String value = this.getString(expression.getValueKey());
             if(StrUtil.isNotBlank(value)){
-                if(expression.getRoper() == Roper.Like){
-                    this.getStringLike(expression.getValueKey());
-                }else if(expression.getRoper() == Roper.LikeAfter){
-                    this.getStringLikeAfter(expression.getValueKey());
-                }
                 list.add(alias + expression.toString());
             }
         }
@@ -201,15 +196,15 @@ public class SqlPara {
      * 条件参数
      * @return
      */
-    public SqlPara andLikeAfter(String... props){
+    public SqlPara andLikeStart(String... props){
         for (String prop: props) {
-            appendCondition(whereOrAnd(),new SqlExpression(prop, Roper.Like, prop, getStringLikeAfter(prop)));
+            appendCondition(whereOrAnd(),new SqlExpression(prop, Roper.LikeStart, prop, getString(prop)));
         }
         return this;
     }
 
-    public SqlPara andLikeAfterCp(String column,String valueProp){
-        appendCondition(whereOrAnd(),new SqlExpression(column, Roper.Like, valueProp, getStringLikeAfter(valueProp)));
+    public SqlPara andLikeStartCp(String column,String valueProp){
+        appendCondition(whereOrAnd(),new SqlExpression(column, Roper.LikeStart, valueProp, getString(valueProp)));
         return this;
     }
 
@@ -219,13 +214,13 @@ public class SqlPara {
      */
     public SqlPara andLike(String... props){
         for (String prop: props) {
-            appendCondition(whereOrAnd(),new SqlExpression(prop, Roper.Like, prop, getStringLike(prop)));
+            appendCondition(whereOrAnd(),new SqlExpression(prop, Roper.Like, prop, getString(prop)));
         }
         return this;
     }
 
     public SqlPara andLikeCp(String column,String valueProp){
-        appendCondition(whereOrAnd(),new SqlExpression(column, Roper.Like, valueProp, getStringLike(valueProp)));
+        appendCondition(whereOrAnd(),new SqlExpression(column, Roper.Like, valueProp, getString(valueProp)));
         return this;
     }
 
@@ -371,7 +366,7 @@ public class SqlPara {
      * @param key
      * @return
      */
-    public String getStringLike(String key){
+    /*public String getStringLike(String key){
         String value = getString(key);
         if(StringUtils.isEmpty(value)){
             return "";
@@ -379,10 +374,10 @@ public class SqlPara {
 
         if(!value.endsWith("%")){
             value = "%" + value + "%";
-            paramMaps.put(key, value);
+            paramMaps.put(key + "_like_value", value);
         }
         return value;
-    };
+    };*/
 
     /**
      * 获取字符串like格式
@@ -393,17 +388,17 @@ public class SqlPara {
      * @param key
      * @return
      */
-    public String getStringLikeAfter(String key){
+    /*public String getStringLikeAfter(String key){
         String value = getString(key);
         if(StringUtils.isEmpty(value)){
             return "";
         }
         if(!value.endsWith("%")){
             value = value + "%";
-            paramMaps.put(key, value);
+            paramMaps.put(key + "_like_value", value);
         }
         return value;
-    };
+    };*/
 
     public Integer getInteger(String key){
         return Integer.parseInt(getString(key));

@@ -56,8 +56,14 @@ public class SqlExpression {
         this.value = value;
     }
 
-    public String toString(){
-        return  column + roper.getOper() + "#{"+ valueKey +"}";
+    public String toString(String alias){
+        if(roper == Roper.LikeStart){
+            return  "instr(" + alias + column + ", #{"+ valueKey +"}) = 1";
+        }else if(roper == Roper.Like){
+            return  "instr(" + alias + column + ", #{"+ valueKey +"}) > 0";
+        }else{
+            return  alias + column + roper.getOper() + "#{"+ valueKey +"}";
+        }
     }
 
 

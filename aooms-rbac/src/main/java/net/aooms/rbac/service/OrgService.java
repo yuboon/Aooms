@@ -40,7 +40,7 @@ public class OrgService extends GenericService {
     public void findList() {
         SqlPara sqlPara = SqlPara.fromDataBoss().paging();
         sqlPara.and("status")
-                .andLikeAfter("data_permission","org_name","org_shortname","org_code")
+                .andLikeStart("data_permission","org_name","org_shortname","org_code")
                 .orGroup(new SqlExpression("parent_org_id",Roper.Eq), new SqlExpression("id",Roper.Eq,"parent_org_id"))
         ;
 

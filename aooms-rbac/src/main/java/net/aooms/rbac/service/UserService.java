@@ -11,6 +11,7 @@ import net.aooms.core.record.PagingRecord;
 import net.aooms.core.record.Record;
 import net.aooms.core.service.GenericService;
 import net.aooms.rbac.mapper.RbacMapperPackage;
+import org.apache.ibatis.scripting.xmltags.IfSqlNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,12 +33,12 @@ public class UserService extends GenericService {
     public void findList() {
         SqlPara sqlPara = SqlPara.fromDataBoss().paging();
         sqlPara.tableAlias("t").and("status","org_id")
-               .andLikeAfter("user_name","account","phone","user_nickname","email")
+               .andLikeStart("user_name","account","phone","user_nickname","email")
                .gte("create_time","update_time")
                .lteCp("create_time","create_time_end")
                .lteCp("update_time","update_time_end")
 		       .tableAlias("o")
-		       .andLikeAfter("data_permission")
+		       .andLikeStart("data_permission")
 		;
 
         String statementId = getStatementId(RbacMapperPackage.class,"UserMapper.findList");
