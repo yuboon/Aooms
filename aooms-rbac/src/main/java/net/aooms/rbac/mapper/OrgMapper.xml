@@ -4,7 +4,7 @@
 <mapper namespace="net.aooms.rbac.mapper.OrgMapper">
 
     <select id="findList" resultType="net.aooms.core.record.Record">
-        SELECT * FROM aooms_rbac_org t where 1=1 ${_ANDS_}
+        SELECT * FROM aooms_rbac_org t where 1=1 ${_ANDS_} order by t.ordinal
     </select>
 
     <select id="findMaxOrgPermission" resultType="int">

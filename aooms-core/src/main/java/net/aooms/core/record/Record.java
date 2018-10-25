@@ -3,6 +3,7 @@ package net.aooms.core.record;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.map.CaseInsensitiveMap;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -19,7 +20,7 @@ import java.util.*;
  * Record
  * Created by 风象南(cheereebo) on 2018/9/7
  */
-public class Record extends LinkedCaseInsensitiveMap {
+public class Record extends CaseInsensitiveMap {
 
     // 一般属性，保存时，不会持久化到数据库
     private Map<String,Object> generalData = new LinkedCaseInsensitiveMap();

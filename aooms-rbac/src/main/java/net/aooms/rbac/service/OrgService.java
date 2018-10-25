@@ -2,11 +2,14 @@ package net.aooms.rbac.service;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import net.aooms.core.Aooms;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
+import net.aooms.core.module.mybatis.Roper;
+import net.aooms.core.module.mybatis.SqlExpression;
 import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.record.PagingRecord;
 import net.aooms.core.record.Record;
@@ -36,7 +39,10 @@ public class OrgService extends GenericService {
     @Transactional(readOnly = true)
     public void findList() {
         SqlPara sqlPara = SqlPara.fromDataBoss().paging();
-        sqlPara.and("status","parent_org_id").andLikeAfter("data_permission","org_name","org_shortname","org_code");
+        sqlPara.and("status")
+                .andLikeAfter("data_permission","org_name","org_shortname","org_code")
+                .orGroup(new SqlExpression("parent_org_id",Roper.Eq), new SqlExpression("id",Roper.Eq,"parent_org_id"))
+        ;
 
         String statementId = getStatementId(RbacMapperPackage.class,"OrgMapper.findList");
 		PagingRecord pagingRecord = db.findList(statementId,sqlPara);
@@ -50,9 +56,8 @@ public class OrgService extends GenericService {
 
         TreeUtils treeUtils = new TreeUtils(pagingRecord.getList());
         treeUtils.setParentIdKey("parent_org_id");
-        //treeUtils.setConvertValueKey(Kv.fkv("org_name","label"));
         treeUtils.setDefaultValue(Kv.fkv("icon","el-icon-news"));
-        List<Record> treeRecords = treeUtils.listTree(AoomsConstants.TREE_ROOT);
+        List<Record> treeRecords = treeUtils.listTree(AoomsConstants.TREE_ROOT, true);
 
 		this.setResultValue(AoomsConstants.Result.TREE, treeRecords);
 	}
@@ -68,11 +73,9 @@ public class OrgService extends GenericService {
 		record.set("org_permission", orgPermission);
         record.set("org_level", this.orgLevel(parentId) + 1);
         record.set("data_permission", this.dataPermission(parentId,orgPermission));
-
         db.insert("aooms_rbac_org",record);
 
 		// 返回前台
-		//record.convertValueKey(Kv.fkv("org_name","label"),true);
 		record.set("icon","el-icon-news");
 		this.setResultValue(AoomsConstants.Result.RECORD, record);
 	}
@@ -89,7 +92,6 @@ public class OrgService extends GenericService {
         record.set("data_permission", this.dataPermission(parentId,orgPermission));
         db.update("aooms_rbac_org",record);
 
-        //record.convertValueKey(Kv.fkv("org_name","label"),true);
         record.set("icon","el-icon-news");
         this.setResultValue(AoomsConstants.Result.RECORD, record);
     }

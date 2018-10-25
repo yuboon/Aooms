@@ -37,7 +37,7 @@
                 <template slot="paneR">
 
                     <div style="padding-left: 5px;">
-                        <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm({sex:'0',status:'Y',ordinal:0,org_id:org_id},'insert')">新增</el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm({sex:'0',status:'Y',ordinal:1,org_id:org_id},'insert')">新增</el-button>
                         <el-button type="danger" size="mini" icon="el-icon-delete" :loading="delLoading"  @click="handleDelete('del', multipleSelection)">删除</el-button>
 
                         <el-switch
@@ -159,14 +159,10 @@ export default {
             currentTableData: [],
             multipleSelection: [],
             mainHeight: 0,
-            org_id: 'ROOT',
-            org_name: '顶层机构',
-            treeData: [{
-                id:'ROOT',
-                org_name: '顶层机构',
-                icon:'el-icon-menu',
-                children: []
-            }],
+            org_id: '',
+            org_name: '',
+            data_permission:'',
+            treeData: [],
             filterText:'',
             cascade:true,
             radioDisabled:false
@@ -198,12 +194,17 @@ export default {
             var self = this;
             this.$emit('pageHeaderFormData',function(formData){
                 if(jumpFirst) self.$refs.pagination.current = 1;
+
+                var ext = {org_id: self.org_id};
+                if (self.cascade){
+                    ext = {data_permission: self.data_permission};
+                };
+
                 // 分页参数、查询条件拷贝
                 Object.assign(params,formData,{
                     page: self.$refs.pagination.current,
                     limit: self.$refs.pagination.size,
-                    org_id :self.org_id
-                });
+                },ext);
                 self.loading = true;
                 httpGet('aooms/rbac/user/findList', params).then(res => {
                     self.loading = false;
@@ -216,6 +217,10 @@ export default {
             this.multipleSelection = val;
         },
         handleForm: function (row,method) {
+            if(!this.org_id){
+                this.org_id = this.treeData[0].id;
+                this.org_name = this.treeData[0].org_name;
+            }
             this.$refs.dataForm.open(row,method);
         },
         handleDelete: function (type , selection) {
@@ -259,13 +264,14 @@ export default {
         },
         treeLoad(){
             httpGet('aooms/rbac/org/findTree').then(res => {
-                this.treeData[0].children = res.$tree;
+                this.treeData = res.$tree;
             });
         },
         handleNodeClick(data) {
             var self = this;
             this.org_id = data.id;
             this.org_name = data.org_name;
+            this.data_permission = data.data_permission;
             self.tableLoad({},true);
         },
         filterNode(value, data) {
@@ -273,7 +279,7 @@ export default {
             return data.label.indexOf(value) !== -1;
         },
         cascadeChange(val){
-
+            this.tableLoad({});
         },
         handleStatusChange(val,row){
             var status = val ? 'Y':'N';

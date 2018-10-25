@@ -23,6 +23,7 @@ public enum Roper {
 	Gte(" >= "), 
 	Lte(" <= "),
 	Like(" like "),
+	LikeAfter(" like "),
 	Or(" or ") 
 	;
 	

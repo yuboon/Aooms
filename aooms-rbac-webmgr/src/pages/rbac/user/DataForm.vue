@@ -26,6 +26,9 @@
                                         ref="tree"
                                         :expand-on-click-node="false"
                                         :default-expanded-keys="['ROOT']"
+                                        :props="{
+                                            label: 'org_name'
+                                        }"
                                         highlight-current
                                         node-key="id"
                                         :data="treeData"

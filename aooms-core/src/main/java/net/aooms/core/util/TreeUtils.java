@@ -122,20 +122,22 @@ public class TreeUtils {
 	 */
 	public List<Record> listTree(Object parent_id,boolean includeParent){
 		List<Record> trees = Lists.newArrayList();
-        this.treeMapping();
+		List<Record> children = Lists.newArrayList();
 
+		this.treeMapping(); // 属性映射转换处理
         for(Record m : records){
         	Record mm = (Record)m;
         	if (parent_id.equals(mm.get(parentIdKey))){
-        		trees.add(m);
+				children.add(m);
 				treeBuilder(mm.get(idKey),mm);
         	}
         	
         	if(includeParent && parent_id.equals(mm.get(idKey))){
+        		m.set(this.childrenKey, children);
         		trees.add(m);
-    		}
+			}
         }
-        return trees;
+        return includeParent ? trees : children;
 	}
 	
 	private void treeBuilder(Object parent_id,Record node){

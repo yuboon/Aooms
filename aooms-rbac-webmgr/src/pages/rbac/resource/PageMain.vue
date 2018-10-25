@@ -5,7 +5,7 @@
                 size="mini"
         >
             <el-button type="primary" size="mini" icon="el-icon-plus"
-                       @click="handleForm({'status':'Y','ordinal':0,'resource_type':'1','open_type':'0','parent_resource_id':'ROOT'},'insert')">
+                       @click="handleForm({'status':'Y','ordinal':1,'resource_type':'1','open_type':'0','parent_resource_id':'ROOT'},'insert')">
                 新增
             </el-button>
 

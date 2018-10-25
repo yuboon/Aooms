@@ -17,7 +17,7 @@
             t.status,
             t.create_time,
             t.update_time
-         FROM aooms_rbac_user t where 1=1 ${_ANDS_}
+         FROM aooms_rbac_user t, aooms_rbac_org o where t.org_id = o.id ${_ANDS_} order by t.ordinal
 
 
         <!--

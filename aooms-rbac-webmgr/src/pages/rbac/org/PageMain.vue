@@ -30,7 +30,7 @@
                 <template slot="paneR">
 
                     <div style="padding-left: 5px;">
-                        <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm({status:'Y',ordinal:0,parent_org_id:parent_org_id},'insert')">新增</el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-plus" @click="handleForm({status:'Y',ordinal:1,parent_org_id:parent_org_id},'insert')">新增</el-button>
                         <el-button :loading="delLoading"
                                    type="danger" size="mini" icon="el-icon-delete" @click="handleDelete('del', multipleSelection)">删除</el-button>
 
@@ -190,16 +190,10 @@
             multipleSelection: [],
             mainHeight: 0,
             filterText:'',
-            parent_org_id: 'ROOT',
-            parent_org_name: '顶层机构',
+            parent_org_id: '',
+            parent_org_name: '',
             data_permission:'',
-            treeData: [{
-                id:'ROOT',
-                data_permission:'',
-                org_name: '顶层机构',
-                icon:'el-icon-menu',
-                children: []
-            }],
+            treeData: [],
             cascade:false
         }
     },
@@ -239,6 +233,10 @@
             this.multipleSelection = val;
         },
         handleForm: function (row,method) {
+            if(!this.parent_org_id){
+                this.parent_org_id = this.treeData[0].id;
+                this.parent_org_name = this.treeData[0].org_name;
+            }
             this.$refs.dataForm.open(row,method);
         },
         handleDelete: function (type , selection) {
@@ -288,8 +286,7 @@
         },
         treeLoad(){
             httpGet('aooms/rbac/org/findTree').then(res => {
-                this.treeData[0].children = res.$tree;
-                this.$refs.dataForm.treeData = this.treeData;
+                this.treeData = res.$tree;
             });
         },
         treeUpdate(newData,method){

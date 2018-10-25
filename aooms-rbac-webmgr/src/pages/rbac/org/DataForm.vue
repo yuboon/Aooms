@@ -25,13 +25,16 @@
                                         ref="tree"
                                         :expand-on-click-node="false"
                                         :default-expanded-keys="['ROOT']"
+                                        :props="{
+                                            label: 'org_name'
+                                        }"
                                         highlight-current
                                         node-key="id"
                                         :data="currentTreeData"
                                         @node-click="handleNodeClick"
                                         :filter-node-method="filterNode">
                                     <span class="aooms-tree-node" slot-scope="{ node, data }">
-                                       <i :class="node.icon"></i>{{ node.org_name }}
+                                       <i :class="node.icon"></i>{{ node.label }}
                                     </span>
                                 </el-tree>
                             </el-scrollbar>

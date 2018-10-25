@@ -27,6 +27,8 @@ public class SqlPara {
     public static final SqlPara SINGLETON = new SqlPara();
     // 查询条件
     private StringBuilder conditions = new StringBuilder();
+    // 表别名
+    private String alias = "";
     // 查询条件参数占位
     private static final String conditionsKey = "_ANDS_";
 
@@ -72,6 +74,18 @@ public class SqlPara {
     }
 
     /**
+     * 指定别名
+     * @return
+     */
+    public SqlPara tableAlias(String alias){
+        this.alias = alias;
+        if(StrUtil.isNotBlank(alias)){
+            this.alias = alias + ".";
+        }
+        return this;
+    }
+
+    /**
      * 分页
      * @param page
      * @param limit
@@ -90,10 +104,10 @@ public class SqlPara {
      * 追加条件
      * @return
      */
-    private boolean appendCondition(String join, String column,Roper roper,String value){
-        if(StrUtil.isNotBlank(value)){
+    private boolean appendCondition(String join, SqlExpression sqlExpression){
+        if(StrUtil.isNotBlank(String.valueOf(sqlExpression.getValue()))){
             //conditions.append(express + "'" + WAF.escapeSql(value) + "'");
-            conditions.append(join + column + roper.getOper() + "#{"+ column +"}");
+            conditions.append(join + alias + sqlExpression.toString());
             return true;
         }
         return false;
@@ -105,7 +119,7 @@ public class SqlPara {
      */
     public SqlPara and(String... props){
         for (String prop: props) {
-            appendCondition(whereOrAnd(),prop, Roper.Eq, getString(prop));
+            appendCondition(whereOrAnd(),new SqlExpression(prop, Roper.Eq, prop, getString(prop)));
         }
         return this;
     }
@@ -116,7 +130,7 @@ public class SqlPara {
      * @return
      */
     public SqlPara andCp(String column,String valueProp){
-        appendCondition(whereOrAnd(),column, Roper.Eq, getString(valueProp));
+        appendCondition(whereOrAnd(),new SqlExpression(column, Roper.Eq, valueProp, getString(valueProp)));
         return this;
     }
 
@@ -124,7 +138,7 @@ public class SqlPara {
      * 条件参数
      * @return
      */
-    public SqlPara orGroup(String[] columns,Roper[] ropers,String[] valueProps){
+    /*public SqlPara orGroup(String[] columns,Roper[] ropers,String[] valueProps){
         if(columns.length != ropers.length && ropers.length != valueProps.length){
             throw new IllegalArgumentException("columns、ropers、valueProps length not equal !");
         }
@@ -134,7 +148,39 @@ public class SqlPara {
         for (int i = 0 ;i < size; i++){
             String value = this.getString(valueProps[i]);
             if(StrUtil.isNotBlank(value)){
-                list.add(columns[i] + ropers[i].getOper() + "#{"+ valueProps[i] +"}");
+                list.add(alias + columns[i] + ropers[i].getOper() + "#{"+ valueProps[i] +"}");
+            }
+        }
+
+        if(list.size() > 0){
+            int index = 0;
+            conditions.append(whereOrAnd() + "(");
+            for (String exprss: list) {
+                if(index > 0) conditions.append(" or ");
+                conditions.append(exprss);
+                index++;
+            }
+            conditions.append(")");
+        }
+        return this;
+    }*/
+
+    /**
+     * 条件参数
+     * @return
+     */
+    public SqlPara orGroup(SqlExpression... expressions){
+        List<String> list = Lists.newArrayList();
+        int size = expressions.length;
+        for(SqlExpression expression : expressions){
+            String value = this.getString(expression.getValueKey());
+            if(StrUtil.isNotBlank(value)){
+                if(expression.getRoper() == Roper.Like){
+                    this.getStringLike(expression.getValueKey());
+                }else if(expression.getRoper() == Roper.LikeAfter){
+                    this.getStringLikeAfter(expression.getValueKey());
+                }
+                list.add(alias + expression.toString());
             }
         }
 
@@ -157,13 +203,13 @@ public class SqlPara {
      */
     public SqlPara andLikeAfter(String... props){
         for (String prop: props) {
-            appendCondition(whereOrAnd(),prop, Roper.Like, getStringLikeAfter(prop));
+            appendCondition(whereOrAnd(),new SqlExpression(prop, Roper.Like, prop, getStringLikeAfter(prop)));
         }
         return this;
     }
 
     public SqlPara andLikeAfterCp(String column,String valueProp){
-        appendCondition(whereOrAnd(),column, Roper.Like, getStringLikeAfter(valueProp));
+        appendCondition(whereOrAnd(),new SqlExpression(column, Roper.Like, valueProp, getStringLikeAfter(valueProp)));
         return this;
     }
 
@@ -173,13 +219,13 @@ public class SqlPara {
      */
     public SqlPara andLike(String... props){
         for (String prop: props) {
-            appendCondition(whereOrAnd(),prop, Roper.Like, getStringLike(prop));
+            appendCondition(whereOrAnd(),new SqlExpression(prop, Roper.Like, prop, getStringLike(prop)));
         }
         return this;
     }
 
     public SqlPara andLikeCp(String column,String valueProp){
-        appendCondition(whereOrAnd(),column, Roper.Like, getStringLike(valueProp));
+        appendCondition(whereOrAnd(),new SqlExpression(column, Roper.Like, valueProp, getStringLike(valueProp)));
         return this;
     }
 
@@ -189,13 +235,13 @@ public class SqlPara {
      */
     public SqlPara gt(String... props){
         for (String prop: props) {
-            appendCondition(whereOrAnd(), prop ,Roper.Gt,getString(prop));
+            appendCondition(whereOrAnd(), new SqlExpression(prop ,Roper.Gt,prop,getString(prop)));
         }
         return this;
     }
 
     public SqlPara gtCp(String column, String valueProp){
-        appendCondition(whereOrAnd(), column ,Roper.Gt,getString(valueProp));
+        appendCondition(whereOrAnd(),new SqlExpression(column ,Roper.Gt,valueProp,getString(valueProp)));
         return this;
     }
 
@@ -205,13 +251,13 @@ public class SqlPara {
      */
     public SqlPara lt(String... props){
         for (String prop: props) {
-            appendCondition(whereOrAnd(), prop ,Roper.Lt,getString(prop));
+            appendCondition(whereOrAnd(), new SqlExpression(prop ,Roper.Lt,prop,getString(prop)));
         }
         return this;
     }
 
     public SqlPara ltCp(String column, String valueProp){
-        appendCondition(whereOrAnd(), column ,Roper.Lt,getString(valueProp));
+        appendCondition(whereOrAnd(), new SqlExpression(column ,Roper.Lt,valueProp,getString(valueProp)));
         return this;
     }
 
@@ -221,13 +267,13 @@ public class SqlPara {
      */
     public SqlPara gte(String... props){
         for (String prop: props) {
-            appendCondition(whereOrAnd(), prop, Roper.Gte, getString(prop));
+            appendCondition(whereOrAnd(), new SqlExpression(prop, Roper.Gte, prop,getString(prop)));
         }
         return this;
     }
 
     public SqlPara gteCp(String column, String valueProp){
-        appendCondition(whereOrAnd(), column, Roper.Gte, getString(valueProp));
+        appendCondition(whereOrAnd(),new SqlExpression(column, Roper.Gte, valueProp,getString(valueProp)));
         return this;
     }
 
@@ -237,13 +283,13 @@ public class SqlPara {
      */
     public SqlPara lte(String... props){
         for (String prop: props) {
-            appendCondition(whereOrAnd(), prop, Roper.Lte, getString(prop));
+            appendCondition(whereOrAnd(),new SqlExpression(prop, Roper.Lte, prop,getString(prop)));
         }
         return this;
     }
 
     public SqlPara lteCp(String column, String valueProp){
-        appendCondition(whereOrAnd(), column, Roper.Lte, getString(valueProp));
+        appendCondition(whereOrAnd(),new SqlExpression(column, Roper.Lte, valueProp,getString(valueProp)));
         return this;
     }
 
