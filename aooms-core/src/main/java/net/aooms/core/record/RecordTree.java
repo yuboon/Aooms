@@ -9,12 +9,12 @@ import java.util.List;
  * 树模型
  * Created by 风象南(yuboon) on 2018/9/7
  */
-public class TreeRecord extends Record implements Serializable {
+public class RecordTree extends Record implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public TreeRecord() {
-        List<TreeRecord> children = Lists.newArrayList();
+    public RecordTree() {
+        List<RecordTree> children = Lists.newArrayList();
         this.setChildren(children);
         this.setLeaf(true);
     }
@@ -59,11 +59,11 @@ public class TreeRecord extends Record implements Serializable {
         this.set("icon", icon);
     }
 
-    public List<TreeRecord> getChildren() {
-        return (List<TreeRecord>) this.get("children");
+    public List<RecordTree> getChildren() {
+        return (List<RecordTree>) this.get("children");
     }
 
-    public void setChildren(List<TreeRecord> children) {
+    public void setChildren(List<RecordTree> children) {
         this.set("children", children);
     }
 

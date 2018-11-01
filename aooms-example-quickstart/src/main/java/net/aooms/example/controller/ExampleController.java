@@ -8,7 +8,7 @@ import net.aooms.core.databoss.DataResult;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.RecordGroup;
 import net.aooms.core.record.Record;
 import net.aooms.core.property.PropertyApplication;
 import net.aooms.core.property.PropertyObject;
@@ -92,12 +92,12 @@ public class ExampleController extends AoomsAbstractController {
         List<Record> recordList = dataResult.getRecordList("recordList");
 
         // 取pagingRecord值
-        PagingRecord pagingRecord = dataResult.getPagingRecord("pgRecord");
+        RecordGroup recordGroup = dataResult.getRecordGroup("pgRecord");
 
         logger.info("id = {}", id);
         logger.info("userVoList = {}", JSON.toJSONString(userVoList));
         logger.info("recordList = {}", JSON.toJSONString(recordList));
-        logger.info("pagingRecord = {}", JSON.toJSONString(pagingRecord));
+        logger.info("recordGroup = {}", JSON.toJSONString(recordGroup));
 
         // 设置结果集
         this.getResult().setData(dataResult.getData());
@@ -135,13 +135,13 @@ public class ExampleController extends AoomsAbstractController {
     @RequestMapping("/example5")
     public void example5(){
         // 使用主数据源
-        PagingRecord pagingRecord = db.use("master").findList("UserMapper.findList", SqlPara.SINGLETON);
+        RecordGroup recordGroup = db.use("master").findList("UserMapper.findList", SqlPara.SINGLETON);
 
         // 使用从数据源
-        PagingRecord pagingRecord2 = db.use("slave").findList("UserMapper.findList", SqlPara.SINGLETON);
+        RecordGroup recordGroup2 = db.use("slave").findList("UserMapper.findList", SqlPara.SINGLETON);
 
-        this.setResultValue("pagingRecord",pagingRecord);
-        this.setResultValue("pagingRecord2",pagingRecord2);
+        this.setResultValue("recordGroup", recordGroup);
+        this.setResultValue("recordGroup2", recordGroup2);
     };
 
     /**
@@ -187,13 +187,13 @@ public class ExampleController extends AoomsAbstractController {
         records.add(r);
 
         // 模拟标准Record集合，带分页效果
-        PagingRecord pagingRecord = new PagingRecord(1,2,  records,100,true);
+        RecordGroup recordGroup = new RecordGroup(1,2,  records,100,true);
 
         // 设置返回值
         this.setResultValue("userVoList",userVoList);
         this.setResultValue("recordList",records);
         this.setResultValue("id","zhangsan");
-        this.setResultValue("pgRecord",pagingRecord);
+        this.setResultValue("pgRecord", recordGroup);
     };
 
 

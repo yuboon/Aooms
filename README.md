@@ -228,7 +228,7 @@ import net.aooms.core.AoomsConstants;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.RecordGroup;
 import net.aooms.core.record.Record;
 import net.aooms.core.service.GenericService;
 import net.aooms.example.vo.UserVo;
@@ -247,11 +247,11 @@ public class UserService extends GenericService {
     private Db db;
 
     public void findList() {
-        PagingRecord pagingRecord = db.findList("UserMapper.findList", SqlPara.fromDataBoss());
+        PagingRecord recordGroup = db.findList("UserMapper.findList", SqlPara.fromDataBoss());
 
         {
             // 返回值
-            this.setResultValue(AoomsConstants.Result.DATA,pagingRecord);
+            this.setResultValue(AoomsConstants.Result.DATA,recordGroup);
         }
     }
 

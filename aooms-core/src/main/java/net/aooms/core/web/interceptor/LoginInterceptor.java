@@ -15,6 +15,7 @@
  */
 package net.aooms.core.web.interceptor;
 
+import cn.hutool.http.HttpStatus;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.common.SSOConstants;
 import com.baomidou.kisso.common.util.HttpUtil;
@@ -66,11 +67,11 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
             /**
              * 正常执行
              */
-            String accessTokenName = PropertyObject.getInstance().getKissoProperty().getConfig().getAccessTokenName();
+            String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
             SSOToken ssoToken = SSOHelper.getSSOToken(request);
             // 再次从参数列表获取token
             if(ssoToken == null){
-                String tokenStr = request.getParameter(accessTokenName);
+                String tokenStr = request.getParameter(cookieName);
                 if(tokenStr != null){
                     ssoToken = SSOToken.parser(tokenStr, false);
                 }
@@ -83,7 +84,7 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
 					 */
                     response.setCharacterEncoding(AoomsConstants.ENCODE);
                     DataResult dataResult = new DataResult();
-                    dataResult.logicFailure(AoomsConstants.Status.AUTH_NO_LOGIN,"用户未登陆");
+                    dataResult.failure(HttpStatus.HTTP_UNAUTHORIZED,"身份认证未通过，访问受限");
 
                     try{
                         response.getWriter().write(dataResult.toJsonStr());
@@ -97,7 +98,7 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
 					 * token 为空，调用 Handler 处理
 					 * 返回 true 继续执行，清理登录状态并重定向至登录界面
 					 */
-					logger.info("用户未登陆,跳转登录页");
+					logger.info("身份认证未通过，访问受限");
                     try {
                         SSOHelper.clearRedirectLogin(request, response);
                     } catch (IOException e){

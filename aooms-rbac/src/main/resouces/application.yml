@@ -75,9 +75,8 @@ mybatis:
 # 单点信息配置，全部可无
 kisso:
   config:
-    signkey: cheerebo.signkey.random.123456   # 对称签名密钥
-    cookieName: $aooms_cookie            # COOKIE 名称
-    accessTokenName: $aooms_access_token
+    signkey: yuboon.signkey.random.123456   # 对称签名密钥
+    cookieName: AoomsToken            # COOKIE 名称
     cookieCheckip: true           # ip检测
     permissionUri: true
     cacheExpires: -1              # 缓存失效时间

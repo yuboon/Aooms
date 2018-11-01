@@ -179,7 +179,7 @@ export default {
             this.changeOrgId = row.parent_org_id;
             this.method = method;
             this.dialogVisible = true;
-            this.form = row;
+            this.form = Object.assign({},row);
         },
         close:function() {
             this.dialogVisible = false;

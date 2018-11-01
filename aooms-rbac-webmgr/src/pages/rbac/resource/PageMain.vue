@@ -5,7 +5,7 @@
                 size="mini"
         >
             <el-button type="primary" size="mini" icon="el-icon-plus"
-                       @click="handleForm({'status':'Y','ordinal':1,'resource_type':'1','open_type':'0','parent_resource_id':'ROOT'},'insert')">
+                       @click="handleForm({'status':'Y','ordinal':1,'resource_type':'1','open_type':'0','parent_resource_id':'ROOT',icon:'delicious'},'insert')">
                 新增
             </el-button>
 
@@ -14,8 +14,12 @@
 
         </el-form>
 
-        <ext-treetable v-loading="loading" ref="treeTable" row-key="resource_name" :data="currentTableData" size="mini" stripe style="margin-top: 5px;">
-            <el-table-column label="资源名称" prop="resource_name" />
+        <ext-treetable v-loading="loading" ref="treeTable" row-key="resource_name" :data="tableData" size="mini" stripe style="margin-top: 5px;">
+            <el-table-column label="资源名称" prop="resource_name">
+                <template slot-scope="scope">
+                    <i :class="'fa fa-' + scope.row.icon"></i> {{scope.row.resource_name}}
+                </template>
+            </el-table-column>
             <el-table-column label="资源编码" prop="resource_code" align="center"/>
             <el-table-column label="资源类型" prop="resource_type" align="center"
                              :filters="[{ text: '目录', value: '0' }, { text: '模块', value: '1' }, { text: '按钮', value: '2' }, { text: '接口', value: '3' }]"
@@ -61,7 +65,7 @@
         </ext-treetable>
 
         <!-- 表单弹窗 -->
-        <data-form @tableUpdate="tableUpdate" @tableDelete="tableDelete" :currentTableData="currentTableData" ref="dataForm"></data-form>
+        <data-form @tableAppend="tableAppend" @tableUpdate="tableUpdate" @tableDelete="tableDelete" :tableData="tableData" ref="dataForm"></data-form>
     </div>
 </template>
 
@@ -78,7 +82,7 @@ export default {
     data() {
         return {
             loading:false,
-            currentTableData: [],
+            tableData: [],
             multipleSelection: [],
             mainHeight: 0,
             filterText: ''
@@ -137,12 +141,16 @@ export default {
         tableLoad(){
             this.loading = true;
             httpGet('aooms/rbac/resource/findTree').then(res => {
-                this.currentTableData = res.$tree;
+                this.tableData = res.$tree;
                 this.loading = false;
             });
         },
-        tableUpdate(data,parentRow){
+        tableAppend(data,parentRow){
             this.$refs.treeTable.append(data,parentRow);
+        },
+        tableUpdate(data){
+            this.$refs.treeTable.update(data);
+            //this.$refs.treeTable.append(data,parentRow);
         },
         tableDelete(row){
             this.$refs.treeTable.remove(row);

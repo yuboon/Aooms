@@ -141,6 +141,24 @@
                 this.$set(parentRow,"_expanded",true);
             },
 
+            // 更新节点
+            update(row) {
+                if(row.parent){
+                    var children = row.parent.children;
+                    children.forEach(item => {
+                        if(row.id == item.id){
+                            Object.assign(item,row);
+                        }
+                    });
+                }else{
+                    this.data.forEach(item => {
+                        if(row.id == item.id){
+                            Object.assign(item,row);
+                        }
+                    });
+                }
+            },
+
             // 删除节点
             remove(row) {
                 //row._show = false;
@@ -170,7 +188,7 @@
 
             },
 
-            // 显示节点
+            // 搜索节点
             filter(key,val) {
                 function search(key,val,list){
                     if(!list) return;

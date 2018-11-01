@@ -6,5 +6,6 @@ package net.aooms.core.module.mybatis;
  */
 public interface MapperPackage {
 
+    public String by(String id);
 
 }

@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.CaseInsensitiveMap;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -59,7 +60,8 @@ public class Record extends CaseInsensitiveMap {
 
     // bean getter
     public <T> T toBean(Class<T> beanClass){
-        return BeanUtil.mapToBean(this,beanClass,true);
+        return (T)BeanUtil.mapToBean(MapUtil.toCamelCaseMap(this),beanClass,true);
+        //return BeanUtil.fillBeanWithMap(this,beanClass.newInstance(),true,)
     }
 
     // bean setter
@@ -112,7 +114,9 @@ public class Record extends CaseInsensitiveMap {
     }
 
     public String getString(String key){
-        return String.valueOf(this.get(key));
+        Object v = this.get(key);
+        if(v == null) return "";
+        return String.valueOf(v);
     }
 
     public Integer getInteger(String key){

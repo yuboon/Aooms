@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import net.aooms.core.AoomsConstants;
-import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.RecordGroup;
 import net.aooms.core.record.Record;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
@@ -130,8 +130,8 @@ public class DataResult implements Serializable {
      * 获取PagingRecord结果
      * @return
      */
-    public PagingRecord getPagingRecord(String key){
-        return BeanUtil.mapToBean(((Map)results.get(key)),PagingRecord.class,true);
+    public RecordGroup getRecordGroup(String key){
+        return BeanUtil.mapToBean(((Map)results.get(key)),RecordGroup.class,true);
     }
 
     /**
@@ -155,7 +155,7 @@ public class DataResult implements Serializable {
      * @param code
      * @param msg
      */
-    public void logicFailure(int code, String msg){
+    public void failure(int code, String msg){
         results.put(AoomsConstants.Result.META ,new DataResultStatus(code, msg));
     }
 
@@ -174,9 +174,9 @@ public class DataResult implements Serializable {
     }
 
     /**
-     * 设置失败
+     * 设置错误
      */
-    public void failure(){
+    public void error(){
         results.clear(); // 失败时清理数据
         DataResultStatus status = new DataResultStatus("",false);
         status.setError("Aooms error");
@@ -184,9 +184,9 @@ public class DataResult implements Serializable {
     }
 
     /**
-     * 设置失败
+     * 设置错误
      */
-    public void failure(String error){
+    public void error(String error){
         results.clear(); // 失败时清理数据
         DataResultStatus status = new DataResultStatus("",false);
         status.setError(error);

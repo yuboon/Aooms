@@ -1,7 +1,7 @@
 package net.aooms.core;
 
 /**
- * 常量
+ * Framework Const
  * Created by 风象南(yuboon) on 2018-04-20
  */
 public interface AoomsConstants {
@@ -9,6 +9,7 @@ public interface AoomsConstants {
     public static final String ENCODE = "UTF-8";
     public static final String ID = "id";
     public static final String TREE_ROOT = "ROOT";
+    public static final String ADMIN = "sa";
     public static final String DEFAULT_DATASOURCE = "master";
 
     public static interface Para{
@@ -25,6 +26,7 @@ public interface AoomsConstants {
         public static final String TREE = "$tree";
         public static final String TOTAL = "$total";
         public static final String RECORD = "$vo";
+        public static final String Authentication = "$authentication";
 
     }
 

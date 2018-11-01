@@ -28,8 +28,7 @@ public class ClearDataSourceInterceptor implements Interceptor {
      * (non-Javadoc) 
      *  
      * @see 
-     * org.apache.ibatis.plugin.Interceptor#intercept(org.apache.ibatis.plugin 
-     * .Invocation) 
+     * org.apache.ibatis.plugin.Interceptor#intercept(org.apache.ibatis.plugin.Invocation)
      */  
     public Object intercept(Invocation invocation) throws Throwable {
         try{

@@ -25,10 +25,6 @@ public class TreeUtils {
     private List<? extends  Record> records = Lists.newArrayList();
     private boolean retainOriginal = false;
 
-    public TreeUtils(){
-
-	}
-
     public TreeUtils(List<? extends  Record> records){
         this.records = records;
     }

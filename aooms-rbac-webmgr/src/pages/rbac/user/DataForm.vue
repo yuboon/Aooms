@@ -201,7 +201,7 @@ export default {
             this.changeOrgName = '';
             this.method = method;
             this.dialogVisible = true;
-            this.form = row;
+            this.form = Object.assign({},row);
         },
         close:function(){
             this.dialogVisible = false;

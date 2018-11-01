@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.WebApplicationContext;

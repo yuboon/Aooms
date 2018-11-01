@@ -32,9 +32,12 @@
                                                 ref="tree"
                                                 :expand-on-click-node="false"
                                                 :default-expanded-keys="['ROOT']"
+                                                :props="{
+                                                    label: 'resource_name'
+                                                }"
                                                 highlight-current
                                                 node-key="id"
-                                                :data="tableData"
+                                                :data="currentTableData"
                                                 @node-click="handleNodeClick"
                                                 :filter-node-method="filterNode">
                                             <span class="aooms-tree-node" slot-scope="{ node, data }">
@@ -91,7 +94,9 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item prop="icon" label="资源图标">
-                            <el-input v-model="form.icon"></el-input>
+                            <!--<el-input v-model="form.icon"></el-input>-->
+                            <!--<i :class="'fa fa-' + icon2"></i>-->
+                            <d2-icon-select v-model="form.icon" :user-input="true"/>
                         </el-form-item>
                     </el-col>
 
@@ -127,16 +132,11 @@ import {httpGet, httpPost} from '@/api/sys/http'
 
 export default {
     props: {
-        currentTableData :{}
+        tableData :{}
     },
     data() {
         return {
-            tableData:[{
-                id:'ROOT',
-                label: '顶层',
-                icon:'el-icon-menu',
-                children: []
-            }],
+            currentTableData:[],
             loading:false,
             parentRow:{},
             parent_resource_name:'',
@@ -158,11 +158,10 @@ export default {
         filterText(val) {
             this.$refs.tree.filter(val);
         },
-        currentTableData:{
-            immediate:true,
-            handler:function(val){
-                this.tableData[0].children = val;
-            }
+        popoverVisible(val){
+            this.currentTableData = [{id:'ROOT', resource_name: '顶层', icon:'el-icon-menu', children: []}];
+            if(!val) this.currentTableData = [];
+            else this.currentTableData[0].children = this.tableData;
         }
     },
     methods: {
@@ -173,12 +172,22 @@ export default {
                     let obj = Object.assign({},self.form);
                     // 删除树扩展的属性
                     delete obj._expanded;
-                    //delete obj._level;
+                    delete obj._level;
                     delete obj._show;
                     delete obj.children;
                     delete obj.leaf;
                     delete obj.parent;
                     delete obj.label;
+
+                    var isChangeParent = (this.changeParentResourceName != '');
+                    if(isChangeParent && this.changeParentResource.id == this.form.id){
+                        this.$message({
+                            showClose: true,
+                            message: '不能调整父机构为自己',
+                            type: 'warning'
+                        });
+                        return;
+                    }
 
                     let submitData = new FormData();
                     submitData.append('formData',JSON.stringify(obj));
@@ -192,12 +201,14 @@ export default {
                         this.dialogVisible = false;
                         this.loading = false;
                         if(self.method == 'insert'){
-                            this.$emit('tableUpdate', res.$vo, this.parentRow);
+                            this.$emit('tableAppend', res.$vo, this.parentRow);
                         }else{
                             // 调整了父资源
-                            if(this.changeParentResource.id != this.parentRow.id){
-                                this.$emit('tableUpdate', res.$vo, this.changeParentResource);
+                            if(isChangeParent && this.changeParentResource.id != this.parentRow.id){
+                                this.$emit('tableAppend', res.$vo, this.changeParentResource);
                                 this.$emit('tableDelete', this.form);
+                            }else{
+                                this.$emit('tableUpdate', res.$vo);
                             }
                         }
                     });
@@ -205,11 +216,11 @@ export default {
             });
         },
         open:function(row,method,parentRow){
-            this.changeParentResource = parentRow;
+            this.changeParentResource = {};
             this.changeParentResourceName = '';
             this.method = method;
             this.dialogVisible = true;
-            this.form = row;
+            this.form = Object.assign({},row);
             this.parent_resource_name = parentRow.resource_name;
             this.parentRow = parentRow;
         },

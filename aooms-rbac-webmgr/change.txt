@@ -1,0 +1,26 @@
+D2admin 1.4.5 change list
+
+
+[新增]
+@/components/ext-pagination
+@/components/ext-treetable
+@/assets/style/aooms.scss
+@/menu/modules/rbac.js
+@/pages/rbac/*
+aooms-rbac-webmgr/.eslintignore
+
+
+[修改]
+@/components/index.js  line:22 -> add  ext-components
+@/menu/index.js  添加 rbacFrame
+@/plugin/axios/index.js    line:37 -> timeout ,  line:109 -> MessageBox
+@/router/routers.js    line:284 -> add path /rbac
+@/store/modules/d2admin/modules/account.js    line:21 - 46, line 85,86  cookieName
+@/libs/modules/util.cookies.js    line:17,25,40 cookieName
+
+@/setting.js    line:76 > (name >> userName)
+@/.env    line:8 -> VUE_APP_API=http://localhost:8080/
+@/App.vue   line:17 -> @import '~@/assets/style/aooms.scss';
+@/package.json   line:8 -> change dev port
+
+[删除]

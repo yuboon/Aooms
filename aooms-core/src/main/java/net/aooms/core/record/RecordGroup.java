@@ -6,7 +6,7 @@ import java.util.List;
  * Record数据集
  * Created by 风象南(yuboon) on 2018/8/23
  */
-public class PagingRecord {
+public class RecordGroup {
 
     private int page;
     private int limit;
@@ -16,9 +16,9 @@ public class PagingRecord {
     private int totalPage;
     private boolean isPaging;
 
-    public PagingRecord(){}
+    public RecordGroup(){}
 
-    public PagingRecord(int page, int limit, List<? extends Record> list, int total, boolean isPaging) {
+    public RecordGroup(int page, int limit, List<? extends Record> list, int total, boolean isPaging) {
         this.page = page;
         this.limit = limit;
         this.list = list;

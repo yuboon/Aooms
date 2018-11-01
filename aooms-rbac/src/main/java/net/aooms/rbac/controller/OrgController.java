@@ -57,6 +57,15 @@ public class OrgController extends AoomsAbstractController {
     };
 
     /**
+     * 测试事务
+     * @return
+     */
+    @RequestMapping("/test")
+    public void test(){
+        orgService.test();
+    };
+
+    /**
      * 修改状态
      * @return
      */

@@ -35,6 +35,9 @@ function errorLog (err) {
 const service = axios.create({
   baseURL: process.env.VUE_APP_API,
   timeout: 50000 // 请求超时时间
+  /*headers: {
+      'Content-Type': 'multipart/form-data'
+  }*/
 })
 
 // 请求拦截器

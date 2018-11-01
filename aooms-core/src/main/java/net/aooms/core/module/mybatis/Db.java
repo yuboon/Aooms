@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Assert;
 import com.google.common.collect.Lists;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.datasource.DynamicDataSourceHolder;
-import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.RecordGroup;
 import net.aooms.core.record.Record;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.RowBounds;
@@ -118,7 +118,7 @@ public class Db {
      * @
      */
     public int update(String tableName, Record record){
-        Assert.notNull(record,"vo must not be null");
+        Assert.notNull(record,"record must not be null");
         record.setGeneral(MyBatisConst.TABLE_NAME_PLACEHOLDER,tableName);
         return getSqlSession().update(MyBatisConst.MS_RECORD_UPDATE, record);
     }
@@ -272,8 +272,8 @@ public class Db {
         return record;
     }
 
-    public PagingRecord findList(String mappedStatementId, SqlPara sqlPara) {
-        PagingRecord recordPaging = null;
+    public RecordGroup findList(String mappedStatementId, SqlPara sqlPara) {
+        RecordGroup recordPaging = null;
         List<Record> records = Lists.newArrayList();
         if(sqlPara.isPaging()){
             sqlPara.set(MyBatisConst.CRUD_QUERY_COUNT_PLACEHOLDER,true);
@@ -285,10 +285,10 @@ public class Db {
                 records = getSqlSession().selectList(mappedStatementId,sqlPara.getParams(),new RowBounds(sqlPara.getPage(),sqlPara.getLimit()));
                 sqlPara.removeInternalKey();
             }
-            recordPaging = new PagingRecord(sqlPara.getPage(),sqlPara.getLimit(),records,total,sqlPara.isPaging());
+            recordPaging = new RecordGroup(sqlPara.getPage(),sqlPara.getLimit(),records,total,sqlPara.isPaging());
         }else{
             records = getSqlSession().selectList(mappedStatementId,sqlPara.getParams());
-            recordPaging = new PagingRecord(sqlPara.getPage(),sqlPara.getLimit(),records,records.size(),sqlPara.isPaging());
+            recordPaging = new RecordGroup(sqlPara.getPage(),sqlPara.getLimit(),records,records.size(),sqlPara.isPaging());
         }
         return recordPaging;
     }

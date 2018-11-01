@@ -15,4 +15,11 @@
         SELECT org_level FROM aooms_rbac_org t where id = #{parent_org_id}
     </select>
 
+    <update id="updatePermissionColumn">
+        update aooms_rbac_org set org_level = 0, org_permission = '', data_permission = ''
+    </update>
+
+
+
+
 </mapper>

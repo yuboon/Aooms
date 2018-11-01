@@ -1,17 +1,16 @@
 package net.aooms.rbac.service;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
-import net.aooms.core.module.mybatis.Roper;
-import net.aooms.core.module.mybatis.SqlExpression;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.record.PagingRecord;
+import net.aooms.core.record.RecordGroup;
 import net.aooms.core.record.Record;
 import net.aooms.core.service.GenericService;
-import net.aooms.rbac.mapper.RbacMapperPackage;
-import org.apache.ibatis.scripting.xmltags.IfSqlNode;
+import net.aooms.core.util.PasswordHash;
+import net.aooms.rbac.mapper.RbacMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,9 +40,9 @@ public class UserService extends GenericService {
 		       .andLikeStart("data_permission")
 		;
 
-        String statementId = getStatementId(RbacMapperPackage.class,"UserMapper.findList");
-		PagingRecord pagingRecord = db.findList(statementId,sqlPara);
-		this.setResultValue(AoomsConstants.Result.DATA,pagingRecord);
+        String statementId = getStatementId(RbacMapper.class,"UserMapper.findList");
+		RecordGroup recordGroup = db.findList(statementId,sqlPara);
+		this.setResultValue(AoomsConstants.Result.DATA, recordGroup);
 	}
 
 	@Transactional
@@ -52,6 +51,10 @@ public class UserService extends GenericService {
 		record.set(AoomsConstants.ID,IDGenerator.getStringValue());
 		record.setByJsonKey("formData");
 		record.set("create_time", DateUtil.now());
+		String password = record.getString("password");
+		if(StrUtil.isNotBlank(password)){
+			record.set("password", PasswordHash.createHash(password));
+		}
 		db.insert("aooms_rbac_user",record);
 	}
 
@@ -60,6 +63,10 @@ public class UserService extends GenericService {
         Record record = Record.empty();
         record.setByJsonKey("formData");
         record.set("update_time",DateUtil.now());
+		String password = record.getString("password");
+		if(StrUtil.isNotBlank(password)){
+			record.set("password", PasswordHash.createHash(password));
+		}
         db.update("aooms_rbac_user",record);
 	}
 

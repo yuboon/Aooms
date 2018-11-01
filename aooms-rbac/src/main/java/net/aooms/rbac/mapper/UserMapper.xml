@@ -53,12 +53,30 @@
 
     </select>
 
-    <select id="updateById" resultType="int">
-        update user set name = '123' where id = #{id}
-    </select>
+    <select id="findByAccount" resultType="net.aooms.core.record.Record">
+        SELECT
+            t.id,
+            t.user_name,
+            t.user_nickname,
+            t.account,
+            t.password,
+            t.sex,
+            t.phone,
+            t.photo,
+            t.email,
+            t.remark,
+            t.status,
+            t.create_time,
+            t.update_time,
+            o.org_name,
+            o.org_code,
+            o.org_shortname,
+            o.data_permission
+        FROM aooms_rbac_user t, aooms_rbac_org o
+        where t.org_id = o.id
+              and t.status = 'Y'
+              and t.account = #{account}
 
-    <select id="findAll" resultType="net.aooms.core.record.Record">
-        select * from t_order
     </select>
 
 </mapper>

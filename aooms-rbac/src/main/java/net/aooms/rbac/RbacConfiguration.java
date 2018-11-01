@@ -3,7 +3,10 @@ package net.aooms.rbac;
 import net.aooms.core.web.AoomsWebMvcConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.sql.DataSource;
 
 /**
  * 配置类
@@ -22,5 +25,4 @@ public class RbacConfiguration {
 
         };
     }
-
 }
