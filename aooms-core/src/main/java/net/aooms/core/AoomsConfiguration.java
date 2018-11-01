@@ -31,7 +31,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 框架默认配置类
- * Created by 风象南(cheereebo) on 2018-03-05
+ * Created by 风象南(yuboon) on 2018-03-05
  */
 @Configuration
 public class AoomsConfiguration {

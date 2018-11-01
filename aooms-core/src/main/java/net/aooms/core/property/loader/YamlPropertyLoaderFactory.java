@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * yaml资料加载
- * Created by 风象南(cheereebo) on 2018/9/7
+ * Created by 风象南(yuboon) on 2018/9/7
  */
 public class YamlPropertyLoaderFactory extends DefaultPropertySourceFactory {
 

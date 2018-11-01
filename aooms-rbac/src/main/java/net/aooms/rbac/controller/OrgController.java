@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 机构管理
- * Created by 风象南(cheereebo) on 2018-10-08
+ * Created by 风象南(yuboon) on 2018-10-08
  */
 @RestController
 @RequestMapping(Aooms.WebContext + "/rbac/org")

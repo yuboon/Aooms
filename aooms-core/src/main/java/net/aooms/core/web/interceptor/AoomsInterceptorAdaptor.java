@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 框架拦截器
- * Created by 风象南(cheereebo) on 2018-04-23
+ * Created by 风象南(yuboon) on 2018-04-23
  */
 public class AoomsInterceptorAdaptor implements HandlerInterceptor {
 

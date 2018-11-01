@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 配置类
- * Created by 风象南(cheereebo) on 2018-09-18
+ * Created by 风象南(yuboon) on 2018-09-18
  */
 @Configuration
 public class RbacConfiguration {

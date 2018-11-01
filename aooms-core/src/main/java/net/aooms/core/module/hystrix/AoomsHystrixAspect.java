@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 
 /**
  * 保证AoomsHystrixAspect最后一个执行，设置Ordered属性
- * Created by 风象南(cheereebo) on 2018/9/7
+ * Created by 风象南(yuboon) on 2018/9/7
  */
 /*@Component
 @Aspect*/

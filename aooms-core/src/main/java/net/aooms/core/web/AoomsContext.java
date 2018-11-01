@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Servlet上下文持有对象
- * Created by 风象南(cheereebo) on 2018-04-20
+ * Created by 风象南(yuboon) on 2018-04-20
  */
 public class AoomsContext {
 

@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * Aooms 启动
- * Created by 风象南(cheereebo) on 2018-02-06
+ * Created by 风象南(yuboon) on 2018-02-06
  */
 //@SpringBootApplication
 //@SpringBootApplication(scanBasePackages = {"your.project.packages"})

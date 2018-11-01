@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * more example
- * Created by 风象南(cheereebo) on 2018-09-18
+ * Created by 风象南(yuboon) on 2018-09-18
  */
 @RestController
 public class ExampleController extends AoomsAbstractController {

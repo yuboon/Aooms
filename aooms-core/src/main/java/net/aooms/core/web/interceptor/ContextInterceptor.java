@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * ServletContext上下文初始化
- * Created by 风象南(cheereebo) on 2018-04-19
+ * Created by 风象南(yuboon) on 2018-04-19
  */
 public class ContextInterceptor extends AoomsAbstractInterceptor {
 

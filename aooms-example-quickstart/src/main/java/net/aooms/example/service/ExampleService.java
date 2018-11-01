@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * more example service
- * Created by 风象南(cheereebo) on 2018-09-18
+ * Created by 风象南(yuboon) on 2018-09-18
  */
 @Service
 public class ExampleService extends GenericService {

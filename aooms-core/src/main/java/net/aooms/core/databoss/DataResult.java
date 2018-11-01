@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * DataBoss-结果对象
- * Created by 风象南(cheereebo) on 2018-04-18
+ * Created by 风象南(yuboon) on 2018-04-18
  */
 public class DataResult implements Serializable {
 

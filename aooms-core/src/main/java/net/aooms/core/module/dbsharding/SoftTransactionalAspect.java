@@ -27,7 +27,7 @@ import java.sql.SQLException;
 
 /**
  * 柔性事务控制
- * Created by 风象南(cheereebo) on 2018/9/7
+ * Created by 风象南(yuboon) on 2018/9/7
  */
 @Order(1)
 @Component

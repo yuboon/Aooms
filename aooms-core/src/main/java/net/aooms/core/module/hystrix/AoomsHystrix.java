@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 /**
  * 自定义熔断器注解
- * Created by 风象南(cheereebo) on 2018/8/30
+ * Created by 风象南(yuboon) on 2018/8/30
  */
 @Target({ElementType.METHOD ,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

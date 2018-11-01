@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 测试自定义配置文件映射
- * Created by 风象南(cheereebo) on 2018-02-06
+ * Created by 风象南(yuboon) on 2018-02-06
  */
 //@Component
 //@PropertySource(value = "classpath:/aooms/my2.yml" ,factory = YamlPropertyLoaderFactory.class)

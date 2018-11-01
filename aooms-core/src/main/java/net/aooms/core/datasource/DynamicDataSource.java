@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 
 /**
  * 获取DynamicDataSourceHolder指定的数据源
- * Created by 风象南(cheereebo) on 2018-08-18
+ * Created by 风象南(yuboon) on 2018-08-18
  */
 public class DynamicDataSource extends AbstractRoutingDataSource {
 

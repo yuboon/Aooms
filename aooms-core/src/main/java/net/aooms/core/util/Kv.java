@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  *
  * Kv 数据对象：适用于需要键值对的参数或结果
- * Created by 风象南(cheereebo) on 2018-04-18
+ * Created by 风象南(yuboon) on 2018-04-18
  *
  */
 public class Kv extends HashMap {

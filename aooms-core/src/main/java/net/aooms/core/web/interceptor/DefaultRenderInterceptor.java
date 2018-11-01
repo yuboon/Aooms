@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 默认视图渲染
- * Created by 风象南(cheereebo) on 2018-04-19
+ * Created by 风象南(yuboon) on 2018-04-19
  */
 public class DefaultRenderInterceptor extends AoomsAbstractInterceptor {
 

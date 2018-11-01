@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * 全局异常处理
- * Created by 风象南(cheereebo) on 2018/9/7
+ * Created by 风象南(yuboon) on 2018/9/7
  */
 @Controller
 @ClearInterceptor(LoginInterceptor.class)

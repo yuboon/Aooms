@@ -2,7 +2,7 @@ package net.aooms.core.exception;
 
 /**
  * 框架异常工具类
- * Created by 风象南(cheereebo) on 2018-04-18
+ * Created by 风象南(yuboon) on 2018-04-18
  */
 public class AoomsExceptions {
 

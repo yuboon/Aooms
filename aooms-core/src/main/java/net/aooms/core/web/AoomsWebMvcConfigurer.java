@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * web Configurer
- * Created by 风象南(cheereebo) on 2018/9/18
+ * Created by 风象南(yuboon) on 2018/9/18
  */
 public class AoomsWebMvcConfigurer implements WebMvcConfigurer {
 

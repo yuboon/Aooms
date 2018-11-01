@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 
 /**
  * 登陆认证
- * Created by 风象南(cheereebo) on 2018/9/7
+ * Created by 风象南(yuboon) on 2018/9/7
  */
 public class LoginInterceptor extends AoomsAbstractInterceptor {
 

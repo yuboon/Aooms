@@ -40,7 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * HelloWorld
- * Created by 风象南(cheereebo) on 2018-09-12
+ * Created by 风象南(yuboon) on 2018-09-12
  */
 @RestController
 public class HelloWorldController extends AoomsAbstractController {
@@ -173,7 +173,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * simple crud
- * Created by 风象南(cheereebo) on 2018-09-12
+ * Created by 风象南(yuboon) on 2018-09-12
  */
 @RestController
 public class CRUDController extends AoomsAbstractController {
@@ -238,7 +238,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * simple crud service
- * Created by 风象南(cheereebo) on 2018-09-17
+ * Created by 风象南(yuboon) on 2018-09-17
  */
 @Service
 public class UserService extends GenericService {

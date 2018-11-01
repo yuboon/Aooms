@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * 系统资源管理
- * Created by 风象南(cheereebo) on 2018-10-08
+ * Created by 风象南(yuboon) on 2018-10-08
  */
 @Service
 public class ResourceService extends GenericService {

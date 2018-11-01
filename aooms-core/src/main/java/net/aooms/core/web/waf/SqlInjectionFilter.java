@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 
 /**
  * 简单防SQL注入过滤
- * @Created by 风象南(cheereebo) on 2018-09-30
+ * @Created by 风象南(yuboon) on 2018-09-30
  *
  */
 public class SqlInjectionFilter extends StringFilter {

@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * 应用安全防火墙
- * @Created by 风象南(cheereebo) on 2018-09-30
+ * @Created by 风象南(yuboon) on 2018-09-30
  */
 public class WAF {
 

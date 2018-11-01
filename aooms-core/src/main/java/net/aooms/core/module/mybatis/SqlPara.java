@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * Sql script params
- * Created by 风象南(cheereebo) on 2018/8/10
+ * Created by 风象南(yuboon) on 2018/8/10
  */
 public class SqlPara {
 

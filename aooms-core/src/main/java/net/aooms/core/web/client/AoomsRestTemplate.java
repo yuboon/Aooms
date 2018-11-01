@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * 服务请求客户端
- * Created by 风象南(cheereebo) on 2018-02-24
+ * Created by 风象南(yuboon) on 2018-02-24
  */
 public class AoomsRestTemplate {
 

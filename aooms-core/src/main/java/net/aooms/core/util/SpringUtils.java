@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Spring contex util
- * Created by 风象南(cheereebo) on 2018/9/7
+ * Created by 风象南(yuboon) on 2018/9/7
  */
 @Component
 public class SpringUtils implements ApplicationContextAware {

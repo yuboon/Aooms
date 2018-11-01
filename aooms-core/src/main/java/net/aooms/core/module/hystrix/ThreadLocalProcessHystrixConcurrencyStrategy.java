@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 自定义策略
- * Created by 风象南(cheereebo) on 2018/9/7
+ * Created by 风象南(yuboon) on 2018/9/7
  */
 //@Component
 public class ThreadLocalProcessHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {

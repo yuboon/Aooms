@@ -26,7 +26,7 @@ import java.util.Map;
 
 /**
  * 数据源配置
- * Created by 风象南(cheereebo) on 2018-08-18
+ * Created by 风象南(yuboon) on 2018-08-18
  */
 @Configuration
 public class DynamicDataSourceConfiguration {

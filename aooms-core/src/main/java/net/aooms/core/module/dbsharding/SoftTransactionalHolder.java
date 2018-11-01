@@ -4,7 +4,7 @@ import io.shardingsphere.transaction.api.AbstractSoftTransaction;
 
 /**
  * 柔性事务持有对象
- * Created by 风象南(cheereebo) on 2018/9/7
+ * Created by 风象南(yuboon) on 2018/9/7
  */
 public class SoftTransactionalHolder {
 

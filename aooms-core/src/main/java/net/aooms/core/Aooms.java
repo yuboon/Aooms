@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 
 /**
  * 框架模块访问接口
- * Created by 风象南(cheereebo) on 2018-04-18
+ * Created by 风象南(yuboon) on 2018-04-18
  */
 public class Aooms {
 

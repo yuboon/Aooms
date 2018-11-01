@@ -12,7 +12,7 @@ package net.aooms.core.module.mybatis;
        is not odd、not、mod、div by、even by、odd by、==、!=、>、<、<=、>=. 
        使用这些修饰词时必须和变量或常量用空格格开.
  *
- * Created by 风象南(cheereebo) on 2018/9/29
+ * Created by 风象南(yuboon) on 2018/9/29
  *
  */
 public enum Roper {

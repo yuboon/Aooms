@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * Sql Expression
- * Created by 风象南(cheereebo) on 2018/10/25
+ * Created by 风象南(yuboon) on 2018/10/25
  */
 public class SqlExpression {
 

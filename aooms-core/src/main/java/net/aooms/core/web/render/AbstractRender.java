@@ -16,7 +16,7 @@ import java.io.Writer;
 
 /**
  * 渲染
- * Created by 风象南(cheereebo) on 2018-04-20
+ * Created by 风象南(yuboon) on 2018-04-20
  */
 public abstract class AbstractRender {
 
