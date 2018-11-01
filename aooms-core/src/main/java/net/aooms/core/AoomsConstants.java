@@ -9,7 +9,7 @@ public interface AoomsConstants {
     public static final String ENCODE = "UTF-8";
     public static final String ID = "id";
     public static final String TREE_ROOT = "ROOT";
-    public static final String ADMIN = "sa";
+    public static final String ADMIN = "admin";
     public static final String DEFAULT_DATASOURCE = "master";
 
     public static interface Para{

@@ -29,7 +29,7 @@ public class LoginController extends AoomsAbstractController {
     @RequestMapping("/login")
     public void login(){
         loginService.validateAccount();
-        //setResultValue("uuid","admin").set("token", UUID.randomUUID().toString());
+        setResultValue("uuid","admin").set("token", UUID.randomUUID().toString());
         //this.setResultValue("");
     };
 
