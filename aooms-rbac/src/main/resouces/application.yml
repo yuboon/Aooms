@@ -77,6 +77,7 @@ kisso:
   config:
     signkey: yuboon.signkey.random.123456   # 对称签名密钥
     cookieName: AoomsToken            # COOKIE 名称
+    accessTokenName: AoomsToken       # headerTokenName 名称
     cookieCheckip: true           # ip检测
     permissionUri: true
     cacheExpires: -1              # 缓存失效时间

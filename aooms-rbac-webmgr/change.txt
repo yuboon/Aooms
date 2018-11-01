@@ -13,7 +13,7 @@ aooms-rbac-webmgr/.eslintignore
 [修改]
 @/components/index.js  line:22 -> add  ext-components
 @/menu/index.js  添加 rbacFrame
-@/plugin/axios/index.js    line:37 -> timeout ,  line:109 -> MessageBox
+@/plugin/axios/index.js    line:37 -> timeout ,  line:109 -> MessageBox   line:48 -> tokenName
 @/router/routers.js    line:284 -> add path /rbac
 @/store/modules/d2admin/modules/account.js    line:21 - 46, line 85,86  cookieName
 @/libs/modules/util.cookies.js    line:17,25,40 cookieName
