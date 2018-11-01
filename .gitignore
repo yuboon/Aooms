@@ -1,0 +1,38 @@
+# maven #
+target/
+aooms-core/target/
+aooms-example-quickstart/target/
+aooms-rbac/target/
+aooms-rbac-gateway/target/
+aooms-rbac-web/target/
+aooms-rbac-webmgr/target/
+aooms-static-web/target/
+aooms-static-webmgr/target/
+logs
+
+# eclipse #
+.settings
+.project
+.classpath
+.log
+
+# Package Files #
+*.war
+*.ear
+
+# idea #
+.idea/
+*.iml
+*.lck
+*.tmp
+*.class
+vcx.xml
+
+# Package Files #
+*.jar
+*.bak
+*.tmp
+*.log
+*.gz
+
+
