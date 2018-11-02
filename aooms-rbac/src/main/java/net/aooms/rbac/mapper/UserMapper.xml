@@ -75,7 +75,7 @@
         FROM aooms_rbac_user t, aooms_rbac_org o
         where t.org_id = o.id
               and t.status = 'Y'
-              and t.account = #{account}
+              and t.account = #{username}
 
     </select>
 

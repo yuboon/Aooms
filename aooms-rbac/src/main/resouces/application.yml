@@ -75,10 +75,11 @@ mybatis:
 # 单点信息配置，全部可无
 kisso:
   config:
+    #cookieDomain: 127.0.0.1
     signkey: yuboon.signkey.random.123456   # 对称签名密钥
     cookieName: AoomsToken            # COOKIE 名称
     accessTokenName: AoomsToken       # headerTokenName 名称
-    cookieCheckip: true           # ip检测
+    #cookieCheckip: true           # ip检测
     permissionUri: true
     cacheExpires: -1              # 缓存失效时间
     loginUrl: 'page'  # 未登陆时重定向失败跳转页面

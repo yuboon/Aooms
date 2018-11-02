@@ -1,7 +1,7 @@
 // layout
 import layoutHeaderAside from '@/layout/header-aside'
 
-const meta = { requiresAuth: true , keepAlive: true}
+const meta = { requiresAuth: false , keepAlive: true}
 
 /**
  * 在主框架内显示

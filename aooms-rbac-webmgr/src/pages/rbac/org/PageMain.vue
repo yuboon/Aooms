@@ -170,6 +170,8 @@
 
 <script>
     import {httpGet, httpPost} from '@/api/sys/http'
+    import common from '@/libs/common.js'
+
 
     import BooleanControl from './BooleanControl.vue'
     import DataForm from './DataForm.vue'
@@ -214,6 +216,9 @@
         }*/
     },
     mounted() {
+
+        // common.userInfo(this).userName
+
         this.$nextTick(() => {
             let self = this;
             self.resetMainHeight();

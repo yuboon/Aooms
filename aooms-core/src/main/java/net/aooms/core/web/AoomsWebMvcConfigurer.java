@@ -2,6 +2,7 @@ package net.aooms.core.web;
 
 import net.aooms.core.web.interceptor.*;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -15,7 +16,11 @@ public class AoomsWebMvcConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedHeaders("*")
+                //.allowedOrigins("http://localhost:9000")
+                .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE");
     }
 
     // 拦截器配置
@@ -26,7 +31,7 @@ public class AoomsWebMvcConfigurer implements WebMvcConfigurer {
         String[] pathPatterns = registryProxy.getPathPatterns();
         String[] ignores = registryProxy.getIgnores();
 
-        //registryProxy.addInterceptor(new LoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
+        registryProxy.addInterceptor(new LoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
         //registryProxy.addInterceptor(new PermissionInterceptor(pathPatterns,ignores));
         registryProxy.addInterceptor(new DataBossInterceptor(pathPatterns,ignores));
         registryProxy.addInterceptor(new ContextInterceptor(pathPatterns,ignores));

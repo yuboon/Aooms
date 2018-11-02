@@ -10,6 +10,7 @@ import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.record.Record;
 import net.aooms.core.service.GenericService;
 import net.aooms.core.util.PasswordHash;
+import net.aooms.core.web.AoomsContext;
 import net.aooms.rbac.mapper.RbacMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class LoginService extends GenericService {
         String storePassword = record.getString("password");
         if(!PasswordHash.validatePassword(getParaString("password"),storePassword)){
             getResult().failure(HttpStatus.HTTP_UNAUTHORIZED,"用户名或密码错误");
+            return;
         }
 
         AuthenticationInfo authenticationInfo = new AuthenticationInfo();
@@ -51,15 +53,14 @@ public class LoginService extends GenericService {
         authenticationInfo.setPhone(record.getString("phone"));
         authenticationInfo.setPhoto(record.getString("photo"));
 
-        String token = SSOToken.create()
+        SSOToken token = SSOToken.create()
                 .setId(authenticationInfo.getId())
                 .setIssuer("aooms")
-                .setTime(System.currentTimeMillis())
-                .getToken();
-
-        authenticationInfo.setToken(token);
+                .setTime(System.currentTimeMillis());
+        authenticationInfo.setToken(token.getToken());
 
         //SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.create().setIp(getRequest()).setId("放用户ID").setIssuer("kisso"), false);
+        SSOHelper.setCookie(AoomsContext.getRequest(), AoomsContext.getResponse(),token, false);
         setResultValue(AoomsConstants.Result.Authentication, authenticationInfo);
 	}
 

@@ -32,23 +32,26 @@ function errorLog (err) {
 }
 
 // 创建一个 axios 实例
+//axios.defaults.withCredentials = true; //让ajax携带cookie
 const service = axios.create({
   baseURL: process.env.VUE_APP_API,
-  timeout: 50000 // 请求超时时间
-  /*headers: {
-      'Content-Type': 'multipart/form-data'
-  }*/
+  //withCredentials: true,
+  timeout: 50000, // 请求超时时间
+  headers: {
+      /*'Content-Type': 'multipart/form-data'*/
+      'X-Requested-With': 'XMLHttpRequest'
+  }
 })
 
 // 请求拦截器
 service.interceptors.request.use(
   config => {
-    // 在请求发送之前做一些处理
+      // 在请求发送之前做一些处理
     if (!(/^https:\/\/|http:\/\//.test(config.url))) {
       const token = util.cookies.get('token')
       if (token && token !== 'undefined') {
         // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
-        config.headers['X-Token'] = token
+        config.headers['AoomsToken'] = token;
       }
     }
     return config
@@ -64,9 +67,9 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     // dataAxios 是 axios 返回数据中的 data
-    const dataAxios = response.data
+    const dataAxios = response.data;
     // 这个状态码是和后端约定的
-    const { code } = dataAxios
+    const  code = dataAxios.$.code;
     // 根据 code 进行判断
     if (code === undefined) {
       // 如果没有 code 代表这不是项目后端开发的接口 比如可能是 D2Admin 请求最新版本
@@ -75,12 +78,11 @@ service.interceptors.response.use(
       // 有 code 代表这是一个后端接口 可以进行进一步的判断
       switch (code) {
         case 0:
-          // [ 示例 ] code === 0 代表没有错误
-          return dataAxios.data
-        case 'xxx':
-          // [ 示例 ] 其它和后台约定的 code
-          errorCreat(`[ code: xxx ] ${dataAxios.msg}: ${response.config.url}`)
-          break
+          return dataAxios;
+        case 401:
+            setTimeout(function(){window.location.hash = '#/login';}, 3000);
+            errorCreat(`[ code: 401 ] ${dataAxios.$.msg}: ${response.config.url}`)
+            break
         default:
           // 不是正确的 code
           errorCreat(`${dataAxios.msg}: ${response.config.url}`)

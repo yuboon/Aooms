@@ -1,8 +1,20 @@
 <template>
   <el-dropdown size="small" class="d2-mr">
-    <span class="btn-text">你好 {{info.name}}</span>
+    <span class="btn-text">你好 {{info.userName}}</span>
     <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item @click.native="logOff">
+
+      <el-dropdown-item @click.native="test">
+        <d2-icon name="user" class="d2-mr-5"/>
+        个人信息
+      </el-dropdown-item>
+
+      <el-dropdown-item @click.native="test">
+        <d2-icon name="key" class="d2-mr-5"/>
+        修改密码
+      </el-dropdown-item>
+
+
+      <el-dropdown-item @click.native="logOff" divided>
         <d2-icon name="power-off" class="d2-mr-5"/>
         注销
       </el-dropdown-item>
@@ -30,6 +42,10 @@ export default {
         vm: this,
         confirm: true
       })
+    },
+
+    test () {
+        this.$message('开发中');
     }
   }
 }

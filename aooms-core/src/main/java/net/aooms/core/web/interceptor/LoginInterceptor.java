@@ -21,10 +21,12 @@ import com.baomidou.kisso.common.SSOConstants;
 import com.baomidou.kisso.common.util.HttpUtil;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.baomidou.kisso.web.handler.SSOHandlerInterceptor;
+import io.jsonwebtoken.MalformedJwtException;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.databoss.DataResult;
 import net.aooms.core.exception.AoomsExceptions;
 import net.aooms.core.property.PropertyObject;
+import net.aooms.core.web.render.RenderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
@@ -64,17 +66,24 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
 
+            String errMsg = "未登录，访问受限";
+
             /**
              * 正常执行
              */
             String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
-            SSOToken ssoToken = SSOHelper.getSSOToken(request);
-            // 再次从参数列表获取token
-            if(ssoToken == null){
-                String tokenStr = request.getParameter(cookieName);
-                if(tokenStr != null){
-                    ssoToken = SSOToken.parser(tokenStr, false);
+            SSOToken ssoToken = null;
+            try{
+                ssoToken = SSOHelper.getSSOToken(request);
+                // 再次从参数列表获取token
+                if(ssoToken == null){
+                    String tokenStr = request.getParameter(cookieName);
+                    if(tokenStr != null){
+                        ssoToken = SSOToken.parser(tokenStr, false);
+                    }
                 }
+            }catch(MalformedJwtException e){
+                errMsg = "无效Token";
             }
 
             if (ssoToken == null) {
@@ -82,12 +91,23 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
                     /*
                      * Handler 处理 AJAX 请求
 					 */
+                    // cors
+                    String origin = request.getHeader("Origin");
+                    if(origin == null) {
+                        origin = request.getHeader("Referer");
+                    }
+                    response.setHeader("Access-Control-Allow-Origin", origin);
+                    response.setHeader("Access-Control-Allow-Headers", "Origin,No-Cache,X-Requested-With,If-Modified-Since,Pragma,Last-Modified,Cache-Control,Expires,Content-Type,X-E4M-With");
+                    response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+                    response.addHeader("Access-Control-Allow-Credentials", "true");
+
+                    response.setContentType(RenderType.JSON.getContentType());
                     response.setCharacterEncoding(AoomsConstants.ENCODE);
                     DataResult dataResult = new DataResult();
-                    dataResult.failure(HttpStatus.HTTP_UNAUTHORIZED,"身份认证未通过，访问受限");
-
+                    dataResult.failure(HttpStatus.HTTP_UNAUTHORIZED, errMsg);
                     try{
                         response.getWriter().write(dataResult.toJsonStr());
+                        response.getWriter().flush();
                     }catch (IOException e){
                         throw AoomsExceptions.create(e.getMessage(),e);
                     }
@@ -98,7 +118,7 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
 					 * token 为空，调用 Handler 处理
 					 * 返回 true 继续执行，清理登录状态并重定向至登录界面
 					 */
-					logger.info("身份认证未通过，访问受限");
+					logger.info(errMsg);
                     try {
                         SSOHelper.clearRedirectLogin(request, response);
                     } catch (IOException e){
