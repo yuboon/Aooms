@@ -7,6 +7,12 @@ logging:
     root: info  # 全局默认级别
     #net.aooms.core: info # 项目级别，覆盖root默认
 
+# 框架配置
+aooms:
+  use-registry: false
+  dev-mode: true
+
+
 # 默认项目配置
 spring:
   application:
@@ -91,7 +97,6 @@ hystrix:
       execution:
         timeout:
           enabled: false # 开发阶段可禁用超时检测，方便debug
-
 
 # actuator
 management:

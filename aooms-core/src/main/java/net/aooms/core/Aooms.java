@@ -18,8 +18,9 @@ public class Aooms {
     public static final String CorePackage = "net.aooms.core";
     // 框架名
     public static final String NAME = "aooms";
+    // 框架内部上下文路径
     public static final String WebContext = "/" + NAME;
-
+    // 实例
     private static Aooms INSTANCE;
 
     @Autowired

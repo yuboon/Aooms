@@ -1,8 +1,11 @@
 package net.aooms.rbac.service;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.http.HttpStatus;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.security.token.SSOToken;
+import net.aooms.core.Aooms;
 import net.aooms.core.AoomsConstants;
 import net.aooms.core.authentication.AuthenticationInfo;
 import net.aooms.core.module.mybatis.Db;
@@ -40,7 +43,9 @@ public class LoginService extends GenericService {
             return;
         }
 
+
         AuthenticationInfo authenticationInfo = new AuthenticationInfo();
+        //BeanUtil.fillBeanWithMap(record, authenticationInfo, true, true);
         authenticationInfo.setId(record.getString("id"));
         authenticationInfo.setUserName(record.getString("user_name"));
         authenticationInfo.setUserNickname(record.getString("user_nickname"));
@@ -55,7 +60,7 @@ public class LoginService extends GenericService {
 
         SSOToken token = SSOToken.create()
                 .setId(authenticationInfo.getId())
-                .setIssuer("aooms")
+                .setIssuer(Aooms.NAME)
                 .setTime(System.currentTimeMillis());
         authenticationInfo.setToken(token.getToken());
 
