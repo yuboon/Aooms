@@ -35,7 +35,7 @@ function errorLog (err) {
 //axios.defaults.withCredentials = true; //让ajax携带cookie
 const service = axios.create({
   baseURL: process.env.VUE_APP_API,
-  //withCredentials: true,
+  withCredentials: true,
   timeout: 50000, // 请求超时时间
   headers: {
       /*'Content-Type': 'multipart/form-data'*/

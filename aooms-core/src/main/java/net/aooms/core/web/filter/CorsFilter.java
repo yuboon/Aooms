@@ -23,11 +23,11 @@ public class CorsFilter extends OncePerRequestFilter {
 			origin = request.getHeader("Referer");
 		}
 		response.setHeader("Access-Control-Allow-Origin", origin);
-		//response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-		//response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, If-Modified-Since");
-		//response.setHeader("Access-Control-Allow-Headers", "Origin,No-Cache,X-Requested-With,If-Modified-Since,Pragma,Last-Modified,Cache-Control,Expires,Content-Type,X-E4M-With");
-		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		response.setHeader("Access-Control-Allow-Headers", "*");
+        //response.setHeader("Access-Control-Allow-Headers", "Origin,No-Cache,X-Requested-With,If-Modified-Since,Pragma,Last-Modified,Cache-Control,Expires,Content-Type,X-E4M-With");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		response.addHeader("Access-Control-Allow-Credentials", "true");
+
 		filterChain.doFilter(request, response);
 	}
 

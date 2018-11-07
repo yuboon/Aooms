@@ -82,8 +82,8 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
                         ssoToken = SSOToken.parser(tokenStr, false);
                     }
                 }
-            }catch(MalformedJwtException e){
-                errMsg = "无效Token";
+            }catch(Exception e){
+                throw AoomsExceptions.create(e.getMessage(),e);
             }
 
             if (ssoToken == null) {
@@ -91,16 +91,6 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
                     /*
                      * Handler 处理 AJAX 请求
 					 */
-                    // cors
-                    String origin = request.getHeader("Origin");
-                    if(origin == null) {
-                        origin = request.getHeader("Referer");
-                    }
-                    response.setHeader("Access-Control-Allow-Origin", origin);
-                    response.setHeader("Access-Control-Allow-Headers", "Origin,No-Cache,X-Requested-With,If-Modified-Since,Pragma,Last-Modified,Cache-Control,Expires,Content-Type,X-E4M-With");
-                    response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-                    response.addHeader("Access-Control-Allow-Credentials", "true");
-
                     response.setContentType(RenderType.JSON.getContentType());
                     response.setCharacterEncoding(AoomsVar.ENCODE);
                     DataResult dataResult = new DataResult();

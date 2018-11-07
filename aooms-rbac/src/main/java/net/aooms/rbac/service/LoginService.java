@@ -1,8 +1,13 @@
 package net.aooms.rbac.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.HttpStatus;
+import com.baomidou.kisso.SSOAuthorization;
+import com.baomidou.kisso.SSOConfig;
 import com.baomidou.kisso.SSOHelper;
+import com.baomidou.kisso.enums.TokenOrigin;
 import com.baomidou.kisso.security.token.SSOToken;
+import com.baomidou.kisso.starter.KissoAutoConfiguration;
 import net.aooms.core.Aooms;
 import net.aooms.core.AoomsVar;
 import net.aooms.core.authentication.AuthenticationInfo;
@@ -43,8 +48,8 @@ public class LoginService extends GenericService {
 
 
         AuthenticationInfo authenticationInfo = new AuthenticationInfo();
-        //BeanUtil.fillBeanWithMap(record, authenticationInfo, true, true);
-        authenticationInfo.setId(record.getString("id"));
+        BeanUtil.fillBeanWithMap(record, authenticationInfo, true, true);
+        /*authenticationInfo.setId(record.getString("id"));
         authenticationInfo.setUserName(record.getString("user_name"));
         authenticationInfo.setUserNickname(record.getString("user_nickname"));
         authenticationInfo.setAccount(record.getString("account"));
@@ -54,11 +59,12 @@ public class LoginService extends GenericService {
         authenticationInfo.setOrgCode(record.getString("org_code"));
         authenticationInfo.setEmail(record.getString("email"));
         authenticationInfo.setPhone(record.getString("phone"));
-        authenticationInfo.setPhoto(record.getString("photo"));
+        authenticationInfo.setPhoto(record.getString("photo"));*/
 
         SSOToken token = SSOToken.create()
                 .setId(authenticationInfo.getId())
                 .setIssuer(Aooms.NAME)
+                .setOrigin(TokenOrigin.HTML5)
                 .setTime(System.currentTimeMillis());
         authenticationInfo.setToken(token.getToken());
 
@@ -66,5 +72,13 @@ public class LoginService extends GenericService {
         SSOHelper.setCookie(AoomsContext.getRequest(), AoomsContext.getResponse(),token, false);
         setResultValue(AoomsVar.RS_Authentication, authenticationInfo);
 	}
+
+    /*public static void main(String[] args) {
+        SSOConfig ssoConfig = new SSOConfig();
+        ssoConfig.setSignkey("yuboon.signkey.random.123456");
+        SSOConfig.init(ssoConfig);
+        SSOToken token = SSOToken.parser("eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJhZG1pbiIsImlzcyI6ImFvb21zIiwib2ciOiIxIiwiaWF0IjoxNTQxNTc3MDkxfQ.9OidxYpaHbrGBARsUI9aBF7gyk5WccqU0FQSromRupSPt89U5su_86L_RJxfshAVYWeID0ibxGIZKBxiIR-41Q",true);
+        System.err.println(token);
+    }*/
 
 }

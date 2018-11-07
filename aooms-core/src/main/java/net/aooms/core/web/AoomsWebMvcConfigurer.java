@@ -14,14 +14,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 public class AoomsWebMvcConfigurer implements WebMvcConfigurer {
 
-    @Override
+    /*@Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowCredentials(true)
                 .allowedHeaders("*")
                 //.allowedOrigins("http://localhost:9000")
                 .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE");
-    }
+    }*/
 
     // 拦截器配置
     @Override

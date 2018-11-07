@@ -111,14 +111,14 @@ public class AoomsConfiguration {
         return new AoomsGlobalErrorController(serverProperties);
     }
 
-    /*@Bean
+    @Bean
     public FilterRegistrationBean corsFilterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new CorsFilter());
         registration.addUrlPatterns("/*");
-        registration.setOrder(1);
+        //registration.setOrder(1);
         return registration;
-    }*/
+    }
 
     /**
      * web Configurer

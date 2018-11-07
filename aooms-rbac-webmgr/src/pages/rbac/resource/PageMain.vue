@@ -56,7 +56,7 @@
 
             <el-table-column fixed="right" label="操作" align="center" width="130">
                 <template slot-scope="scope">
-                    <el-button type="primary" title="添加子级" size="mini" icon="el-icon-plus" circle @click="handleForm({'status':'Y','ordinal':0, 'resource_type':'1','open_type':'0','parent_resource_id':scope.row.id},'insert',scope.row)"></el-button>
+                    <el-button type="primary" title="添加子级" size="mini" icon="el-icon-plus" circle @click="handleForm({'status':'Y','ordinal':1, 'resource_type':'1','open_type':'0','parent_resource_id':scope.row.id,icon:'delicious'},'insert',scope.row)"></el-button>
                     <el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle @click="handleForm(scope.row,'update',scope.row)"></el-button>
                     <el-button type="danger" title="删除" :loading="scope.row.delLoading" size="mini" icon="el-icon-delete" circle @click="handleDelete(scope.row)"></el-button>
                 </template>
