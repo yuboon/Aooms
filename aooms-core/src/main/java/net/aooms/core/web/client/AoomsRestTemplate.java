@@ -1,10 +1,10 @@
 package net.aooms.core.web.client;
 
 import cn.hutool.core.bean.BeanUtil;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.databoss.DataResult;
 import net.aooms.core.databoss.DataResultStatus;
-import net.aooms.core.property.PropertyApplication;
+import net.aooms.core.property.PropertyAooms;
 import net.aooms.core.property.PropertyServer;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class AoomsRestTemplate {
     private RestTemplate loadBalancedRestTemplate;
 
     @Autowired
-    private PropertyApplication applicationProperties;
+    private PropertyAooms propertyAooms;
 
     @Autowired
     private PropertyServer serverProperties;
@@ -59,9 +59,9 @@ public class AoomsRestTemplate {
             map = restTemplate.getForObject(serverUrl,Map.class,params);
         }
 
-        Map mapStatus = (Map) map.get(AoomsConstants.Result.META);
+        Map mapStatus = (Map) map.get(AoomsVar.RS_META);
         DataResultStatus status = BeanUtil.mapToBean(mapStatus,DataResultStatus.class,true);
-        map.put(AoomsConstants.Result.META,status);
+        map.put(AoomsVar.RS_META,status);
         dataResult.setData(map);
         return dataResult;
     }
@@ -83,9 +83,9 @@ public class AoomsRestTemplate {
             map = restTemplate.postForObject(serverUrl,params,Map.class);
         }
 
-        Map mapStatus = (Map) map.get(AoomsConstants.Result.META);
+        Map mapStatus = (Map) map.get(AoomsVar.RS_META);
         DataResultStatus status = BeanUtil.mapToBean(mapStatus,DataResultStatus.class,true);
-        map.put(AoomsConstants.Result.META,status);
+        map.put(AoomsVar.RS_META,status);
         dataResult.setData(map);
         return dataResult;
     }
@@ -98,7 +98,7 @@ public class AoomsRestTemplate {
     // 是否使用注册中心
     public boolean useRegistry(){
         if(null == useRegistry)
-            return useRegistry = applicationProperties.isAoomsUseRegistry();
+            return useRegistry = propertyAooms.isUseRegistry();
         return useRegistry;
     }
 

@@ -2,10 +2,7 @@ package net.aooms.core;
 
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
 import net.aooms.core.module.mybatis.Db;
-import net.aooms.core.property.PropertyApplication;
-import net.aooms.core.property.PropertyObject;
-import net.aooms.core.property.PropertyServer;
-import net.aooms.core.property.PropertyTest;
+import net.aooms.core.property.*;
 import net.aooms.core.web.AoomsGlobalErrorController;
 import net.aooms.core.web.AoomsWebMvcConfigurer;
 import net.aooms.core.web.client.AoomsHttpTemplate;
@@ -73,6 +70,11 @@ public class AoomsConfiguration {
     @Bean
     public PropertyApplication propertyApplication(){
         return new PropertyApplication();
+    }
+
+    @Bean
+    public PropertyAooms propertyAooms(){
+        return new PropertyAooms();
     }
 
     @Bean

@@ -1,12 +1,10 @@
 package net.aooms.rbac.service;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.http.HttpStatus;
 import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.security.token.SSOToken;
 import net.aooms.core.Aooms;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.authentication.AuthenticationInfo;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
@@ -66,7 +64,7 @@ public class LoginService extends GenericService {
 
         //SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.create().setIp(getRequest()).setId("放用户ID").setIssuer("kisso"), false);
         SSOHelper.setCookie(AoomsContext.getRequest(), AoomsContext.getResponse(),token, false);
-        setResultValue(AoomsConstants.Result.Authentication, authenticationInfo);
+        setResultValue(AoomsVar.RS_Authentication, authenticationInfo);
 	}
 
 }

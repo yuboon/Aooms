@@ -1,11 +1,8 @@
 package net.aooms.core.web.interceptor;
 
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.web.AoomsAbstractController;
-import org.apache.commons.lang.BooleanUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,7 +39,7 @@ public class DefaultRenderInterceptor extends AoomsAbstractInterceptor {
     }
 
     private boolean isRender(HttpServletRequest request){
-        Object isRender = request.getAttribute(AoomsConstants.Render.IS_RENDER);
+        Object isRender = request.getAttribute(AoomsVar.IS_RENDER);
         if(isRender == null){
             return false;
         }

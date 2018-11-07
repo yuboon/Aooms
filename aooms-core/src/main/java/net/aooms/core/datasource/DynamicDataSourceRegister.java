@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.micrometer.core.instrument.MeterRegistry;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +56,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
      */
     private void initDefaultDataSource(Environment env) {
         // 创建主数据源;
-        defaultDataSource = buildDataSource(env,"spring.datasource.hikari", AoomsConstants.DEFAULT_DATASOURCE);
+        defaultDataSource = buildDataSource(env,"spring.datasource.hikari", AoomsVar.DEFAULT_DATASOURCE);
     }
 
 
@@ -112,8 +112,8 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         Map<Object, Object> targetDataSources = new HashMap<Object, Object>();
 
         // 将主数据源添加到更多数据源中
-        targetDataSources.put(AoomsConstants.DEFAULT_DATASOURCE, defaultDataSource);
-        DynamicDataSourceHolder.dataSourceIds.add(AoomsConstants.DEFAULT_DATASOURCE);
+        targetDataSources.put(AoomsVar.DEFAULT_DATASOURCE, defaultDataSource);
+        DynamicDataSourceHolder.dataSourceIds.add(AoomsVar.DEFAULT_DATASOURCE);
 
         // 添加更多数据源
         targetDataSources.putAll(moreDataSources);
@@ -131,7 +131,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         mpv.addPropertyValue("defaultTargetDataSource", defaultDataSource);
         mpv.addPropertyValue("targetDataSources", targetDataSources);
 
-        beanDefinitionRegistry.registerBeanDefinition(AoomsConstants.DEFAULT_DATASOURCE, beanDefinition);
+        beanDefinitionRegistry.registerBeanDefinition(AoomsVar.DEFAULT_DATASOURCE, beanDefinition);
     }
 
 }

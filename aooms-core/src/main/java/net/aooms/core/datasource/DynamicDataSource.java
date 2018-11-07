@@ -1,6 +1,6 @@
 package net.aooms.core.datasource;
 
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
@@ -22,7 +22,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     public DataSource getDefaultDataSource(){
         //return this.determineTargetDataSource();
-        return getDataSource(AoomsConstants.DEFAULT_DATASOURCE);
+        return getDataSource(AoomsVar.DEFAULT_DATASOURCE);
     }
 
     public DataSource getDataSource(String key){

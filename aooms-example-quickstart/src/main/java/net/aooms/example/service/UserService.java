@@ -1,11 +1,11 @@
 package net.aooms.example.service;
 
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.record.RecordGroup;
 import net.aooms.core.record.Record;
+import net.aooms.core.record.RecordGroup;
 import net.aooms.core.service.GenericService;
 import net.aooms.example.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class UserService extends GenericService {
 
 		{
 			// 返回值
-			this.setResultValue(AoomsConstants.Result.DATA, recordGroup);
+			this.setResultValue(AoomsVar.RS_DATA, recordGroup);
 		}
 	}
 
@@ -36,7 +36,7 @@ public class UserService extends GenericService {
 
 		// record 模式
 		Record record1 = Record.empty();
-		record1.set(AoomsConstants.ID,IDGenerator.getLongValue());
+		record1.set(AoomsVar.ID,IDGenerator.getLongValue());
 		record1.set("name","lisi3");
 		db.insert("user",record1);
 

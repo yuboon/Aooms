@@ -2,12 +2,12 @@ package net.aooms.rbac.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.record.RecordGroup;
 import net.aooms.core.record.Record;
+import net.aooms.core.record.RecordGroup;
 import net.aooms.core.service.GenericService;
 import net.aooms.core.util.PasswordHash;
 import net.aooms.rbac.mapper.RbacMapper;
@@ -42,13 +42,13 @@ public class UserService extends GenericService {
 
         String statementId = getStatementId(RbacMapper.class,"UserMapper.findList");
 		RecordGroup recordGroup = db.findList(statementId,sqlPara);
-		this.setResultValue(AoomsConstants.Result.DATA, recordGroup);
+		this.setResultValue(AoomsVar.RS_DATA, recordGroup);
 	}
 
 	@Transactional
 	public void insert() {
 		Record record = Record.empty();
-		record.set(AoomsConstants.ID,IDGenerator.getStringValue());
+		record.set(AoomsVar.ID,IDGenerator.getStringValue());
 		record.setByJsonKey("formData");
 		record.set("create_time", DateUtil.now());
 		String password = record.getString("password");
@@ -73,7 +73,7 @@ public class UserService extends GenericService {
 	@Transactional
 	public void updateStatus() {
 		Record record = Record.empty();
-		record.set(AoomsConstants.ID, getParaString("id"));
+		record.set(AoomsVar.ID, getParaString("id"));
 		record.set("status", getParaString("status"));
 		record.set("update_time",DateUtil.now());
 		db.update("aooms_rbac_user",record);
@@ -81,7 +81,7 @@ public class UserService extends GenericService {
 
 	@Transactional
 	public void delete() {
-        List<Object> ids = this.getListFromJson("ids",AoomsConstants.ID);
+        List<Object> ids = this.getListFromJson("ids", AoomsVar.ID);
 		db.batchDelete("aooms_rbac_user",ids.toArray());
 	}
 }

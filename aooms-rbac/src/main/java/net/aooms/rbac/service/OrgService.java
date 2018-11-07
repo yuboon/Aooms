@@ -2,14 +2,14 @@ package net.aooms.rbac.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.Roper;
 import net.aooms.core.module.mybatis.SqlExpression;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.record.RecordGroup;
 import net.aooms.core.record.Record;
+import net.aooms.core.record.RecordGroup;
 import net.aooms.core.service.GenericService;
 import net.aooms.core.util.Kv;
 import net.aooms.core.util.TreeUtils;
@@ -44,7 +44,7 @@ public class OrgService extends GenericService {
 
         String statementId = getStatementId(RbacMapper.class,"OrgMapper.findList");
 		RecordGroup recordGroup = db.findList(statementId,sqlPara);
-		this.setResultValue(AoomsConstants.Result.DATA, recordGroup);
+		this.setResultValue(AoomsVar.RS_DATA, recordGroup);
 	}
 
 	@Transactional(readOnly = true)
@@ -55,15 +55,15 @@ public class OrgService extends GenericService {
         TreeUtils treeUtils = new TreeUtils(recordGroup.getList());
         treeUtils.setParentIdKey("parent_org_id");
         treeUtils.setDefaultValue(Kv.fkv("icon","el-icon-news"));
-        List<Record> treeRecords = treeUtils.listTree(AoomsConstants.TREE_ROOT, true);
+        List<Record> treeRecords = treeUtils.listTree(AoomsVar.TREE_ROOT, true);
 
-		this.setResultValue(AoomsConstants.Result.TREE, treeRecords);
+		this.setResultValue(AoomsVar.RS_TREE, treeRecords);
 	}
 
 	@Transactional
 	public void insert() {
 		Record record = Record.empty();
-		record.set(AoomsConstants.ID,IDGenerator.getStringValue());
+		record.set(AoomsVar.ID,IDGenerator.getStringValue());
 		record.setByJsonKey("formData");
 		record.set("create_time", DateUtil.now());
 		String parentId = record.getString("parent_org_id");
@@ -75,7 +75,7 @@ public class OrgService extends GenericService {
 
 		// 返回前台
 		record.set("icon","el-icon-news");
-		this.setResultValue(AoomsConstants.Result.RECORD, record);
+		this.setResultValue(AoomsVar.RS_VO, record);
 	}
 
 	@Transactional
@@ -92,7 +92,7 @@ public class OrgService extends GenericService {
         this.rebuildDataPermission();
 
         record.set("icon","el-icon-news");
-        this.setResultValue(AoomsConstants.Result.RECORD, record);
+        this.setResultValue(AoomsVar.RS_VO, record);
     }
 
     @Transactional
@@ -112,7 +112,7 @@ public class OrgService extends GenericService {
     @Transactional
     public void updateStatus() {
         Record record = Record.empty();
-        record.set(AoomsConstants.ID, getParaString("id"));
+        record.set(AoomsVar.ID, getParaString("id"));
         record.set("status", getParaString("status"));
         record.set("update_time",DateUtil.now());
         db.update("aooms_rbac_org",record);
@@ -120,7 +120,7 @@ public class OrgService extends GenericService {
 
 	@Transactional
 	public void delete() {
-        List<Object> ids = this.getListFromJson("ids",AoomsConstants.ID);
+        List<Object> ids = this.getListFromJson("ids", AoomsVar.ID);
 		db.batchDelete("aooms_rbac_org",ids.toArray());
 	}
 
@@ -192,9 +192,9 @@ public class OrgService extends GenericService {
 
         TreeUtils treeUtils = new TreeUtils(pr.getList());
         treeUtils.setParentIdKey("parent_org_id");
-        List<Record> trees = treeUtils.listTree(AoomsConstants.TREE_ROOT);
+        List<Record> trees = treeUtils.listTree(AoomsVar.TREE_ROOT);
 
-        this.rebuild(AoomsConstants.TREE_ROOT,"",0,trees);
+        this.rebuild(AoomsVar.TREE_ROOT,"",0,trees);
     }
 
     //
@@ -208,7 +208,7 @@ public class OrgService extends GenericService {
 
         for(Record child : children){
             Record newChild = Record.empty();
-            newChild.set(AoomsConstants.ID, child.get(AoomsConstants.ID));
+            newChild.set(AoomsVar.ID, child.get(AoomsVar.ID));
 
             maxPermission += 1;
             String permission = maxPermission + "";

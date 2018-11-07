@@ -15,8 +15,6 @@ public class PropertyApplication {
 
     private String name;
 
-    private boolean aoomsUseRegistry;
-
     public String getName() {
         return name;
     }
@@ -32,11 +30,4 @@ public class PropertyApplication {
         this.name = name;
     }
 
-    public boolean isAoomsUseRegistry() {
-        return aoomsUseRegistry;
-    }
-
-    public void setAoomsUseRegistry(boolean aoomsUseRegistry) {
-        this.aoomsUseRegistry = aoomsUseRegistry;
-    }
 }

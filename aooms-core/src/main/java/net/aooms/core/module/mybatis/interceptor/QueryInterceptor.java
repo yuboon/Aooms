@@ -1,20 +1,14 @@
 package net.aooms.core.module.mybatis.interceptor;
 
 import net.aooms.core.Aooms;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.datasource.DynamicDataSourceHolder;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.dialect.DialectSelector;
-import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.PreparedStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
-import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 import java.sql.Connection;
@@ -100,7 +94,7 @@ public class QueryInterceptor implements Interceptor {
 
         if(isPaging != null){
             String ds = DynamicDataSourceHolder.getDataSource();
-            String driveClass = Aooms.self().getDynamicDataSource().getDriveName(ds == null ? AoomsConstants.DEFAULT_DATASOURCE:ds);
+            String driveClass = Aooms.self().getDynamicDataSource().getDriveName(ds == null ? AoomsVar.DEFAULT_DATASOURCE : ds);
             //(String)metaObject.getValue("delegate.configuration.environment.dataSource.driverClass");
             RowBounds rowBounds = (RowBounds) metaObject.getValue("delegate.rowBounds");
             String sql = preparedStatementHandler.getBoundSql().getSql();

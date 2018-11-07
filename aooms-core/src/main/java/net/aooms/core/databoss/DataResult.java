@@ -4,9 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import net.aooms.core.AoomsConstants;
-import net.aooms.core.record.RecordGroup;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.record.Record;
+import net.aooms.core.record.RecordGroup;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +69,7 @@ public class DataResult implements Serializable {
      * 设置请求状态
      */
     public DataResult setStatus(DataResultStatus status){
-        results.put(AoomsConstants.Result.META ,status);
+        results.put(AoomsVar.RS_META ,status);
         return this;
     }
 
@@ -156,21 +156,21 @@ public class DataResult implements Serializable {
      * @param msg
      */
     public void failure(int code, String msg){
-        results.put(AoomsConstants.Result.META ,new DataResultStatus(code, msg));
+        results.put(AoomsVar.RS_META ,new DataResultStatus(code, msg));
     }
 
     /**
      * 设置成功
      */
     public void success(){
-        results.put(AoomsConstants.Result.META ,new DataResultStatus("success",true));
+        results.put(AoomsVar.RS_META ,new DataResultStatus("success",true));
     }
 
     /**
      * 设置成功
      */
     public void success(String msg){
-        results.put(AoomsConstants.Result.META ,new DataResultStatus(msg,true));
+        results.put(AoomsVar.RS_META ,new DataResultStatus(msg,true));
     }
 
     /**
@@ -180,7 +180,7 @@ public class DataResult implements Serializable {
         results.clear(); // 失败时清理数据
         DataResultStatus status = new DataResultStatus("",false);
         status.setError("Aooms error");
-        results.put(AoomsConstants.Result.META ,status);
+        results.put(AoomsVar.RS_META,status);
     }
 
     /**
@@ -190,14 +190,14 @@ public class DataResult implements Serializable {
         results.clear(); // 失败时清理数据
         DataResultStatus status = new DataResultStatus("",false);
         status.setError(error);
-        results.put(AoomsConstants.Result.META ,status);
+        results.put(AoomsVar.RS_META,status);
     }
 
     /**
      * 获取结果状态
      */
     public DataResultStatus getStatus(){
-       return (DataResultStatus) results.get(AoomsConstants.Result.META);
+       return (DataResultStatus) results.get(AoomsVar.RS_META);
     }
 
     /**

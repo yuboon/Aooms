@@ -1,6 +1,6 @@
 package net.aooms.core.web;
 
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.databoss.DataBoss;
 import net.aooms.core.databoss.DataPara;
 import net.aooms.core.databoss.DataResult;
@@ -277,7 +277,7 @@ public abstract class AoomsAbstractController {
     // 输出
     private void doRender(AbstractRender render, Object value){
         try {
-            AoomsContext.getRequest().setAttribute(AoomsConstants.Render.IS_RENDER,true);
+            AoomsContext.getRequest().setAttribute(AoomsVar.IS_RENDER,true);
             render.render(getResponse(),value);
         } catch (Exception e) {
             throw new RenderException(e.getMessage(),e);
@@ -314,7 +314,7 @@ public abstract class AoomsAbstractController {
     // 获取response
     public HttpServletResponse getResponse(){
         HttpServletResponse response = AoomsContext.getResponse();
-        response.setCharacterEncoding(AoomsConstants.ENCODE);
+        response.setCharacterEncoding(AoomsVar.ENCODE);
         return response;
     }
 

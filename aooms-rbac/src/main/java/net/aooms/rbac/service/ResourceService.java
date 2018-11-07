@@ -1,12 +1,12 @@
 package net.aooms.rbac.service;
 
 import cn.hutool.core.date.DateUtil;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
-import net.aooms.core.record.RecordGroup;
 import net.aooms.core.record.Record;
+import net.aooms.core.record.RecordGroup;
 import net.aooms.core.service.GenericService;
 import net.aooms.core.util.Kv;
 import net.aooms.core.util.TreeUtils;
@@ -34,7 +34,7 @@ public class ResourceService extends GenericService {
 
         String statementId = getStatementId(RbacMapper.class,"ResourceMapper.findList");
 		RecordGroup recordGroup = db.findList(statementId,sqlPara);
-		this.setResultValue(AoomsConstants.Result.DATA, recordGroup);
+		this.setResultValue(AoomsVar.RS_DATA, recordGroup);
 	}
 
 	@Transactional(readOnly = true)
@@ -44,21 +44,21 @@ public class ResourceService extends GenericService {
         TreeUtils treeUtils = new TreeUtils(recordGroup.getList());
         treeUtils.setParentIdKey("parent_resource_id");
         treeUtils.setDefaultValue(Kv.fkv("icon","el-icon-news"));
-        List<Record> treeRecords = treeUtils.listTree(AoomsConstants.TREE_ROOT);
+        List<Record> treeRecords = treeUtils.listTree(AoomsVar.TREE_ROOT);
 
-		this.setResultValue(AoomsConstants.Result.TREE, treeRecords);
+		this.setResultValue(AoomsVar.RS_TREE, treeRecords);
 	}
 
 	@Transactional
 	public void insert() {
 		Record record = Record.empty();
-		record.set(AoomsConstants.ID,IDGenerator.getStringValue());
+		record.set(AoomsVar.ID,IDGenerator.getStringValue());
 		record.setByJsonKey("formData");
 		record.set("create_time", DateUtil.now());
 		db.insert("aooms_rbac_resource",record);
 
 		//record.set("icon","el-icon-news");
-		this.setResultValue(AoomsConstants.Result.RECORD, record);
+		this.setResultValue(AoomsVar.RS_VO, record);
 	}
 
 	@Transactional
@@ -70,13 +70,13 @@ public class ResourceService extends GenericService {
 
         //record.convertValueKey(Kv.fkv("resource_name","label"),false);
         //record.set("icon","el-icon-news");
-        this.setResultValue(AoomsConstants.Result.RECORD, record);
+        this.setResultValue(AoomsVar.RS_VO, record);
     }
 
     @Transactional
     public void updateStatus() {
         Record record = Record.empty();
-        record.set(AoomsConstants.ID, getParaString("id"));
+        record.set(AoomsVar.ID, getParaString("id"));
         record.set("status", getParaString("status"));
         record.set("update_time",DateUtil.now());
         db.update("aooms_rbac_resource",record);
@@ -84,7 +84,7 @@ public class ResourceService extends GenericService {
 
 	@Transactional
 	public void delete() {
-        List<Object> ids = this.getListFromJson("ids",AoomsConstants.ID);
+        List<Object> ids = this.getListFromJson("ids", AoomsVar.ID);
 		db.batchDelete("aooms_rbac_resource",ids.toArray());
 	}
 

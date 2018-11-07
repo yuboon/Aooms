@@ -8,8 +8,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.shardingsphere.core.api.yaml.YamlShardingDataSourceFactory;
 import io.shardingsphere.core.jdbc.core.datasource.ShardingDataSource;
-import io.shardingsphere.core.yaml.sharding.YamlShardingConfiguration;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +68,7 @@ public class DynamicDataSourceConfiguration {
         }
 
         // 设置dynamicDataSource数据源
-        dynamicDataSource.setDefaultTargetDataSource(dataSources.get(AoomsConstants.DEFAULT_DATASOURCE));
+        dynamicDataSource.setDefaultTargetDataSource(dataSources.get(AoomsVar.DEFAULT_DATASOURCE));
         dynamicDataSource.setTargetDataSources(dataSources);
 
 
@@ -86,8 +85,8 @@ public class DynamicDataSourceConfiguration {
                 // 设置默认数据源为 sharding-jdbc 构造的数据源
                 dynamicDataSource.setDefaultTargetDataSource(dataSource);
                 // 修改datasources中的默认数据源,其他数据源不变
-                dataSources.put(AoomsConstants.DEFAULT_DATASOURCE,dataSource);
-                DynamicDataSourceHolder.dataSourceMap.put(AoomsConstants.DEFAULT_DATASOURCE,dataSource);
+                dataSources.put(AoomsVar.DEFAULT_DATASOURCE,dataSource);
+                DynamicDataSourceHolder.dataSourceMap.put(AoomsVar.DEFAULT_DATASOURCE,dataSource);
             }else{
                 throw new RuntimeException("application-sharding-jdbc.yml not found !");
             }

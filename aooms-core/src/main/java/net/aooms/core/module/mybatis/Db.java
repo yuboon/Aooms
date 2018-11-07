@@ -2,10 +2,10 @@ package net.aooms.core.module.mybatis;
 
 import cn.hutool.core.lang.Assert;
 import com.google.common.collect.Lists;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.datasource.DynamicDataSourceHolder;
-import net.aooms.core.record.RecordGroup;
 import net.aooms.core.record.Record;
+import net.aooms.core.record.RecordGroup;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -141,7 +141,7 @@ public class Db {
      */
     public int deleteByPrimaryKey(String tableName, Object primaryKeyValue){
         Record record = new Record();
-        record.set(AoomsConstants.ID,primaryKeyValue);
+        record.set(AoomsVar.ID,primaryKeyValue);
         return delete(tableName,record);
     }
 
@@ -197,7 +197,7 @@ public class Db {
             List<Record> records = Lists.newArrayList();
             for (int i  = 0; i< size; i++){
                 Record record = new Record();
-                record.set(AoomsConstants.ID, primaryKeyValues[i]);
+                record.set(AoomsVar.ID, primaryKeyValues[i]);
                 records.add(record);
             }
             return batchExecute(tableName,MyBatisConst.MS_RECORD_DELETE,records,-1);
@@ -234,7 +234,7 @@ public class Db {
     }
 
     public Record findByPrimaryKey(String tableName, Object primaryKeyValue) {
-        return findByPrimaryKey(tableName, AoomsConstants.ID ,primaryKeyValue);
+        return findByPrimaryKey(tableName, AoomsVar.ID ,primaryKeyValue);
     }
 
     public Record findByPrimaryKey(String tableName, String primaryKeyColumn ,Object primaryKeyValue) {

@@ -1,7 +1,7 @@
 package net.aooms.core.module.mybatis.record;
 
 import cn.hutool.core.util.StrUtil;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.module.mybatis.MyBatisConst;
 import net.aooms.core.module.mybatis.interceptor.MetaObjectAssistant;
 import net.aooms.core.record.Record;
@@ -9,7 +9,6 @@ import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 import org.apache.ibatis.session.Configuration;
 
 import java.util.Iterator;
@@ -34,7 +33,7 @@ public class RecordUpdate implements IRecordOper {
         Record record = (Record) parameterObject;
 
         String tableName = record.getGeneral(MyBatisConst.TABLE_NAME_PLACEHOLDER);
-        String pkName = String.valueOf(record.getOrDefault(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER, AoomsConstants.ID));
+        String pkName = String.valueOf(record.getOrDefault(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER, AoomsVar.ID));
         Object pkValue = record.get(pkName);
 
         StringBuilder stringBuilder = new StringBuilder();

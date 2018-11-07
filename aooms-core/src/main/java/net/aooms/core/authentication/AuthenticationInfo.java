@@ -2,7 +2,7 @@ package net.aooms.core.authentication;
 
 import cn.hutool.core.date.DateUtil;
 import com.google.common.collect.Maps;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -192,7 +192,7 @@ public class AuthenticationInfo implements Serializable {
     }
 
     public boolean isAdmin() {
-        return (this.id.equals(AoomsConstants.ADMIN));
+        return (this.id.equals(AoomsVar.ADMIN));
     }
 
     public void setAdmin(boolean admin) {

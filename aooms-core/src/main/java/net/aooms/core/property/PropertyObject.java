@@ -20,6 +20,9 @@ public class PropertyObject {
     @Autowired
     private KissoProperties kissoProperty;
 
+    @Autowired
+    private PropertyAooms aoomsProperty;
+
     public static PropertyObject getInstance(){
         return INSTANCE;
     }
@@ -39,5 +42,10 @@ public class PropertyObject {
     public KissoProperties getKissoProperty() {
         return kissoProperty;
     }
+
+    public PropertyAooms getAoomsProperty() {
+        return aoomsProperty;
+    }
+
 
 }

@@ -22,7 +22,7 @@ import com.baomidou.kisso.common.util.HttpUtil;
 import com.baomidou.kisso.security.token.SSOToken;
 import com.baomidou.kisso.web.handler.SSOHandlerInterceptor;
 import io.jsonwebtoken.MalformedJwtException;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.databoss.DataResult;
 import net.aooms.core.exception.AoomsExceptions;
 import net.aooms.core.property.PropertyObject;
@@ -102,7 +102,7 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
                     response.addHeader("Access-Control-Allow-Credentials", "true");
 
                     response.setContentType(RenderType.JSON.getContentType());
-                    response.setCharacterEncoding(AoomsConstants.ENCODE);
+                    response.setCharacterEncoding(AoomsVar.ENCODE);
                     DataResult dataResult = new DataResult();
                     dataResult.failure(HttpStatus.HTTP_UNAUTHORIZED, errMsg);
                     try{

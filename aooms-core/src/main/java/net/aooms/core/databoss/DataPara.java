@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
-import net.aooms.core.AoomsConstants;
+import net.aooms.core.AoomsVar;
 import net.aooms.core.exception.AoomsException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -214,7 +214,7 @@ public class DataPara implements Serializable {
      * @return
      */
     public int getPage(){
-        String page = getString(AoomsConstants.Para.PAGE);
+        String page = getString(AoomsVar.P_PAGE);
         if(StringUtils.isEmpty(page)) return 0;
         return Integer.valueOf(page);
     };
@@ -224,7 +224,7 @@ public class DataPara implements Serializable {
      * @return
      */
     public int getLimit(){
-        String limit = getString(AoomsConstants.Para.LIMIT);
+        String limit = getString(AoomsVar.P_LIMIT);
         if(StringUtils.isEmpty(limit)) return 0;
         return Integer.valueOf(limit);
     };
@@ -240,7 +240,7 @@ public class DataPara implements Serializable {
         JSONArray idArray = JSON.parseArray(jsonStr);
         int size = idArray.size();
         for (int i = 0;i<size;i++) {
-            ids.add(idArray.getJSONObject(i).getString(AoomsConstants.ID));
+            ids.add(idArray.getJSONObject(i).getString(AoomsVar.ID));
         }
         return ids;
     }
