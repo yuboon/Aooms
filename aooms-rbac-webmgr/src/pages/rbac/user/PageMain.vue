@@ -112,7 +112,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column label="电话" prop="phone"/>
-                        <el-table-column label="序号" prop="ordinal" width="50"/>
+                        <el-table-column label="序号" prop="ordinal" width="50" align="center"/>
                         <el-table-column label="创建时间" prop="create_time" align="center" width="150"/>
 
                         <el-table-column fixed label="操作" align="center" width="100">

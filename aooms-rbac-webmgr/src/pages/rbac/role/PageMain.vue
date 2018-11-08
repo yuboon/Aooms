@@ -71,11 +71,12 @@
                                 </el-switch>
                             </template>
                         </el-table-column>
-                        <el-table-column label="序号" prop="ordinal" width="50"/>
+                        <el-table-column label="序号" prop="ordinal" width="50" align="center"/>
                         <el-table-column label="创建时间" prop="create_time" align="center" width="150"/>
 
-                        <el-table-column fixed label="操作" align="center" width="100">
+                        <el-table-column fixed label="操作" align="center" width="150">
                             <template slot-scope="scope">
+                                <el-button type="info" title="分配权限" size="mini" icon="el-icon-view" circle @click="handleResourceAssign(scope.row)"></el-button>
                                 <el-button type="primary" title="编辑" size="mini" icon="el-icon-edit" circle @click="handleForm(scope.row,'update')"></el-button>
                                 <el-button type="danger" title="删除" size="mini" icon="el-icon-delete" circle :loading="scope.row.delLoading" @click="handleDelete('delOne',[scope.row])"></el-button>
                             </template>
@@ -98,17 +99,29 @@
                 ref="dataForm">
         </data-form>
 
+        <!-- 权限分配窗口 -->
+        <resource-assign
+                :org_id="org_id"
+                :org_name="org_name"
+                :treeData="treeData"
+                @tableLoad="tableLoad"
+                ref="resourceAssign">
+        </resource-assign>
+
     </div>
 </template>
 
 <script>
 import DataForm from './DataForm.vue'
+import ResourceAssign from './ResourceAssign.vue'
+
 import {httpGet,httpPost} from '@/api/sys/http'
 import ExtPagination from '@/components/ext-pagination'
 
 export default {
     components: {
         DataForm,
+        ResourceAssign,
         ExtPagination
     },
     data() {
@@ -180,6 +193,9 @@ export default {
                 this.org_name = this.treeData[0].org_name;
             }
             this.$refs.dataForm.open(row,method);
+        },
+        handleResourceAssign: function (row) {
+            this.$refs.resourceAssign.open(row);
         },
         handleDelete: function (type , selection) {
             var self = this;
