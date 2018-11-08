@@ -20,8 +20,6 @@ import com.baomidou.kisso.SSOHelper;
 import com.baomidou.kisso.common.SSOConstants;
 import com.baomidou.kisso.common.util.HttpUtil;
 import com.baomidou.kisso.security.token.SSOToken;
-import com.baomidou.kisso.web.handler.SSOHandlerInterceptor;
-import io.jsonwebtoken.MalformedJwtException;
 import net.aooms.core.AoomsVar;
 import net.aooms.core.databoss.DataResult;
 import net.aooms.core.exception.AoomsExceptions;
@@ -43,7 +41,6 @@ import java.lang.reflect.Method;
 public class LoginInterceptor extends AoomsAbstractInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
-    private SSOHandlerInterceptor handlerInterceptor;
 
     public LoginInterceptor(String[] pathPatterns, String[] ignores) {
         super(pathPatterns, ignores);
@@ -51,9 +48,7 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
 
     /**
      * 登录权限验证
-     * <p>
      * 方法拦截 controller 处理之前进行调用。
-     * </p>
      */
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
         /**
