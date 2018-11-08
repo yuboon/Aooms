@@ -4,7 +4,7 @@
 <mapper namespace="net.aooms.rbac.mapper.ResourceMapper">
 
     <select id="findList" resultType="net.aooms.core.record.Record">
-        SELECT * FROM aooms_rbac_resource t where 1=1 ${_ANDS_}
+        SELECT * FROM aooms_rbac_resource t where 1=1 ${_ANDS_} ORDER BY t.ordinal
     </select>
 
 </mapper>

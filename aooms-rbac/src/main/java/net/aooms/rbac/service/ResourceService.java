@@ -31,16 +31,13 @@ public class ResourceService extends GenericService {
     public void findList() {
         SqlPara sqlPara = SqlPara.fromDataBoss().paging();
         sqlPara.and("status","parent_resource_id");
-
-        String statementId = getStatementId(RbacMapper.class,"ResourceMapper.findList");
-		RecordGroup recordGroup = db.findList(statementId,sqlPara);
+		RecordGroup recordGroup = db.findList(RbacMapper.PKG.by("ResourceMapper.findList"),sqlPara);
 		this.setResultValue(AoomsVar.RS_DATA, recordGroup);
 	}
 
 	@Transactional(readOnly = true)
 	public void findTree() {
-		String statementId = getStatementId(RbacMapper.class,"ResourceMapper.findList");
-		RecordGroup recordGroup = db.findList(statementId,SqlPara.SINGLETON);
+		RecordGroup recordGroup = db.findList(RbacMapper.PKG.by("ResourceMapper.findList"),SqlPara.SINGLETON);
         TreeUtils treeUtils = new TreeUtils(recordGroup.getList());
         treeUtils.setParentIdKey("parent_resource_id");
         treeUtils.setDefaultValue(Kv.fkv("icon","el-icon-news"));

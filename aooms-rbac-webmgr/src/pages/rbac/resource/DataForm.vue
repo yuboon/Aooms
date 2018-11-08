@@ -203,12 +203,11 @@ export default {
                         if(self.method == 'insert'){
                             this.$emit('tableAppend', res.$vo, this.parentRow);
                         }else{
+                            this.$emit('tableUpdate', res.$vo);
                             // 调整了父资源
                             if(isChangeParent && this.changeParentResource.id != this.parentRow.id){
                                 this.$emit('tableAppend', res.$vo, this.changeParentResource);
                                 this.$emit('tableDelete', this.form);
-                            }else{
-                                this.$emit('tableUpdate', res.$vo);
                             }
                         }
                     });

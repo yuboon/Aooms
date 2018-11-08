@@ -56,6 +56,7 @@ router.afterEach(to => {
   // 需要的信息
   const app = router.app
   const { name, params, query } = to
+
   // 多页控制 打开新的页面
   app.$store.commit('d2admin/page/open', { name, params, query })
   // 更改标题

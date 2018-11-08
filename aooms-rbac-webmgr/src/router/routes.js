@@ -70,7 +70,7 @@ const frameIn = [
     component: layoutHeaderAside,
     children: (pre => [
       { path: 'index', name: `${pre}index`, component: () => import('@/pages/demo/d2-crud/index'), meta: { ...meta, title: 'D2 CRUD 首页' } },
-      { path: 'demo1', name: `${pre}demo1`, component: () => import('@/pages/demo/d2-crud/demo1'), meta: { ...meta, title: '基础表格' } },
+      //{ path: 'demo1', name: `${pre}demo1`, component: () => import('@/pages/demo/d2-crud/demo1'), meta: { ...meta, title: '基础表格' } },
       { path: 'demo2', name: `${pre}demo2`, component: () => import('@/pages/demo/d2-crud/demo2'), meta: { ...meta, title: '带斑马纹表格' } },
       { path: 'demo3', name: `${pre}demo3`, component: () => import('@/pages/demo/d2-crud/demo3'), meta: { ...meta, title: '带边框表格' } },
       { path: 'demo4', name: `${pre}demo4`, component: () => import('@/pages/demo/d2-crud/demo4'), meta: { ...meta, title: '带状态表格' } },
@@ -278,7 +278,7 @@ const frameIn = [
       { path: 'index', name: `${pre}index`, component: () => import('@/pages/demo/business/index'), meta: { ...meta, title: '示例首页' } },
       { path: 'table/1', name: `${pre}table-1`, component: () => import('@/pages/demo/business/table/1'), meta: { ...meta, title: '表格 1' } }
     ])('demo-business-')
-  },
+  }/*,
 
     {
         path: '/rbac',
@@ -287,12 +287,12 @@ const frameIn = [
         redirect: { name: 'rbac-index' },
         component: layoutHeaderAside,
         children: (pre => [
-            { path: 'index', name: `${pre}/index`,meta, component: () => import('@/pages/rbac/index'), meta: { ...meta, title: '首页' } },
             { path: 'user', name: `rbac-user`, meta ,component: () => import('@/pages/rbac/user'), meta: { ...meta, title: '用户管理' } },
             { path: 'org', name: `rbac-org`, meta ,component: () => import('@/pages/rbac/org'), meta: { ...meta, title: '机构管理' } },
-            { path: 'resource', name: `rbac-resource`, meta ,component: () => import('@/pages/rbac/resource'), meta: { ...meta, title: '资源管理' } }
+            { path: 'resource', name: `rbac-resource`, meta ,component: () => import('@/pages/rbac/resource'), meta: { ...meta, title: '资源管理' } },
+            { path: '/demo/d2-crud/demo1', name: `${pre}demo1`, component: () => import('@/pages/demo/d2-crud/demo1'), meta: { ...meta, title: '基础表格' } }
         ])('rbac-')
-    }
+    }*/
 ]
 
 /**

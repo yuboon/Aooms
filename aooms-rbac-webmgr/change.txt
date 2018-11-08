@@ -23,5 +23,7 @@ aooms-rbac-webmgr/.eslintignore
 @/.env    line:8 -> VUE_APP_API=http://localhost:8080/
 @/App.vue   line:17 -> @import '~@/assets/style/aooms.scss';
 @/package.json   line:8 -> change dev port
+@/main.js  line:49 -> end 修改动态菜单、动态路由
+
 
 [删除]

@@ -143,19 +143,21 @@
 
             // 更新节点
             update(row) {
-                if(row.parent){
-                    var children = row.parent.children;
+                function internalUpdate(children){
                     children.forEach(item => {
                         if(row.id == item.id){
                             Object.assign(item,row);
+                            return;
                         }
+
+                        internalUpdate(item.children || []);
                     });
+                }
+
+                if(row.parent){
+                    internalUpdate(row.parent.children);
                 }else{
-                    this.data.forEach(item => {
-                        if(row.id == item.id){
-                            Object.assign(item,row);
-                        }
-                    });
+                    internalUpdate(this.data);
                 }
             },
 
