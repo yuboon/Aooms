@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.aooms.rbac.mapper.RoleMapper">
+
+    <select id="findList" resultType="net.aooms.core.record.Record">
+        SELECT t.* FROM aooms_rbac_role t, aooms_rbac_org o where t.org_id = o.id ${_ANDS_} order by t.ordinal
+    </select>
+
+</mapper>

@@ -1,5 +1,6 @@
 <template>
     <el-form
+            ref="form"
             :inline="true"
             :model="form"
             size="mini"

@@ -16,8 +16,8 @@ public interface AoomsVar {
 
     int YES_FOR_INT = 1;
     int NO_FOR_INT = -1;
-    int YES_FOR_CHAR = 'Y';
-    int NO_FOR_CHAR = 'N';
+    String YES = "Y";
+    String NO = "N";
 
     String P_PAGE = "page";
     String P_LIMIT = "limit";

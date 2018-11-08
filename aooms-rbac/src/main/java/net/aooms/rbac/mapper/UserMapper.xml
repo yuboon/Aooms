@@ -15,6 +15,7 @@
             t.email,
             t.remark,
             t.status,
+            t.ordinal,
             t.create_time,
             t.update_time
          FROM aooms_rbac_user t, aooms_rbac_org o where t.org_id = o.id ${_ANDS_} order by t.ordinal
