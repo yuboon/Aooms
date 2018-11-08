@@ -242,7 +242,7 @@ export default {
             var self = this;
             self.roleIds = [];
             httpGet('aooms/rbac/user/findRoleByUserId', {user_id: this.form.id}).then(res => {
-                self.roleIds = JSON.parse(res.roleIds);
+                if(res.roleIds) self.roleIds = JSON.parse(res.roleIds);
             })
         },
         close:function(){
