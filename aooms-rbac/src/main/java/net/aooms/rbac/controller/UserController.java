@@ -64,5 +64,14 @@ public class UserController extends AoomsAbstractController {
         userService.delete();
     };
 
+    /**
+     * 查询拥有的角色
+     * @return
+     */
+    @RequestMapping("/findRoleByUserId")
+    public void findRoleByUserId(){
+        userService.findRoleByUserId();
+    };
+
 
 }

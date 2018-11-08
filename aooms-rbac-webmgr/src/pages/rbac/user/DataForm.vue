@@ -99,6 +99,21 @@
                     </el-col>
                 </el-row>
 
+                <el-form-item label="角色">
+                    <el-select
+                            v-model="roleIds"
+                            multiple
+                            filterable
+                            placeholder="请选择" style="width: 100%;">
+                        <el-option
+                                v-for="item in roles"
+                                :key="item.id"
+                                :label="item.role_name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
                 <el-form-item label="备注">
                     <el-input type="textarea" class="aooms-form-textarea" v-model="form.remark"></el-input>
                 </el-form-item>
@@ -172,9 +187,19 @@ export default {
             dialogVisible: false,
             popoverVisible: false,
             filterText:'',
-            changeOrgName:''
-
+            changeOrgName:'',
+            //roleIds:["267321253608558592","267326095118831616"],
+            roleIds:[],
+            roles:[]
         }
+    },
+    mounted() {
+        this.$nextTick(() => {
+            var self = this;
+            httpGet('aooms/rbac/role/findList',{status:'Y'}).then(res => {
+                self.roles = res.$data.list;
+            })
+        });
     },
     watch: {
         form(val){
@@ -194,6 +219,7 @@ export default {
                     // 推荐使用这种方式提交，保证RequestHeaders = Content-Type: multipart/form-databoss; boundary=----WebKitFormBoundaryzBe4gknCRJ5m3eaU
                     let submitData = new FormData();
                     submitData.append('formData',JSON.stringify(self.form));
+                    submitData.append('roleIds',JSON.stringify(self.roleIds));
                     this.loading = true;
                     httpPost('aooms/rbac/user/' + self.method,submitData).then(res => {
                         this.$message({
@@ -212,6 +238,12 @@ export default {
             this.method = method;
             this.dialogVisible = true;
             this.form = Object.assign({},row);
+
+            var self = this;
+            self.roleIds = [];
+            httpGet('aooms/rbac/user/findRoleByUserId', {user_id: this.form.id}).then(res => {
+                self.roleIds = JSON.parse(res.roleIds);
+            })
         },
         close:function(){
             this.dialogVisible = false;

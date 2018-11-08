@@ -272,7 +272,7 @@ public class Db {
         return record;
     }
 
-    public RecordGroup findList(String mappedStatementId, SqlPara sqlPara) {
+    public RecordGroup findRecords(String mappedStatementId, SqlPara sqlPara) {
         RecordGroup recordPaging = null;
         List<Record> records = Lists.newArrayList();
         if(sqlPara.isPaging()){
@@ -291,6 +291,10 @@ public class Db {
             recordPaging = new RecordGroup(sqlPara.getPage(),sqlPara.getLimit(),records,records.size(),sqlPara.isPaging());
         }
         return recordPaging;
+    }
+
+    public <T> List<T> findList(String mappedStatementId,SqlPara sqlPara) {
+        return getSqlSession().selectList(mappedStatementId,sqlPara.getParams());
     }
 
     /**

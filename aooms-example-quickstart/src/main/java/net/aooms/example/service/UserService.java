@@ -23,7 +23,7 @@ public class UserService extends GenericService {
     private Db db;
 
 	public void findList() {
-		RecordGroup recordGroup = db.findList("UserMapper.findList", SqlPara.fromDataBoss());
+		RecordGroup recordGroup = db.findRecords("UserMapper.findList", SqlPara.fromDataBoss());
 
 		{
 			// 返回值

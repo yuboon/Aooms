@@ -2,6 +2,8 @@ package net.aooms.rbac.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import net.aooms.core.AoomsVar;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
@@ -40,8 +42,7 @@ public class UserService extends GenericService {
 		       .andLikeStart("data_permission")
 		;
 
-        String statementId = getStatementId(RbacMapper.class,"UserMapper.findList");
-		RecordGroup recordGroup = db.findList(statementId,sqlPara);
+		RecordGroup recordGroup = db.findRecords(RbacMapper.PKG.by("UserMapper.findList"),sqlPara);
 		this.setResultValue(AoomsVar.RS_DATA, recordGroup);
 	}
 
@@ -57,7 +58,8 @@ public class UserService extends GenericService {
 			record.set("password", PasswordHash.createHash(password));
 		}
 		db.insert("aooms_rbac_user",record);
-	}
+        addRoles(record.getString("id"));
+    }
 
 	@Transactional
 	public void update() {
@@ -69,6 +71,10 @@ public class UserService extends GenericService {
 			record.set("password", PasswordHash.createHash(password));
 		}
         db.update("aooms_rbac_user",record);
+
+		String userId = record.getString("id");
+		db.update(RbacMapper.PKG.by("UserMapper.deleteRoleByUserId"),SqlPara.empty().set("user_id",userId));
+		addRoles(userId);
 	}
 
 	@Transactional
@@ -85,4 +91,28 @@ public class UserService extends GenericService {
         List<Object> ids = this.getListFromJson("ids", AoomsVar.ID);
 		db.batchDelete("aooms_rbac_user",ids.toArray());
 	}
+
+	@Transactional(readOnly = true)
+    public void findRoleByUserId(){
+        String userId = getParaString("user_id");
+        if(StrUtil.isNotBlank(userId)){
+            List<String> roleIds = db.findList(RbacMapper.PKG.by("UserMapper.findRoleByUserId"),SqlPara.empty().set("user_id",userId));
+            this.setResultValue("roleIds", JSON.toJSONString(roleIds));
+        }
+    }
+
+	private void addRoles(String userId){
+        String roleIds = getParaString("roleIds");
+        if(StrUtil.isNotBlank(roleIds)){
+            JSONArray ids = JSONArray.parseArray(roleIds);
+            ids.forEach(id -> {
+                Record record = Record.empty();
+                record.set(AoomsVar.ID,IDGenerator.getStringValue());
+                record.set("user_id",userId);
+                record.set("role_id",id);
+                record.set("create_time",DateUtil.now());
+                db.insert("aooms_rbac_userrole", record);
+            });
+        }
+    }
 }

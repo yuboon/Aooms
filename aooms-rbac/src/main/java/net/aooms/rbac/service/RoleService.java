@@ -36,7 +36,7 @@ public class RoleService extends GenericService {
 		       .tableAlias("o")
 		       .andLikeStart("data_permission")
 		;
-		RecordGroup recordGroup = db.findList(RbacMapper.PKG.by("RoleMapper.findList"),sqlPara);
+		RecordGroup recordGroup = db.findRecords(RbacMapper.PKG.by("RoleMapper.findList"),sqlPara);
 		this.setResultValue(AoomsVar.RS_DATA, recordGroup);
 	}
 

@@ -21,7 +21,7 @@ public class ExampleService extends GenericService {
     @DS
     public void example6() {
         // 使用主数据源
-        RecordGroup recordGroup = db.use("master").findList("UserMapper.findList", SqlPara.SINGLETON);
+        RecordGroup recordGroup = db.use("master").findRecords("UserMapper.findList", SqlPara.SINGLETON);
         setResultValue("pg1", recordGroup);
 
         // 调用从数据源
@@ -31,7 +31,7 @@ public class ExampleService extends GenericService {
     @DS("slave")
     public void slave() {
         // 使用从数据源
-        RecordGroup recordGroup2 = db.use("slave").findList("UserMapper.findList", SqlPara.SINGLETON);
+        RecordGroup recordGroup2 = db.use("slave").findRecords("UserMapper.findList", SqlPara.SINGLETON);
         setResultValue("pg2", recordGroup2);
     }
 }

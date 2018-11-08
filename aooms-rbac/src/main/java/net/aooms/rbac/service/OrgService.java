@@ -43,14 +43,14 @@ public class OrgService extends GenericService {
         ;
 
         String statementId = getStatementId(RbacMapper.class,"OrgMapper.findList");
-		RecordGroup recordGroup = db.findList(statementId,sqlPara);
+		RecordGroup recordGroup = db.findRecords(statementId,sqlPara);
 		this.setResultValue(AoomsVar.RS_DATA, recordGroup);
 	}
 
 	@Transactional(readOnly = true)
 	public void findTree() {
 		String statementId = getStatementId(RbacMapper.class,"OrgMapper.findList");
-		RecordGroup recordGroup = db.findList(statementId,SqlPara.SINGLETON);
+		RecordGroup recordGroup = db.findRecords(statementId,SqlPara.SINGLETON);
 
         TreeUtils treeUtils = new TreeUtils(recordGroup.getList());
         treeUtils.setParentIdKey("parent_org_id");
@@ -188,7 +188,7 @@ public class OrgService extends GenericService {
         db.update(updatePermissionColumnStatementId, SqlPara.SINGLETON);
 
         String statementId = getStatementId(RbacMapper.class,"OrgMapper.findList");
-        RecordGroup pr = db.findList(statementId,SqlPara.SINGLETON);
+        RecordGroup pr = db.findRecords(statementId,SqlPara.SINGLETON);
 
         TreeUtils treeUtils = new TreeUtils(pr.getList());
         treeUtils.setParentIdKey("parent_org_id");

@@ -80,4 +80,12 @@
 
     </select>
 
+    <delete id="deleteRoleByUserId">
+        delete from aooms_rbac_userrole where user_id = #{user_id}
+    </delete>
+
+    <select id="findRoleByUserId" resultType="string">
+        select role_id from aooms_rbac_userrole where user_id = #{user_id}
+    </select>
+
 </mapper>
