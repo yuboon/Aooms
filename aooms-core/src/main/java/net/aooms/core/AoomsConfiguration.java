@@ -3,8 +3,10 @@ package net.aooms.core;
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.property.*;
+import net.aooms.core.util.SpringUtils;
 import net.aooms.core.web.AoomsGlobalErrorController;
 import net.aooms.core.web.AoomsWebMvcConfigurer;
+import net.aooms.core.web.CallServiceController;
 import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.filter.CorsFilter;
@@ -109,6 +111,16 @@ public class AoomsConfiguration {
     @Bean
     public BasicErrorController basicErrorController(){
         return new AoomsGlobalErrorController(serverProperties);
+    }
+
+    @Bean
+    public CallServiceController callServiceController(){
+        return new CallServiceController();
+    }
+
+    @Bean
+    public SpringUtils springUtils(){
+        return new SpringUtils();
     }
 
     @Bean

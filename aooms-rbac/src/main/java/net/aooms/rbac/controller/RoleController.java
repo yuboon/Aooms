@@ -65,5 +65,13 @@ public class RoleController extends AoomsAbstractController {
         roleService.delete();
     };
 
+    /**
+     * 查询角色分配的资源
+     * @return
+     */
+    @RequestMapping("/findResourceByRoleId")
+    public void findResourceByRoleId(){
+        roleService.findResourceByRoleId();
+    };
 
 }

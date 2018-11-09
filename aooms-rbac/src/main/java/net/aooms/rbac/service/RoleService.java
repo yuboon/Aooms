@@ -68,8 +68,15 @@ public class RoleService extends GenericService {
 	}
 
 	@Transactional
-	public void delete() {
+	public void delete(){
         List<Object> ids = this.getListFromJson("ids", AoomsVar.ID);
 		db.batchDelete("aooms_rbac_role",ids.toArray());
+	}
+
+	@Transactional(readOnly = true)
+	public void findResourceByRoleId() {
+        SqlPara sqlPara = SqlPara.empty().set("role_id",getParaString("role_id"));
+		List<String> resourceIds = db.findList(RbacMapper.PKG.by("RoleMapper.findResourceByRoleId"),sqlPara);
+		this.setResultValue("resourceIds", resourceIds);
 	}
 }

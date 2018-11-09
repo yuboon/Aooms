@@ -97,7 +97,7 @@ public class UserService extends GenericService {
         String userId = getParaString("user_id");
         if(StrUtil.isNotBlank(userId)){
             List<String> roleIds = db.findList(RbacMapper.PKG.by("UserMapper.findRoleByUserId"),SqlPara.empty().set("user_id",userId));
-            this.setResultValue("roleIds", JSON.toJSONString(roleIds));
+            this.setResultValue("roleIds", roleIds);
         }
     }
 

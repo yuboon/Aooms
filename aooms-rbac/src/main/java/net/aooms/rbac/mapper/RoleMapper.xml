@@ -7,4 +7,15 @@
         SELECT t.* FROM aooms_rbac_role t, aooms_rbac_org o where t.org_id = o.id ${_ANDS_} order by t.ordinal
     </select>
 
+    <select id="findResourceByRoleId" resultType="net.aooms.core.record.Record">
+        SELECT r.id
+          FROM aooms_rbac_role t,
+               aooms_rbac_permission p,
+               aooms_rbac_resource r
+          where t.id = p.role_id and r.id = p.resource_id
+          AND t.id = #{role_id}
+    </select>
+
+
+
 </mapper>
