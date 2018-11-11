@@ -48,7 +48,7 @@ Vue.component('SplitPane', SplitPane)
 // 发起Promise
 new Promise(function(resolve, reject){
     // 菜单动态查询加载
-    httpGet('aooms/rbac/resource/findTree',{parent_resource_id:'ROOT'}).then(res => {
+    httpGet('aooms/rbac/resourceService/findTree',{parent_resource_id:'ROOT'}).then(res => {
         var list = res.$tree;
 
         function convertD2AdminMenu(li) {

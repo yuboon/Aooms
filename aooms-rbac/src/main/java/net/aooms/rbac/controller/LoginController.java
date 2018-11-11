@@ -19,7 +19,7 @@ import java.util.UUID;
  * Created by 风象南(yuboon) on 2018-09-12
  */
 @RestController
-@RequestMapping(Aooms.WebContext + "/rbac")
+@RequestMapping(Aooms.WebContext + "/rbac/loginService")
 @ClearInterceptor(LoginInterceptor.class)
 public class LoginController extends AoomsAbstractController {
 
@@ -30,8 +30,8 @@ public class LoginController extends AoomsAbstractController {
      * 登陆
      * @return
      */
-    @RequestMapping("/login")
-    public void login(){
+    @RequestMapping("/validateAccount")
+    public void validateAccount(){
         loginService.validateAccount();
         //setResultValue("uuid","admin").set("token", UUID.randomUUID().toString());
         //this.setResultValue("");

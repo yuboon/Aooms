@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by 风象南(yuboon) on 2018-09-12
  */
 @RestController
-@RequestMapping(Aooms.WebContext + "/rbac/user")
+@RequestMapping(Aooms.WebContext + "/rbac/userService")
 public class UserController extends AoomsAbstractController {
 
     @Autowired

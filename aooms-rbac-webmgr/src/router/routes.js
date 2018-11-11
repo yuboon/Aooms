@@ -287,9 +287,9 @@ const frameIn = [
         redirect: { name: 'rbac-index' },
         component: layoutHeaderAside,
         children: (pre => [
-            { path: 'user', name: `rbac-user`, meta ,component: () => import('@/pages/rbac/user'), meta: { ...meta, title: '用户管理' } },
-            { path: 'org', name: `rbac-org`, meta ,component: () => import('@/pages/rbac/org'), meta: { ...meta, title: '机构管理' } },
-            { path: 'resource', name: `rbac-resource`, meta ,component: () => import('@/pages/rbac/resource'), meta: { ...meta, title: '资源管理' } },
+            { path: 'user', name: `rbac-user`, meta ,component: () => import('@/pages/rbac/userService'), meta: { ...meta, title: '用户管理' } },
+            { path: 'org', name: `rbac-org`, meta ,component: () => import('@/pages/rbac/orgService'), meta: { ...meta, title: '机构管理' } },
+            { path: 'resource', name: `rbac-resource`, meta ,component: () => import('@/pages/rbac/resourceService'), meta: { ...meta, title: '资源管理' } },
             { path: '/demo/d2-crud/demo1', name: `${pre}demo1`, component: () => import('@/pages/demo/d2-crud/demo1'), meta: { ...meta, title: '基础表格' } }
         ])('rbac-')
     }*/

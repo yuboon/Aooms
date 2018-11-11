@@ -81,7 +81,7 @@ export default {
     },
     mounted() {
         var self = this;
-        httpGet('aooms/rbac/resource/findTree',{status:'Y'}).then(res => {
+        httpGet('aooms/rbac/resourceService/findTree',{status:'Y'}).then(res => {
             self.resourceData = res.$tree;
         })
     },
@@ -94,7 +94,7 @@ export default {
                     let submitData = new FormData();
                     submitData.append('formData',JSON.stringify(self.form));
                     this.loading = true;
-                    httpPost('aooms/rbac/role/' + self.method,submitData).then(res => {
+                    httpPost('aooms/rbac/roleService/' + self.method,submitData).then(res => {
                         this.$message({
                             type: 'success',
                             message: '保存成功'

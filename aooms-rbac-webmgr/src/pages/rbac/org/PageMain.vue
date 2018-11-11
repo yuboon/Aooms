@@ -268,7 +268,7 @@
                 submitData.append("ids",JSON.stringify(ids));
 
                 type == 'del' ? this.delLoading = true : this.$set(selection[0],'delLoading',true);
-                httpPost('aooms/rbac/org/delete',submitData).then(res => {
+                httpPost('aooms/rbac/orgService/delete',submitData).then(res => {
                     this.$message({
                         type: 'success',
                         message: '成功删除' + selection.length + '条数据'
@@ -290,7 +290,7 @@
             })
         },
         treeLoad(){
-            httpGet('aooms/rbac/org/findTree').then(res => {
+            httpGet('aooms/rbac/orgService/findTree').then(res => {
                 this.treeData = res.$tree;
             });
         },
@@ -323,7 +323,7 @@
                 },ext);
 
                 self.loading = true;
-                httpGet('aooms/rbac/org/findList', params).then(res => {
+                httpGet('aooms/rbac/orgService/findList', params).then(res => {
                     self.loading = false;
                     self.currentTableData = res.$data.list
                     pagination.total = res.$data.total;

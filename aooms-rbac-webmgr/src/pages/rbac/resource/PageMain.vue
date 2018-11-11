@@ -132,7 +132,7 @@ export default {
                 submitData.append("ids",JSON.stringify(ids));
 
                 this.$set(row,'delLoading',true);
-                httpPost('aooms/rbac/resource/delete',submitData).then(res => {
+                httpPost('aooms/rbac/resourceService/delete',submitData).then(res => {
                     this.$refs.treeTable.remove(row);
                     this.$set(row,'delLoading',false);
                 });
@@ -140,7 +140,7 @@ export default {
         },
         tableLoad(){
             this.loading = true;
-            httpGet('aooms/rbac/resource/findTree').then(res => {
+            httpGet('aooms/rbac/resourceService/findTree').then(res => {
                 this.tableData = res.$tree;
                 this.loading = false;
             });

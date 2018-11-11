@@ -177,7 +177,7 @@ export default {
                     limit: self.$refs.pagination.size,
                 },ext);
                 self.loading = true;
-                httpGet('aooms/rbac/role/findList', params).then(res => {
+                httpGet('aooms/rbac/roleService/findList', params).then(res => {
                     self.loading = false;
                     self.currentTableData = res.$data.list
                     self.$refs.pagination.total = res.$data.total;
@@ -220,7 +220,7 @@ export default {
                 submitData.append("ids",JSON.stringify(ids));
 
                 type == 'del' ? this.delLoading = true : this.$set(selection[0],'delLoading',true);
-                httpPost('aooms/rbac/role/delete',submitData).then(res => {
+                httpPost('aooms/rbac/roleService/delete',submitData).then(res => {
                     this.$message({
                         type: 'success',
                         message: '成功删除' + selection.length + '条数据'
@@ -237,7 +237,7 @@ export default {
             })
         },
         treeLoad(){
-            httpGet('aooms/rbac/org/findTree').then(res => {
+            httpGet('aooms/rbac/orgService/findTree').then(res => {
                 this.treeData = res.$tree;
             });
         },
@@ -263,7 +263,7 @@ export default {
             row.status = status;
 
             this.radioDisabled = true;
-            httpPost('aooms/rbac/role/updateStatus',submitData).then(res => {
+            httpPost('aooms/rbac/roleService/updateStatus',submitData).then(res => {
                 this.radioDisabled = false;
                 this.tableLoad({});
             });

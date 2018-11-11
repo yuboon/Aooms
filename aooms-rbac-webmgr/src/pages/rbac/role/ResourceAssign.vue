@@ -83,7 +83,7 @@ export default {
     },
     mounted() {
         var self = this;
-        httpGet('aooms/rbac/resource/findTree',{'status':'Y'}).then(res => {
+        httpGet('aooms/rbac/resourceService/findTree',{'status':'Y'}).then(res => {
             self.resourceData = res.$tree;
         })
     },
@@ -110,7 +110,7 @@ export default {
                     submitData.append("halfResourceIds",JSON.stringify(self.halfSelectResourceIds));
 
                     this.loading = true;
-                    httpPost('aooms/rbac/role/insertPermission',submitData).then(res => {
+                    httpPost('aooms/rbac/roleService/insertPermission',submitData).then(res => {
                         this.$message({
                             type: 'success',
                             message: '保存成功'
@@ -127,7 +127,7 @@ export default {
             var self = this;
             this.$nextTick(() => {
                 self.$refs.tree.setCheckedNodes([]);
-                httpGet('aooms/rbac/role/findPermissionByRoleId', {'role_id': self.form.id,'is_halfselect':'N'}).then(res => {
+                httpGet('aooms/rbac/roleService/findPermissionByRoleId', {'role_id': self.form.id,'is_halfselect':'N'}).then(res => {
                     self.resourceIds = res.resourceIds;
                     self.$refs.tree.setCheckedNodes(self.resourceIds);
                 })

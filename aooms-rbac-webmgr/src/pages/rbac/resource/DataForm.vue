@@ -193,7 +193,7 @@ export default {
                     submitData.append('formData',JSON.stringify(obj));
 
                     this.loading = true;
-                    httpPost('aooms/rbac/resource/' + self.method,submitData).then(res => {
+                    httpPost('aooms/rbac/resourceService/' + self.method,submitData).then(res => {
                         this.$message({
                             type: 'success',
                             message: '保存成功'

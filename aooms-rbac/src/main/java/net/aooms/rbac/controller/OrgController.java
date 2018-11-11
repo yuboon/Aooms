@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by 风象南(yuboon) on 2018-10-08
  */
 @RestController
-@RequestMapping(Aooms.WebContext + "/rbac/org")
+@RequestMapping(Aooms.WebContext + "/rbac/orgService")
 public class OrgController extends AoomsAbstractController {
 
     @Autowired

@@ -38,7 +38,7 @@
                 submitData.append("status",val ? 'Y':'N');
 
                 this.disabled = true;
-                httpPost('aooms/rbac/resource/updateStatus',submitData).then(res => {
+                httpPost('aooms/rbac/resourceService/updateStatus',submitData).then(res => {
                     this.disabled = false;
                     self.$emit('change');
                 });

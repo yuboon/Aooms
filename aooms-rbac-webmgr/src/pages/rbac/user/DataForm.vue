@@ -196,7 +196,7 @@ export default {
     mounted() {
         this.$nextTick(() => {
             var self = this;
-            httpGet('aooms/rbac/role/findList',{status:'Y'}).then(res => {
+            httpGet('aooms/rbac/roleService/findList',{status:'Y'}).then(res => {
                 self.roles = res.$data.list;
             })
         });
@@ -221,7 +221,7 @@ export default {
                     submitData.append('formData',JSON.stringify(self.form));
                     submitData.append('roleIds',JSON.stringify(self.roleIds));
                     this.loading = true;
-                    httpPost('aooms/rbac/user/' + self.method,submitData).then(res => {
+                    httpPost('aooms/rbac/userService/' + self.method,submitData).then(res => {
                         this.$message({
                             type: 'success',
                             message: '保存成功'
@@ -241,7 +241,7 @@ export default {
 
             var self = this;
             self.roleIds = [];
-            httpGet('aooms/rbac/user/findRoleByUserId', {user_id: this.form.id}).then(res => {
+            httpGet('aooms/rbac/userService/findRoleByUserId', {user_id: this.form.id}).then(res => {
                 if(res.roleIds) self.roleIds = res.roleIds;
             })
         },

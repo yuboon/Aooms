@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by 风象南(yuboon) on 2018-10-08
  */
 @RestController
-@RequestMapping(Aooms.WebContext + "/rbac/resource")
+@RequestMapping(Aooms.WebContext + "/rbac/resourceService")
 public class ResourceController extends AoomsAbstractController {
 
     @Autowired
-    private ResourceService moduleService;
+    private ResourceService resourceService;
 
     /**
      * 查询
@@ -27,7 +27,7 @@ public class ResourceController extends AoomsAbstractController {
      */
     @RequestMapping("/findList")
     public void findList(){
-        moduleService.findList();
+        resourceService.findList();
     };
 
     /**
@@ -37,7 +37,7 @@ public class ResourceController extends AoomsAbstractController {
     @ClearInterceptor(LoginInterceptor.class)
     @RequestMapping("/findTree")
     public void findTree(){
-        moduleService.findTree();
+        resourceService.findTree();
     };
 
     /**
@@ -46,7 +46,7 @@ public class ResourceController extends AoomsAbstractController {
      */
     @PostMapping("/insert")
     public void insert(){
-        moduleService.insert();
+        resourceService.insert();
     };
 
     /**
@@ -55,7 +55,7 @@ public class ResourceController extends AoomsAbstractController {
      */
     @PostMapping("/update")
     public void update(){
-        moduleService.update();
+        resourceService.update();
     };
 
     /**
@@ -64,7 +64,7 @@ public class ResourceController extends AoomsAbstractController {
      */
     @PostMapping("/updateStatus")
     public void updateStatus(){
-        moduleService.updateStatus();
+        resourceService.updateStatus();
     };
 
     /**
@@ -73,7 +73,7 @@ public class ResourceController extends AoomsAbstractController {
      */
     @PostMapping("/delete")
     public void delete(){
-        moduleService.delete();
+        resourceService.delete();
     };
 
 
