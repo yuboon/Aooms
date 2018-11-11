@@ -14,8 +14,14 @@ import demoBusiness from './modules/demo-business'
 import demoD2Crud from './modules/demo-d2-crud'
 // 第三方网页
 import demoFrame from './modules/demo-frame'
+import router from "../router";
+
 // 系统管理
 //import rbacFrame from './modules/rbac'
+// 加载菜单依赖
+// import { frameInRoutes } from '@/router/routes'
+// import layoutHeaderAside from '@/layout/header-aside'
+// import { httpGet } from '@/api/sys/http'
 
 // 菜单 侧边栏
 export const menuAside = [

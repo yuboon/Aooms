@@ -63,8 +63,10 @@ export default {
             loading:false,
             form: {},
             dialogVisible: false,
-            popoverVisible: false,
             filterText:'',
+            resourceIds:[],
+            selectResourceIds:[],
+            halfSelectResourceIds:[],
             resourceData:[]
 
         }
@@ -81,7 +83,7 @@ export default {
     },
     mounted() {
         var self = this;
-        httpGet('aooms/rbac/resource/findTree',{status:'Y'}).then(res => {
+        httpGet('aooms/rbac/resource/findTree',{'status':'Y'}).then(res => {
             self.resourceData = res.$tree;
         })
     },
@@ -90,18 +92,30 @@ export default {
             var self = this;
             this.$refs.form.validate((valid, error) => {
                 if (valid) {
-                    // 推荐使用这种方式提交，保证RequestHeaders = Content-Type: multipart/form-databoss; boundary=----WebKitFormBoundaryzBe4gknCRJ5m3eaU
+
+                    var nodes = this.$refs.tree.getCheckedNodes();
+                    var halfNodes = this.$refs.tree.getHalfCheckedNodes();
+                    this.selectResourceIds = [];
+                    this.halfSelectResourceIds = [];
+                    nodes.forEach(node => {
+                        this.selectResourceIds.push(node.id);
+                    });
+                    halfNodes.forEach(node => {
+                        this.halfSelectResourceIds.push(node.id);
+                    });
+
                     let submitData = new FormData();
-                    submitData.append('formData',JSON.stringify(self.form));
+                    submitData.append('role_id',self.form.id);
+                    submitData.append("resourceIds",JSON.stringify(self.selectResourceIds));
+                    submitData.append("halfResourceIds",JSON.stringify(self.halfSelectResourceIds));
+
                     this.loading = true;
-                    httpPost('aooms/rbac/role/' + self.method,submitData).then(res => {
+                    httpPost('aooms/rbac/role/insertPermission',submitData).then(res => {
                         this.$message({
                             type: 'success',
                             message: '保存成功'
                         });
                         this.loading = false;
-                        this.$emit('tableLoad',{},false);
-                        this.dialogVisible = false;
                     });
                 }
             });
@@ -109,6 +123,16 @@ export default {
         open:function(row){
             this.dialogVisible = true;
             this.form = Object.assign({},row);
+
+            var self = this;
+            this.$nextTick(() => {
+                self.$refs.tree.setCheckedNodes([]);
+                httpGet('aooms/rbac/role/findPermissionByRoleId', {'role_id': self.form.id,'is_halfselect':'N'}).then(res => {
+                    self.resourceIds = res.resourceIds;
+                    self.$refs.tree.setCheckedNodes(self.resourceIds);
+                })
+            });
+
         },
         close:function(){
             this.dialogVisible = false;

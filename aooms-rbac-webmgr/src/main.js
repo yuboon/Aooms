@@ -73,9 +73,9 @@ new Promise(function(resolve, reject){
 
         convertD2AdminMenu(list);
         list.forEach(item => {
-            menuAside.push(item);
-            menuHeader.push(item);
-            frameInRoutes.push(item);
+            //menuAside.push(item);
+            //menuHeader.push(item);
+            //frameInRoutes.push(item);
         });
 
         // 追加路由

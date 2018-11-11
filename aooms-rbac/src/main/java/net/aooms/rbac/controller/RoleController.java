@@ -69,9 +69,18 @@ public class RoleController extends AoomsAbstractController {
      * 查询角色分配的资源
      * @return
      */
-    @RequestMapping("/findResourceByRoleId")
-    public void findResourceByRoleId(){
-        roleService.findResourceByRoleId();
+    @RequestMapping("/findPermissionByRoleId")
+    public void findPermissionByRoleId(){
+        roleService.findPermissionByRoleId();
+    };
+
+    /**
+     * 查询拥有的角色
+     * @return
+     */
+    @PostMapping("/insertPermission")
+    public void insertPermission(){
+        roleService.insertPermission();
     };
 
 }

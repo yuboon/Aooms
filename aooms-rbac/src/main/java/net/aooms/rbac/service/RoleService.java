@@ -2,6 +2,8 @@ package net.aooms.rbac.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.google.common.collect.Lists;
 import net.aooms.core.Aooms;
 import net.aooms.core.AoomsVar;
 import net.aooms.core.id.IDGenerator;
@@ -74,9 +76,51 @@ public class RoleService extends GenericService {
 	}
 
 	@Transactional(readOnly = true)
-	public void findResourceByRoleId() {
-        SqlPara sqlPara = SqlPara.empty().set("role_id",getParaString("role_id"));
-		List<String> resourceIds = db.findList(RbacMapper.PKG.by("RoleMapper.findResourceByRoleId"),sqlPara);
+	public void findPermissionByRoleId() {
+        SqlPara sqlPara = SqlPara.fromDataBoss().tableAlias("p").and("is_halfselect");
+        System.err.println("sql:" + sqlPara.get("_ANDS_"));
+		List<String> resourceIds = db.findList(RbacMapper.PKG.by("RoleMapper.findPermissionByRoleId"),sqlPara);
 		this.setResultValue("resourceIds", resourceIds);
 	}
+
+    @Transactional
+    public void insertPermission() {
+        String resourceIds = getParaString("resourceIds");
+        String halfResourceIds = getParaString("halfResourceIds");
+
+        // 删除旧数据
+        db.update(RbacMapper.PKG.by("RoleMapper.deletePermissionByRoleId"),SqlPara.empty().set("role_id",getParaString("role_id")));
+
+        if(StrUtil.isNotBlank(resourceIds)){
+            JSONArray ids = JSONArray.parseArray(resourceIds);
+            List<Record> list = Lists.newArrayList();
+            ids.forEach(id -> {
+                Record record = Record.empty();
+                record.set(AoomsVar.ID,IDGenerator.getStringValue());
+                record.set("role_id",getParaString("role_id"));
+                record.set("resource_id",id);
+                record.set("is_halfselect",AoomsVar.NO);
+                record.set("create_time",DateUtil.now());
+                list.add(record);
+            });
+
+            db.batchInsert("aooms_rbac_permission",list,100);
+        }
+
+        if(StrUtil.isNotBlank(halfResourceIds)){
+            JSONArray ids = JSONArray.parseArray(halfResourceIds);
+            List<Record> list = Lists.newArrayList();
+            ids.forEach(id -> {
+                Record record = Record.empty();
+                record.set(AoomsVar.ID,IDGenerator.getStringValue());
+                record.set("role_id",getParaString("role_id"));
+                record.set("resource_id",id);
+                record.set("is_halfselect",AoomsVar.YES);
+                record.set("create_time",DateUtil.now());
+                list.add(record);
+            });
+
+            db.batchInsert("aooms_rbac_permission",list,100);
+        }
+    }
 }

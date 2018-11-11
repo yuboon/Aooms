@@ -85,5 +85,4 @@ public class ResourceService extends GenericService {
 		db.batchDelete("aooms_rbac_resource",ids.toArray());
 	}
 
-
 }
