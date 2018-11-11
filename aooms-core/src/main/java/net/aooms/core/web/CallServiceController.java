@@ -21,8 +21,9 @@ public class CallServiceController extends AoomsAbstractController {
      * 调用Service
      * @return
      */
-    @RequestMapping("/{serviceBeanName}/{method}")
+    @RequestMapping("/{nameSpace}/{serviceBeanName}/{method}")
     public void callService(){
+        String nameSpace = getPathString("nameSpace");
         String serviceBeanName = getPathString("serviceBeanName");
         String method = getPathString("method");
 

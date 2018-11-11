@@ -51,7 +51,7 @@ export default {
                         return;
                     }
                     var authentication = res.$authentication;
-                    util.cookies.set('token', authentication.token);
+                    util.cookies.set('AoomsToken', authentication.token);
 
                     // 设置 vuex 用户信息
                     /*commit('d2admin/user/set', {
@@ -90,7 +90,7 @@ export default {
              */
             function logout () {
                 // 删除cookie
-                util.cookies.remove('token')
+                util.cookies.remove('AoomsToken')
                 util.cookies.remove('uuid')
                 //commit('d2admin/user/set',{},{ root: true })
 
@@ -102,7 +102,7 @@ export default {
             // 判断是否需要确认
             if (confirm) {
                 commit('d2admin/gray/set', true, { root: true })
-                vm.$confirm('注销当前账户吗?  打开的标签页和用户设置将会被保存。', '确认操作', {
+                vm.$confirm('注销当前账户吗?', '确认操作', {
                     confirmButtonText: '确定注销',
                     cancelButtonText: '放弃',
                     type: 'warning'
