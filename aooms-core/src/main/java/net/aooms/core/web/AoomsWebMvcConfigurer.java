@@ -31,11 +31,12 @@ public class AoomsWebMvcConfigurer implements WebMvcConfigurer {
         String[] pathPatterns = registryProxy.getPathPatterns();
         String[] ignores = registryProxy.getIgnores();
 
+        registryProxy.addInterceptor(new ReportInterceptor(pathPatterns, ignores));
+        registryProxy.addInterceptor(new CallServiceInterceptor(new String[]{"/aooms/call/**"},ignores)); //ArrayUtil.append(ignores,"/login")
         registryProxy.addInterceptor(new LoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
         //registryProxy.addInterceptor(new PermissionInterceptor(pathPatterns,ignores));
         registryProxy.addInterceptor(new DataBossInterceptor(pathPatterns,ignores));
         registryProxy.addInterceptor(new ContextInterceptor(pathPatterns,ignores));
-        //registryProxy.addInterceptor(new RequestInterceptor(pathPatterns,ignores));
         registryProxy.addInterceptor(new ParamInterceptor(pathPatterns,ignores));
         registryProxy.addInterceptor(new DefaultRenderInterceptor(pathPatterns,ignores));
     }

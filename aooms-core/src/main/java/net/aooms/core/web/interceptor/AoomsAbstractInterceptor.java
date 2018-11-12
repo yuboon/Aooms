@@ -1,7 +1,10 @@
 package net.aooms.core.web.interceptor;
 
 import com.google.common.collect.Sets;
+import net.aooms.core.AoomsVar;
+import net.aooms.core.web.AoomsContext;
 import net.aooms.core.web.annotation.ClearInterceptor;
+import net.aooms.core.web.service.CallServiceController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -65,32 +69,55 @@ public abstract class AoomsAbstractInterceptor {
      * @param handler
      * @return
      */
-    public boolean isDisabled(Object handler){
+    public boolean isDisabled(HttpServletRequest request,HttpServletResponse response,Object handler){
         Class<?> clazz = getClass(handler);
         if(clazz == null) return false;
 
         Method method = getMethod(handler);
         if(method == null) return  false;
 
-        ClearInterceptor classClearInterceptor = clazz.getAnnotation(ClearInterceptor.class);
-        ClearInterceptor clearInterceptor = method.getAnnotation(ClearInterceptor.class);
-        if(clearInterceptor == null && classClearInterceptor == null){
-            return false;
-        }
-
-        Set<Class<? extends AoomsAbstractInterceptor>> interceptors = Sets.newHashSet();
-        if(classClearInterceptor != null && classClearInterceptor.value() != null){
-            interceptors.addAll(Arrays.asList(classClearInterceptor.value()));
-        }
-
-        if(clearInterceptor != null && clearInterceptor.value() != null){
-            interceptors.addAll(Arrays.asList(clearInterceptor.value()));
-        }
-
-        for (Class<? extends  AoomsAbstractInterceptor> interceptor : interceptors){
-            if(this.getClass() == interceptor){
-                return true;
+        if(clazz != CallServiceController.class){
+            // normal controller
+            ClearInterceptor classClearInterceptor = clazz.getAnnotation(ClearInterceptor.class);
+            ClearInterceptor clearInterceptor = method.getAnnotation(ClearInterceptor.class);
+            if(clearInterceptor == null && classClearInterceptor == null){
+                return false;
             }
+
+            Set<Class<? extends AoomsAbstractInterceptor>> interceptors = Sets.newHashSet();
+            if(classClearInterceptor != null && classClearInterceptor.value() != null){
+                interceptors.addAll(Arrays.asList(classClearInterceptor.value()));
+            }
+
+            if(clearInterceptor != null && clearInterceptor.value() != null){
+                interceptors.addAll(Arrays.asList(clearInterceptor.value()));
+            }
+
+            for (Class<? extends  AoomsAbstractInterceptor> interceptor : interceptors){
+                if(this.getClass() == interceptor){
+                    return true;
+                }
+            }
+
+        }else{
+            // call service controller
+            List<Class<? extends  AoomsAbstractInterceptor>> skipInterceptors = (List<Class<? extends  AoomsAbstractInterceptor>> )request.getAttribute(AoomsVar.SKIP_INTERCEPTOR_ON_CLASS);
+            List<Class<? extends  AoomsAbstractInterceptor>> methodSkipInterceptors = (List<Class<? extends  AoomsAbstractInterceptor>> )request.getAttribute(AoomsVar.SKIP_INTERCEPTOR_ON_METHOD);
+            Set<Class<? extends AoomsAbstractInterceptor>> callServiceSkipInterceptors = Sets.newHashSet();
+            if(skipInterceptors != null){
+                callServiceSkipInterceptors.addAll(skipInterceptors);
+            }
+
+            if(methodSkipInterceptors != null){
+                callServiceSkipInterceptors.addAll(methodSkipInterceptors);
+            }
+
+            for (Class<? extends  AoomsAbstractInterceptor> interceptor : callServiceSkipInterceptors){
+                if(this.getClass() == interceptor){
+                    return true;
+                }
+            }
+
         }
 
         return false;
@@ -101,8 +128,8 @@ public abstract class AoomsAbstractInterceptor {
      * @param handler
      * @return
      */
-    public boolean isEnabled(Object handler){
-        return !isDisabled(handler);
+    public boolean isEnabled(HttpServletRequest request,HttpServletResponse response,Object handler){
+        return !isDisabled(request,response,handler);
     }
 
     /**

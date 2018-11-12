@@ -19,6 +19,10 @@ public class PropertyAooms {
     // 是否启用服务注册
     private boolean useRegistry;
 
+    // 使用CallService调用的模式
+    // manual 手动需要添加后方可使用  auto 无需手动添加，存在Service即可调用
+    // private String callServiceMode = "auto";
+
     public boolean isDevMode() {
         return devMode;
     }
@@ -34,4 +38,5 @@ public class PropertyAooms {
     public void setUseRegistry(boolean useRegistry) {
         this.useRegistry = useRegistry;
     }
+
 }

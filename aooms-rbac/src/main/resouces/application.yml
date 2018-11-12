@@ -12,12 +12,10 @@ aooms:
   use-registry: false
   dev-mode: true
 
-
 # 默认项目配置
 spring:
   application:
     name: Aooms
-    aooms-use-registry: false
 
   profiles:
     active: dev

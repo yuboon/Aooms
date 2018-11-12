@@ -1,6 +1,8 @@
 package net.aooms.core.web.interceptor;
 
 
+import net.aooms.core.Aooms;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,8 +18,10 @@ public class RequestInterceptor extends AoomsAbstractInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
-        System.err.println("RequestInterceptor.getRequestURL:" + request.getRequestURL());
-
+        boolean isDev = Aooms.self().getPropertyObject().getAoomsProperty().isDevMode();
+        if(isDev){
+            System.out.println("http:" + request.getRequestURL());
+        }
         return true;
     }
 

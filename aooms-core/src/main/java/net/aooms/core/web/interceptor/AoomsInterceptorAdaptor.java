@@ -19,20 +19,20 @@ public class AoomsInterceptorAdaptor implements HandlerInterceptor {
     }
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(abstractInterceptor.isDisabled(handler)) return true;
+        if(abstractInterceptor.isDisabled(request,response,handler)) return true;
         return abstractInterceptor.preHandle(request,response,handler);
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        if(abstractInterceptor.isEnabled(handler)){
+        if(abstractInterceptor.isEnabled(request,response,handler)){
             abstractInterceptor.handle(request,response,handler,modelAndView);
         }
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        if(abstractInterceptor.isEnabled(handler)){
+        if(abstractInterceptor.isEnabled(request,response,handler)){
             abstractInterceptor.finalHandle(request,response,handler,ex);
         }
     }

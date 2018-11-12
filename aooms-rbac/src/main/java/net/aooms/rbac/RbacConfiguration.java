@@ -2,6 +2,7 @@ package net.aooms.rbac;
 
 import net.aooms.core.web.AoomsWebMvcConfigurer;
 import net.aooms.core.web.filter.CorsFilter;
+import net.aooms.core.web.service.ServiceConfigurations;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,13 @@ public class RbacConfiguration {
         return new AoomsWebMvcConfigurer() {
 
         };
+    }
+
+    @Bean
+    public RbacSetting rbacSetting(ServiceConfigurations serviceConfigurations){
+        RbacSetting rbacSetting = new RbacSetting();
+        rbacSetting.configCallService(serviceConfigurations);
+        return rbacSetting;
     }
 
 }
