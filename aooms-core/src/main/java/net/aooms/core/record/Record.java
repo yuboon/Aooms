@@ -102,7 +102,7 @@ public class Record extends CaseInsensitiveMap {
      * @param retainOriginal 是否保留原始属性
      * @return
      */
-    public Record convertValueKey(Kv kv,boolean retainOriginal){
+    public Record convertKeyValue(Kv kv,boolean retainOriginal){
         Set<String> keys = kv.keySet();
         for(String key : keys){
             this.set(kv.getString(key), this.get(key));

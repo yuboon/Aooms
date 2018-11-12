@@ -83,6 +83,10 @@ service.interceptors.response.use(
             setTimeout(function(){window.location.hash = '#/login';}, 3000);
             errorCreat(`[ code: 401 ] ${dataAxios.$.msg}: ${response.config.url}`)
             break
+        case -1:
+          // 逻辑失败控制
+          return dataAxios;
+          break;
         default:
           // 不是正确的 code
           errorCreat(`${dataAxios.msg}: ${response.config.url}`)

@@ -3,12 +3,12 @@
     <span class="btn-text">你好 {{info.userName}}</span>
     <el-dropdown-menu slot="dropdown">
 
-      <el-dropdown-item @click.native="test">
+      <el-dropdown-item @click.native="userInfo">
         <d2-icon name="user" class="d2-mr-5"/>
         个人信息
       </el-dropdown-item>
 
-      <el-dropdown-item @click.native="test">
+      <el-dropdown-item @click.native="updatePassword">
         <d2-icon name="key" class="d2-mr-5"/>
         修改密码
       </el-dropdown-item>
@@ -44,8 +44,16 @@ export default {
       })
     },
 
-    test () {
-        this.$message('开发中');
+    userInfo () {
+        this.$router.push({
+            path: '/rbac/user-info'
+        });
+    },
+
+    updatePassword () {
+        this.$router.push({
+            path: '/rbac/user-password'
+        });
     }
   }
 }

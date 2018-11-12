@@ -11,6 +11,7 @@ import net.aooms.core.module.mybatis.SqlPara;
 import net.aooms.core.record.Record;
 import net.aooms.core.record.RecordGroup;
 import net.aooms.core.service.GenericService;
+import net.aooms.core.util.Kv;
 import net.aooms.core.util.PasswordHash;
 import net.aooms.rbac.mapper.RbacMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,25 @@ public class UserService extends GenericService {
 		addRoles(userId);
 	}
 
+    @Transactional
+    public void updatePassword() {
+        String id = getParaString("id");
+        String oldPassword = getParaString("old_password");
+        String password = getParaString("password");
+
+        Record user = db.findByPrimaryKey("aooms_rbac_user",id);
+        if(user != null){
+            String storePassword = user.getString("password");
+            boolean isTrue = PasswordHash.validatePassword(oldPassword,storePassword);
+            if(!isTrue){
+                this.getResult().failure(AoomsVar.NO_FOR_INT , "旧密码错误");
+            }else{
+                user.set("password", PasswordHash.createHash(password));
+                db.update("aooms_rbac_user", user);
+            }
+        }
+    }
+
 	@Transactional
 	public void updateStatus() {
 		Record record = Record.empty();
@@ -115,4 +135,5 @@ public class UserService extends GenericService {
             });
         }
     }
+
 }

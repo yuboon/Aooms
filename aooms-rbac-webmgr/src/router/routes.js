@@ -293,6 +293,19 @@ const frameIn = [
             { path: '/demo/d2-crud/demo1', name: `${pre}demo1`, component: () => import('@/pages/demo/d2-crud/demo1'), meta: { ...meta, title: '基础表格' } }
         ])('rbac-')
     }*/
+
+    // 默认内置功能
+    ,
+    {
+        path: '/internal',
+        name: 'internal',
+        component: layoutHeaderAside,
+        meta,
+        children: [
+            { path: '/rbac/user-info', name: `rbac-user-info`, component: () => import('@/pages/rbac/user-info'), meta: { ...meta, title: '个人信息' } },
+            { path: '/rbac/user-password', name: `rbac-user-password`, component: () => import('@/pages/rbac/user-password'), meta: { ...meta, title: '修改密码' } }
+        ]
+    }
 ]
 
 /**

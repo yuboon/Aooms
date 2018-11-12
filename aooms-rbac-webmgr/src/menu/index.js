@@ -16,6 +16,10 @@ import demoD2Crud from './modules/demo-d2-crud'
 import demoFrame from './modules/demo-frame'
 import router from "../router";
 
+
+// 内置功能
+import internalFrame from './modules/internal'
+
 // 系统管理
 //import rbacFrame from './modules/rbac'
 // 加载菜单依赖
@@ -32,7 +36,8 @@ export const menuAside = [
     demoPlayground,
     demoBusiness,
     demoD2Crud,
-    demoFrame
+    demoFrame,
+    internalFrame
 ]
 
 // 菜单 顶栏
