@@ -5,6 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import net.aooms.core.AoomsVar;
+import net.aooms.core.authentication.AuthenticationInfo;
+import net.aooms.core.authentication.SSOAuthentication;
 import net.aooms.core.id.IDGenerator;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.module.mybatis.SqlPara;
@@ -13,6 +15,8 @@ import net.aooms.core.record.RecordGroup;
 import net.aooms.core.service.GenericService;
 import net.aooms.core.util.Kv;
 import net.aooms.core.util.PasswordHash;
+import net.aooms.core.util.TreeUtils;
+import net.aooms.core.web.AoomsContext;
 import net.aooms.rbac.mapper.RbacMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +51,28 @@ public class UserService extends GenericService {
 		RecordGroup recordGroup = db.findRecords(RbacMapper.PKG.by("UserMapper.findList"),sqlPara);
 		this.setResultValue(AoomsVar.RS_DATA, recordGroup);
 	}
+
+    public void findResourceByUserId() {
+        SqlPara sqlPara = SqlPara.empty();
+        AuthenticationInfo ssoAuthentication = SSOAuthentication.getAuthenticationInfo();
+        String statementId = "";
+        // admin 时不限制菜单
+        if(ssoAuthentication.isAdmin()){
+            statementId = "ResourceMapper.findList";
+            sqlPara.set("status",AoomsVar.YES);
+            sqlPara.and("status");
+        }else{
+            statementId = "UserMapper.findResourceByUserId";
+            sqlPara.set("user_id", SSOAuthentication.getAuthenticationInfo().getId());
+        }
+
+        RecordGroup recordGroup = db.findRecords(RbacMapper.PKG.by(statementId),sqlPara);
+        TreeUtils treeUtils = new TreeUtils(recordGroup.getList());
+        treeUtils.setParentIdKey("parent_resource_id");
+        treeUtils.setDefaultValue(Kv.fkv("icon","el-icon-news"));
+        List<Record> treeRecords = treeUtils.listTree(AoomsVar.TREE_ROOT);
+        this.setResultValue(AoomsVar.RS_TREE, treeRecords);
+    }
 
 	@Transactional
 	public void insert() {

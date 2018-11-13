@@ -19,7 +19,7 @@ public class AoomsInterceptorAdaptor implements HandlerInterceptor {
     }
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(abstractInterceptor.isDisabled(request,response,handler)) return true;
+        if(abstractInterceptor.isSkip(request,response,handler)) return true;
         return abstractInterceptor.preHandle(request,response,handler);
     }
 

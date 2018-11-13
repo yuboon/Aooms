@@ -32,5 +32,6 @@ public interface AoomsVar {
     String IS_RENDER = "is_render";
     String SKIP_INTERCEPTOR_ON_CLASS = "skip_interceptor_on_class";
     String SKIP_INTERCEPTOR_ON_METHOD = "skip_interceptor_on_method";
+    String INTERCEPTORS = "interceptors";
 
 }

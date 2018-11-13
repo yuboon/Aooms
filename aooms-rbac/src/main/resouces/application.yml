@@ -11,6 +11,10 @@ logging:
 aooms:
   use-registry: false
   dev-mode: true
+  #auth-login-service:
+  #auth-login-username:
+  #auth-login-password:
+  #auth-permitted-service:
 
 # 默认项目配置
 spring:

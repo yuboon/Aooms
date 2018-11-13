@@ -27,6 +27,8 @@ public abstract class AoomsAbstractInterceptor {
     // 拦截路径
     private String[] pathPatterns;
 
+    // 持有注册代理
+    protected AoomsInterceptorRegistryProxy aoomsInterceptorRegistryProxy;
 
     public AoomsAbstractInterceptor(String[] pathPatterns,String[] ignores) {
         this.pathPatterns = pathPatterns;
@@ -69,55 +71,16 @@ public abstract class AoomsAbstractInterceptor {
      * @param handler
      * @return
      */
-    public boolean isDisabled(HttpServletRequest request,HttpServletResponse response,Object handler){
+    public boolean isSkip(HttpServletRequest request,HttpServletResponse response,Object handler){
         Class<?> clazz = getClass(handler);
         if(clazz == null) return false;
 
         Method method = getMethod(handler);
         if(method == null) return  false;
 
-        if(clazz != CallServiceController.class){
-            // normal controller
-            ClearInterceptor classClearInterceptor = clazz.getAnnotation(ClearInterceptor.class);
-            ClearInterceptor clearInterceptor = method.getAnnotation(ClearInterceptor.class);
-            if(clearInterceptor == null && classClearInterceptor == null){
-                return false;
-            }
-
-            Set<Class<? extends AoomsAbstractInterceptor>> interceptors = Sets.newHashSet();
-            if(classClearInterceptor != null && classClearInterceptor.value() != null){
-                interceptors.addAll(Arrays.asList(classClearInterceptor.value()));
-            }
-
-            if(clearInterceptor != null && clearInterceptor.value() != null){
-                interceptors.addAll(Arrays.asList(clearInterceptor.value()));
-            }
-
-            for (Class<? extends  AoomsAbstractInterceptor> interceptor : interceptors){
-                if(this.getClass() == interceptor){
-                    return true;
-                }
-            }
-
-        }else{
-            // call service controller
-            List<Class<? extends  AoomsAbstractInterceptor>> skipInterceptors = (List<Class<? extends  AoomsAbstractInterceptor>> )request.getAttribute(AoomsVar.SKIP_INTERCEPTOR_ON_CLASS);
-            List<Class<? extends  AoomsAbstractInterceptor>> methodSkipInterceptors = (List<Class<? extends  AoomsAbstractInterceptor>> )request.getAttribute(AoomsVar.SKIP_INTERCEPTOR_ON_METHOD);
-            Set<Class<? extends AoomsAbstractInterceptor>> callServiceSkipInterceptors = Sets.newHashSet();
-            if(skipInterceptors != null){
-                callServiceSkipInterceptors.addAll(skipInterceptors);
-            }
-
-            if(methodSkipInterceptors != null){
-                callServiceSkipInterceptors.addAll(methodSkipInterceptors);
-            }
-
-            for (Class<? extends  AoomsAbstractInterceptor> interceptor : callServiceSkipInterceptors){
-                if(this.getClass() == interceptor){
-                    return true;
-                }
-            }
-
+        List<Class<? extends AoomsAbstractInterceptor>> interceptors = (List<Class<? extends AoomsAbstractInterceptor>>) request.getAttribute(AoomsVar.INTERCEPTORS);
+        if(interceptors != null){
+            return !interceptors.contains(this.getClass());
         }
 
         return false;
@@ -129,7 +92,7 @@ public abstract class AoomsAbstractInterceptor {
      * @return
      */
     public boolean isEnabled(HttpServletRequest request,HttpServletResponse response,Object handler){
-        return !isDisabled(request,response,handler);
+        return !isSkip(request,response,handler);
     }
 
     /**
@@ -141,4 +104,11 @@ public abstract class AoomsAbstractInterceptor {
     public void finalHandle(HttpServletRequest request, HttpServletResponse response, Object handler ,Exception ex){};
 
 
+    public AoomsInterceptorRegistryProxy getAoomsInterceptorRegistryProxy() {
+        return aoomsInterceptorRegistryProxy;
+    }
+
+    public void setAoomsInterceptorRegistryProxy(AoomsInterceptorRegistryProxy aoomsInterceptorRegistryProxy) {
+        this.aoomsInterceptorRegistryProxy = aoomsInterceptorRegistryProxy;
+    }
 }

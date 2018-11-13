@@ -1,5 +1,7 @@
 import util from '@/libs/util.js'
 import { AccountLogin } from '@/api/sys/login'
+import { httpPost } from '@/api/sys/http'
+
 
 export default {
     namespaced: true,
@@ -29,6 +31,7 @@ export default {
             formData.append("username",username);
             formData.append("password",password);
 
+            util.cookies.remove('AoomsToken'); // 先移除
             AccountLogin(formData)
                 .then(res => {
                     // 设置 cookie 一定要存 uuid 和 token 两个 cookie
@@ -66,8 +69,15 @@ export default {
 
                     // 更新路由 尝试去获取 cookie 里保存的需要重定向的页面完整地址
                     const path = util.cookies.get('redirect')
+
                     // 根据是否存有重定向页面判断如何重定向
-                    vm.$router.replace(path ? { path } : route)
+                    //vm.$router.replace(path ? { path } : route)
+
+                    // 进入首页
+                    vm.$router.push({
+                        path: '/index'
+                    });
+
                     // 删除 cookie 中保存的重定向页面
                     util.cookies.remove('redirect')
                 })
@@ -89,15 +99,19 @@ export default {
              * @description 注销
              */
             function logout () {
-                // 删除cookie
-                util.cookies.remove('AoomsToken')
-                util.cookies.remove('uuid')
-                //commit('d2admin/user/set',{},{ root: true })
+                // 请求注销服务端
+                httpPost('aooms/rbac/loginService/logout',{}).then(res => {
 
-                // 跳转路由
-                vm.$router.push({
-                    name: 'login'
-                })
+                    // 删除cookie
+                    util.cookies.remove('AoomsToken')
+                    util.cookies.remove('uuid')
+                    commit('d2admin/user/set',{},{ root: true })
+
+                    // 跳转路由
+                    vm.$router.push({
+                        name: 'login'
+                    })
+                });
             }
             // 判断是否需要确认
             if (confirm) {

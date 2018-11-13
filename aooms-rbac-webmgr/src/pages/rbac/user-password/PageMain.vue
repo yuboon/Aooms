@@ -1,7 +1,11 @@
 <template>
     <div>
-        <el-form ref="form" :model="form" label-width="100px" size="small" style="width: 65%;margin: auto;margin-top: 50px;">
+        <el-form ref="form" :model="form" label-width="100px" size="small" style="width: 55%;margin: auto;">
             <input type="hidden" v-model="form.id">
+
+            <el-form-item label-width="0px" style="margin: auto;text-align: center;">
+                <img class="user-radius-image" :src="`${$baseUrl}image/user_default.png`" style="cursor: pointer"/>
+            </el-form-item>
 
             <el-row>
                 <el-col :span="12">

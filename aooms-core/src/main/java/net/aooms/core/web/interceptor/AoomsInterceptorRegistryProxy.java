@@ -1,8 +1,11 @@
 package net.aooms.core.web.interceptor;
 
+import com.google.common.collect.Lists;
 import net.aooms.core.exception.AoomsExceptions;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+
+import java.util.List;
 
 /**
  * 拦截器注册代理类
@@ -11,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 public class AoomsInterceptorRegistryProxy {
 
     private InterceptorRegistry interceptorRegistry;
+    private List<Class<? extends AoomsAbstractInterceptor>> interceptors = Lists.newArrayList();
 
     // 忽略的路径，默认忽略静态资源、error、其他监控路径等
     private String[] ignores = new String[]{
@@ -19,7 +23,8 @@ public class AoomsInterceptorRegistryProxy {
             "/**/*.png",
             "/**/*.gif",
             "/**/*.css",
-            "/**/*.js"
+            "/**/*.js",
+            "/error"
     };
 
     // 拦截路径,默认值拦截一切
@@ -41,6 +46,9 @@ public class AoomsInterceptorRegistryProxy {
         if(interceptor.getIgnores() != null){
             interceptorRegistration.excludePathPatterns(interceptor.getIgnores());
         }
+
+        interceptor.setAoomsInterceptorRegistryProxy(this);
+        interceptors.add(interceptor.getClass());
     }
 
     public AoomsInterceptorRegistryProxy(InterceptorRegistry interceptorRegistry) {
@@ -66,4 +74,9 @@ public class AoomsInterceptorRegistryProxy {
     public void setPathPatterns(String[] pathPatterns) {
         this.pathPatterns = pathPatterns;
     }
+
+    public List<Class<? extends AoomsAbstractInterceptor>> getInterceptors() {
+        return interceptors;
+    }
+
 }

@@ -2,6 +2,7 @@ package net.aooms.core.web.interceptor;
 
 
 import cn.hutool.core.date.DateUtil;
+import com.google.common.collect.Lists;
 import net.aooms.core.Aooms;
 import net.aooms.core.AoomsVar;
 import net.aooms.core.web.service.ServiceConfiguration;
@@ -9,6 +10,7 @@ import net.aooms.core.web.service.ServiceConfigurations;
 import net.oschina.j2cache.cache.support.util.SpringUtil;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +20,7 @@ import java.util.Map;
 
 /**
  * 框架执行日志打印
+ *    打印格式参考 JFinal ActionReporter
  * Created by 风象南(yuboon) on 2018-04-19
  */
 public class ReportInterceptor extends AoomsAbstractInterceptor {
@@ -39,19 +42,17 @@ public class ReportInterceptor extends AoomsAbstractInterceptor {
             sb.append("Controller  : ").append(cc.getName()).append(".(").append(cc.getSimpleName()).append(".java:1)");
             sb.append("\nMethod      : ").append(method.getMethod().getName()).append("\n");
 
-            /*
-            Interceptor[] inters = action.getInterceptors();
-            if (inters.length > 0) {
+            List<Class<? extends AoomsAbstractInterceptor>> interceptors = (List<Class<? extends AoomsAbstractInterceptor>>) request.getAttribute(AoomsVar.INTERCEPTORS);
+            if(interceptors != null){
                 sb.append("Interceptor : ");
-                for (int i = 0; i < inters.length; i++) {
+                for (int i = 0; i < interceptors.size(); i++) {
                     if (i > 0)
                         sb.append("\n              ");
-                    Interceptor inter = inters[i];
-                    Class<? extends Interceptor> ic = inter.getClass();
-                    sb.append(ic.getName()).append(".(").append(ic.getSimpleName()).append(".java:1)");
+                    Class<?> inter = interceptors.get(i);
+                    sb.append(inter.getName()).append(".(").append(inter.getSimpleName()).append(".java:1)");
                 }
                 sb.append("\n");
-            }*/
+            }
 
             // print all parameters
             Enumeration<String> e = request.getParameterNames();

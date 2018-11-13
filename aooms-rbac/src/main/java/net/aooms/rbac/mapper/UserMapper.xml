@@ -88,4 +88,18 @@
         select role_id from aooms_rbac_userrole where user_id = #{user_id}
     </select>
 
+    <select id="findResourceByUserId" resultType="net.aooms.core.record.Record">
+        SELECT distinct r.*
+        FROM aooms_rbac_role t,
+             aooms_rbac_userrole ur,
+             aooms_rbac_permission p,
+             aooms_rbac_resource r
+        where t.id = p.role_id
+              and r.id = p.resource_id
+              and ur.role_id = t.id
+              and t.status = 'Y' and r.status = 'Y'
+              and ur.user_id = #{user_id}
+              order by r.ordinal
+    </select>
+
 </mapper>

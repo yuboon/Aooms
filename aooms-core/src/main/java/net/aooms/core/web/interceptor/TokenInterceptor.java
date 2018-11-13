@@ -26,7 +26,6 @@ import net.aooms.core.authentication.SSOAuthentication;
 import net.aooms.core.databoss.DataResult;
 import net.aooms.core.exception.AoomsExceptions;
 import net.aooms.core.property.PropertyObject;
-import net.aooms.core.web.AoomsContext;
 import net.aooms.core.web.render.RenderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,11 +40,11 @@ import java.lang.reflect.Method;
  * 登陆认证
  * Created by 风象南(yuboon) on 2018/9/7
  */
-public class LoginInterceptor extends AoomsAbstractInterceptor {
+public class TokenInterceptor extends AoomsAbstractInterceptor {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(TokenInterceptor.class);
 
-    public LoginInterceptor(String[] pathPatterns, String[] ignores) {
+    public TokenInterceptor(String[] pathPatterns, String[] ignores) {
         super(pathPatterns, ignores);
     }
 
@@ -64,13 +63,32 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
 
-            String errMsg = "Session用户信息不存在，访问受限";
-            AuthenticationInfo authenticationInfo = SSOAuthentication.getAuthenticationInfo();
-            if (authenticationInfo == null) {
+            String errMsg = "无效Token值，访问受限";
+
+            /**
+             * 正常执行
+             */
+            String cookieName = PropertyObject.getInstance().getKissoProperty().getConfig().getCookieName();
+            SSOToken ssoToken = null;
+            try{
+                ssoToken = SSOHelper.getSSOToken(request);
+                // 再次从参数列表获取token
+                if(ssoToken == null){
+                    String tokenStr = request.getParameter(cookieName);
+                    if(tokenStr != null){
+                        ssoToken = SSOToken.parser(tokenStr, false);
+                    }
+                }
+            }catch(Exception e){
+                throw AoomsExceptions.create(e.getMessage(),e);
+            }
+
+            if (ssoToken == null) {
                 if (HttpUtil.isAjax(request)) {
                     /*
                      * Handler 处理 AJAX 请求
 					 */
+                    response.setContentType(RenderType.JSON.getContentType());
                     response.setCharacterEncoding(AoomsVar.ENCODE);
                     DataResult dataResult = new DataResult();
                     dataResult.failure(HttpStatus.HTTP_UNAUTHORIZED, errMsg);
@@ -80,6 +98,7 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
                     }catch (IOException e){
                         throw AoomsExceptions.create(e.getMessage(),e);
                     }
+                    //this.getHandlerInterceptor().preTokenIsNullAjax(request, response);
                     return false;
                 } else {
 					/*
@@ -94,6 +113,12 @@ public class LoginInterceptor extends AoomsAbstractInterceptor {
                     }
                     return false;
                 }
+            } else {
+				/*
+				 * 正常请求，request 设置 token 减少二次解密
+				 */
+                request.setAttribute(SSOConstants.SSO_TOKEN_ATTR, ssoToken);
+                //AoomsContext.getRequest().setAttribute(SSOConstants.SSO_TOKEN_ATTR, ssoToken);
             }
         }
 

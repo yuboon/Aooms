@@ -29,6 +29,15 @@ public class UserController extends AoomsAbstractController {
     };
 
     /**
+     * 查询用户拥有的资源
+     * @return
+     */
+    @RequestMapping("/findResourceByUserId")
+    public void findResourceByUserId(){
+        userService.findResourceByUserId();
+    };
+
+    /**
      * 新增
      * @return
      */

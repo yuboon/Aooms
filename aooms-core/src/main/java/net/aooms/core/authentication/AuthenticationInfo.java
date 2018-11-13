@@ -3,6 +3,8 @@ package net.aooms.core.authentication;
 import cn.hutool.core.date.DateUtil;
 import com.google.common.collect.Maps;
 import net.aooms.core.AoomsVar;
+import net.aooms.core.id.IDGenerator;
+import net.aooms.core.id.IDType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,12 +13,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 身份认证信息
- * Created by 风象南(cheereebo) on 2018/11/1
+ * 身份认证信息，默认未登录时为Ghost用户
+ * Created by 风象南(yuboon) on 2018/11/1
  */
 public class AuthenticationInfo implements Serializable {
 
+    private static final String GHOST = "Ghost";
+
     private static final long serialVersionUID = 1L;
+
+    // 唯一会话ID，即使同一用户，此ID也不一样，允许一个用户多处登录。
+    private String sessionId = IDGenerator.getStringValue(IDType.UUID);
 
     private String id;
 
@@ -29,6 +36,8 @@ public class AuthenticationInfo implements Serializable {
     private String sex;
 
     private boolean isAdmin;
+
+    private boolean isGhost;
 
     private String phone;
 
@@ -51,7 +60,7 @@ public class AuthenticationInfo implements Serializable {
     private String token;
 
     // 登录时间
-    private String loginTime = DateUtil.formatTime(new Date());
+    private String loginTime = DateUtil.now();
 
     private List<String> roleIds = new ArrayList<String>();
 
@@ -60,12 +69,11 @@ public class AuthenticationInfo implements Serializable {
     /* 可访问资源模块  */
     private List<String> resources = new ArrayList<String>();
 
-
     // 数据权限 <ModuelId,Record>
     //private Map<String,List<DataLimit>> dataLimits = Maps.newHashMap();
 
     // 扩展属性
-    private Map<String,Object> ext = Maps.newHashMap();
+    private Map<String,Object> data = Maps.newHashMap();
 
     /**
      * 获取角色ID串,逗号隔开
@@ -77,6 +85,25 @@ public class AuthenticationInfo implements Serializable {
             builder.append("'" + role + "'");
         }
         return builder.toString();
+    }
+
+    /**
+     * 获取角色Name串,逗号隔开
+     */
+    public String getRoleNamesStr(){
+        StringBuilder builder = new StringBuilder("''");
+        for (String role : roleNames) {
+            builder.append(",");
+            builder.append("'" + role + "'");
+        }
+        return builder.toString();
+    }
+
+    // 设置为Ghost用户
+    public AuthenticationInfo ghost(){
+        this.id = GHOST + IDGenerator.getStringValue(IDType.UUID);
+        this.userName = GHOST;
+        return this;
     }
 
     public String getId() {
@@ -151,12 +178,12 @@ public class AuthenticationInfo implements Serializable {
         this.loginTime = loginTime;
     }
 
-    public Map<String, Object> getExt() {
-        return ext;
+    public Map<String, Object> getData() {
+        return data;
     }
 
-    public void setExt(Map<String, Object> ext) {
-        this.ext = ext;
+    public void setData(Map<String, Object> data) {
+        this.data = data;
     }
 
     public String getUserName() {
@@ -238,5 +265,18 @@ public class AuthenticationInfo implements Serializable {
     public void setDataPermission(String dataPermission) {
         this.dataPermission = dataPermission;
     }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public boolean isGhost() {
+        return GHOST.equals(userName);
+    }
+
 }
 
