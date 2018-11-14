@@ -86,11 +86,12 @@ service.interceptors.response.use(
                     name: 'login'
                 });*/
             }, 3000);
-            errorCreat(`[ code: `+ code +` ] ${dataAxios.$.msg}: ${response.config.url}`)
+            //errorCreat(`[ code: `+ code +` ] ${dataAxios.$.msg}: ${response.config.url}`)
+            errorCreat(`[ code: `+ code +` ] ${dataAxios.$.msg}`)
             return dataAxios;
             break;
          case 403:  // 没有权限访问
-            errorCreat(`[ code: `+ code +` ] ${dataAxios.$.msg}: ${response.config.url}`)
+            errorCreat(`[ code: `+ code +` ] ${dataAxios.$.msg}`)
             return dataAxios;
             break;
         case -1: // 逻辑失败控制
