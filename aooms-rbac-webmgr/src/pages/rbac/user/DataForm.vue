@@ -246,6 +246,7 @@ export default {
             })
         },
         close:function(){
+            this.loading = false;
             this.dialogVisible = false;
         },
         handleNodeClick(data) {

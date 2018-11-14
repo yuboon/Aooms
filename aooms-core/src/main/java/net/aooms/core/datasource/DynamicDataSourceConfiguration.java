@@ -55,9 +55,9 @@ public class DynamicDataSourceConfiguration {
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
 
         // log
-        logger.info(LogUtils.logFormat("DataSources : [ {} ]"),names);
-        logger.info(LogUtils.logFormat("ShardingJdbc : [ {} ]"),shardingJdbc);
-        logger.info(LogUtils.logFormat("ShardingDataSources : [ {} ]"),shrdingNames);
+        logger.info("DataSources : [ {} ]",names);
+        logger.info("ShardingJdbc : [ {} ]",shardingJdbc);
+        logger.info("ShardingDataSources : [ {} ]",shrdingNames);
 
         Map<Object, Object> dataSources = new HashMap<Object, Object>();
         Map<String, DataSource> shardingDataSources = new HashMap<String, DataSource>();
@@ -143,7 +143,7 @@ public class DynamicDataSourceConfiguration {
         // 数据库方言在sharding-jdbc情况下，以master数据源为标准，只处理主从库同类型
         DynamicDataSourceHolder.driveNameMap.put(name,dataSource.getDriverClassName());
 
-        logger.info(LogUtils.logFormat("DataSource [" + name + "] - Start Completed , use conifg : " + prefix + "." + name));
+        logger.info("DataSource [" + name + "] - Start Completed , use conifg : " + prefix + "." + name);
         return dataSource;
     }
 

@@ -5,20 +5,24 @@ import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.property.*;
 import net.aooms.core.util.SpringUtils;
 import net.aooms.core.web.AoomsGlobalErrorController;
+import net.aooms.core.web.AoomsWebMvcConfigurer;
 import net.aooms.core.web.service.CallServiceController;
 import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
 import net.aooms.core.web.filter.CorsFilter;
-import net.aooms.core.web.service.ServiceConfiguration;
 import net.aooms.core.web.service.ServiceConfigurations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.servlet.MultipartConfigElement;
 
 /**
  * 框架默认配置类
@@ -97,6 +101,11 @@ public class AoomsConfiguration {
     };
 
     @Bean
+    public WebMvcConfigurer webMvcConfigurer(){
+        return new AoomsWebMvcConfigurer();
+    };
+
+    @Bean
     public ThreadLocalProcessHystrixConcurrencyStrategy threadLocalProcessHystrixConcurrencyStrategy(){
         return new ThreadLocalProcessHystrixConcurrencyStrategy();
     }
@@ -117,6 +126,19 @@ public class AoomsConfiguration {
     public SpringUtils springUtils(){
         return new SpringUtils();
     }
+
+    @Bean
+    public AoomsApplicationRunner aoomsApplicationRunner(){
+        return new AoomsApplicationRunner();
+    }
+
+    // 上传文件临时路径指定
+    /*@Bean
+    MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setLocation(tmepPath);
+        return factory.createMultipartConfig();
+    }*/
 
     @Bean
     public FilterRegistrationBean corsFilterRegistration() {

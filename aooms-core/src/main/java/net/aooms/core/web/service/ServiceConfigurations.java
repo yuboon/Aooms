@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class ServiceConfigurations {
 
-    private final Map<String,ServiceConfiguration> serviceConfigurationMaps = Maps.newHashMap();
+    private static final Map<String,ServiceConfiguration> serviceConfigurationMaps = Maps.newHashMap();
 
     public ServiceConfigurations register(ServiceConfiguration serviceConfiguration){
         serviceConfigurationMaps.put(serviceConfiguration.getBeanName(),serviceConfiguration);

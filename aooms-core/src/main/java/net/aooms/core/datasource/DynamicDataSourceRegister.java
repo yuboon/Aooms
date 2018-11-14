@@ -103,7 +103,7 @@ public class DynamicDataSourceRegister implements ImportBeanDefinitionRegistrar,
         HikariDataSource dataSource = new HikariDataSource(config);
         System.err.println("meterRegistry = " + meterRegistry);
         dataSource.setMetricRegistry(meterRegistry);
-        logger.info(LogUtils.logFormat("DataSource [" + name + "] - Start Completed , use conifg : " + prefix));
+        logger.info("DataSource [" + name + "] - Start Completed , use conifg : " + prefix);
         return dataSource;
     }
 

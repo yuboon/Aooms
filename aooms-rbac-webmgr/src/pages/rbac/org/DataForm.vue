@@ -182,6 +182,7 @@ export default {
             this.form = Object.assign({},row);
         },
         close:function() {
+            this.loading = false;
             this.dialogVisible = false;
         },
         handleNodeClick(data) {

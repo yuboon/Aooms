@@ -43,6 +43,7 @@
 
             <el-form-item style="text-align: center;" label-width="0">
                 <el-button type="primary" :loading="loading" @click="handleUpdate">保存</el-button>
+                <el-button @click="loading=false">取消</el-button>
             </el-form-item>
 
         </el-form>

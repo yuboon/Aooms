@@ -8,9 +8,7 @@ import io.shardingsphere.transaction.api.config.NestedBestEffortsDeliveryJobConf
 import io.shardingsphere.transaction.api.config.SoftTransactionConfiguration;
 import io.shardingsphere.transaction.bed.BEDSoftTransaction;
 import io.shardingsphere.transaction.constants.SoftTransactionType;
-import io.shardingsphere.transaction.constants.TransactionLogDataSourceType;
 import net.aooms.core.Aooms;
-import net.aooms.core.util.LogUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
@@ -72,7 +70,7 @@ public class SoftTransactionalAspect {
                     if(softTransactionType == SoftTransactionType.BestEffortsDelivery){
                         BEDSoftTransaction bedSoftTransaction = (BEDSoftTransaction) SoftTransactionalHolder.getSoftTransaction();
                         bedSoftTransaction.begin(dataSource.getConnection()); // 开启事务
-                        LogUtils.logFormatPrint("will be managed by BEDSoftTransaction");
+                        logger.info(target.getClass().getName() + currentMethod.getName()  + " will be managed by BEDSoftTransaction");
                     }else{
                         throw new RuntimeException("TCC SoftTransactional Do not implement !");
                     }
@@ -100,7 +98,7 @@ public class SoftTransactionalAspect {
                 transaction.end(); // 关闭事务
                 transaction.getConnection().close();
                 SoftTransactionalHolder.removeSoftTransaction();
-                LogUtils.logFormatPrint(transaction.getTransactionType() + " SoftTransaction End");
+                logger.info(transaction.getTransactionType() + " SoftTransaction End");
             }
         }
     }

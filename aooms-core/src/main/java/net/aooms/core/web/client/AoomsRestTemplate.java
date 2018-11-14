@@ -54,7 +54,7 @@ public class AoomsRestTemplate {
         }else{
             String serverUrl = getLocalServerUrl(url);
             if(logger.isInfoEnabled()){
-                logger.info(LogUtils.logFormat("convert " + url + " -> " + serverUrl));
+                logger.info("Convert " + url + " -> " + serverUrl);
             }
             map = restTemplate.getForObject(serverUrl,Map.class,params);
         }
@@ -78,7 +78,7 @@ public class AoomsRestTemplate {
         }else{
             String serverUrl = getLocalServerUrl(url);
             if(logger.isInfoEnabled()){
-                logger.info(LogUtils.logFormat("convert " + url + " -> " + serverUrl));
+                logger.info("onvert " + url + " -> " + serverUrl);
             }
             map = restTemplate.postForObject(serverUrl,params,Map.class);
         }
@@ -118,7 +118,7 @@ public class AoomsRestTemplate {
 
             return builder.toString();
         } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(LogUtils.errorLogFormat("server url : "+ url +" is invalid !"),e);
+            throw new IllegalArgumentException("server url : "+ url +" is invalid !",e);
         }
     }
 

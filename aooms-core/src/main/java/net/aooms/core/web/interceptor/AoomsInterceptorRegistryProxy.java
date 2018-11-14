@@ -14,7 +14,9 @@ import java.util.List;
 public class AoomsInterceptorRegistryProxy {
 
     private InterceptorRegistry interceptorRegistry;
-    private List<Class<? extends AoomsAbstractInterceptor>> interceptors = Lists.newArrayList();
+    private static List<Class<? extends AoomsAbstractInterceptor>> skipInterceptors = Lists.newArrayList();
+    private static List<Class<? extends AoomsAbstractInterceptor>> interceptors = Lists.newArrayList();
+    private static List<String> interceptorNames = Lists.newArrayList();
 
     // 忽略的路径，默认忽略静态资源、error、其他监控路径等
     private String[] ignores = new String[]{
@@ -30,6 +32,10 @@ public class AoomsInterceptorRegistryProxy {
     // 拦截路径,默认值拦截一切
     private String[] pathPatterns = new String[]{"/**"};
 
+    public AoomsInterceptorRegistryProxy(InterceptorRegistry interceptorRegistry) {
+        this.interceptorRegistry = interceptorRegistry;
+    }
+
     /**
      * 添加拦截器
      * @param interceptor
@@ -37,6 +43,11 @@ public class AoomsInterceptorRegistryProxy {
     public void addInterceptor(AoomsAbstractInterceptor interceptor){
         if(interceptorRegistry == null)
             throw AoomsExceptions.create("InterceptorRegistry is null");
+
+        // 不重复添加
+        if(interceptorNames.contains(interceptor.getClass().getName())){
+            return;
+        }
 
         if(interceptor.getPathPatterns() == null)
             throw AoomsExceptions.create("Interceptor " +interceptor.getClass().getName() + " PathPatterns is null");
@@ -49,10 +60,11 @@ public class AoomsInterceptorRegistryProxy {
 
         interceptor.setAoomsInterceptorRegistryProxy(this);
         interceptors.add(interceptor.getClass());
+        interceptorNames.add(interceptor.getClass().getName());
     }
 
-    public AoomsInterceptorRegistryProxy(InterceptorRegistry interceptorRegistry) {
-        this.interceptorRegistry = interceptorRegistry;
+    public void removeInterceptor(Class<? extends  AoomsAbstractInterceptor> interceptor){
+        skipInterceptors.add(interceptor);
     }
 
     public InterceptorRegistry getInterceptorRegistry() {
@@ -79,4 +91,7 @@ public class AoomsInterceptorRegistryProxy {
         return interceptors;
     }
 
+    public List<Class<? extends AoomsAbstractInterceptor>> getSkipInterceptors() {
+        return skipInterceptors;
+    }
 }

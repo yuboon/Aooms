@@ -79,7 +79,7 @@ service.interceptors.response.use(
       switch (code) {
         case 0:
           return dataAxios;
-        case 401:
+        case 401: // 没有通过认证
             setTimeout(function(){
                 window.location.hash = '#/login';
                 /*router.push({
@@ -88,9 +88,12 @@ service.interceptors.response.use(
             }, 3000);
             errorCreat(`[ code: `+ code +` ] ${dataAxios.$.msg}: ${response.config.url}`)
             return dataAxios;
-            break
-        case -1:
-          // 逻辑失败控制
+            break;
+         case 403:  // 没有权限访问
+            errorCreat(`[ code: `+ code +` ] ${dataAxios.$.msg}: ${response.config.url}`)
+            return dataAxios;
+            break;
+        case -1: // 逻辑失败控制
           return dataAxios;
           break;
         default:

@@ -74,10 +74,10 @@ public class DataResult implements Serializable {
     }
 
     public void printCaller(){
-        LogUtils.logFormatPrint("DataResult.set Total Called " + caller.size() + " Times");
+        LogUtils.info("DataResult.set Total Called " + caller.size() + " Times");
         int index = 0;
         for(String call : caller){
-            LogUtils.logFormatPrint((++index) + " : " + call);
+            LogUtils.info((++index) + " : " + call);
         }
     }
 

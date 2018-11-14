@@ -38,9 +38,13 @@ public class ControllerInterceptor extends AoomsAbstractInterceptor {
             Class<?> clazz = handlerMethod.getBean().getClass();
             Method method = handlerMethod.getMethod();
 
+            List<Class<? extends AoomsAbstractInterceptor>> globalSkipInterceptors = this.aoomsInterceptorRegistryProxy.getSkipInterceptors();
             List<Class<? extends AoomsAbstractInterceptor>> globalInterceptors = this.aoomsInterceptorRegistryProxy.getInterceptors();
+
             List<Class<? extends AoomsAbstractInterceptor>> interceptors = Lists.newArrayList();
             Set<Class<? extends AoomsAbstractInterceptor>> skipInterceptors = Sets.newHashSet();
+            // 全局清除
+            skipInterceptors.addAll(globalSkipInterceptors);
 
             if(clazz != CallServiceController.class){
                 // normal controller

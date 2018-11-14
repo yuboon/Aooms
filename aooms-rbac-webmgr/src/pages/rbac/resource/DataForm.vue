@@ -224,6 +224,7 @@ export default {
             this.parentRow = parentRow;
         },
         close:function() {
+            this.loading = false;
             this.dialogVisible = false;
         },
         handleNodeClick(data) {
