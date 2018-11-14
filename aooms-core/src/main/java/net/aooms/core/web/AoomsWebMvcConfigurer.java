@@ -8,6 +8,7 @@ import net.aooms.core.util.SpringUtils;
 import net.aooms.core.web.interceptor.*;
 import net.aooms.core.web.service.ServiceConfigurations;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.Order;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * Web Configurer
  * Created by 风象南(yuboon) on 2018/9/18
  */
+@Order(-1)
 public class AoomsWebMvcConfigurer implements WebMvcConfigurer {
 
     private AoomsInterceptorRegistryProxy interceptorRegistryProxy;
