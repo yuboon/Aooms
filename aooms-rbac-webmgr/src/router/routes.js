@@ -1,6 +1,6 @@
 // layout
 import layoutHeaderAside from '@/layout/header-aside'
-
+import {menuAside} from "../menu";
 const meta = { requiresAuth: false , keepAlive: true}
 
 /**
@@ -11,12 +11,16 @@ const frameIn = [
     path: '/',
     redirect: { name: 'index' },
     component: layoutHeaderAside,
-    children: [
+      children: [
       {
         path: 'index',
         name: 'index',
         meta,
-        component: () => import('@/pages/index')
+        component: () => import('@/pages/index'),
+        beforeEnter: (to, from, next) => {
+            //LoadUserResource()
+            next()
+        }
       }
     ]
   },
@@ -339,6 +343,7 @@ const errorPage = [
 
 // 导出需要显示菜单的
 export const frameInRoutes = frameIn
+export const frameInRoutesClone = Object.assign([],frameInRoutes)
 
 // 重新组织后导出
 export default [

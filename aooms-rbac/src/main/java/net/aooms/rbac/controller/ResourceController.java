@@ -4,6 +4,7 @@ import net.aooms.core.Aooms;
 import net.aooms.core.web.AoomsAbstractController;
 import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.interceptor.LoginInterceptor;
+import net.aooms.core.web.interceptor.TokenInterceptor;
 import net.aooms.rbac.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,7 @@ public class ResourceController extends AoomsAbstractController {
      * 树查询
      * @return
      */
-    @ClearInterceptor(LoginInterceptor.class)
+    @ClearInterceptor({TokenInterceptor.class,LoginInterceptor.class})
     @RequestMapping("/findTree")
     public void findTree(){
         resourceService.findTree();

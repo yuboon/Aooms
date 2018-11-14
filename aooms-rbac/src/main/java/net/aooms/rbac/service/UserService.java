@@ -111,7 +111,7 @@ public class UserService extends GenericService {
         String oldPassword = getParaString("old_password");
         String password = getParaString("password");
 
-        Record user = db.findByPrimaryKey("aooms_rbac_user",id);
+        Record user = db.findByPrimaryKey("aooms_rbac_user",SSOAuthentication.getAuthenticationInfo().getId());
         if(user != null){
             String storePassword = user.getString("password");
             boolean isTrue = PasswordHash.validatePassword(oldPassword,storePassword);

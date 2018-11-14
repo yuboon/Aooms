@@ -80,8 +80,14 @@ service.interceptors.response.use(
         case 0:
           return dataAxios;
         case 401:
-            setTimeout(function(){window.location.hash = '#/login';}, 3000);
-            errorCreat(`[ code: 401 ] ${dataAxios.$.msg}: ${response.config.url}`)
+            setTimeout(function(){
+                window.location.hash = '#/login';
+                /*router.push({
+                    name: 'login'
+                });*/
+            }, 3000);
+            errorCreat(`[ code: `+ code +` ] ${dataAxios.$.msg}: ${response.config.url}`)
+            return dataAxios;
             break
         case -1:
           // 逻辑失败控制

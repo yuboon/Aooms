@@ -2,7 +2,6 @@ import util from '@/libs/util.js'
 import { AccountLogin } from '@/api/sys/login'
 import { httpPost } from '@/api/sys/http'
 
-
 export default {
     namespaced: true,
     actions: {
@@ -44,7 +43,7 @@ export default {
                     //util.cookies.set('token', res.token)
 
                     vm.loading = false;
-                    if (res.$.code == 401) {
+                    if (res.$.code == -1) {
                         vm.$message({
                             message: res.$.msg,
                             type: 'error',
@@ -109,7 +108,7 @@ export default {
 
                     // 跳转路由
                     vm.$router.push({
-                        name: 'login'
+                        path: '/login'
                     })
                 });
             }

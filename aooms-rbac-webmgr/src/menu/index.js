@@ -22,10 +22,6 @@ import internalFrame from './modules/internal'
 
 // 系统管理
 //import rbacFrame from './modules/rbac'
-// 加载菜单依赖
-// import { frameInRoutes } from '@/router/routes'
-// import layoutHeaderAside from '@/layout/header-aside'
-// import { httpGet } from '@/api/sys/http'
 
 // 菜单 侧边栏
 export const menuAside = [
@@ -39,6 +35,8 @@ export const menuAside = [
     demoFrame,
     internalFrame
 ]
+
+export const menuAsideClone = Object.assign([],menuAside)
 
 // 菜单 顶栏
 export const menuHeader = [
@@ -74,3 +72,6 @@ export const menuHeader = [
     demoPlayground,
     demoBusiness
 ]
+
+export const menuHeaderClone = Object.assign([],menuHeader)
+

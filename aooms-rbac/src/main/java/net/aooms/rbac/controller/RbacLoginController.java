@@ -38,7 +38,7 @@ public class RbacLoginController extends AoomsAbstractController {
         LoginContext loginContext = new LoginContext(rbacLoginService);
         AuthenticationInfo authenticationInfo = loginContext.login(getParaString("username"),getParaString("password"));
         if(authenticationInfo == null){
-            this.getResult().failure(HttpStatus.HTTP_UNAUTHORIZED,"用户名或密码错误");
+            this.getResult().failure(AoomsVar.NO_FOR_INT,"用户名或密码错误");
         }else{
             this.setResultValue(AoomsVar.RS_Authentication, authenticationInfo);
             SSOHelper.setCookie(getRequest(), getResponse(), SSOToken.parser(authenticationInfo.getToken(),false), false);

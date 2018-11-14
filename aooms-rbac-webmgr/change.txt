@@ -18,6 +18,7 @@ aooms-rbac-webmgr/.eslintignore
 @/store/modules/d2admin/modules/account.js    line:21 - 46, line 85,86  cookieName
 @/libs/modules/util.cookies.js    line:17,25,40 cookieName
 @/layout/header-aside/components/header-user/index.vue line:3 -> info.name >> info.userName
+@/layout/page.vue -> 动态菜单加载
 
 @/setting.js    line:76 > (name >> userName)
 @/.env    line:8 -> VUE_APP_API=http://localhost:8080/

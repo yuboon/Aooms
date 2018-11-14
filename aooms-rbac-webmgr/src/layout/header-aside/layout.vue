@@ -82,6 +82,14 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
 import mixinSearch from './mixins/search'
+
+// 加载菜单依赖
+import {menuAside, menuHeader, menuAsideClone,menuHeaderClone} from "@/menu";
+import router from "@/router";
+import { frameInRoutes,frameInRoutesClone } from '@/router/routes'
+import layoutHeaderAside from '@/layout/header-aside'
+import { httpGet } from '@/api/sys/http'
+
 export default {
   name: 'd2-layout-header-aside',
   mixins: [
@@ -105,6 +113,9 @@ export default {
       // [侧边栏宽度] 折叠状态
       asideWidthCollapse: '65px'
     }
+  },
+  mounted(){
+      this.loadResource();
   },
   computed: {
     ...mapState('d2admin', {
@@ -136,6 +147,65 @@ export default {
      */
     handleToggleAside () {
       this.menuAsideCollapseToggle()
+    },
+
+    loadResource(){
+        // 菜单动态查询加载
+        httpGet('aooms/rbac/userService/findResourceByUserId',{parent_resource_id:'ROOT'}).then(res => {
+            var list = res.$tree;
+
+            function convertD2AdminMenu(li) {
+                li.forEach(item => {
+                    // menu
+                    item.title = item.resource_name;
+                    item.path = item.resource_url;
+                    item.dynamic = true;
+
+                    // router
+                    item.name = item.resource_url.replace(/\//g, "-").substring(1);
+                    item.meta = {requiresAuth: false, keepAlive: true, title: item.resource_name};
+                    if (item.parent_resource_id == 'ROOT') {
+                        item.component = layoutHeaderAside;
+                    } else {
+                        if (item.path) {
+                            item.component = () => import('@/pages' + item.path);
+                        }
+                    }
+                    convertD2AdminMenu(item.children || []);
+                });
+            }
+
+            convertD2AdminMenu(list);
+
+            // 追加菜单
+            menuAside.length = 0;
+            menuHeader.length = 0;
+            frameInRoutes.length = 0;
+
+            menuAsideClone.forEach(item => {
+                menuAside.push(item);
+            });
+
+            menuHeaderClone.forEach(item => {
+                menuHeader.push(item);
+            });
+
+            frameInRoutesClone.forEach(item => {
+                frameInRoutes.push(item);
+            });
+
+            list.forEach(item => {
+                menuAside.push(item);
+                menuHeader.push(item);
+                frameInRoutes.push(item);
+                this.$store.commit('d2admin/page/init', frameInRoutes);
+                this.$store.commit('d2admin/menu/headerSet', menuHeader)
+                this.$store.commit('d2admin/search/init', menuHeader)
+            });
+
+            // 追加动态路由
+            router.addRoutes(list);
+        });
     }
   }
 }
