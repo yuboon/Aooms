@@ -1,7 +1,9 @@
 package net.aooms.rbac;
 
 import cn.hutool.core.util.ArrayUtil;
+import net.aooms.core.Aooms;
 import net.aooms.core.AoomsSetting;
+import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.interceptor.AoomsInterceptorRegistryProxy;
 import net.aooms.core.web.interceptor.DemoModeInterceptor;
 import net.aooms.core.web.service.ServiceConfiguration;
@@ -32,6 +34,16 @@ public class RbacConfiguration {
                 String[] excludes = new String[]{"/**/find*","/**/login","/**/logout"};
                 String[] ignores = ArrayUtil.addAll(interceptorRegistryProxy.getIgnores(),excludes);
                 interceptorRegistryProxy.addInterceptor(new DemoModeInterceptor(interceptorRegistryProxy.getPathPatterns(),ignores));
+            }
+
+            @Override
+            public void configVars(PropertyObject propertyObject) {
+
+            }
+
+            @Override
+            public void onFinish(Aooms aooms) {
+                System.err.println("Aooms Start finished");
             }
         };
     }

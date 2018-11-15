@@ -1,5 +1,6 @@
 package net.aooms.core;
 
+import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.interceptor.AoomsInterceptorRegistryProxy;
 import net.aooms.core.web.service.ServiceConfigurations;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -31,5 +32,10 @@ public abstract class AoomsSetting implements WebMvcConfigurer {
     // 拦截器配置
     public abstract void configInterceptor(AoomsInterceptorRegistryProxy interceptorRegistryProxy);
 
+    // 全局变量设置
+    public abstract void configVars(PropertyObject propertyObject);
+
+    // 启动完成监听
+    public abstract void onFinish(Aooms aooms);
 
 }

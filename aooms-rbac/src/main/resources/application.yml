@@ -21,14 +21,14 @@ aooms:
   upload:
     mode: local # minio
     local:
-      temp-path:
+      temp-path: F:/
       root-path:
       name-strategy:
       name-strategy:
     minio:
       root-path:
       host:
-      port:
+      port: 9000
   #auth-login-service:
   #auth-login-username:
   #auth-login-password:
@@ -88,7 +88,7 @@ spring:
     slave:
       username: root
       password: root
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/aooms?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
       driver-class-name: com.mysql.jdbc.Driver
 
 

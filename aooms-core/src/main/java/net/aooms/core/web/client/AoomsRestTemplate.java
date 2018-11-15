@@ -98,7 +98,7 @@ public class AoomsRestTemplate {
     // 是否使用注册中心
     public boolean useRegistry(){
         if(null == useRegistry)
-            return useRegistry = propertyAooms.isUseRegistry();
+            return useRegistry = (!propertyAooms.getRest().isLocal());
         return useRegistry;
     }
 
@@ -112,7 +112,7 @@ public class AoomsRestTemplate {
                 .append(":")
                 .append("//")
                 .append("127.0.0.1:")
-                .append(serverProperties.getPort() == 0 ? 8080 : serverProperties.getPort())
+                .append(propertyAooms.getRest().getLocalPort())
                 .append(uri.getPath())
             ;
 

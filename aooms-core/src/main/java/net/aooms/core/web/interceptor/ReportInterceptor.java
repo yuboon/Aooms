@@ -33,7 +33,7 @@ public class ReportInterceptor extends AoomsAbstractInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
-        boolean isDevMode = Aooms.self().getPropertyObject().getAoomsProperty().isDevMode();
+        boolean isDevMode = Aooms.self().getPropertyObject().getAoomsProperty().getGlobal().isDevMode();
         if (isDevMode && handler instanceof HandlerMethod) {
             HandlerMethod method = (HandlerMethod)handler;
             StringBuilder sb = new StringBuilder(title).append(DateUtil.now()).append(" --------------------------\n");
