@@ -30,6 +30,6 @@ aooms-rbac-webmgr/.eslintignore
 @/components/d2-page-cover/index.vue 软件版本描述
 @/layout/header-aside/components/panel-search/index.vue 软件Logo
 @/pages/login/page.vue 软件Logo
-
+@/pages/login/style.scss -> 背景图片
 
 [删除]
