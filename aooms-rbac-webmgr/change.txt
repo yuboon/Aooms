@@ -28,6 +28,8 @@ aooms-rbac-webmgr/.eslintignore
 @/main.js  line:49 -> end 修改动态菜单、动态路由
 @/pages/index/page.vue -> 软件版本描述
 @/components/d2-page-cover/index.vue 软件版本描述
+@/layout/header-aside/components/panel-search/index.vue 软件Logo
+@/pages/login/page.vue 软件Logo
 
 
 [删除]

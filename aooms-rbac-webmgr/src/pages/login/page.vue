@@ -4,7 +4,8 @@
         <div class="layer flex-center">
             <!-- logo部分 -->
             <div class="logo-group">
-                <img src="./image/logo.png" alt="logo">
+                <!--<img src="./image/logo.png" alt="logo">-->
+                <img :src="`${$baseUrl}image/logo.png`" style="height: 120px;"/>
             </div>
             <!-- 表单部分 -->
             <div class="form-group">
@@ -69,7 +70,7 @@
                     {
                         name: '管理员',
                         username: 'admin',
-                        password: 'admin'
+                        password: '1'
                     },
                     {
                         name: '编辑',
@@ -78,14 +79,14 @@
                     },
                     {
                         name: '用户1',
-                        username: 'user1',
-                        password: 'user1'
+                        username: 'test',
+                        password: '1'
                     }
                 ],
                 // 表单
                 formLogin: {
                     username: 'admin',
-                    password: 'admin',
+                    password: '1',
                     code: 'v9am'
                 },
                 // 校验
