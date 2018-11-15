@@ -9,6 +9,7 @@ D2admin 1.4.5 change list
 @/pages/rbac/*
 aooms-rbac-webmgr/.eslintignore
 @/libs/common.js
+@/pages/index/components/aooms-badge
 
 [修改]
 @/components/index.js  line:22 -> add  ext-components
@@ -25,6 +26,8 @@ aooms-rbac-webmgr/.eslintignore
 @/App.vue   line:17 -> @import '~@/assets/style/aooms.scss';
 @/package.json   line:8 -> change dev port
 @/main.js  line:49 -> end 修改动态菜单、动态路由
+@/pages/index/page.vue -> 软件版本描述
+@/components/d2-page-cover/index.vue 软件版本描述
 
 
 [删除]

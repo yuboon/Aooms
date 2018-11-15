@@ -5,7 +5,7 @@
             <input type="hidden" v-model="form.id">
 
             <el-form-item label-width="0px" style="margin: auto;text-align: center;">
-                <img class="user-radius-image" :src="`${$baseUrl}image/user_default.png`" style="cursor: pointer"/>
+                <img class="user-radius-image" :src="`${$baseUrl}image/user-default.png`" style="cursor: pointer"/>
             </el-form-item>
 
             <el-row>
