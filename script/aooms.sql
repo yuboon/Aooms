@@ -12,6 +12,9 @@ File Encoding         : 65001
 
 Date: 2018-11-15 08:53:32
 */
+/*
+aooms script
+ */
 
 SET FOREIGN_KEY_CHECKS=0;
 
