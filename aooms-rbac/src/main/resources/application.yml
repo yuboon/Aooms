@@ -9,8 +9,26 @@ logging:
 
 # 框架配置
 aooms:
-  use-registry: false
-  dev-mode: true
+  global:
+    dev-mode: true
+    log-enable: true
+
+  rest:
+    mode: local # remote
+    #registry: false
+    local-port: 8080
+
+  upload:
+    mode: local # minio
+    local:
+      temp-path:
+      root-path:
+      name-strategy:
+      name-strategy:
+    minio:
+      path:
+      host:
+      port:
   #auth-login-service:
   #auth-login-username:
   #auth-login-password:
