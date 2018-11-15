@@ -105,7 +105,7 @@
         },
         mounted() {
             // 初始化例子插件
-            particlesJS('login', config)
+            //particlesJS('login', config)
         },
         beforeDestroy() {
             // 销毁 particlesJS
