@@ -8,20 +8,8 @@
     <cache type="net.aooms.core.module.mybatis.J2CacheSupport" eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>
     -->
 
-    <sql id="columns">
-         id,name
-    </sql>
-
     <select id="findList" resultType="net.aooms.core.record.Record">
-        SELECT <include refid="columns" /> FROM USER
-    </select>
-
-    <select id="updateById" resultType="int">
-        update user set name = '123' where id = #{id}
-    </select>
-
-    <select id="findAll" resultType="net.aooms.core.record.Record">
-        select * from t_order
+        SELECT t.* FROM T_USER t
     </select>
 
 </mapper>

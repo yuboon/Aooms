@@ -2,7 +2,7 @@
   <d2-container class="page">
     <d2-page-cover
       title="Aooms 1.0.0-alpha.2"
-      sub-title="极速微服务开发，像JFinal一样简单" style="">
+      sub-title="极速微服务开发，不止像JFinal一样简单" style="">
       <!--<d2-icon-svg style="width: 120px;" name="d2-admin"/>-->
       <img :src="`${$baseUrl}image/logo.png`"/>
       <template slot="footer">

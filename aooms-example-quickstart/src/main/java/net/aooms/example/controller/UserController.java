@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by 风象南(yuboon) on 2018-09-12
  */
 @RestController
-public class CRUDController extends AoomsAbstractController {
+@RequestMapping("/user")
+public class UserController extends AoomsAbstractController {
 
     @Autowired
     private UserService userService;
@@ -51,6 +52,4 @@ public class CRUDController extends AoomsAbstractController {
     public void delete(){
         userService.delete();
     };
-
-
 }
