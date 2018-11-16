@@ -4,7 +4,7 @@
 _极速微服务开发，不止像JFinal一样简单_ 
 
 #### 一、介绍
-&nbsp;&nbsp;&nbsp;&nbsp;一款基于SpringCloud的微服务基础开发平台，旨在降低SpringCloud的复杂度，像使用JFinal一样简单,但又包含整体解决方案（本人是JFinal用户，从1.9版本开始现在也一直在使用，因此部分实现思路会借鉴JFinal的一些模式，感谢@JFinal作者波总提供这么优秀的框架），包含微服务相关的完整解决方案同时附加有权限管理、报表自定义、工作流、Cms等套件，可直接使用，Aooms基于Apache Licence 2.0开源协议，关于编写此框架的一些初衷，可通过此处[诞生](https://gitee.com/cyb-javaer/Aooms/wikis/pages)了解。
+&nbsp;&nbsp;&nbsp;&nbsp;一款基于SpringCloud的微服务基础开发平台，旨在降低SpringCloud的复杂度，像使用JFinal一样简单，但又包含整体解决方案（本人是JFinal用户，从1.9版本开始现在也一直在使用，因此部分实现思路会借鉴JFinal的一些模式，感谢@JFinal作者波总提供这么优秀的框架），包含微服务相关的完整解决方案同时附加有权限管理、报表自定义、工作流、Cms等套件，可直接使用，Aooms基于Apache Licence 2.0开源协议，关于编写此框架的一些初衷，可通过此处[诞生](https://gitee.com/cyb-javaer/Aooms/wikis/pages)了解。
 
 ---
 ##### 演示地址：https://www.yuboon.com/Aooms _服务器配置有限，请勿压测，请勿压测，请勿压测，重要的事情说三遍 :smiley:  :smiley:  :smiley: ！！！_
