@@ -182,7 +182,8 @@ export default {
             menuHeader.length = 0;
             frameInRoutes.length = 0;
 
-            menuAsideClone.forEach(item => {
+            // D2admin Demo
+            /*menuAsideClone.forEach(item => {
                 menuAside.push(item);
             });
 
@@ -192,7 +193,7 @@ export default {
 
             frameInRoutesClone.forEach(item => {
                 frameInRoutes.push(item);
-            });
+            });*/
 
             list.forEach(item => {
                 menuAside.push(item);
