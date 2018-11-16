@@ -33,7 +33,7 @@ public abstract class AoomsSetting implements WebMvcConfigurer {
     public abstract void configInterceptor(AoomsInterceptorRegistryProxy interceptorRegistryProxy);
 
     // 全局变量设置
-    public abstract void configVars(PropertyObject propertyObject);
+    public abstract void configProps(PropertyObject propertyObject);
 
     // 启动完成监听
     public abstract void onFinish(Aooms aooms);

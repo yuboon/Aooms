@@ -37,7 +37,7 @@ public class RbacConfiguration {
             }
 
             @Override
-            public void configVars(PropertyObject propertyObject) {
+            public void configProps(PropertyObject propertyObject) {
 
             }
 

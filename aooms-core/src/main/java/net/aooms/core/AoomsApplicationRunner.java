@@ -37,7 +37,7 @@ public class AoomsApplicationRunner implements ApplicationRunner {
         for(String name : beanNames){
             AoomsSetting settingBean = (AoomsSetting)context.getBean(name);
             //settingBean.configInterceptor(webMvcConfigurer.getInterceptorRegistryProxy());
-            settingBean.configVars(Aooms.self().getPropertyObject());
+            settingBean.configProps(Aooms.self().getPropertyObject());
             settingBean.configService(serviceConfigurations);
             settingBean.onFinish(Aooms.self());
         }

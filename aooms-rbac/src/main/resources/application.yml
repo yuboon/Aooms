@@ -24,7 +24,6 @@ aooms:
       temp-path: F:/
       root-path:
       name-strategy:
-      name-strategy:
     minio:
       root-path:
       host:
