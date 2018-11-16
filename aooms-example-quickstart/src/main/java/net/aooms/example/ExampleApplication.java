@@ -1,6 +1,6 @@
 package net.aooms.example;
 
-import net.aooms.core.Aooms;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -24,6 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 @EnableHystrix
 @EnableTransactionManagement
 @EnableAspectJAutoProxy(exposeProxy = true)
+@MapperScan("net.aooms.rbac.mapper")
 public class ExampleApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

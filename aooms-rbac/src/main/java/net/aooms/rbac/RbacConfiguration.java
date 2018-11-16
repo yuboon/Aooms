@@ -8,8 +8,12 @@ import net.aooms.core.web.interceptor.AoomsInterceptorRegistryProxy;
 import net.aooms.core.web.interceptor.DemoModeInterceptor;
 import net.aooms.core.web.service.ServiceConfiguration;
 import net.aooms.core.web.service.ServiceConfigurations;
+import net.aooms.rbac.controller.*;
+import net.aooms.rbac.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.security.RolesAllowed;
 
 /**
  * 配置类
@@ -18,6 +22,62 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RbacConfiguration {
 
+    @Bean
+    public RbacLoginController rbacLoginController(){
+        return new RbacLoginController();
+    }
+
+    @Bean
+    public UserController userController(){
+        return new UserController();
+    }
+
+    @Bean
+    public ResourceController resourceController(){
+        return new ResourceController();
+    }
+
+    @Bean
+    public OrgController orgController(){
+        return new OrgController();
+    }
+
+    @Bean
+    public RoleController roleController(){
+        return new RoleController();
+    }
+
+
+
+    @Bean
+    public UserService userService(){
+        return new UserService();
+    }
+
+    @Bean
+    public RoleService roleService(){
+        return new RoleService();
+    }
+
+    @Bean
+    public ResourceService resourceService(){
+        return new ResourceService();
+    }
+
+    @Bean
+    public OrgService orgService(){
+        return new OrgService();
+    }
+
+    @Bean
+    public RbacLoginService rbacLoginService(){
+        return new RbacLoginService();
+    }
+
+
+    /**
+     * 配置
+     */
     @Bean
     public AoomsSetting rbacSetting(){
         return new AoomsSetting() {
@@ -30,11 +90,7 @@ public class RbacConfiguration {
             }
 
             @Override
-            public void configInterceptor(AoomsInterceptorRegistryProxy interceptorRegistryProxy) {
-                String[] excludes = new String[]{"/**/find*","/**/login","/**/logout"};
-                String[] ignores = ArrayUtil.addAll(interceptorRegistryProxy.getIgnores(),excludes);
-                interceptorRegistryProxy.addInterceptor(new DemoModeInterceptor(interceptorRegistryProxy.getPathPatterns(),ignores));
-            }
+            public void configInterceptor(AoomsInterceptorRegistryProxy interceptorRegistryProxy) { }
 
             @Override
             public void configProps(PropertyObject propertyObject) {
@@ -43,7 +99,6 @@ public class RbacConfiguration {
 
             @Override
             public void onFinish(Aooms aooms) {
-                System.err.println("Aooms Start finished");
             }
         };
     }

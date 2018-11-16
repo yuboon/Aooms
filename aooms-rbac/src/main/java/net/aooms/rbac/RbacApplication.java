@@ -14,7 +14,8 @@ import org.springframework.web.context.WebApplicationContext;
  * Application
  * Created by 风象南(yuboon) on 2018-09-12
  */
-@SpringBootApplication(scanBasePackages = {"net.aooms.rbac"})
+/*
+@SpringBootApplication
 @EnableHystrix
 @EnableTransactionManagement
 @EnableAspectJAutoProxy(exposeProxy = true)
@@ -33,4 +34,4 @@ public class RbacApplication extends SpringBootServletInitializer {
     protected WebApplicationContext run(SpringApplication application) {
         return super.run(application);
     }
-}
+}*/

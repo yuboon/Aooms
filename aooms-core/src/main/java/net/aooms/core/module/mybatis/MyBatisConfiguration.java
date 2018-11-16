@@ -3,10 +3,19 @@ package net.aooms.core.module.mybatis;
 import net.aooms.core.module.mybatis.interceptor.ClearDataSourceInterceptor;
 import net.aooms.core.module.mybatis.interceptor.QueryInterceptor;
 import net.aooms.core.module.mybatis.interceptor.RecordInterceptor;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
+import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+
+import javax.sql.DataSource;
 
 /**
  * Mybatis配置
@@ -71,6 +80,10 @@ public class MyBatisConfiguration {
                 MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, MyBatisConst.MS_RECORD_INSERT, sqlSource, SqlCommandType.INSERT);
                 configuration.addMappedStatement(statementBuilder.build());
                 */
+                // 修改默认vfs, 解决jar包 mapper.xml 不加载问题
+                VFS.addImplClass(SpringBootVFS.class);
+                //configuration.setVfsImpl(SpringBootVFS.class);
+
                 // 设置map属性空值时仍返回数据
                 configuration.setCallSettersOnNulls(true);
 
@@ -83,5 +96,23 @@ public class MyBatisConfiguration {
             }
         };
     }
+
+
+    /*@Bean
+    public SqlSessionFactory sqlSessionFactoryBean(DataSource dataSource) throws Exception {
+
+        // DefaultVFS在获取jar上存在问题，使用springboot只能修改
+        VFS.addImplClass(SpringBootVFS.class);
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(dataSource);
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+
+        Resource[] resources = resolver.getResources("classpath*:/net/aooms/rbac/mapper/*.xml");
+        //Resource[] resources2 = resolver.getResources("classpath*:/mysql/mapper/*.xml");
+        //Resource[] resources = (Resource[]) ArrayUtils.addAll(resources1);
+        sqlSessionFactoryBean.setMapperLocations(resources);
+        // sqlSessionFactoryBean.setTypeAliasesPackage("com.xxx.xx.entity");
+        return sqlSessionFactoryBean.getObject();
+    }*/
 
 }

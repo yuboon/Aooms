@@ -7,11 +7,36 @@ logging:
     root: info  # 全局默认级别
     #net.aooms.core: info # 项目级别，覆盖root默认
 
+# 框架配置
+aooms:
+  global:
+    dev-mode: true
+    log-enable: true
+
+  rest:
+    mode: local # remote
+    #registry: false
+    local-port: 8080
+
+  upload:
+    mode: local # minio
+    local:
+      temp-path: F:/
+      root-path:
+      name-strategy:
+    minio:
+      root-path:
+      host:
+      port: 9000
+  #auth-login-service:
+  #auth-login-username:
+  #auth-login-password:
+  #auth-permitted-service:
+
 # 默认项目配置
 spring:
   application:
     name: Aooms
-    aooms-use-registry: false
 
   profiles:
     active: dev
@@ -44,7 +69,7 @@ spring:
 
   datasource:
     names: master,slave
-    sharding-jdbc: true
+    sharding-jdbc: false
     sharding-names: master,slave  # sharding-jdbc 使用的数据源
 
     #type: com.alibaba.druid.pool.DruidDataSource
@@ -56,45 +81,30 @@ spring:
     master:
       username: root
       password: root
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/aooms?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
       driver-class-name: com.mysql.jdbc.Driver
 
     slave:
       username: root
       password: root
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/ds_0?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/aooms?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
       driver-class-name: com.mysql.jdbc.Driver
 
 
 
-
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8080/eureka/v2/
-    fetch-registry: true
-    enabled: false
-  instance:
-    lease-renewal-interval-in-seconds: 2
-    lease-expiration-duration-in-seconds: 6
-
-
 mybatis:
-  mapper-locations: classpath:**/mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
-  type-aliases-package: net.aooms.core.module.mybatis.entity
+  mapper-locations: classpath*:/**/*Mapper.xml  #注意：一定要对应mapper映射xml文件的所在路径
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-
 
 # 单点信息配置，全部可无
 kisso:
   config:
-    signkey: cheerebo.signkey.random.123456   # 对称签名密钥
-    cookieName: $aooms_cookie            # COOKIE 名称
-    accessTokenName: $aooms_access_token
-    cookieCheckip: true           # ip检测
+    #cookieDomain: 127.0.0.1
+    signkey: yuboon.signkey.random.123456   # 对称签名密钥
+    cookieName: AoomsToken            # COOKIE 名称
+    accessTokenName: AoomsToken       # headerTokenName 名称
+    #cookieCheckip: true           # ip检测
     permissionUri: true
     cacheExpires: -1              # 缓存失效时间
     loginUrl: 'page'  # 未登陆时重定向失败跳转页面
@@ -106,7 +116,6 @@ hystrix:
       execution:
         timeout:
           enabled: false # 开发阶段可禁用超时检测，方便debug
-
 
 # actuator
 management:
