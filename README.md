@@ -235,6 +235,8 @@ public class UserService extends GenericService {
 
 </mapper>
 ```
+##### _收工！！！，更简单的模式，可以省略UserController， 通过内置CallServiceController统一调用_
+
 #### 五、相关博文链接
 https://my.oschina.net/cccyb?tab=newest&catalogId=5736543
 持续关注，不定期会有更新
