@@ -111,7 +111,7 @@ public class AoomsRestTemplate {
                 .append(uri.getScheme())
                 .append(":")
                 .append("//")
-                .append("127.0.0.1:")
+                .append("localhost:")
                 .append(propertyAooms.getRest().getLocalPort())
                 .append(uri.getPath())
             ;

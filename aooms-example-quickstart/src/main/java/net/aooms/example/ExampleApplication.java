@@ -1,16 +1,12 @@
 package net.aooms.example;
 
-import net.oschina.j2cache.autoconfigure.J2CacheSpringRedisAutoConfiguration;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.WebApplicationContext;
 
 
 //@SpringBootApplication
@@ -41,8 +37,7 @@ public class ExampleApplication extends SpringBootServletInitializer {
         //annotationConfigApplicationContext.register(AoomsConfiguration.class);
 
         //ApplicationContext context = new AnnotationConfigApplicationContext(AoomsConfiguration.class);
-        //SpringApplication.run(AoomsBoot.class,args);*/
-
+        //SpringApplication.run(AoomsBoot.class,args);
         SpringApplication.run(ExampleApplication.class, args);
     }
 
@@ -51,8 +46,8 @@ public class ExampleApplication extends SpringBootServletInitializer {
         return application.sources(ExampleApplication.class);
     }
 
-    @Override
+    /*@Override
     protected WebApplicationContext run(SpringApplication application) {
         return super.run(application);
-    }
+    }*/
 }

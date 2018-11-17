@@ -55,7 +55,7 @@ spring:
   cloud:
     consul:
       enabled: false
-      host: 127.0.0.1
+      host: localhost
       port: 8500
    #   discovery:
    #     register: true
@@ -76,18 +76,18 @@ spring:
     #driver-class-name: com.mysql.jdbc.Driver
     #username: root
     #password: root
-    #url: jdbc:mysql://127.0.0.1:3306/test
-    #url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+    #url: jdbc:mysql://localhost:3306/test
+    #url: jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
     master:
       username: root
       password: root
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/aooms?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+      jdbc-url: jdbc:mysql://localhost:3306/aooms?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
       driver-class-name: com.mysql.jdbc.Driver
 
     slave:
       username: root
       password: root
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/aooms?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
+      jdbc-url: jdbc:mysql://localhost:3306/aooms?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true
       driver-class-name: com.mysql.jdbc.Driver
 
 
@@ -100,7 +100,7 @@ mybatis:
 # 单点信息配置，全部可无
 kisso:
   config:
-    #cookieDomain: 127.0.0.1
+    #cookieDomain: localhost
     signkey: yuboon.signkey.random.123456   # 对称签名密钥
     cookieName: AoomsToken            # COOKIE 名称
     accessTokenName: AoomsToken       # headerTokenName 名称
@@ -131,7 +131,7 @@ management:
       enabled: false
 
 j2cache:
-  config-location: /j2cache.properties
+  config-location: classpath:/j2cache.properties
   redis-client: lettuce #lettuce
   open-spring-cache: false
   #spring.cache.type: GENERIC

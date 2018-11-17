@@ -100,7 +100,7 @@ public class PropertyAooms {
 
         public static class Minio {
             private String rootPath;
-            private String host = "127.0.0.1";
+            private String host = "localhost";
             private int port = 9000;
 
             public String getRootPath() {
