@@ -2,21 +2,14 @@ package net.aooms.core.web.interceptor;
 
 
 import cn.hutool.core.date.DateUtil;
-import com.google.common.collect.Lists;
 import net.aooms.core.Aooms;
 import net.aooms.core.AoomsVar;
-import net.aooms.core.web.service.ServiceConfiguration;
-import net.aooms.core.web.service.ServiceConfigurations;
-import net.oschina.j2cache.cache.support.util.SpringUtil;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 框架执行日志打印

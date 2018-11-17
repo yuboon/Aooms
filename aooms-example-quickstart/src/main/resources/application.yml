@@ -59,9 +59,9 @@ spring:
       port: 8500
    #   discovery:
    #     register: true
-   # service-registry:
-   #   auto-registration:
-   #     enabled: true
+    service-registry:
+      auto-registration:
+        enabled: false
     # refresh:
     #   refreshable: none
 
@@ -129,4 +129,10 @@ management:
   health:
     defaults:
       enabled: false
+
+j2cache:
+  config-location: /j2cache.properties
+  redis-client: lettuce #lettuce
+  open-spring-cache: false
+  #spring.cache.type: GENERIC
 

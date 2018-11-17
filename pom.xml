@@ -83,10 +83,12 @@
             <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-commons</artifactId>
         </dependency>
+        -->
 
         <!--
         <dependency>
@@ -212,7 +214,7 @@
         <dependency>
             <groupId>net.oschina.j2cache</groupId>
             <artifactId>j2cache-core</artifactId>
-            <version>2.3.22-release</version>
+            <version>2.7.2-release</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -232,8 +234,11 @@
         <dependency>
             <groupId>net.oschina.j2cache</groupId>
             <artifactId>j2cache-spring-boot2-starter</artifactId>
-            <version>2.3.22-release</version>
+            <version>2.7.2-release</version>
         </dependency>
+
+
+
 
         <!-- 权限校验 -->
         <dependency>

@@ -1,11 +1,13 @@
 package net.aooms.example;
 
+import net.oschina.j2cache.autoconfigure.J2CacheSpringRedisAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.WebApplicationContext;
@@ -24,17 +26,16 @@ import org.springframework.web.context.WebApplicationContext;
 @EnableHystrix
 @EnableTransactionManagement
 @EnableAspectJAutoProxy(exposeProxy = true)
-@MapperScan("net.aooms.rbac.mapper")
 public class ExampleApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
 
-       /* SpringApplication application = new SpringApplication(DemoApplication.class);
+        //SpringApplication application = new SpringApplication(DemoApplication.class);
         // application.addInitializers(new YamlPropertiesContextInitializer());
 
         // 优先级高于appliaction.profiles.active
         //application.setAdditionalProfiles("dev");
-        ApplicationContext applicationContext = application.run(args);
+        //ApplicationContext applicationContext = application.run(args);
 
         //AnnotationConfigApplicationContext annotationConfigApplicationContext = (AnnotationConfigApplicationContext) applicationContext.getParentBeanFactory();
         //annotationConfigApplicationContext.register(AoomsConfiguration.class);
