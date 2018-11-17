@@ -106,6 +106,7 @@ kisso:
     accessTokenName: AoomsToken       # headerTokenName 名称
     #cookieCheckip: true           # ip检测
     permissionUri: true
+    cookieHttponly: false
     cacheExpires: -1              # 缓存失效时间
     loginUrl: 'page'  # 未登陆时重定向失败跳转页面
 
