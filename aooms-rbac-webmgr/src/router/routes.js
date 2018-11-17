@@ -1,7 +1,7 @@
 // layout
 import layoutHeaderAside from '@/layout/header-aside'
 import {menuAside} from "../menu";
-const meta = { requiresAuth: false , keepAlive: true}
+const meta = { requiresAuth: true , keepAlive: true}
 
 /**
  * 在主框架内显示
