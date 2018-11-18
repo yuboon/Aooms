@@ -7,6 +7,7 @@ import net.aooms.core.AoomsVar;
 import net.aooms.core.databoss.DataBoss;
 import net.aooms.core.databoss.DataResult;
 import net.aooms.core.exception.AoomsExceptions;
+import net.aooms.core.web.render.RenderType;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.AbstractMultipartHttpServletRequest;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
@@ -31,6 +32,7 @@ public class DemoModeInterceptor extends AoomsAbstractInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
 
+        response.setContentType(RenderType.JSON.getContentType());
         response.setCharacterEncoding(AoomsVar.ENCODE);
         DataResult dataResult = new DataResult();
         dataResult.failure(HttpStatus.HTTP_FORBIDDEN, "演示模式下，不允许该操作");
