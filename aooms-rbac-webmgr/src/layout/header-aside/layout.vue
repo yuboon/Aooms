@@ -88,6 +88,7 @@ import {menuAside, menuHeader, menuAsideClone,menuHeaderClone} from "@/menu";
 import router from "@/router";
 import { frameInRoutes,frameInRoutesClone } from '@/router/routes'
 import layoutHeaderAside from '@/layout/header-aside'
+import internalFrame from '@/menu/modules/internal'
 import { httpGet } from '@/api/sys/http'
 
 export default {
@@ -193,6 +194,19 @@ export default {
 
             frameInRoutesClone.forEach(item => {
                 frameInRoutes.push(item);
+            });*/
+
+            // 添加内置功能
+            /*menuAside.push(internalFrame);
+            frameInRoutes.push({
+                path: '/internal',
+                name: 'internal',
+                component: layoutHeaderAside,
+                meta:{requiresAuth: true , keepAlive: true},
+                children: [
+                    { path: '/rbac/user-info', name: `rbac-user-info`, component: () => import('@/pages/rbac/user-info'), meta: { requiresAuth: true , keepAlive: true, title: '个人信息' } },
+                    { path: '/rbac/user-password', name: `rbac-user-password`, component: () => import('@/pages/rbac/user-password'), meta: { requiresAuth: true , keepAlive: true, title: '修改密码' } }
+                ]
             });*/
 
             list.forEach(item => {

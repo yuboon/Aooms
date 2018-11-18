@@ -50,6 +50,7 @@ public class AoomsWebMvcConfigurer implements WebMvcConfigurer {
         interceptorRegistryProxy.addInterceptor(new TokenInterceptor(pathPatterns,ignores));
         interceptorRegistryProxy.addInterceptor(new LoginInterceptor(pathPatterns,ignores)); //ArrayUtil.append(ignores,"/login")
         //registryProxy.addInterceptor(new PermissionInterceptor(pathPatterns,ignores));
+        interceptorRegistryProxy.addInterceptor(new DbLogInterceptor(pathPatterns,ignores));
         interceptorRegistryProxy.addInterceptor(new DataBossInterceptor(pathPatterns,ignores));
         interceptorRegistryProxy.addInterceptor(new ParamInterceptor(pathPatterns,ignores));
         interceptorRegistryProxy.addInterceptor(new DefaultRenderInterceptor(pathPatterns,ignores));

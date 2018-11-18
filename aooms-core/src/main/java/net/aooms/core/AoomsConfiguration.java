@@ -3,6 +3,7 @@ package net.aooms.core;
 import net.aooms.core.module.hystrix.ThreadLocalProcessHystrixConcurrencyStrategy;
 import net.aooms.core.module.mybatis.Db;
 import net.aooms.core.property.*;
+import net.aooms.core.service.DbLogService;
 import net.aooms.core.util.SpringUtils;
 import net.aooms.core.web.AoomsGlobalErrorController;
 import net.aooms.core.web.AoomsWebMvcConfigurer;
@@ -127,6 +128,11 @@ public class AoomsConfiguration {
     @Bean
     public SpringUtils springUtils(){
         return new SpringUtils();
+    }
+
+    @Bean
+    public DbLogService dbLogService(){
+        return new DbLogService();
     }
 
     @Bean
