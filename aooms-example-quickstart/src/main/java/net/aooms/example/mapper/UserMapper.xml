@@ -9,7 +9,7 @@
     -->
 
     <select id="findList" resultType="net.aooms.core.record.Record">
-        SELECT t.* FROM T_USER t
+        SELECT t.* FROM USER t
     </select>
 
 </mapper>

@@ -31,7 +31,7 @@ public class ReportInterceptor extends AoomsAbstractInterceptor {
             HandlerMethod method = (HandlerMethod)handler;
             StringBuilder sb = new StringBuilder(title).append(DateUtil.now()).append(" --------------------------\n");
             sb.append("Url         : ").append(request.getMethod()).append(" ").append(request.getRequestURI()).append("\n");
-            Class<?> cc = method.getBean().getClass();
+            Class<?> cc = method.getBeanType();
             sb.append("Controller  : ").append(cc.getName()).append(".(").append(cc.getSimpleName()).append(".java:1)");
             sb.append("\nMethod      : ").append(method.getMethod().getName()).append("\n");
 

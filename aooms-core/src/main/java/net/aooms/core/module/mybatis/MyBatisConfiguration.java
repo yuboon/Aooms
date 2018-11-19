@@ -1,21 +1,14 @@
 package net.aooms.core.module.mybatis;
 
-import net.aooms.core.module.mybatis.interceptor.ClearDataSourceInterceptor;
+import net.aooms.core.module.mybatis.interceptor.SwitchDataSourceResetInterceptor;
 import net.aooms.core.module.mybatis.interceptor.QueryInterceptor;
 import net.aooms.core.module.mybatis.interceptor.RecordInterceptor;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
-import javax.sql.DataSource;
 
 /**
  * Mybatis配置
@@ -29,10 +22,9 @@ public class MyBatisConfiguration {
         return new MyInterceptor();
     }*/
 
-
     @Bean
-    public Interceptor clearDataSourceInterceptor(){
-        return new ClearDataSourceInterceptor();
+    public Interceptor switchDataSourceResetInterceptor(){
+        return new SwitchDataSourceResetInterceptor();
     }
 
     @Bean

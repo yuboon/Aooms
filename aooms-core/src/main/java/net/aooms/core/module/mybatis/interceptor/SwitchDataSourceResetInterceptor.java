@@ -20,9 +20,14 @@ import java.util.Properties;
         type = Executor.class,
         method = "query",
         args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}
+    ),
+    @Signature(
+        type = Executor.class,
+        method = "update",
+        args = {MappedStatement.class, Object.class}
     )
 })
-public class ClearDataSourceInterceptor implements Interceptor {
+public class SwitchDataSourceResetInterceptor implements Interceptor {
 
     /* 
      * (non-Javadoc) 

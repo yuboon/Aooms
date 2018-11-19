@@ -13,12 +13,16 @@ import net.aooms.core.record.Record;
 import net.aooms.core.property.PropertyApplication;
 import net.aooms.core.property.PropertyObject;
 import net.aooms.core.web.AoomsAbstractController;
+import net.aooms.core.web.annotation.ClearInterceptor;
 import net.aooms.core.web.client.AoomsHttpTemplate;
 import net.aooms.core.web.client.AoomsRestTemplate;
+import net.aooms.core.web.interceptor.LoginInterceptor;
+import net.aooms.core.web.interceptor.TokenInterceptor;
 import net.aooms.example.service.ExampleService;
 import net.aooms.example.vo.UserVo;
 import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.CacheObject;
+import net.oschina.j2cache.autoconfigure.J2CacheAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +34,7 @@ import java.util.List;
  * Created by 风象南(yuboon) on 2018-09-18
  */
 @RestController
+@ClearInterceptor({TokenInterceptor.class, LoginInterceptor.class})
 public class ExampleController extends AoomsAbstractController {
 
     @Autowired
@@ -135,13 +140,18 @@ public class ExampleController extends AoomsAbstractController {
     @RequestMapping("/example5")
     public void example5(){
         // 使用主数据源
-        RecordGroup recordGroup = db.use("master").findRecords("UserMapper.findList", SqlPara.SINGLETON);
+       /* RecordGroup recordGroup = db.use("master").findRecords("UserMapper.findList", SqlPara.SINGLETON);
 
         // 使用从数据源
         RecordGroup recordGroup2 = db.use("slave").findRecords("UserMapper.findList", SqlPara.SINGLETON);
 
         this.setResultValue("recordGroup", recordGroup);
-        this.setResultValue("recordGroup2", recordGroup2);
+        this.setResultValue("recordGroup2", recordGroup2);*/
+
+        Record r = new Record();
+        r.set("id",System.currentTimeMillis());
+        db.use("slave").insert("user",r);
+
     };
 
     /**

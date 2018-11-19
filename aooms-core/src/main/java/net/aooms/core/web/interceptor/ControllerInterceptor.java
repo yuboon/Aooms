@@ -35,7 +35,7 @@ public class ControllerInterceptor extends AoomsAbstractInterceptor {
         if(handler instanceof HandlerMethod){
             HandlerMethod handlerMethod = (HandlerMethod)handler;
 
-            Class<?> clazz = handlerMethod.getBean().getClass();
+            Class<?> clazz = handlerMethod.getBeanType();
             Method method = handlerMethod.getMethod();
 
             List<Class<? extends AoomsAbstractInterceptor>> globalSkipInterceptors = this.aoomsInterceptorRegistryProxy.getSkipInterceptors();

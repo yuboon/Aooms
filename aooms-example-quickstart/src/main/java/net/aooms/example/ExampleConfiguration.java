@@ -42,7 +42,7 @@ public class ExampleConfiguration {
             public void configInterceptor(AoomsInterceptorRegistryProxy interceptorRegistryProxy) {
                 String[] excludes = new String[]{"/**/find*","/**/login","/**/logout"};
                 String[] ignores = ArrayUtil.addAll(interceptorRegistryProxy.getIgnores(),excludes);
-                interceptorRegistryProxy.addInterceptor(new DemoModeInterceptor(interceptorRegistryProxy.getPathPatterns(),ignores));
+                //interceptorRegistryProxy.addInterceptor(new DemoModeInterceptor(interceptorRegistryProxy.getPathPatterns(),ignores));
             }
 
             @Override
