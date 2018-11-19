@@ -32,7 +32,7 @@ import java.util.Properties;
         args = {Statement.class}
     )*/
 })
-public class QueryInterceptor implements Interceptor {
+public class PagingInterceptor implements Interceptor {
 
     private DialectSelector dialectSelector = new DialectSelector();
 
@@ -61,31 +61,6 @@ public class QueryInterceptor implements Interceptor {
 
         Object isCount = para.get(MyBatisConst.CRUD_QUERY_COUNT_PLACEHOLDER);
         Object isPaging = para.get(MyBatisConst.CRUD_QUERY_PAGING_PLACEHOLDER);
-        Object isFindByPk = para.get(MyBatisConst.CRUD_QUERY_PK_PLACEHOLDER);
-
-        if(isFindByPk != null){
-            /*MappedStatement mappedStatement = MetaObjectAssistant.getMappedStatement(metaObject);
-            Object parameterObject = MetaObjectAssistant.getParameterObject(metaObject);
-            Object pkName = para.getOrDefault(MyBatisConst.TABLE_PK_NAME_PLACEHOLDER , AoomsConstants.ID);
-            Object tableName = para.get(MyBatisConst.TABLE_NAME_PLACEHOLDER);
-            String sql = "select * from " + tableName + " where " + pkName + " = #{"+ MyBatisConst.TABLE_PK_VALUE_PLACEHOLDER +"}";*/
-
-            /*SqlSource sqlSource = new XMLLanguageDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
-            BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
-           *//* ParameterMapping.Builder builder = new ParameterMapping.Builder(mappedStatement.getConfiguration(),"delegate.boundSql." + pkName.toString(),Object.class);
-            boundSql.getParameterMappings().clear();
-            boundSql.getParameterMappings().add(builder.build());*//*
-            metaObject.setValue("delegate.boundSql", boundSql);
-            MetaObjectAssistant.setDelegateParameterHandlerBoundSql(metaObject,boundSql);*/
-
-
-            /*SqlSource sqlSource = new XMLLanguageDriver().createSqlSource(mappedStatement.getConfiguration(), sql, Map.class);
-            BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
-
-            MetaObjectAssistant.setDelegateBoundSql(metaObject,boundSql);
-            MetaObjectAssistant.setDelegateParameterHandlerBoundSql(metaObject,boundSql);*/
-
-        }
 
         if(isCount != null){
             String countsql = "select count(*) count from (" + preparedStatementHandler.getBoundSql().getSql() + ") _table";

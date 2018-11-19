@@ -140,17 +140,17 @@ public class ExampleController extends AoomsAbstractController {
     @RequestMapping("/example5")
     public void example5(){
         // 使用主数据源
-       /* RecordGroup recordGroup = db.use("master").findRecords("UserMapper.findList", SqlPara.SINGLETON);
+        RecordGroup recordGroup = db.use("master").findRecords("UserMapper.findList", SqlPara.SINGLETON);
 
         // 使用从数据源
         RecordGroup recordGroup2 = db.use("slave").findRecords("UserMapper.findList", SqlPara.SINGLETON);
 
         this.setResultValue("recordGroup", recordGroup);
-        this.setResultValue("recordGroup2", recordGroup2);*/
+        this.setResultValue("recordGroup2", recordGroup2);
 
-        Record r = new Record();
+        /*Record r = new Record();
         r.set("id",System.currentTimeMillis());
-        db.use("slave").insert("user",r);
+        db.use("slave").insert("user",r);*/
 
     };
 

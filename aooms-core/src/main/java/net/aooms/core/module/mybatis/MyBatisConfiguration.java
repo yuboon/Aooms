@@ -1,8 +1,8 @@
 package net.aooms.core.module.mybatis;
 
-import net.aooms.core.module.mybatis.interceptor.SwitchDataSourceResetInterceptor;
-import net.aooms.core.module.mybatis.interceptor.QueryInterceptor;
 import net.aooms.core.module.mybatis.interceptor.RecordInterceptor;
+import net.aooms.core.module.mybatis.interceptor.SwitchDataSourceResetInterceptor;
+import net.aooms.core.module.mybatis.interceptor.PagingInterceptor;
 import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
@@ -34,7 +34,7 @@ public class MyBatisConfiguration {
 
     @Bean
     public Interceptor pagingInterceptor(){
-        return new QueryInterceptor();
+        return new PagingInterceptor();
     }
 
 
