@@ -38,7 +38,7 @@ _极速微服务开发，不止像JFinal一样简单_
 ![输入图片说明](https://images.gitee.com/uploads/images/2018/1116/130317_dc660ad7_385692.png "截图 (2).png")
 
 ##### _界面基于D2admin实现，感谢D2admin团队_
-<a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://raw.githubusercontent.com/FairyEver/d2-admin/master/doc/image/d2-admin@2x.png" width="200"></a>
+<a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://images.gitee.com/uploads/images/2019/0218/203814_d8f924a2_385692.png" width="200"></a>
 
 
 #### 四、简单Demo
@@ -249,4 +249,6 @@ https://my.oschina.net/cccyb?tab=newest&catalogId=5736543
 #### 六、框架的一点声明
 &nbsp;&nbsp;&nbsp;&nbsp;关于框架的一点声明，框架目前处于开发阶段，会不定期更新码云上的代码同时会有系统博客同步更新，另外此项目是带有学习性质的摸索、尝试，是为了给想学习微服务的人一个学习上的帮助，大家一起学习、探讨，感受一个微服务开发平台从0到诞生的过程，因为可能有的人想学但没有方向又或者所在公司技术体系比较老，不具备微服务的学习环境，所以构建了该工程，希望能帮到一些人同时对我自己也是一次锻炼，供大家完整的参考。
 
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0201/090347_0d1f9d70_385692.jpeg "qrcode_for_gh_f0f975381d4e_258.jpg")
+
+关注作者公众号 「风象南讲全栈」，做有思想的技术人
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0218/203456_0859fa16_385692.png "123.png")
