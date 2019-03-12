@@ -59,7 +59,7 @@ Aooms是基于SpringCloud生态的微服务开发平台，。
 
 ### 界面预览
 <img src="https://images.gitee.com/uploads/images/2018/1116/130232_92a39175_385692.png" width="50%" />
-<img src="https://images.gitee.com/uploads/images/2018/1116/130232_92a39175_385692.png" style="50%;" />
+<img src="https://images.gitee.com/uploads/images/2018/1116/130232_92a39175_385692.png" width="50%"  />
 
 <a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://images.gitee.com/uploads/images/2019/0218/203814_d8f924a2_385692.png" width="200"></a>
 
