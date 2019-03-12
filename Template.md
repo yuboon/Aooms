@@ -2,7 +2,7 @@
     <img src="https://images.gitee.com/uploads/images/2019/0312/213325_af8c5db2_385692.png" width="300">
     <br>      
     <p align="center">
-        Aooms —— 极速微服务开发平台
+        <b>Aooms —— 极速微服务开发平台</b>
         <br>      
         <span>
             <span>
