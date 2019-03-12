@@ -43,7 +43,7 @@
     </p>
 </p>
 
-<div style="border:1px silod red;"></div>
+<div style="border:1px solid red;width:100%;"></div>
 
 ### 简介
 
