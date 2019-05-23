@@ -4,14 +4,7 @@
     <br>      
     <p align="center">
         <b>Aooms —— 极速微服务开发平台</b>
-        <br>  
-        <br>    
-        <span>
-            <span>
-                官方交流群：000000000
-            </span>
-        </span>
-        <br>
+        <br> 
         <br>
         <a href="#">
             <img src="https://img.shields.io/badge/springboot-2.0.1-green.svg" >
@@ -107,3 +100,11 @@ Aooms是基于SpringCloud生态的微服务开发平台，不止于简单的框�
 3. 导入数据库脚本
 4. 启动前端
 5. 启动quick-start
+
+
+### 勾搭作者
+
+
+> 添加时请备注：Aooms
+
+<img src="https://images.gitee.com/uploads/images/2019/0523/111229_7ce5046c_385692.png" width="50%" />
