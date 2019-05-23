@@ -1,3 +1,4 @@
+
 <p align="center">
     <img src="https://images.gitee.com/uploads/images/2019/0312/213325_af8c5db2_385692.png" width="300">
     <br>      
@@ -47,44 +48,61 @@
 
 ### 简介
 
-Aooms是基于SpringCloud生态的微服务开发平台，。
+Aooms是基于SpringCloud生态的微服务开发平台，不止于简单的框架集成。
 
-极速微服务开发，不止像jfinal一样简单
+ - 组件轻薄封装
+ - 极速开发体验
+ - 完整解决方案
 
------------------------------------------------------------------------------------------------
 
-### 尝鲜体验
-地址：https://www.yuboon.com/Aooms/   带宽有限，未做加速，可能需要多等一会。
-
------------------------------------------------------------------------------------------------
-
-### 界面预览
-<img src="https://images.gitee.com/uploads/images/2018/1116/130232_92a39175_385692.png" width="50%" /><img src="https://images.gitee.com/uploads/images/2018/1116/130245_916e85f4_385692.png" width="50%"  />
-
-你值得拥有的中后台产品前端集成方案
-
-<a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://images.gitee.com/uploads/images/2019/0218/203814_d8f924a2_385692.png" width="200"></a>
+ **[Aooms-在线体验
+](https://www.yuboon.com/Aooms/)** 
 
 -----------------------------------------------------------------------------------------------
 
 ### 工程结构
-一个Java基础工具类，对文件、流、加密解密、转码、正则、线程、XML等JDK方法进行封装，组成各种Util工具类，同时提供以下组件：
 
-- xxx              JDK动态代理封装，提供非IOC下的切面支持
-- ccccc   布隆过滤，提供一些Hash算法的布隆过滤
+ **- aooms-core**
 
------------------------------------------------------------------------------------------------
+> 框架核心包，其他工程均依赖此包，核心特性如下
 
-### 功能清单
-一个Java基础工具类，对文件、流、加密解密、转码、正则、线程、XML等JDK方法进行封装，组成各种Util工具类，同时提供以下组件：
 
-- uuu              JDK动态代理封装，提供非IOC下的切面支持
-- dddddd   布隆过滤，提供一些Hash算法的布隆过滤
+- 极简Controller
+- 基于sharding-sphere的多数据源、分库分表支持
+- 基于Mybatis 实现的 Db + Record 极简模式，附带物理分页实现
+- 基于Consul的服务注册、发现
+- 服务熔断、限流、降级
+- 服务客户端、http客户端
+- 内置各种ID生成器（UUID、snowflake）
+- 穿透一切的数据对象DataBoss
+- 基于J2Cache的缓存
+- 分布式锁
+- 分布式事物
+- 服务链路监控
+
+更多...........
+
+ **- aooms-rbac**
+
+> 后台权限管理系统，包含如下功能
+
+- 机构管理
+- 角色管理
+- 用户管理
+- 资源管理
+- 日志管理
+
+
+<img src="https://images.gitee.com/uploads/images/2018/1116/130232_92a39175_385692.png" width="50%" />
+<img src="https://images.gitee.com/uploads/images/2018/1116/130245_916e85f4_385692.png" width="50%"  />
+
+后台管理界面基于D2admin
+
+<a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://images.gitee.com/uploads/images/2019/0218/203814_d8f924a2_385692.png" height="70" width="100"></a>
 
 -----------------------------------------------------------------------------------------------
 
 ### 快速开始
-
 
 1. 安装npm
 2. 导入工程
