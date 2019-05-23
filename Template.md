@@ -107,4 +107,4 @@ Aooms是基于SpringCloud生态的微服务开发平台，不止于简单的框�
 
 > 添加时请备注：Aooms
 
-<img src="https://images.gitee.com/uploads/images/2019/0523/111229_7ce5046c_385692.png" width="50%" />
+<img src="https://images.gitee.com/uploads/images/2019/0523/111229_7ce5046c_385692.png" width="150" height="150" />
