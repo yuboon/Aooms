@@ -55,8 +55,7 @@ Aooms是基于SpringCloud生态的微服务开发平台，不止于简单的框�
  - 完整解决方案
 
 
- **[Aooms-在线体验
-](https://www.yuboon.com/Aooms/)** 
+ **[ Aooms-在线体验 ] <a href="https://www.yuboon.com/Aooms/" target="_blank">(https://www.yuboon.com/Aooms/)</a>** 
 
 -----------------------------------------------------------------------------------------------
 
@@ -93,12 +92,11 @@ Aooms是基于SpringCloud生态的微服务开发平台，不止于简单的框�
 - 日志管理
 
 
-<img src="https://images.gitee.com/uploads/images/2018/1116/130232_92a39175_385692.png" width="50%" />
-<img src="https://images.gitee.com/uploads/images/2018/1116/130245_916e85f4_385692.png" width="50%"  />
+<img src="https://images.gitee.com/uploads/images/2018/1116/130232_92a39175_385692.png" width="50%" /><img src="https://images.gitee.com/uploads/images/2018/1116/130245_916e85f4_385692.png" width="50%"  />
 
 后台管理界面基于D2admin
 
-<a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://images.gitee.com/uploads/images/2019/0218/203814_d8f924a2_385692.png" height="70" width="100"></a>
+<a href="https://github.com/d2-projects/d2-admin" target="_blank"><img src="https://images.gitee.com/uploads/images/2019/0218/203814_d8f924a2_385692.png" width="200"></a>
 
 -----------------------------------------------------------------------------------------------
 
