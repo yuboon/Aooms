@@ -30,7 +30,7 @@
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.10",
     "lowdb": "^1.0.0",
-    "marked": "^0.3.9",
+    "marked": "^4.0.10",
     "mockjs": "^1.0.1-beta3",
     "nprogress": "^0.2.0",
     "papaparse": "^4.3.6",
